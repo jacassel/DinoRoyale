@@ -100,5 +100,11 @@
     "passed": true,
     "distance": 905.6560007179014,
     "grounded": true
+  },
+  {
+    "test": "Trike local traversal Hunting",
+    "passed": true,
+    "distance": 905.1903414856462,
+    "grounded": true
   }
 ]

@@ -15,3 +15,7 @@
 - C++: project-local portable Microsoft toolchain 14.44.35229, Windows SDK 10.0.22621.0, .NET 4.6.2 SDK headers extracted under Tools/Toolchain. Nothing purchased.
 - `Tools/Build.ps1` sets UE_SDKS_ROOT only for its process. Editor integration with a Visual Studio IDE is absent, but compilation works.
 - `-DinoDevBridge` enables the local test bridge. Disabled without the explicit flag. Tests inject real Unreal input events and read runtime telemetry.
+
+## Updated authorization — 2026-09-18 07:26 America/New_York
+
+The user explicitly removed the 07:30 deadline and said to keep going as long as needed. Continue toward the full requested playable prototype and verification; the previous deadline no longer limits work. Financial restrictions, local-only boundaries, responsiveness requirements and authorization for two existing free reset credits remain in force. Neither reset credit has been used; latest usage check showed 88% five-hour and 83% weekly remaining.

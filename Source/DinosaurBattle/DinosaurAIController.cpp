@@ -33,7 +33,7 @@ ADinosaurCharacter* ADinosaurAIController::SelectEnemy() const
         if(D->Species==3&&(O->Species==2||O->Species==3))continue;
         float Dist=FVector::Dist2D(D->GetActorLocation(),O->GetActorLocation());if(Dist>Range)continue;
         float S=Dist;
-        if(D->Species!=3&&D->Species!=2&&O->Species==3)S*=.65f;
+        if(D->Species!=3&&D->Species!=2)S*=O->Species==3?1.7f:.7f;
         if(D->Species==2&&O->Species==0)S*=.8f;
         if(S<Score){Best=O;Score=S;}
     }
@@ -70,17 +70,22 @@ void ADinosaurAIController::Think(float Dt)
         if(!Target.IsValid()||D->Combat->ChargeFraction()>=ChargeTarget){D->Combat->ReleaseCharge();++AttacksMade;}
         return;
     }
-    if(Target.IsValid()&&(Target->bDead||FVector::Dist2D(Target->GetActorLocation(),D->GetActorLocation())>20000))Target=nullptr;
+    if(Target.IsValid()&&(Target->bDead||FVector::Dist2D(Target->GetActorLocation(),D->GetActorLocation())>(D->Species==2?6500:12000)))Target=nullptr;
     if(D->Species==1)
     {
         Leader=PackLeader();
         if(Leader.IsValid()&&Leader.Get()!=D)
         {
+            if(FVector::Dist2D(D->GetActorLocation(),Leader->GetActorLocation())>5000)
+            {
+                Target=nullptr;State=TEXT("Regrouping");GoTo(Leader->GetActorLocation()-Leader->GetActorForwardVector()*800+FVector(0,(D->CombatantID%3-1)*600,0));return;
+            }
             if(auto* LC=Cast<ADinosaurAIController>(Leader->GetController()))if(LC->Target.IsValid())Target=LC->Target;
             if(Leader->IsPlayerControlled()&&Leader->LastAttacker.IsValid()&&!Leader->LastAttacker->bDead)Target=Leader->LastAttacker;
         }
     }
     if(!Target.IsValid())Target=SelectEnemy();
+    if(D->Species==1&&Leader.IsValid()&&Leader->IsPlayerControlled()&&Target.IsValid()&&FVector::Dist2D(Target->GetActorLocation(),Leader->GetActorLocation())>5000)Target=nullptr;
     FVector Position=D->GetActorLocation();float Fraction=D->Health->Fraction();
     if(D->Species==3)
     {
@@ -156,7 +161,7 @@ void ADinosaurAIController::Steer(float Dt)
     FVector P=D->GetActorLocation(),Facing=FVector::ZeroVector,Direction=FVector::ZeroVector;
     if(Target.IsValid()&&D->Species!=3&&!bForcedTravel&&State!=TEXT("Retreating"))Facing=(Target->GetActorLocation()-P).GetSafeNormal2D();
     if(D->Combat->bBracing||D->Food->bEating){D->GetCharacterMovement()->StopMovementImmediately();return;}
-    while(PathIndex<Path.Num()&&FVector::Dist2D(P,Path[PathIndex])<240)++PathIndex;
+    while(PathIndex<Path.Num()&&FVector::Dist2D(P,Path[PathIndex])<(Target.IsValid()?90.f:240.f))++PathIndex;
     if(PathIndex<Path.Num())
     {
         Direction=(Path[PathIndex]-P).GetSafeNormal2D();

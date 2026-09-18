@@ -39,3 +39,13 @@ No gameplay claims have been validated yet.
 - Final visual inspection still showed unacceptably dark skin. Replaced the unreliable imported vertex-color dependency with editable species tint plus original surface textures; added a daylight ambient cubemap for readable shadows.
 - Final build succeeded after these visual changes. Final world/AI runtime verification is ongoing; results will be recorded separately.
 - The running test process remained open during the overnight interruption. Elapsed runtime alone is not evidence of an AI soak test because AI had been paused for controls; no such claim is made.
+
+## AI and biome checks — 07:23–07:28
+
+- Local physical traversal: **18/18 passed**, covering all six major regions with each human-playable species. Tests teleported only for setup, then drove the real character with W through each local area. This is not a complete route traversal.
+- Initial autonomous observation found predators over-prioritizing faster prey, resulting in prolonged pursuit without hits, and raptors leaving the human leader too far behind.
+- Fixed prey speed (950 cm/s), preference for major combatants, pursuit distance limits, pack regrouping beyond 50 m, and closer pursuit waypoint completion.
+- Rebuilt and launched. **90.8-second AI retest**: nine major AI + one human, all AI moved >10 m, 22 T-Rex / 23 raptor / 18 triceratops hits, zero failed paths, zero stuck-recovery events, no major dinosaur below terrain, prey fleeing observed. Raptor leader IDs were 0 (human); all three were in With pack state at the end.
+- Mean reported FPS **59.59** at 1280x720 with 10 major combatants, 18 prey and the generated environment. This is not a measured 1080p benchmark.
+- Evidence: Tests/Results/final-world-checks.json, ai-observation-before-fix.json, ai-final-retest.json and ai-final-summary.json.
+- User removed the 07:30 deadline at approximately 07:26 and authorized continued work. Full route traversal and further polish remain in progress.
