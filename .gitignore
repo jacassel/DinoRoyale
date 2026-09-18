@@ -12,3 +12,4 @@ Build/Installers/
 Build/Logs/
 Dist/
 __pycache__/
+*.log
