@@ -11,6 +11,23 @@ class DINOSAURBATTLE_API ADinoPlayerController : public APlayerController
 public:
     virtual void BeginPlay() override;
     virtual void PlayerTick(float Dt) override;
+    virtual void SetupInputComponent() override;
+    void SetMenuOpen(bool Open);
+    void ToggleMenu();
+    void ToggleMap();
+    void ToggleHelp();
+    void SelectRex();
+    void SelectRaptor();
+    void SelectTrike();
+    void MenuClick();
+    void ResumeGame();
+    void QuitGame();
+    void SensitivityUp();
+    void SensitivityDown();
+    void RespawnPlayer();
+    void ToggleSettings();
+    void ToggleBlood();
+    bool bSettingsOpen=false,bBloodEnabled=false;
     UFUNCTION(Exec) void DinoSpecies(int32 Index);
     UFUNCTION(Exec) void DinoDamage(float Amount);
     UFUNCTION(Exec) void DinoHeal();
@@ -21,7 +38,7 @@ public:
 private:
     bool bDevBridge=false;
     int32 LastSequence=0;
-    float BridgeTimer=0;
+    double LastBridgeTime=0;
     double FrameSum=0;
     int32 FrameCount=0;
     FString BridgeRoot;

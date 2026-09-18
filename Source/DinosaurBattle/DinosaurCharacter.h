@@ -28,7 +28,8 @@ public:
     UPROPERTY(VisibleAnywhere) UCameraComponent* Camera;
     UPROPERTY(VisibleAnywhere) UStaticMeshComponent* Placeholder;
     UPROPERTY(EditAnywhere,BlueprintReadWrite) int32 Species=0;
-    bool bDead=false,bMajor=true;
+    bool bDead=false,bMajor=true,bInWater=false;
+    float WaterSpeedMultiplier=.65f;
     float DeathTime=0,MouseSensitivity=1.f;
     int32 CombatantID=0;
     float Nutrition=1,RespawnDelay=6;

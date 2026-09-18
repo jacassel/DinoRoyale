@@ -4,6 +4,7 @@
 #include "LostValleyWorld.h"
 #include "FoodSystem.h"
 #include "DinoHUD.h"
+#include "DinoEffects.h"
 #include "DinoPlayerController.h"
 #include "Engine/DirectionalLight.h"
 #include "Engine/SkyLight.h"
@@ -25,6 +26,7 @@ void ADinoGameMode::BeginPlay()
     ALostValleyWorld* Valley=nullptr;
     for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
     if(!Valley)Valley=GetWorld()->SpawnActor<ALostValleyWorld>();
+    GetWorld()->SpawnActor<ADinoEffects>();
     auto* Sun=GetWorld()->SpawnActor<ADirectionalLight>(FVector(0,0,8000),FRotator(-32,-38,0));
     auto* Light=Cast<UDirectionalLightComponent>(Sun->GetLightComponent());
     Light->SetMobility(EComponentMobility::Movable);Light->SetIntensity(4.f);Light->SetLightColor(FLinearColor(1,.88f,.69f));

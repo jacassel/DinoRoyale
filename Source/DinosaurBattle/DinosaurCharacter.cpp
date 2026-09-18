@@ -44,7 +44,7 @@ ADinosaurCharacter::ADinosaurCharacter()
     GetCapsuleComponent()->SetCollisionProfileName(TEXT("Dinosaur"));
     GetCapsuleComponent()->SetCanEverAffectNavigation(false);
 }
-void ADinosaurCharacter::BeginPlay(){Super::BeginPlay();HomePosition=GetActorLocation();GConfig->GetFloat(TEXT("Dino.Session"),TEXT("RespawnDelay"),RespawnDelay,GGameIni);GConfig->GetFloat(TEXT("Dino.Session"),TEXT("MouseSensitivity"),MouseSensitivity,GGameIni);GConfig->GetFloat(TEXT("Dino.Session"),TEXT("EatingHealRate"),Food->EatRate,GGameIni);ApplySpecies(Species);}
+void ADinosaurCharacter::BeginPlay(){Super::BeginPlay();HomePosition=GetActorLocation();GConfig->GetFloat(TEXT("Dino.Session"),TEXT("RespawnDelay"),RespawnDelay,GGameIni);GConfig->GetFloat(TEXT("Dino.Session"),TEXT("MouseSensitivity"),MouseSensitivity,GGameIni);GConfig->GetFloat(TEXT("Dino.Session"),TEXT("EatingHealRate"),Food->EatRate,GGameIni);GConfig->GetFloat(TEXT("Dino.Session"),TEXT("WaterSpeedMultiplier"),WaterSpeedMultiplier,GGameIni);ApplySpecies(Species);}
 void ADinosaurCharacter::ApplySpecies(int32 ID)
 {
     const float OldHalf=GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
@@ -65,7 +65,10 @@ void ADinosaurCharacter::Tick(float Dt)
     if(Health->IsDead()&&!bDead) Die();
     if(bDead){DeathTime+=Dt;if(RespawnDelay>0&&DeathTime>(bMajor?RespawnDelay:45))ResetLife();return;}
     auto* M=GetCharacterMovement();
-    M->MaxWalkSpeed=Stats().Speed*Health->MovementFactor()*(Combat->bCharging?.7f:1.f);
+    FVector Feet=GetActorLocation()-FVector(0,0,Stats().HalfHeight);
+    float Creek=ALostValleyWorld::CreekY(Feet.X);
+    bInWater=FMath::Abs(Feet.Y-Creek)<360&&Feet.Z<ALostValleyWorld::HeightAt(Feet.X,Creek)+95&&!M->IsFalling();
+    M->MaxWalkSpeed=Stats().Speed*Health->MovementFactor()*(Combat->bCharging?.7f:1.f)*(bInWater?WaterSpeedMultiplier:1.f);
     if(Combat->bBracing){M->StopMovementImmediately(); ConsumeMovementInputVector();}
     if(Combat->bCharging&&Health->Fraction()<.25f) Combat->Cancel();
 }
@@ -80,9 +83,7 @@ void ADinosaurCharacter::SetupPlayerInputComponent(UInputComponent* I)
     I->BindAction("Charge",IE_Pressed,this,&ADinosaurCharacter::ChargeOn); I->BindAction("Charge",IE_Released,this,&ADinosaurCharacter::ChargeOff);
     I->BindAction("Eat",IE_Pressed,this,&ADinosaurCharacter::Eat);
     I->BindAction("Eat",IE_Released,this,&ADinosaurCharacter::StopEating);
-    I->BindAction("SelectRex",IE_Pressed,this,&ADinosaurCharacter::ChooseRex);
-    I->BindAction("SelectRaptor",IE_Pressed,this,&ADinosaurCharacter::ChooseRaptor);
-    I->BindAction("SelectTrike",IE_Pressed,this,&ADinosaurCharacter::ChooseTrike);
+
 }
 void ADinosaurCharacter::MoveForward(float V){if(!FMath::IsNearlyZero(V))Food->StopEating();if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::X),V);}
 void ADinosaurCharacter::MoveRight(float V){if(!FMath::IsNearlyZero(V))Food->StopEating();if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::Y),V);}

@@ -1,6 +1,7 @@
 #include "CombatComponent.h"
 #include "DinosaurCharacter.h"
 #include "HealthComponent.h"
+#include "DinoEffects.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
@@ -45,7 +46,8 @@ void UCombatComponent::DetectHits()
         if(FVector::DotProduct(D->GetActorForwardVector(),(Target->GetActorLocation()-Origin).GetSafeNormal2D())<.15f)continue;
         FHitResult Wall; FCollisionQueryParams WallParams(SCENE_QUERY_STAT(DinoAttackWall),false,D); WallParams.AddIgnoredActor(Target);
         if(GetWorld()->LineTraceSingleByChannel(Wall,Origin,Target->GetActorLocation(),ECC_Visibility,WallParams))continue;
-        float Before=Target->Health->Current;Target->ReceiveHit(PendingDamage,D);LastDealtDamage+=Before-Target->Health->Current;++TotalHits;
+        float Before=Target->Health->Current;Target->ReceiveHit(PendingDamage,D);float Applied=Before-Target->Health->Current;LastDealtDamage+=Applied;++TotalHits;
+        if(Applied>0)ADinoEffects::EmitBlood(GetWorld(),H.ImpactPoint.IsNearlyZero()?Target->GetActorLocation():FVector(H.ImpactPoint),D->GetActorForwardVector(),Applied);
     }
 }
 void UCombatComponent::TickComponent(float Dt,ELevelTick T,FActorComponentTickFunction* F)

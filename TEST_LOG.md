@@ -49,3 +49,13 @@ No gameplay claims have been validated yet.
 - Mean reported FPS **59.59** at 1280x720 with 10 major combatants, 18 prey and the generated environment. This is not a measured 1080p benchmark.
 - Evidence: Tests/Results/final-world-checks.json, ai-observation-before-fix.json, ai-final-retest.json and ai-final-summary.json.
 - User removed the 07:30 deadline at approximately 07:26 and authorized continued work. Full route traversal and further polish remain in progress.
+
+## Settings, optional blood and water — 07:34–07:45
+
+- Opening species-selection and pause/settings UI implemented; Escape releases the mouse. Number keys select species and resume; F2 opens settings; B toggles optional blood; +/- adjusts saved mouse sensitivity. M opens the derived region map.
+- Fixed pause-state telemetry by enabling full PlayerController ticks when paused. World simulation remains paused while the menu and UI input work.
+- An editor-only import commandlet hit a rooted material-expression assertion while replacing an already referenced graph. Recovered from the saved assets and authored a separate M_WorldSurface material; import retry succeeded. No operating-system crash occurred.
+- Added bounded instanced blood particles with no collision or gameplay authority; disabled by default and saved as a user setting. Turning the option off clears existing particles.
+- Added shallow creek wading: walking speed factor 0.65, composed with health and charge modifiers.
+- **28/28 live checks passed** (Tests/Results/settings-water-blood.json): menu/pause input, species selection, sensitivity, blood off/on/clear, water slowing each species, 50% and 25% injury composition, charge rejection at critical health, recovery, leaving water, and map toggling.
+- Visual inspections of the rendered opening and settings screens saved under Saved/Screenshots/Windows. Text sizing remains a polish task.
