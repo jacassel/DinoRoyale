@@ -18,6 +18,7 @@ const FSpeciesData& FSpeciesData::Get(int32 Species)
             READ(AttackRange); READ(AttackWidth); READ(Recovery); READ(Windup);
             READ(ChargeTime); READ(ChargeMultiplier); READ(ChargeRecovery); READ(LungeSpeed);
             READ(BraceMultiplier); READ(JumpVelocity); READ(RegenDelay); READ(RegenRate);
+            READ(AIEngageConfidence); READ(AIRetreatConfidence); READ(AIGuardCooldown); READ(AISupportRadius);
             #undef READ
             if(I==1) D.Color=FLinearColor(.15f,.32f,.34f);
             if(I==2) D.Color=FLinearColor(.40f,.22f,.13f);

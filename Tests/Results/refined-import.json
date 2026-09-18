@@ -1,0 +1,42 @@
+[
+  {
+    "species": "Trex",
+    "lods": 3,
+    "reduced": true,
+    "vertices": [
+      45862,
+      19814,
+      11376
+    ]
+  },
+  {
+    "species": "Raptor",
+    "lods": 3,
+    "reduced": true,
+    "vertices": [
+      34215,
+      14871,
+      8104
+    ]
+  },
+  {
+    "species": "Trike",
+    "lods": 3,
+    "reduced": true,
+    "vertices": [
+      46494,
+      19419,
+      11113
+    ]
+  },
+  {
+    "species": "Prey",
+    "lods": 3,
+    "reduced": true,
+    "vertices": [
+      33278,
+      14442,
+      7981
+    ]
+  }
+]

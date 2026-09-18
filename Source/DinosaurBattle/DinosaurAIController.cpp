@@ -4,6 +4,8 @@
 #include "CombatComponent.h"
 #include "FoodSystem.h"
 #include "LostValleyWorld.h"
+#include "DinoGameMode.h"
+#include "DinoTactics.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EngineUtils.h"
 ADinosaurAIController::ADinosaurAIController(){PrimaryActorTick.bCanEverTick=true;bAttachToPawn=true;}
@@ -16,10 +18,8 @@ void ADinosaurAIController::OnPossess(APawn* P)
 }
 ADinosaurCharacter* ADinosaurAIController::PackLeader() const
 {
-    ADinosaurCharacter* Best=nullptr;
-    for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
-        if(It->Species==1&&!It->bDead&&(!Best||It->IsPlayerControlled()||(!Best->IsPlayerControlled()&&It->CombatantID<Best->CombatantID)))Best=*It;
-    return Best;
+    if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())return GM->GetPackLeader(Dino());
+    return nullptr;
 }
 ADinosaurCharacter* ADinosaurAIController::SelectEnemy() const
 {
@@ -32,16 +32,41 @@ ADinosaurCharacter* ADinosaurAIController::SelectEnemy() const
         if(D->Species==2&&O->Species==3)continue;
         if(D->Species==3&&(O->Species==2||O->Species==3))continue;
         float Dist=FVector::Dist2D(D->GetActorLocation(),O->GetActorLocation());if(Dist>Range)continue;
-        float S=Dist;
+        auto Assessment=AssessDinosaurFight(D,O);
+        if(D->Species!=3&&Assessment.FightConfidence<D->Stats().AIEngageConfidence&&Dist>2600&&O!=RecentAttacker.Get())continue;
+        float S=(Dist+650)*(1.65f-Assessment.FightConfidence);
         if(D->Species!=3&&D->Species!=2)S*=O->Species==3?1.7f:.7f;
         if(D->Species==2&&O->Species==0)S*=.8f;
         if(S<Score){Best=O;Score=S;}
     }
     return Best;
 }
-void ADinosaurAIController::Alert(ADinosaurCharacter* A){if(A&&Dino()&&Dino()->IsEnemy(A))Target=A;}
+void ADinosaurAIController::Alert(ADinosaurCharacter* A)
+{
+    if(A&&Dino()&&Dino()->IsEnemy(A))
+    {
+        if(RecentAttacker.Get()!=A)++Retaliations;
+        RecentAttacker=A;Target=A;RetaliationUntil=GetWorld()->GetTimeSeconds()+8;ThinkTimer=0;
+    }
+}
+void ADinosaurAIController::ChooseRetreat(const ADinosaurCharacter* Threat)
+{
+    auto* D=Dino();if(!D||!Threat||!Valley)return;
+    FVector P=D->GetActorLocation(),Away=(P-Threat->GetActorLocation()).GetSafeNormal2D();
+    FVector Best=P+Away*4500;float BestScore=-FLT_MAX;
+    for(float Angle:{0.f,-35.f,35.f,-70.f,70.f})
+    {
+        FVector Candidate=Valley->NearestWalkable(P+Away.RotateAngleAxis(Angle,FVector::UpVector)*4500);
+        if(!Valley->IsWalkable(Candidate,D->Stats().Radius+80))continue;
+        float Score=FVector::Dist2D(Candidate,Threat->GetActorLocation())-FVector::Dist2D(P,Candidate)*.12f;
+        if(Leader.IsValid()&&!Leader->bDead&&Leader.Get()!=D)Score-=FVector::Dist2D(Candidate,Leader->GetActorLocation())*.20f;
+        if(Score>BestScore){BestScore=Score;Best=Candidate;}
+    }
+    GoTo(Best);RetreatUntil=GetWorld()->GetTimeSeconds()+2.2f;++RetreatDecisions;
+}
 void ADinosaurAIController::SetTravelGoal(const FVector& Point){bForcedTravel=true;Target=nullptr;GoTo(Point);State=TEXT("Traversing");}
 void ADinosaurAIController::ClearTravelGoal(){bForcedTravel=false;Path.Empty();RoamTimer=0;}
+void ADinosaurAIController::ResetTactics(){Target=nullptr;Leader=nullptr;RecentAttacker=nullptr;RetaliationUntil=RetreatUntil=NextGuardTime=NextTargetReview=BraceTime=0;FightConfidence=EscapeConfidence=.5f;Decision=TEXT("Explore");}
 void ADinosaurAIController::GoTo(const FVector& Point)
 {
     if(!Valley||!Dino())return;
@@ -63,20 +88,16 @@ void ADinosaurAIController::Tick(float Dt)
 void ADinosaurAIController::Think(float Dt)
 {
     auto* D=Dino();if(!D||!Valley)return;
+    const float Now=GetWorld()->GetTimeSeconds();
     if(bForcedTravel){if(PathIndex>=Path.Num()&&FVector::Dist2D(D->GetActorLocation(),Goal)>500)GoTo(Goal);return;}
     if(BraceTime<=0&&D->Combat->bBracing)D->Combat->SetBrace(false);
-    if(D->Combat->bCharging)
-    {
-        if(!Target.IsValid()||D->Combat->ChargeFraction()>=ChargeTarget){D->Combat->ReleaseCharge();++AttacksMade;}
-        return;
-    }
     if(Target.IsValid()&&(Target->bDead||FVector::Dist2D(Target->GetActorLocation(),D->GetActorLocation())>(D->Species==2?6500:12000)))Target=nullptr;
     if(D->Species==1)
     {
         Leader=PackLeader();
         if(Leader.IsValid()&&Leader.Get()!=D)
         {
-            if(FVector::Dist2D(D->GetActorLocation(),Leader->GetActorLocation())>5000)
+            if(FVector::Dist2D(D->GetActorLocation(),Leader->GetActorLocation())>5000&&Now>RetaliationUntil)
             {
                 Target=nullptr;State=TEXT("Regrouping");GoTo(Leader->GetActorLocation()-Leader->GetActorForwardVector()*800+FVector(0,(D->CombatantID%3-1)*600,0));return;
             }
@@ -84,8 +105,13 @@ void ADinosaurAIController::Think(float Dt)
             if(Leader->IsPlayerControlled()&&Leader->LastAttacker.IsValid()&&!Leader->LastAttacker->bDead)Target=Leader->LastAttacker;
         }
     }
-    if(!Target.IsValid())Target=SelectEnemy();
-    if(D->Species==1&&Leader.IsValid()&&Leader->IsPlayerControlled()&&Target.IsValid()&&FVector::Dist2D(Target->GetActorLocation(),Leader->GetActorLocation())>5000)Target=nullptr;
+    if(RecentAttacker.IsValid()&&!RecentAttacker->bDead&&Now<RetaliationUntil&&FVector::Dist2D(D->GetActorLocation(),RecentAttacker->GetActorLocation())<12000)Target=RecentAttacker;
+    else if(!Target.IsValid()||Now>NextTargetReview)
+    {
+        auto* Candidate=SelectEnemy();NextTargetReview=Now+1.2f;
+        if(Candidate&&(!Target.IsValid()||FVector::Dist2D(D->GetActorLocation(),Target->GetActorLocation())>2200))Target=Candidate;
+    }
+    if(D->Species==1&&Leader.IsValid()&&Leader->IsPlayerControlled()&&Target.IsValid()&&Now>RetaliationUntil&&FVector::Dist2D(Target->GetActorLocation(),Leader->GetActorLocation())>5000)Target=nullptr;
     FVector Position=D->GetActorLocation();float Fraction=D->Health->Fraction();
     if(D->Species==3)
     {
@@ -94,17 +120,37 @@ void ADinosaurAIController::Think(float Dt)
             State=TEXT("Fleeing");FVector Away=(Position-Target->GetActorLocation()).GetSafeNormal2D();GoTo(Position+Away*6500);return;
         }
     }
-    else if(Fraction<.25f)
+    else if(Target.IsValid())
     {
-        D->Combat->SetBrace(false);D->Combat->bCharging=false;
-        if(auto* Food=D->Food->FindFood(10000))
+        auto* Enemy=Target.Get();auto A=AssessDinosaurFight(D,Enemy);FightConfidence=A.FightConfidence;EscapeConfidence=A.EscapeConfidence;
+        float Dist=FVector::Dist2D(Position,Enemy->GetActorLocation());FVector ToEnemy=(Enemy->GetActorLocation()-Position).GetSafeNormal2D();
+        bool EnemyFacing=FVector::DotProduct(Enemy->GetActorForwardVector(),-ToEnemy)>.40f;
+        bool HeavyThreat=Enemy->Combat->bCharging&&Enemy->Combat->ChargeFraction()>.18f;
+        bool FreshAttack=Enemy->Combat->IsBusy()&&Enemy->Combat->AttackElapsed<.28f;
+        bool Desperate=FightConfidence<.35f&&EscapeConfidence<.38f;
+        if(Dist<Enemy->Stats().AttackRange+D->Stats().Radius+220&&EnemyFacing&&(HeavyThreat||FreshAttack||Desperate)&&Now>=NextGuardTime&&FVector::DotProduct(D->GetActorForwardVector(),ToEnemy)>.65f&&!D->Combat->IsBusy())
         {
-            State=TEXT("Seeking food");GoTo(Food->GetActorLocation());
-            if(FVector::Dist2D(Position,Food->GetActorLocation())<D->Stats().AttackRange+220){Path.Empty();D->Food->StartEating();}
+            if(D->Combat->SetBrace(true))
+            {
+                BraceTime=HeavyThreat?FMath::Clamp(Enemy->Stats().ChargeTime*(1-Enemy->Combat->ChargeFraction())+.3f,.5f,1.8f):.60f;
+                NextGuardTime=Now+BraceTime+D->Stats().AIGuardCooldown;++GuardsUsed;Path.Empty();
+            }
         }
-        else if(Target.IsValid()){State=TEXT("Retreating");GoTo(Position+(Position-Target->GetActorLocation()).GetSafeNormal2D()*6500);}
-        else {State=TEXT("Recovering");Path.Empty();}
-        return;
+        if(D->Combat->bBracing){State=TEXT("Bracing");Decision=HeavyThreat?TEXT("Block incoming heavy attack"):TEXT("Guard and counter");return;}
+        bool Losing=FightConfidence<D->Stats().AIRetreatConfidence||(Fraction<.25f&&FightConfidence<.55f)||Now<RetreatUntil;
+        if(!A.bFinishingOpportunity&&Losing&&EscapeConfidence>FightConfidence+.06f&&EscapeConfidence>.33f)
+        {
+            D->Combat->bCharging=false;D->Food->StopEating();
+            if(State!=TEXT("Retreating")||Now>=RetreatUntil)ChooseRetreat(Enemy);
+            State=TEXT("Retreating");Decision=TEXT("Escape has better survival odds");return;
+        }
+        Decision=A.bFinishingOpportunity?TEXT("Finish vulnerable target"):Now<RetaliationUntil?TEXT("Retaliate against attacker"):FightConfidence>D->Stats().AIEngageConfidence?TEXT("Favorable fight"):TEXT("Stand ground and counter");
+    }
+    if(D->Combat->bCharging)
+    {
+        if(!Target.IsValid()){D->Combat->bCharging=false;return;}
+        if(D->Combat->ChargeFraction()>=ChargeTarget){D->Combat->ReleaseCharge();++AttacksMade;}
+        State=TEXT("Charging");return;
     }
     if(D->Food->bEating){State=TEXT("Feeding");Path.Empty();if(Target.IsValid()&&FVector::Dist2D(Position,Target->GetActorLocation())<1800)D->Food->StopEating();else return;}
     if(Target.IsValid()&&D->Species!=3)
@@ -112,14 +158,18 @@ void ADinosaurAIController::Think(float Dt)
         auto* Enemy=Target.Get();float Dist=FVector::Dist2D(Position,Enemy->GetActorLocation());
         State=TEXT("Pursuing");FVector ToEnemy=(Enemy->GetActorLocation()-Position).GetSafeNormal2D();
         float AttackDistance=D->Stats().AttackRange+Enemy->Stats().Radius*.25f;
+        if(D->Species==1&&Enemy->Combat->bBracing&&Dist<AttackDistance*2.5f&&FVector::DotProduct(Enemy->GetActorForwardVector(),-ToEnemy)>.2f)
+        {
+            FVector Side=FVector::CrossProduct(Enemy->GetActorForwardVector(),FVector::UpVector)*(D->CombatantID%2?1:-1);
+            GoTo(Enemy->GetActorLocation()+Side*AttackDistance*1.15f-Enemy->GetActorForwardVector()*AttackDistance*.35f);State=TEXT("Flanking");Decision=TEXT("Go around frontal guard");return;
+        }
         if(Dist<AttackDistance*.83f)
         {
             Path.Empty();State=TEXT("Attacking");
             if(FVector::DotProduct(D->GetActorForwardVector(),ToEnemy)>.75f&&!D->Combat->IsBusy()&&!D->Combat->bBracing)
             {
-                if(Enemy->Combat->bCharging&&Random.FRand()<.72f){D->Combat->SetBrace(true);BraceTime=.8f;State=TEXT("Bracing");}
-                else if(Random.FRand()<(D->Species==0?.42f:.24f))
-                {if(D->Combat->StartCharge())ChargeTarget=Random.FRandRange(.45f,.90f);}
+                bool Finish=Enemy->Health->Current<=D->Stats().Damage*1.05f;
+                if(!Finish&&Random.FRand()<(D->Species==0?.42f:.24f)&&D->Combat->StartCharge()){ChargeTarget=Random.FRandRange(.50f,.90f);State=TEXT("Charging");}
                 else if(D->Combat->QuickAttack())++AttacksMade;
             }
         }
@@ -147,11 +197,13 @@ void ADinosaurAIController::Think(float Dt)
         return;
     }
     State=TEXT("Roaming");
+    Decision=Fraction<.5f?TEXT("Recover away from danger"):TEXT("Explore and locate opponents");
     if(RoamTimer<=0||PathIndex>=Path.Num())
     {
         FVector Home=D->HomePosition;
         if(D->Species==2&&!Valley->FeedingSpots.IsEmpty())Home=Valley->FeedingSpots[D->CombatantID%Valley->FeedingSpots.Num()];
         if(D->Species==0&&Random.FRand()<.35f)Home=ALostValleyWorld::Landmarks()[Random.RandRange(0,5)];
+        if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bTeamMatch&&D->bMajor)Home=FVector(D->TeamID==0?-1800:1800,0,0);
         GoTo(Home+FVector(Random.FRandRange(-9000,9000),Random.FRandRange(-9000,9000),0));RoamTimer=Random.FRandRange(12,25);
     }
 }

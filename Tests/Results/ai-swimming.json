@@ -1,0 +1,38 @@
+[
+  {
+    "species": "Trex",
+    "passed": true,
+    "seconds": 23.84,
+    "stuck": 0,
+    "failedPaths": 0,
+    "swimSamples": 84,
+    "end": [
+      12869.337525053199,
+      8999.270466272803
+    ]
+  },
+  {
+    "species": "Raptor",
+    "passed": true,
+    "seconds": 16.14,
+    "stuck": 0,
+    "failedPaths": 0,
+    "swimSamples": 63,
+    "end": [
+      12793.016109897497,
+      8998.820232212298
+    ]
+  },
+  {
+    "species": "Trike",
+    "passed": true,
+    "seconds": 31.17,
+    "stuck": 0,
+    "failedPaths": 0,
+    "swimSamples": 110,
+    "end": [
+      12917.369171270679,
+      9246.344854753987
+    ]
+  }
+]

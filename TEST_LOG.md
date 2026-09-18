@@ -59,3 +59,25 @@ No gameplay claims have been validated yet.
 - Added shallow creek wading: walking speed factor 0.65, composed with health and charge modifiers.
 - **28/28 live checks passed** (Tests/Results/settings-water-blood.json): menu/pause input, species selection, sensitivity, blood off/on/clear, water slowing each species, 50% and 25% injury composition, charge rejection at critical health, recovery, leaving water, and map toggling.
 - Visual inspections of the rendered opening and settings screens saved under Saved/Screenshots/Windows. Text sizing remains a polish task.
+
+## Match scoring and extended traversal — 07:45–08:15
+
+- **24/24 live match checks passed** (`Tests/Results/match-rules.json`): K/D/A attribution, assists, five-kill solo victory, ten-kill team victory, exactly five major combatants per team, friendly melee rejection, follower/prey exclusions, stable leader scoring, shared pack credit and ten-second respawn. Scoring setup called real ReceiveHit; these were controlled rule tests, not complete human-played matches.
+- Raptor and Triceratops each completed continuous six-region circuits of about 1.75 km using real W movement and camera-relative steering, without inter-region teleports. T-Rex traversal was interrupted twice. The diagnostic retry recorded W becoming released and simulation time pausing, rather than a collision while input remained held. Automated testing is being moved to a rendered offscreen instance to isolate it from desktop focus/input changes. No T-Rex circuit pass is claimed yet.
+- User reported the T-Rex lower jaw entering its head during charged attack. Reversed jaw opening rotation in quick, charge, heavy, eating and death clips. Regenerated all clips from native Blender sources, with new surface-paddling clips. **15/15 Blender jaw-direction checks passed**; these measure jaw-tip opening direction and do not replace visual collision inspection.
+- Added Mirror Pond, depth-based swimming and surface-surge controls. C++ build and animation import succeeded. Live swimming regression is in progress.
+
+## Pond and isolated traversal results — 08:15–08:27
+
+- **40/40 swimming checks passed** (`swimming.json`): all three species float, paddle, slow down, stop under Q, apply 50%/25% injury modifiers, reject critical charge, recover from heavy attacks/surface surges, swim to shore and resume walking. All 42 directed paths among seven landmarks are reachable. Test setup placed the pawn in deep water; shore entry and AI swimming receive separate coverage.
+- **18/18 continuous traversal legs passed** (`full-traversal.json` and `traversal-samples.json`), covering the six-region circuit for each species. T-Rex's previous interrupted-input stalls did not recur in the rendered offscreen instance. No per-region teleports were used. A background compilation overlapped part of this test, so elapsed traversal time is not a clean performance benchmark.
+- Standalone Windows game target compiled successfully. Cooking, packaging and launching that output are still required.
+- Refined asset import initially encountered Windows file locks while the old game was running. Stopped only that importer and deferred the retry until the test game closed; existing recoverable assets and source files were retained.
+
+## Refined art and tactical AI — 08:28–08:41
+
+- Imported four refined, continuous Blender skins with original baked UV textures. Each mesh now has three runtime LODs; successful reduction/import counts are recorded in `refined-import.json`. Native refined sources remain alongside original sources.
+- Authored selection portraits from those meshes and replaced the raster-scaled HUD font with a distance-field font. Found the selector overlapped at a viewport clamped to 888x500; adjusted minimum UI scale and added ForceRes to offscreen benchmark launches. Visual retest pending.
+- Visually inspected rendered T-Rex charging and heavy attack after the jaw fix: lower jaw opens below the skull. Inspected visible swimming posture and translucent pond water; screenshots 81–83 under Saved/Screenshots/Windows.
+- Tactical AI estimates fight/escape confidence from current health, attack rate, movement, and nearby support. Guards have a bounded hold time and cooldown; retreat has hysteresis; pack raptors can flank frontal guards.
+- Initial tactical checks were 9/11 during first-load shader warmup; isolated pursuit diagnostics showed the raptor properly pursued and killed its weakened target. Warm retest **11/11 passed** (`ai-tactics.json`), including retaliation damage, pursuit hits, increased retreat separation, actual frontal guard damage reduction, counterattack, desperate defense and supported flanking. Timing assertions now use simulation time to avoid shader-load false failures.

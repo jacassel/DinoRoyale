@@ -1,0 +1,38 @@
+import runtime_core as t,time,json
+rows=[]
+def check(n,ok,**data):
+    rows.append(dict(test=n,passed=bool(ok),**data));(t.OUT/'match-rules.json').write_text(json.dumps(rows,indent=2));print(('PASS ' if ok else 'FAIL ')+n+' '+json.dumps(data),flush=True)
+def hit(a,v,amount=100000):return t.command('scoreHit',attacker=a,victim=v,value=amount)
+def reset(v):return t.command('resetCombatant',id=v)
+def mode(teams):
+    t.command('match',teams=teams);t.command('ai',paused=True);t.command('sandbox',enabled=False);time.sleep(.3)
+def score(i):return next(x for x in t.state()['scoreboard'] if x['id']==i)
+def press(k):t.key(k);t.key(k,'up');time.sleep(.2)
+t.command('ai',paused=True);t.command('species',value=0);mode(False)
+check('FFA goal five',t.state()['goal']==5 and not t.state()['teamMode'])
+hit(0,5);check('follower death does not award kill',t.state()['kills']==0 and score(5)['deaths']==1)
+hit(0,4);check('leader death awards kill',t.state()['kills']==1)
+hit(0,4);check('dead victim cannot award twice',t.state()['kills']==1)
+hit(0,100);check('prey does not award match kill',t.state()['kills']==1)
+mode(False);hit(0,1,50);hit(2,1);check('recent damage awards assist',t.state()['assists']==1 and score(2)['kills']==1)
+mode(False)
+for n in range(5):
+    reset(1);hit(0,1)
+    check('FFA kill '+str(n+1),t.state()['kills']==n+1 and t.state()['roundOver']==(n==4))
+check('FFA victory opens results',t.state()['menuOpen'] and t.state()['winner']==0);t.command('screenshot')
+press('Enter');check('new round resets score',not t.state()['roundOver'] and t.state()['kills']==0 and not t.state()['menuOpen'])
+mode(True);s=t.state();team0=1+sum(x['major'] and x['team']==0 for x in s['ai']);team1=sum(x['major'] and x['team']==1 for x in s['ai'])
+check('teams are five versus five',team0==5 and team1==5,team0=team0,team1=team1)
+check('team goal ten',s['goal']==10)
+t.command('target',team=0);time.sleep(.6);a=t.state();press('LeftMouseButton');time.sleep(.4);check('melee does not damage teammate',t.state()['targetHealth']==a['targetHealth']);t.command('removeTarget')
+hit(0,7);check('enemy team follower does not score',t.state()['team0Kills']==0)
+hit(0,6);check('enemy team leader scores',t.state()['team0Kills']==1)
+mode(True);hit(0,5,50);hit(1,5);check('team assist and score',t.state()['assists']==1 and t.state()['team0Kills']==1 and score(1)['kills']==1)
+mode(True);t.command('species',value=1);hit(2,5);check('follower kill credits human leader',t.state()['kills']==1 and t.state()['team0Kills']==1)
+t.command('species',value=0);mode(True)
+for n in range(10):
+    reset(5);hit(0,5)
+check('team victory at ten',t.state()['roundOver'] and t.state()['team0Kills']==10 and t.state()['winnerTeam']==0);t.command('screenshot')
+mode(False);start=t.state()['time'];hit(1,0);s=t.state();check('death counter and ten second delay',s['dead'] and s['deaths']==1 and abs(s['respawnDelay']-10)<.01)
+time.sleep(9.3);check('still dead before ten seconds',t.state()['dead']);time.sleep(1.1);check('respawns after ten seconds',not t.state()['dead'] and t.state()['health']==t.state()['maxHealth'],elapsed=t.state()['time']-start)
+print('RESULT '+str(sum(x['passed'] for x in rows))+'/'+str(len(rows)),flush=True)

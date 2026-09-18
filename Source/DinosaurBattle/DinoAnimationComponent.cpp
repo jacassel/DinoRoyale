@@ -25,7 +25,7 @@ void UDinoAnimationComponent::LoadSpecies()
     D->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     D->GetMesh()->SetAnimationMode(EAnimationMode::AnimationSingleNode);
     Clips.Empty();
-    for(const TCHAR* N:{TEXT("Idle"),TEXT("Walk"),TEXT("Run"),TEXT("Quick"),TEXT("Charge"),TEXT("Heavy"),TEXT("Jump"),TEXT("Brace"),TEXT("Death"),TEXT("Eat")})
+    for(const TCHAR* N:{TEXT("Idle"),TEXT("Walk"),TEXT("Run"),TEXT("Swim"),TEXT("Quick"),TEXT("Charge"),TEXT("Heavy"),TEXT("Jump"),TEXT("Brace"),TEXT("Death"),TEXT("Eat")})
     {
         FString A=Name+TEXT("_")+N;
         if(auto* Clip=LoadObject<UAnimSequence>(nullptr,*(TEXT("/Game/Dinosaurs/")+Name+TEXT("/")+A+TEXT(".")+A))) Clips.Add(N,Clip);
@@ -53,6 +53,7 @@ void UDinoAnimationComponent::TickComponent(float Dt,ELevelTick T,FActorComponen
         Play(N,false,Length/FMath::Max(.1f,D->Combat->AttackDuration),LastAttackSerial!=D->Combat->AttackSerial);
         LastAttackSerial=D->Combat->AttackSerial;return;
     }
+    if(D->bSwimming){Play(TEXT("Swim"),true,.75f+.5f*D->GetVelocity().Size2D()/FMath::Max(1.f,D->GetCharacterMovement()->MaxSwimSpeed));return;}
     if(D->GetCharacterMovement()->IsFalling()){Play(TEXT("Jump"),false);return;}
     float Speed=D->GetVelocity().Size2D();
     if(Speed<35){Play(TEXT("Idle"),true);return;}

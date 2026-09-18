@@ -27,6 +27,7 @@ public:
     void RespawnPlayer();
     void ToggleSettings();
     void ToggleBlood();
+    void ToggleMatchMode();
     bool bSettingsOpen=false,bBloodEnabled=false;
     UFUNCTION(Exec) void DinoSpecies(int32 Index);
     UFUNCTION(Exec) void DinoDamage(float Amount);

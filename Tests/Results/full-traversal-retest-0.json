@@ -1,0 +1,22 @@
+[
+  {
+    "species": "Trex",
+    "region": "Forest",
+    "passed": true,
+    "reason": null,
+    "seconds": 29.59,
+    "travelMetres": 300.4,
+    "goalErrorCm": 10.3,
+    "waypoints": 1
+  },
+  {
+    "species": "Trex",
+    "region": "Ridge",
+    "passed": false,
+    "reason": "No movement progress for four seconds",
+    "seconds": 15.25,
+    "travelMetres": 108.1,
+    "goalErrorCm": 37256.3,
+    "waypoints": 4
+  }
+]

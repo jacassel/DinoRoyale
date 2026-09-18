@@ -1,0 +1,182 @@
+[
+  {
+    "species": "Trex",
+    "region": "Forest",
+    "passed": true,
+    "reason": null,
+    "seconds": 29.66,
+    "travelMetres": 300.1,
+    "goalErrorCm": 51.8,
+    "waypoints": 1
+  },
+  {
+    "species": "Trex",
+    "region": "Ridge",
+    "passed": true,
+    "reason": null,
+    "seconds": 47.84,
+    "travelMetres": 491.3,
+    "goalErrorCm": 54.5,
+    "waypoints": 5
+  },
+  {
+    "species": "Trex",
+    "region": "Hunting",
+    "passed": true,
+    "reason": null,
+    "seconds": 23.84,
+    "travelMetres": 240.1,
+    "goalErrorCm": 81.7,
+    "waypoints": 3
+  },
+  {
+    "species": "Trex",
+    "region": "Creek",
+    "passed": true,
+    "reason": null,
+    "seconds": 24.61,
+    "travelMetres": 226.4,
+    "goalErrorCm": 79.3,
+    "waypoints": 1
+  },
+  {
+    "species": "Trex",
+    "region": "Grove",
+    "passed": true,
+    "reason": null,
+    "seconds": 22.72,
+    "travelMetres": 228.7,
+    "goalErrorCm": 34.4,
+    "waypoints": 1
+  },
+  {
+    "species": "Trex",
+    "region": "Plains",
+    "passed": true,
+    "reason": null,
+    "seconds": 27.53,
+    "travelMetres": 272.6,
+    "goalErrorCm": 32.4,
+    "waypoints": 3
+  },
+  {
+    "species": "Raptor",
+    "region": "Forest",
+    "passed": true,
+    "reason": null,
+    "seconds": 19.58,
+    "travelMetres": 299.0,
+    "goalErrorCm": 40.0,
+    "waypoints": 1
+  },
+  {
+    "species": "Raptor",
+    "region": "Ridge",
+    "passed": true,
+    "reason": null,
+    "seconds": 31.72,
+    "travelMetres": 493.1,
+    "goalErrorCm": 115.9,
+    "waypoints": 5
+  },
+  {
+    "species": "Raptor",
+    "region": "Hunting",
+    "passed": true,
+    "reason": null,
+    "seconds": 15.84,
+    "travelMetres": 239.7,
+    "goalErrorCm": 55.4,
+    "waypoints": 3
+  },
+  {
+    "species": "Raptor",
+    "region": "Creek",
+    "passed": true,
+    "reason": null,
+    "seconds": 16.44,
+    "travelMetres": 226.8,
+    "goalErrorCm": 125.2,
+    "waypoints": 1
+  },
+  {
+    "species": "Raptor",
+    "region": "Grove",
+    "passed": true,
+    "reason": null,
+    "seconds": 15.06,
+    "travelMetres": 227.5,
+    "goalErrorCm": 180.1,
+    "waypoints": 1
+  },
+  {
+    "species": "Raptor",
+    "region": "Plains",
+    "passed": true,
+    "reason": null,
+    "seconds": 18.47,
+    "travelMetres": 274.6,
+    "goalErrorCm": 174.9,
+    "waypoints": 3
+  },
+  {
+    "species": "Trike",
+    "region": "Forest",
+    "passed": true,
+    "reason": null,
+    "seconds": 36.27,
+    "travelMetres": 299.9,
+    "goalErrorCm": 54.6,
+    "waypoints": 1
+  },
+  {
+    "species": "Trike",
+    "region": "Ridge",
+    "passed": true,
+    "reason": null,
+    "seconds": 83.23,
+    "travelMetres": 490.5,
+    "goalErrorCm": 33.4,
+    "waypoints": 5
+  },
+  {
+    "species": "Trike",
+    "region": "Hunting",
+    "passed": true,
+    "reason": null,
+    "seconds": 29.3,
+    "travelMetres": 241.0,
+    "goalErrorCm": 85.8,
+    "waypoints": 3
+  },
+  {
+    "species": "Trike",
+    "region": "Creek",
+    "passed": true,
+    "reason": null,
+    "seconds": 30.2,
+    "travelMetres": 227.0,
+    "goalErrorCm": 76.4,
+    "waypoints": 1
+  },
+  {
+    "species": "Trike",
+    "region": "Grove",
+    "passed": true,
+    "reason": null,
+    "seconds": 29.0,
+    "travelMetres": 229.3,
+    "goalErrorCm": 14.1,
+    "waypoints": 1
+  },
+  {
+    "species": "Trike",
+    "region": "Plains",
+    "passed": true,
+    "reason": null,
+    "seconds": 33.72,
+    "travelMetres": 272.4,
+    "goalErrorCm": 85.6,
+    "waypoints": 3
+  }
+]

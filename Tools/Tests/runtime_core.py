@@ -94,7 +94,7 @@ def run_species(i,name):
     key('RightMouseButton');time.sleep(.2);check(name+' recovered charge',state()['charging']);key('RightMouseButton','up');time.sleep(1.8)
     command('damage',value=100000);time.sleep(.15);check(name+' death',state()['dead'] and state()['health']==0)
     a=state();hold('W',.5);check(name+' dead movement blocked',dist(a,state())<2)
-    time.sleep(6);a=state();check(name+' respawn',not a['dead'] and a['health']==a['maxHealth'])
+    time.sleep(state().get('respawnDelay',10));a=state();check(name+' respawn',not a['dead'] and a['health']==a['maxHealth'])
     b=hold('W',.5);check(name+' respawn movement',dist(a,b)>80)
     command('screenshot');time.sleep(.3)
 

@@ -2,7 +2,8 @@ import bpy,sys,pathlib,math
 from mathutils import Vector
 root=pathlib.Path(__file__).resolve().parents[2]
 species=sys.argv[sys.argv.index('--')+1] if '--' in sys.argv else 'Trex'
-bpy.ops.wm.open_mainfile(filepath=str(root/'Assets/Source/Dinosaurs'/f'{species}.blend'))
+refined='--refined' in sys.argv
+bpy.ops.wm.open_mainfile(filepath=str(root/('Assets/Source/DinosaursRefined' if refined else 'Assets/Source/Dinosaurs')/f'{species}.blend'))
 skin=bpy.data.materials.get('Dino_Skin')
 if skin:
     nodes=skin.node_tree.nodes;links=skin.node_tree.links
@@ -24,5 +25,5 @@ cam.data.type='ORTHO';cam.data.ortho_scale=1320 if species=='Trex' else 1180 if 
 cam.data.clip_end=10000
 scene.camera=cam;scene.render.resolution_x=1200;scene.render.resolution_y=800;scene.render.resolution_percentage=100
 scene.view_settings.view_transform='AgX'
-out=root/'Tests/Art';out.mkdir(parents=True,exist_ok=True);scene.render.filepath=str(out/f'{species}_preview.png')
+out=root/'Tests/Art';out.mkdir(parents=True,exist_ok=True);scene.render.filepath=str(out/f'{species}_{"refined" if refined else "preview"}.png')
 bpy.ops.render.render(write_still=True)

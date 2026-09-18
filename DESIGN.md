@@ -14,7 +14,11 @@
 
 ## Species
 
-T-Rex is a large solitary predator with the highest single-hit damage. Raptor moves and turns fastest, has low health, and can leap with its charged attack. Raptor teammates follow a human leader when available, otherwise the lowest-ID living AI raptor; they spread into formation and offset pursuit positions. Triceratops is slower, has the largest health pool and strongest frontal brace, and uses its head/horns in combat. Prey is weak, flees predators and leaves an edible carcass.
+T-Rex is a large solitary predator with the highest single-hit damage. Raptor moves and turns fastest, has low health, and can leap with its charged attack. Allied raptors follow a human leader when available, otherwise their lowest-ID AI raptor; the leader role persists through death and respawn. They spread into formation and offset pursuit positions. Triceratops is slower, has the largest health pool and strongest frontal brace, and uses its head/horns in combat. Prey is weak, flees predators and leaves an edible carcass.
+
+GameMode owns match rules, team membership, damage-contribution attribution and K/D/A. FFA ends at five scoring kills; 5v5 ends at ten team kills. Raptor followers and prey are excluded as scoring victims. A configurable shared pack score credits follower kills to their leader. Assists use a configurable twelve-second recent-damage window. Major respawns take ten seconds.
+
+`UDinoMovementComponent` implements surface swimming with collision sweeps, horizontal acceleration, damping and a bounded vertical correction. Analytic water queries share pond/creek geometry with terrain generation. Shallow water retains walking; sufficient depth activates swimming with entry/exit hysteresis, a paddle animation and health-based speed modifiers. Both AI and human controls use the same movement component.
 
 Health totals 1100 / 520 / 1900 and quick damage 180 / 100 / 145 are first-pass species tuning, distinct from the relative 0–100 design scores.
 

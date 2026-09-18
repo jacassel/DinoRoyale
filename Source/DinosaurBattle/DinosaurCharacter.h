@@ -16,7 +16,7 @@ class DINOSAURBATTLE_API ADinosaurCharacter : public ACharacter
 {
     GENERATED_BODY()
 public:
-    ADinosaurCharacter();
+    ADinosaurCharacter(const FObjectInitializer& ObjectInitializer=FObjectInitializer::Get());
     virtual void BeginPlay() override;
     virtual void Tick(float Dt) override;
     virtual void SetupPlayerInputComponent(UInputComponent* Input) override;
@@ -28,11 +28,13 @@ public:
     UPROPERTY(VisibleAnywhere) UCameraComponent* Camera;
     UPROPERTY(VisibleAnywhere) UStaticMeshComponent* Placeholder;
     UPROPERTY(EditAnywhere,BlueprintReadWrite) int32 Species=0;
-    bool bDead=false,bMajor=true,bInWater=false;
+    bool bDead=false,bMajor=true,bInWater=false,bSwimming=false;
+    float WaterSurface=0,SwimSpeedMultiplier=.50f;
     float WaterSpeedMultiplier=.65f;
     float DeathTime=0,MouseSensitivity=1.f;
-    int32 CombatantID=0;
-    float Nutrition=1,RespawnDelay=6;
+    int32 CombatantID=0,TeamID=-1;
+    TMap<int32,float> DamageContributors;
+    float Nutrition=1,RespawnDelay=10;
     FVector HomePosition=FVector::ZeroVector;
     TWeakObjectPtr<ADinosaurCharacter> LastAttacker;
     const FSpeciesData& Stats() const {return FSpeciesData::Get(Species);}

@@ -13,6 +13,7 @@ OUT=ROOT/'Assets/Source/Dinosaurs'
 EXPORT=ROOT/'Assets/Export/Dinosaurs'
 OUT.mkdir(parents=True,exist_ok=True);EXPORT.mkdir(parents=True,exist_ok=True)
 random.seed(42)
+REFINE=False
 
 def material(name,color,rough=.65,metal=0):
     m=bpy.data.materials.get(name) or bpy.data.materials.new(name)
@@ -104,6 +105,57 @@ def assign_body(o):
         else:bn='spine'
         g=o.vertex_groups.get(bn) or o.vertex_groups.new(name=bn);g.add([v.index],1,'REPLACE')
 
+def refine_skin(body):
+    """Union the original skin volumes, then transfer blended rig weights locally."""
+    global PARTS
+    from mathutils.kdtree import KDTree
+    skin_parts=[o for o in PARTS if o.data.materials[0].name=='Dino_Skin' and not o.vertex_groups.get('jaw')]
+    others=[o for o in PARTS if o not in skin_parts]
+    bpy.ops.object.select_all(action='DESELECT')
+    for o in skin_parts:o.select_set(True)
+    bpy.context.view_layer.objects.active=body;bpy.ops.object.join();source=bpy.context.object
+    bpy.ops.object.transform_apply(location=True,rotation=True,scale=True)
+    tree=KDTree(len(source.data.vertices))
+    source_weights=[];names=[g.name for g in source.vertex_groups]
+    for v in source.data.vertices:
+        tree.insert(v.co,v.index);source_weights.append([(names[g.group],g.weight) for g in v.groups])
+    tree.balance()
+    work=source.copy();work.data=source.data.copy();bpy.context.collection.objects.link(work)
+    bpy.ops.object.select_all(action='DESELECT');work.select_set(True);bpy.context.view_layer.objects.active=work
+    rem=work.modifiers.new('Continuous_anatomy','REMESH');rem.mode='VOXEL';rem.voxel_size=2.1 if SPECIES in ('Raptor','Prey') else 4.0;rem.use_smooth_shade=True
+    bpy.ops.object.modifier_apply(modifier=rem.name)
+    smooth=work.modifiers.new('Organic_surface','SMOOTH');smooth.factor=.62;smooth.iterations=4;bpy.ops.object.modifier_apply(modifier=smooth.name)
+    dec=work.modifiers.new('Realtime_topology','DECIMATE');dec.ratio=.55;dec.use_collapse_triangulate=True;bpy.ops.object.modifier_apply(modifier=dec.name)
+    work.vertex_groups.clear()
+    for name in names:work.vertex_groups.new(name=name)
+    for v in work.data.vertices:
+        weights={}
+        for _,idx,dist in tree.find_n(v.co,4):
+            strength=1/max(.3,dist)**2
+            for name,w in source_weights[idx]:weights[name]=weights.get(name,0)+w*strength
+        if not weights:weights={'spine':1}
+        total=sum(weights.values())
+        for name,w in weights.items():
+            if w/total>.015:work.vertex_groups[name].add([v.index],w/total,'REPLACE')
+    for attr in list(work.data.color_attributes):work.data.color_attributes.remove(attr)
+    skin_color(work,SPECIES)
+    for poly in work.data.polygons:poly.use_smooth=True
+    bpy.data.objects.remove(source,do_unlink=True)
+    PARTS=others+[work]
+    print('REFINED_SKIN',SPECIES,len(work.data.vertices),flush=True)
+    return work
+
+def bake_skin(mesh,kind):
+    """Bake original procedural colour into an explicit UV texture for reliable game import."""
+    scene=bpy.context.scene;scene.render.engine='CYCLES';scene.cycles.samples=1
+    image=bpy.data.images.new(kind+'_SkinColor',width=2048,height=2048,alpha=False)
+    for mat in mesh.data.materials:
+        node=mat.node_tree.nodes.new('ShaderNodeTexImage');node.name='Baked_original_skin';node.image=image;mat.node_tree.nodes.active=node
+    bpy.ops.object.select_all(action='DESELECT');mesh.select_set(True);bpy.context.view_layer.objects.active=mesh
+    bpy.ops.object.bake(type='DIFFUSE',pass_filter={'COLOR'},margin=12,use_clear=True)
+    image.filepath_raw=str(EXPORT/(kind+'_SkinColor.png'));image.file_format='PNG';image.save();image.pack()
+    print('SKIN_BAKED',kind,flush=True)
+
 def build(kind):
     global PARTS,BONES,SPECIES
     bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
@@ -153,8 +205,8 @@ def build(kind):
         for sign in [-1,1]:
             ex,ey,ez=(129,21,221) if small else (274,66,455)
             ellipsoid('Eye_socket',(ex,ey*sign,ez),(9,4,8) if small else (24,7,19),claw,'head')
-            ellipsoid('Amber_eye',(ex+1,(ey+3)*sign,ez),(5.5,2.7,5.7) if small else (12,4.4,12),eye,'head')
-            ellipsoid('Eye_slit',(ex+2,(ey+5)*sign,ez),(1.5,1.2,4.5) if small else (3,2,9),pupil,'head',16,10)
+            ellipsoid('Amber_eye',(ex+1,(ey+3)*sign,ez),(5.5,2.7,5.7) if small else (9.5,4.4,10),eye,'head')
+            ellipsoid('Eye_slit',(ex+1,(ey+(5 if small else 8.5))*sign,ez),(1.5,1.2,4.5) if small else (2.8,1.4,8),pupil,'head',16,10)
             ellipsoid('Brow',(ex-2,(ey-1)*sign,ez+(8 if small else 22)),(15,7,6) if small else (33,14,13),skin,'head')
             nx,ny,nz=(176,11,212) if small else (402,51,431)
             ellipsoid('Nostril',(nx,ny*sign,nz),(4,1.5,2.5) if small else (10,3,5),pupil,'head',16,8)
@@ -233,6 +285,7 @@ def build(kind):
         z=(368-abs(x)*.06) if kind=='Trex' else (177-abs(x)*.08) if small else (301-abs(x)*.15)
         if is_trike and x>100:continue
         ellipsoid('Dorsal_scute',(x,0,z),(9 if not small else 4,5 if not small else 3,6 if not small else 4),skin,'spine',12,8)
+    if REFINE:body=refine_skin(body)
     # Consolidate, retain material slots and explicit skin groups, then rig.
     bpy.ops.object.select_all(action='DESELECT')
     for o in PARTS:o.select_set(True)
@@ -242,6 +295,7 @@ def build(kind):
     bm=bmesh.new();bm.from_mesh(mesh.data);bmesh.ops.recalc_face_normals(bm,faces=bm.faces);bm.to_mesh(mesh.data);bm.free();mesh.data.update()
     # Simple unwrap suitable for procedural detail materials and later hand painting.
     bpy.ops.object.mode_set(mode='EDIT');bpy.ops.mesh.select_all(action='SELECT');bpy.ops.uv.smart_project(island_margin=.015);bpy.ops.object.mode_set(mode='OBJECT')
+    if REFINE:bake_skin(mesh,kind)
     bpy.ops.object.select_all(action='DESELECT')
     arm_data=bpy.data.armatures.new(kind+'_Skeleton');rig=bpy.data.objects.new('Rig_'+kind,arm_data);bpy.context.collection.objects.link(rig)
     bpy.context.view_layer.objects.active=rig;rig.select_set(True);bpy.ops.object.mode_set(mode='EDIT')
@@ -274,7 +328,7 @@ def build(kind):
 def make_actions(rig,kind):
     rig.animation_data_create()
     small=kind in ('Raptor','Prey');trike=kind=='Trike'
-    lengths={'Idle':60,'Walk':30,'Run':24,'Quick':20,'Charge':36,'Heavy':30,'Jump':30,'Brace':40,'Death':45,'Eat':48}
+    lengths={'Idle':60,'Walk':30,'Run':24,'Swim':42,'Quick':20,'Charge':36,'Heavy':30,'Jump':30,'Brace':40,'Death':45,'Eat':48}
     for name,frames in lengths.items():
         action=bpy.data.actions.new(kind+'_'+name);action.use_fake_user=True;rig.animation_data.action=action
         for f in range(1,frames+1):
@@ -291,21 +345,30 @@ def make_actions(rig,kind):
                     s=sin(cycle+phase);c=cos(cycle+phase)
                     rot('leg_'+side+'_upper',ampl*s);rot('leg_'+side+'_lower',-ampl*.9*max(0,s));rot('leg_'+side+'_foot',-ampl*.3*s)
                     rot('arm_'+side+'_upper',(-ampl*.6*s) if trike else 4*sin(cycle+phase));rot('arm_'+side+'_lower',ampl*.4*max(0,-s) if trike else 4)
-                rig.pose.bones['root'].location.z=(3 if small else 6)*(1-cos(cycle*2)) if moving else 0
+                rig.pose.bones['root'].location=rig.pose.bones['root'].bone.matrix_local.to_quaternion().inverted()@Vector((0,0,(3 if small else 6)*(1-cos(cycle*2)) if moving else 0))
                 rot('spine',(2 if moving else .8)*sin(cycle*2));rot('neck',-2*sin(cycle*2));rot('head',1.5*sin(cycle))
                 for j in range(1,5):rot('tail_%02d'%j,0,0,(3 if moving else 1.5)*sin(cycle-j*.65))
+            elif name=='Swim':
+                # Surface paddling: tucked thighs, alternating leg strokes and a broad tail wave.
+                rot('spine',-6 if trike else -10);rot('neck',-5);rot('head',-4)
+                for side,phase in [('l',0),('r',pi)]:
+                    stroke=sin(cycle+phase)
+                    rot('leg_'+side+'_upper',-30+24*stroke);rot('leg_'+side+'_lower',42-20*stroke);rot('leg_'+side+'_foot',-12+15*stroke)
+                    rot('arm_'+side+'_upper',-20-30*stroke if trike else 12+18*stroke);rot('arm_'+side+'_lower',25+16*stroke)
+                for j in range(1,5):rot('tail_%02d'%j,0,0,10*sin(cycle-j*.65))
+                rig.pose.bones['root'].location=rig.pose.bones['root'].bone.matrix_local.to_quaternion().inverted()@Vector((0,0,3*sin(cycle*2)))
             elif name=='Quick':
                 punch=sin(pi*t)**2
-                rot('neck',(-16 if trike else 14)*punch);rot('head',(-18 if trike else -12)*punch);rot('jaw',(-26 if not trike else -5)*sin(pi*t))
+                rot('neck',(-16 if trike else 14)*punch);rot('head',(-18 if trike else -12)*punch);rot('jaw',(26 if not trike else 5)*sin(pi*t))
                 rot('spine',-4*punch)
                 if small:rot('arm_l_upper',-25*punch);rot('arm_r_upper',25*punch)
             elif name=='Charge':
-                rot('spine',-6);rot('neck',-22 if trike else 10);rot('head',-12 if trike else 5);rot('jaw',-13 if not trike else 0)
+                rot('spine',-6);rot('neck',-22 if trike else 10);rot('head',-12 if trike else 5);rot('jaw',13 if not trike else 0)
                 for s in ['l','r']:rot('leg_'+s+'_upper',12);rot('leg_'+s+'_lower',-18)
                 for j in range(1,5):rot('tail_%02d'%j,0,0,2*sin(cycle*2+j))
             elif name=='Heavy':
                 punch=sin(pi*t)**2
-                rot('spine',-10*punch);rot('neck',(-32 if trike else 24)*punch);rot('head',(-24 if trike else -15)*punch);rot('jaw',-38*sin(pi*t) if not trike else 0)
+                rot('spine',-10*punch);rot('neck',(-32 if trike else 24)*punch);rot('head',(-24 if trike else -15)*punch);rot('jaw',38*sin(pi*t) if not trike else 0)
                 for s in ['l','r']:rot('arm_'+s+'_upper',-35*punch if small else 0)
             elif name=='Jump':
                 tuck=sin(pi*t)
@@ -316,10 +379,10 @@ def make_actions(rig,kind):
                 for s in ['l','r']:rot('leg_'+s+'_upper',8);rot('leg_'+s+'_lower',-12)
             elif name=='Death':
                 k=min(1,t*1.6);rot('root',0,78*k,0)
-                rig.pose.bones['root'].location.z=-(45 if small else 100)*k
-                rot('neck',15*k);rot('jaw',-25*k);rot('leg_l_upper',-26*k);rot('leg_r_upper',12*k)
+                rig.pose.bones['root'].location=rig.pose.bones['root'].bone.matrix_local.to_quaternion().inverted()@Vector((0,0,(5 if small else 100 if trike else 45)*k))
+                rot('neck',15*k);rot('jaw',25*k);rot('leg_l_upper',-26*k);rot('leg_r_upper',12*k)
             elif name=='Eat':
-                rot('neck',35+6*sin(cycle*2));rot('head',22);rot('jaw',-12*(.5+.5*sin(cycle*4)))
+                rot('neck',35+6*sin(cycle*2));rot('head',22);rot('jaw',12*(.5+.5*sin(cycle*4)))
             for pb in rig.pose.bones:
                 pb.keyframe_insert(data_path='rotation_euler',frame=f,group=pb.name)
                 if pb.name=='root':pb.keyframe_insert(data_path='location',frame=f,group=pb.name)
@@ -327,4 +390,9 @@ def make_actions(rig,kind):
 if __name__=='__main__':
     import sys
     wanted=sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else ['Trex','Raptor','Trike','Prey']
+    if '--refine' in wanted:
+        REFINE=True;wanted.remove('--refine')
+        OUT=ROOT/'Assets/Source/DinosaursRefined';EXPORT=ROOT/'Assets/Export/DinosaursRefined'
+        OUT.mkdir(parents=True,exist_ok=True);EXPORT.mkdir(parents=True,exist_ok=True)
+    if not wanted:wanted=['Trex','Raptor','Trike','Prey']
     for species in wanted:build(species)

@@ -26,4 +26,6 @@ for row in range(-1,18):
         best=np.minimum(best,d)
 scales=np.clip(1-np.sqrt(best)*1.75,0,1)**.35
 save('Scales',scales*.72+cloud(128)*.10,1.1)
+waves=.5+.17*np.sin(x*np.pi*14+y*np.pi*6)+.12*np.sin(x*np.pi*4-y*np.pi*10)
+save('Water',waves,1.4)
 print('Original texture tiles generated')

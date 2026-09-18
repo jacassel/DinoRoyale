@@ -28,7 +28,11 @@ void UCombatComponent::Execute(bool Charged,float Power)
     RecoveryLeft=AttackDuration; AttackElapsed=0; HitTime=S.Windup/D->Health->AttackSpeedFactor();
     PendingDamage=S.Damage*(Charged?FMath::Lerp(1.25f,S.ChargeMultiplier,Power):1.f);
     bHitPending=true;LastDealtDamage=0;
-    if(Charged) D->LaunchCharacter(D->GetActorForwardVector()*S.LungeSpeed*(.45f+.55f*Power)+FVector(0,0,D->Species==1?350:30),true,false);
+    if(Charged)
+    {
+        if(D->bSwimming)D->GetCharacterMovement()->Velocity=D->GetActorForwardVector()*S.LungeSpeed*.45f;
+        else D->LaunchCharacter(D->GetActorForwardVector()*S.LungeSpeed*(.45f+.55f*Power)+FVector(0,0,D->Species==1?350:30),true,false);
+    }
 }
 void UCombatComponent::DetectHits()
 {

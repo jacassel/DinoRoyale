@@ -7,6 +7,7 @@
 #include "LostValleyWorld.h"
 #include "FoodSystem.h"
 #include "DinoEffects.h"
+#include "DinoGameMode.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/World.h"
 #include "Engine/Engine.h"
@@ -39,7 +40,7 @@ void ADinoPlayerController::BeginPlay()
     ConsoleCommand(TEXT("t.MaxFPS 60"),false);
     SetInputMode(FInputModeGameOnly()); bShowMouseCursor=false;
     PrimaryActorTick.bTickEvenWhenPaused=true;bShouldPerformFullTickWhenPaused=true;
-    if(!bDevBridge)GetWorldTimerManager().SetTimerForNextTick([this](){SetMenuOpen(true);});
+    if(!bDevBridge||FParse::Param(FCommandLine::Get(),TEXT("DinoStartMenu")))GetWorldTimerManager().SetTimerForNextTick([this](){SetMenuOpen(true);});
 }
 void ADinoPlayerController::PlayerTick(float Dt)
 {
@@ -61,6 +62,7 @@ void ADinoPlayerController::SetupInputComponent()
     InputComponent->BindAction("Quit",IE_Pressed,this,&ADinoPlayerController::QuitGame).bExecuteWhenPaused=true;
     InputComponent->BindAction("SensitivityUp",IE_Pressed,this,&ADinoPlayerController::SensitivityUp).bExecuteWhenPaused=true;
     InputComponent->BindAction("SensitivityDown",IE_Pressed,this,&ADinoPlayerController::SensitivityDown).bExecuteWhenPaused=true;
+    InputComponent->BindAction("MatchMode",IE_Pressed,this,&ADinoPlayerController::ToggleMatchMode).bExecuteWhenPaused=true;
     InputComponent->BindAction("Settings",IE_Pressed,this,&ADinoPlayerController::ToggleSettings).bExecuteWhenPaused=true;
     InputComponent->BindAction("Blood",IE_Pressed,this,&ADinoPlayerController::ToggleBlood).bExecuteWhenPaused=true;
     InputComponent->BindAction("Map",IE_Pressed,this,&ADinoPlayerController::ToggleMap);
@@ -77,26 +79,28 @@ void ADinoPlayerController::SetMenuOpen(bool Open)
     }
     else{SetPause(false);SetInputMode(FInputModeGameOnly());bShowMouseCursor=false;FlushPressedKeys();}
 }
-void ADinoPlayerController::ToggleMenu(){if(bSettingsOpen){bSettingsOpen=false;return;}SetMenuOpen(!bSelectionOpen);}
+void ADinoPlayerController::ToggleMenu(){if(bSettingsOpen){bSettingsOpen=false;return;}if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bRoundOver){ResumeGame();return;}SetMenuOpen(!bSelectionOpen);}
+void ADinoPlayerController::ToggleMatchMode(){if(bSelectionOpen&&!bSettingsOpen)if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->SetTeamMode(!GM->bTeamMatch);}
 void ADinoPlayerController::ToggleSettings(){if(bSelectionOpen)bSettingsOpen=!bSettingsOpen;}
 void ADinoPlayerController::ToggleBlood(){if(bSelectionOpen&&bSettingsOpen){bBloodEnabled=!bBloodEnabled;if(!bBloodEnabled)ADinoEffects::ClearBlood(GetWorld());GConfig->SetBool(TEXT("Dino.UserSettings"),TEXT("BloodEnabled"),bBloodEnabled,GGameIni);GConfig->Flush(false,GGameIni);}}
 void ADinoPlayerController::ToggleMap(){if(!bSelectionOpen)bMapOpen=!bMapOpen;}
 void ADinoPlayerController::ToggleHelp(){bShowHelp=!bShowHelp;}
-void ADinoPlayerController::SelectRex(){DinoSpecies(0);SetMenuOpen(false);}
-void ADinoPlayerController::SelectRaptor(){DinoSpecies(1);SetMenuOpen(false);}
-void ADinoPlayerController::SelectTrike(){DinoSpecies(2);SetMenuOpen(false);}
-void ADinoPlayerController::ResumeGame(){if(bSelectionOpen)SetMenuOpen(false);}
+void ADinoPlayerController::SelectRex(){DinoSpecies(0);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);}
+void ADinoPlayerController::SelectRaptor(){DinoSpecies(1);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);}
+void ADinoPlayerController::SelectTrike(){DinoSpecies(2);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);}
+void ADinoPlayerController::ResumeGame(){if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bRoundOver)GM->StartRound();if(bSelectionOpen)SetMenuOpen(false);}
 void ADinoPlayerController::QuitGame(){if(bSelectionOpen)ConsoleCommand(TEXT("quit"));}
 void ADinoPlayerController::SensitivityUp(){if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->MouseSensitivity=FMath::Clamp(D->MouseSensitivity+.1f,.2f,3.f);GConfig->SetFloat(TEXT("Dino.Session"),TEXT("MouseSensitivity"),D->MouseSensitivity,GGameIni);GConfig->Flush(false,GGameIni);}}
 void ADinoPlayerController::SensitivityDown(){if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->MouseSensitivity=FMath::Clamp(D->MouseSensitivity-.1f,.2f,3.f);GConfig->SetFloat(TEXT("Dino.Session"),TEXT("MouseSensitivity"),D->MouseSensitivity,GGameIni);GConfig->Flush(false,GGameIni);}}
-void ADinoPlayerController::RespawnPlayer(){if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->Die();D->ResetLife();}}
+void ADinoPlayerController::RespawnPlayer(){if(auto* D=Cast<ADinosaurCharacter>(GetPawn()))if(!D->bDead)D->Die();}
 void ADinoPlayerController::MenuClick()
 {
     if(!bSelectionOpen)return;float X,Y;if(!GetMousePosition(X,Y))return;int32 W,H;GetViewportSize(W,H);
     if(X>W*.73f&&Y>H*.1f&&Y<H*.21f){ToggleSettings();return;}
     if(bSettingsOpen){if(Y>H*.33f&&Y<H*.45f)ToggleBlood();else if(Y>H*.50f&&Y<H*.59f){if(X>W*.6f)SensitivityUp();else SensitivityDown();}return;}
-    float S=FMath::Clamp(H/900.f,.7f,1.5f),Top=H*.30f,CardW=W*.25f,CardH=310*S,Gap=W*.035f,Left=(W-3*CardW-2*Gap)*.5f;
-    if(Y>=Top&&Y<=Top+CardH)for(int32 I=0;I<3;++I)if(X>=Left+I*(CardW+Gap)&&X<=Left+I*(CardW+Gap)+CardW){DinoSpecies(I);SetMenuOpen(false);return;}
+    float S=FMath::Clamp(H/900.f,.45f,1.5f),Top=H*.28f,CardW=W*.25f,CardH=400*S,Gap=W*.035f,Left=(W-3*CardW-2*Gap)*.5f;
+    if(Y>H*.215f&&Y<H*.285f){ToggleMatchMode();return;}
+    if(Y>=Top&&Y<=Top+CardH)for(int32 I=0;I<3;++I)if(X>=Left+I*(CardW+Gap)&&X<=Left+I*(CardW+Gap)+CardW){DinoSpecies(I);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);return;}
     if(Y>H*.83f&&Y<H*.91f){if(X>W*.62f)QuitGame();else if(X>W*.18f)ResumeGame();}
 }
 void ADinoPlayerController::DinoSpecies(int32 I){if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->ApplySpecies(I);D->ResetLife();}}
@@ -144,7 +148,7 @@ void ADinoPlayerController::ReadBridge()
         if(TestTarget)
         {
             TestTarget->ApplySpecies(D->Species==0?2:0);TestTarget->ResetLife();TestTarget->bMajor=false;
-            TestTarget->Health->Reset(10000,1000,0);
+            TestTarget->Health->Reset(10000,1000,0);double TestTeam;TestTarget->TeamID=O->TryGetNumberField(TEXT("team"),TestTeam)?int32(TestTeam):-1;
             TestTarget->SetActorLocation(D->GetActorLocation()+D->GetActorForwardVector()*(D->Stats().AttackRange*.75f));
             TestTarget->SetActorRotation((D->GetActorLocation()-TestTarget->GetActorLocation()).Rotation());
         }
@@ -206,6 +210,37 @@ void ADinoPlayerController::ReadBridge()
             auto R=MakeShared<FJsonObject>();R->SetArrayField(TEXT("routes"),Routes);FString Out;auto W=TJsonWriterFactory<>::Create(&Out);FJsonSerializer::Serialize(R,W);FFileHelper::SaveStringToFile(Out,*(BridgeRoot/TEXT("navigation-audit.json")));break;
         }
     }
+    else if(Cmd==TEXT("match")){if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->SetTeamMode(O->GetBoolField(TEXT("teams")));SetMenuOpen(false);}
+    else if(Cmd==TEXT("sandbox")){if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->bIgnoreWinCondition=O->GetBoolField(TEXT("enabled"));}
+    else if(Cmd==TEXT("scoreHit"))
+    {
+        auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>();int32 A=O->GetIntegerField(TEXT("attacker")),V=O->GetIntegerField(TEXT("victim"));
+        ADinosaurCharacter* Victim=nullptr;for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->CombatantID==V){Victim=*It;break;}
+        if(GM&&Victim)Victim->ReceiveHit(O->GetNumberField(TEXT("value")),GM->FindCombatant(A));
+    }
+    else if(Cmd==TEXT("resetCombatant")){if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(auto* Other=GM->FindCombatant(O->GetIntegerField(TEXT("id"))))Other->ResetLife();}
+    else if(Cmd==TEXT("travelAI"))
+    {
+        if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(auto* Other=GM->FindCombatant(O->GetIntegerField(TEXT("id"))))
+        {
+            double SX,SY;if(O->TryGetNumberField(TEXT("startX"),SX)&&O->TryGetNumberField(TEXT("startY"),SY))
+            {
+                Other->ResetLife();Other->SetActorLocation(FVector(SX,SY,ALostValleyWorld::HeightAt(SX,SY)+Other->Stats().HalfHeight+20));Other->GetCharacterMovement()->StopMovementImmediately();
+            }
+            if(auto* AI=Cast<ADinosaurAIController>(Other->GetController())){AI->bPaused=false;AI->SetTravelGoal(FVector(O->GetNumberField(TEXT("x")),O->GetNumberField(TEXT("y")),0));}
+        }
+    }
+    else if(Cmd==TEXT("testAI"))
+    {
+        if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(auto* Other=GM->FindCombatant(O->GetIntegerField(TEXT("id"))))
+        {
+            Other->ApplySpecies(O->GetIntegerField(TEXT("species")));Other->ResetLife();
+            float X=O->GetNumberField(TEXT("x")),Y=O->GetNumberField(TEXT("y"));Other->SetActorLocation(FVector(X,Y,ALostValleyWorld::HeightAt(X,Y)+Other->Stats().HalfHeight+12));Other->SetActorRotation(FRotator(0,O->GetNumberField(TEXT("yaw")),0));Other->GetCharacterMovement()->StopMovementImmediately();
+            Other->Health->Current=Other->Health->Maximum*O->GetNumberField(TEXT("health"));Other->Health->LastDamageTime=GetWorld()->GetTimeSeconds();
+            if(auto* AI=Cast<ADinosaurAIController>(Other->GetController())){AI->ClearTravelGoal();AI->ResetTactics();AI->bPaused=!O->GetBoolField(TEXT("enabled"));}
+        }
+    }
+    else if(Cmd==TEXT("enableAI")){if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(auto* Other=GM->FindCombatant(O->GetIntegerField(TEXT("id"))))if(auto* AI=Cast<ADinosaurAIController>(Other->GetController()))AI->bPaused=!O->GetBoolField(TEXT("enabled"));}
     else if(Cmd==TEXT("camera")){FRotator R=GetControlRotation();R.Yaw=O->GetNumberField(TEXT("yaw"));SetControlRotation(R);}
     else if(Cmd==TEXT("menu"))SetMenuOpen(O->GetBoolField(TEXT("open")));
     else if(Cmd==TEXT("screenshot"))DinoSnapshot();
@@ -218,6 +253,11 @@ void ADinoPlayerController::WriteTelemetry()
     O->SetNumberField(TEXT("species"),D->Species);O->SetNumberField(TEXT("health"),D->Health->Current);O->SetNumberField(TEXT("maxHealth"),D->Health->Maximum);
     FVector L=D->GetActorLocation();O->SetNumberField(TEXT("x"),L.X);O->SetNumberField(TEXT("y"),L.Y);O->SetNumberField(TEXT("z"),L.Z);
     O->SetNumberField(TEXT("speed"),D->GetVelocity().Size2D());O->SetNumberField(TEXT("maxSpeed"),D->GetCharacterMovement()->MaxWalkSpeed);
+    O->SetBoolField(TEXT("keyW"),IsInputKeyDown(EKeys::W));O->SetBoolField(TEXT("ignoreMove"),IsMoveInputIgnored());
+    O->SetBoolField(TEXT("swimming"),D->bSwimming);O->SetNumberField(TEXT("waterSurface"),D->WaterSurface);O->SetNumberField(TEXT("swimSpeed"),D->GetCharacterMovement()->MaxSwimSpeed);
+    O->SetNumberField(TEXT("acceleration"),D->GetCharacterMovement()->GetCurrentAcceleration().Size2D());
+    O->SetNumberField(TEXT("floorNormalZ"),D->GetCharacterMovement()->CurrentFloor.HitResult.ImpactNormal.Z);
+    O->SetStringField(TEXT("floorActor"),GetNameSafe(D->GetCharacterMovement()->CurrentFloor.HitResult.GetActor()));
     O->SetNumberField(TEXT("yaw"),D->GetActorRotation().Yaw);O->SetNumberField(TEXT("cameraYaw"),GetControlRotation().Yaw);O->SetNumberField(TEXT("cameraPitch"),GetControlRotation().Pitch);
     O->SetBoolField(TEXT("brace"),D->Combat->bBracing);O->SetBoolField(TEXT("charging"),D->Combat->bCharging);O->SetBoolField(TEXT("dead"),D->bDead);
     O->SetBoolField(TEXT("falling"),D->GetCharacterMovement()->IsFalling());O->SetNumberField(TEXT("charge"),D->Combat->ChargeFraction());
@@ -225,8 +265,16 @@ void ADinoPlayerController::WriteTelemetry()
     O->SetNumberField(TEXT("damageDealt"),D->Combat->LastDealtDamage);
     O->SetNumberField(TEXT("targetHealth"),IsValid(TestTarget)?TestTarget->Health->Current:-1);
     O->SetNumberField(TEXT("meanFPS"),FrameSum>0?FrameCount/FrameSum:0);
+    O->SetNumberField(TEXT("frameCount"),FrameCount);O->SetNumberField(TEXT("frameSeconds"),FrameSum);
     int32 Major=0;for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->bMajor)Major++;
-    O->SetNumberField(TEXT("majorCount"),Major);
+    O->SetNumberField(TEXT("majorCount"),Major);O->SetNumberField(TEXT("respawnDelay"),D->RespawnDelay);
+    if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())
+    {
+        auto Score=GM->GetScore(D->CombatantID);O->SetNumberField(TEXT("kills"),Score.Kills);O->SetNumberField(TEXT("deaths"),Score.Deaths);O->SetNumberField(TEXT("assists"),Score.Assists);
+        O->SetBoolField(TEXT("teamMode"),GM->bTeamMatch);O->SetBoolField(TEXT("roundOver"),GM->bRoundOver);O->SetNumberField(TEXT("winner"),GM->WinnerID);O->SetNumberField(TEXT("winnerTeam"),GM->WinnerTeam);
+        O->SetNumberField(TEXT("team0Kills"),GM->TeamKills[0]);O->SetNumberField(TEXT("team1Kills"),GM->TeamKills[1]);O->SetNumberField(TEXT("goal"),GM->bTeamMatch?GM->TeamKillGoal:GM->SoloKillGoal);
+        TArray<TSharedPtr<FJsonValue>> Board;for(auto Pair:GM->Scores){auto Row=MakeShared<FJsonObject>();Row->SetNumberField(TEXT("id"),Pair.Key);Row->SetNumberField(TEXT("kills"),Pair.Value.Kills);Row->SetNumberField(TEXT("deaths"),Pair.Value.Deaths);Row->SetNumberField(TEXT("assists"),Pair.Value.Assists);Board.Add(MakeShared<FJsonValueObject>(Row));}O->SetArrayField(TEXT("scoreboard"),Board);
+    }
     for(TActorIterator<ADinoEffects> It(GetWorld());It;++It){O->SetNumberField(TEXT("bloodParticles"),It->ActiveCount());O->SetNumberField(TEXT("bloodEmitted"),It->TotalEmitted);}
     O->SetBoolField(TEXT("settingsOpen"),bSettingsOpen);O->SetBoolField(TEXT("bloodEnabled"),bBloodEnabled);O->SetBoolField(TEXT("inWater"),D->bInWater);O->SetBoolField(TEXT("menuOpen"),bSelectionOpen);O->SetBoolField(TEXT("mapOpen"),bMapOpen);O->SetNumberField(TEXT("sensitivity"),D->MouseSensitivity);O->SetStringField(TEXT("animation"),D->Animation->State);O->SetBoolField(TEXT("eating"),D->Food->bEating);O->SetNumberField(TEXT("foodConsumed"),D->Food->FoodConsumed);
     O->SetStringField(TEXT("region"),ALostValleyWorld::RegionName(L));
@@ -234,9 +282,10 @@ void ADinoPlayerController::WriteTelemetry()
     for(TActorIterator<ADinosaurAIController> It(GetWorld());It;++It)
     {
         auto* Other=Cast<ADinosaurCharacter>(It->GetPawn());if(!Other)continue;
-        auto Row=MakeShared<FJsonObject>();Row->SetNumberField(TEXT("id"),Other->CombatantID);Row->SetNumberField(TEXT("species"),Other->Species);Row->SetBoolField(TEXT("major"),Other->bMajor);
+        auto Row=MakeShared<FJsonObject>();Row->SetNumberField(TEXT("team"),Other->TeamID);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())Row->SetBoolField(TEXT("scoringTarget"),GM->IsScoringTarget(Other));Row->SetNumberField(TEXT("id"),Other->CombatantID);Row->SetNumberField(TEXT("species"),Other->Species);Row->SetBoolField(TEXT("major"),Other->bMajor);
+        Row->SetStringField(TEXT("decision"),It->Decision);Row->SetNumberField(TEXT("fightConfidence"),It->FightConfidence);Row->SetNumberField(TEXT("escapeConfidence"),It->EscapeConfidence);Row->SetNumberField(TEXT("guards"),It->GuardsUsed);Row->SetNumberField(TEXT("retreats"),It->RetreatDecisions);Row->SetNumberField(TEXT("retaliations"),It->Retaliations);
         FVector P=Other->GetActorLocation();Row->SetNumberField(TEXT("x"),P.X);Row->SetNumberField(TEXT("y"),P.Y);Row->SetNumberField(TEXT("z"),P.Z);Row->SetNumberField(TEXT("ground"),ALostValleyWorld::HeightAt(P.X,P.Y));
-        Row->SetStringField(TEXT("state"),It->State);Row->SetStringField(TEXT("animation"),Other->Animation->State);Row->SetBoolField(TEXT("dead"),Other->bDead);
+        Row->SetStringField(TEXT("state"),It->State);Row->SetStringField(TEXT("animation"),Other->Animation->State);Row->SetBoolField(TEXT("dead"),Other->bDead);Row->SetBoolField(TEXT("swimming"),Other->bSwimming);
         Row->SetNumberField(TEXT("health"),Other->Health->Current);Row->SetNumberField(TEXT("maxHealth"),Other->Health->Maximum);
         Row->SetNumberField(TEXT("speed"),Other->GetVelocity().Size2D());Row->SetNumberField(TEXT("yaw"),Other->GetActorRotation().Yaw);
         Row->SetNumberField(TEXT("hits"),Other->Combat->TotalHits);Row->SetNumberField(TEXT("attacks"),It->AttacksMade);Row->SetNumberField(TEXT("stuckRecoveries"),It->StuckRecoveries);

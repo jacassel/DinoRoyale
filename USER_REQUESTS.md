@@ -18,3 +18,11 @@ These extend the original specification; they do not replace its controls, AI, e
 11. Major dinosaur respawn delay: 10 seconds.
 
 Confirmed: raptors stay allied as a pack in both solo and team modes. Only killing the pack leader awards a kill toward the match objective. Pack followers still fight, die and respawn. Pending follow-up: whether follower finishing blows credit their pack leader (recommended interpretation: the pack is one competitor).
+
+## Water and animation feedback
+
+12. Fix the T-Rex lower jaw clipping into its head during charged attacks (user observed in game).
+13. Add a clearly visible swimming animation.
+14. Add more water, such as a pond or second river. Implementation choice: Mirror Pond with shallow shores and a deep swimming area.
+
+15. Improve AI combat quality: retaliate when attacked, pursue likely kills, use defensive brace, estimate favorable fights and choose escape when it improves survival. Validate decisions with behavior tests and actual matches.

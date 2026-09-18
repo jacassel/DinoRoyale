@@ -25,6 +25,8 @@ public:
     UPROPERTY(VisibleAnywhere) UHierarchicalInstancedStaticMeshComponent* Grass;
     static float HeightAt(float X,float Y);
     static float CreekY(float X);
+    static float PondRadius(float X,float Y);
+    static bool WaterAt(float X,float Y,float& Surface);
     static FString RegionName(const FVector& P);
     static TArray<FVector> Landmarks();
     FVector GroundPoint(float X,float Y,float Clearance=0) const;

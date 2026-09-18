@@ -57,21 +57,24 @@ def imp(file,name,skeleton=None,anim=False):
     opt.anim_sequence_import_data.set_editor_property('use_default_sample_rate',True)
     task.options=opt;TOOLS.import_asset_tasks([task]);return task.imported_object_paths
 
-for kind in ['Trex','Raptor','Trike','Prey']:
-    folder=ROOT/'Assets/Export/Dinosaurs'
+def import_species(kind,folder,skin_material=None):
     paths=imp(folder/(kind+'.fbx'),kind)
     mesh=unreal.load_asset('/Game/Dinosaurs/'+kind+'/'+kind)
     if not isinstance(mesh,unreal.SkeletalMesh):raise RuntimeError('No skeletal mesh: '+str(paths))
     mats=list(mesh.get_editor_property('materials'))
     for slot in mats:
         n=str(slot.get_editor_property('imported_material_slot_name'))
-        if n in MATS:slot.set_editor_property('material_interface',MATS[n])
+        if n in MATS:slot.set_editor_property('material_interface',skin_material if n=='Dino_Skin' and skin_material else MATS[n])
     mesh.set_editor_property('materials',mats)
     LIB.save_loaded_asset(mesh)
     skeleton=mesh.get_editor_property('skeleton')
-    for clip in ['Idle','Walk','Run','Quick','Charge','Heavy','Jump','Brace','Death','Eat']:
+    for clip in ['Idle','Walk','Run','Swim','Quick','Charge','Heavy','Jump','Brace','Death','Eat']:
         paths=imp(folder/(kind+'_'+clip+'.fbx'),kind+'_'+clip,skeleton,True)
         unreal.log('DINO_CLIP '+str(paths))
     unreal.log('DINO_MESH '+str(mesh.get_bounds()))
-unreal.EditorLoadingAndSavingUtils.save_dirty_packages(True,True)
-unreal.log('DINOSAUR_IMPORT_SUCCESS')
+    return mesh
+
+if __name__=='__main__':
+    for kind in ['Trex','Raptor','Trike','Prey']:import_species(kind,ROOT/'Assets/Export/Dinosaurs')
+    unreal.EditorLoadingAndSavingUtils.save_dirty_packages(True,True)
+    unreal.log('DINOSAUR_IMPORT_SUCCESS')

@@ -1,9 +1,11 @@
 #include "DinosaurCharacter.h"
+#include "DinoMovementComponent.h"
 #include "HealthComponent.h"
 #include "CombatComponent.h"
 #include "DinoAnimationComponent.h"
 #include "FoodSystem.h"
 #include "DinosaurAIController.h"
+#include "DinoGameMode.h"
 #include "LostValleyWorld.h"
 #include "Misc/ConfigCacheIni.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -16,7 +18,8 @@
 #include "UObject/ConstructorHelpers.h"
 #include "EngineUtils.h"
 
-ADinosaurCharacter::ADinosaurCharacter()
+ADinosaurCharacter::ADinosaurCharacter(const FObjectInitializer& ObjectInitializer)
+    :Super(ObjectInitializer.SetDefaultSubobjectClass<UDinoMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
     PrimaryActorTick.bCanEverTick=true;
     Health=CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
@@ -66,8 +69,13 @@ void ADinosaurCharacter::Tick(float Dt)
     if(bDead){DeathTime+=Dt;if(RespawnDelay>0&&DeathTime>(bMajor?RespawnDelay:45))ResetLife();return;}
     auto* M=GetCharacterMovement();
     FVector Feet=GetActorLocation()-FVector(0,0,Stats().HalfHeight);
-    float Creek=ALostValleyWorld::CreekY(Feet.X);
-    bInWater=FMath::Abs(Feet.Y-Creek)<360&&Feet.Z<ALostValleyWorld::HeightAt(Feet.X,Creek)+95&&!M->IsFalling();
+    const bool OverWater=ALostValleyWorld::WaterAt(Feet.X,Feet.Y,WaterSurface);
+    const float Depth=OverWater?WaterSurface-ALostValleyWorld::HeightAt(Feet.X,Feet.Y):0;
+    bInWater=OverWater&&Feet.Z<WaterSurface+15;
+    const bool ShouldSwim=bInWater&&Depth>Stats().HalfHeight*(bSwimming?1.10f:1.30f)&&GetActorLocation().Z<WaterSurface+Stats().HalfHeight*.50f&&M->Velocity.Z<100;
+    if(ShouldSwim&&!bSwimming){bSwimming=true;M->SetMovementMode(MOVE_Custom);}
+    else if(bSwimming&&(!OverWater||Depth<Stats().HalfHeight*1.10f)){bSwimming=false;M->SetMovementMode(MOVE_Falling);}
+    M->MaxSwimSpeed=Stats().Speed*SwimSpeedMultiplier*Health->MovementFactor()*(Combat->bCharging?.7f:1.f);
     M->MaxWalkSpeed=Stats().Speed*Health->MovementFactor()*(Combat->bCharging?.7f:1.f)*(bInWater?WaterSpeedMultiplier:1.f);
     if(Combat->bBracing){M->StopMovementImmediately(); ConsumeMovementInputVector();}
     if(Combat->bCharging&&Health->Fraction()<.25f) Combat->Cancel();
@@ -89,7 +97,7 @@ void ADinosaurCharacter::MoveForward(float V){if(!FMath::IsNearlyZero(V))Food->S
 void ADinosaurCharacter::MoveRight(float V){if(!FMath::IsNearlyZero(V))Food->StopEating();if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::Y),V);}
 void ADinosaurCharacter::Turn(float V){AddControllerYawInput(V*MouseSensitivity);}
 void ADinosaurCharacter::Look(float V){AddControllerPitchInput(V*MouseSensitivity);}
-void ADinosaurCharacter::BeginJump(){if(!bDead&&!Combat->bBracing&&!Combat->IsBusy()){Food->StopEating();Jump();}}
+void ADinosaurCharacter::BeginJump(){if(!bDead&&!Combat->bBracing&&!Combat->IsBusy()){Food->StopEating();if(bSwimming){bSwimming=false;GetCharacterMovement()->SetMovementMode(MOVE_Falling);LaunchCharacter(FVector(0,0,Stats().JumpVelocity*.8f),false,true);}else Jump();}}
 void ADinosaurCharacter::BraceOn(){Food->StopEating();Combat->SetBrace(true);}
 void ADinosaurCharacter::BraceOff(){Combat->SetBrace(false);}
 void ADinosaurCharacter::Quick(){Food->StopEating();Combat->QuickAttack();}
@@ -100,8 +108,8 @@ void ADinosaurCharacter::StopEating(){Food->StopEating();}
 bool ADinosaurCharacter::IsEnemy(const ADinosaurCharacter* O) const
 {
     if(!O||O==this||O->bDead) return false;
-    if(Species==1&&O->Species==1) return false;
-    if(Species==2&&O->Species==2) return false;
+    if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())return GM->AreEnemies(this,O);
+    if(Species==1&&O->Species==1)return false;
     return true;
 }
 void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
@@ -114,18 +122,19 @@ void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
         FVector Dir=(Attacker->GetActorLocation()-GetActorLocation()).GetSafeNormal2D();
         if(FVector::DotProduct(GetActorForwardVector(),Dir)>.25f) Damage*=Stats().BraceMultiplier;
     }
-    Health->Receive(Damage); if(Health->IsDead()) Die();
+    float Applied=Health->Receive(Damage);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDamage(this,Attacker,Applied);if(Health->IsDead())Die();
 }
-void ADinosaurCharacter::Die(){bDead=true;DeathTime=0;Combat->Cancel();Food->StopEating();GetCharacterMovement()->StopMovementImmediately();GetCharacterMovement()->DisableMovement();GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);Placeholder->SetRelativeRotation(FRotator(0,0,75));}
+void ADinosaurCharacter::Die(){if(bDead)return;if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDeath(this);bDead=true;DeathTime=0;Combat->Cancel();Food->StopEating();GetCharacterMovement()->StopMovementImmediately();GetCharacterMovement()->DisableMovement();GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);Placeholder->SetRelativeRotation(FRotator(0,0,75));}
 void ADinosaurCharacter::ResetLife()
 {
-    bool WasDead=bDead;bDead=false;DeathTime=0;Nutrition=1;LastAttacker=nullptr;Food->StopEating();
+    bool WasDead=bDead;bDead=false;bSwimming=false;bInWater=false;DeathTime=0;Nutrition=1;LastAttacker=nullptr;DamageContributors.Empty();Food->StopEating();
     Health->Reset(Stats().MaxHealth,Stats().RegenDelay,Stats().RegenRate);Combat->Cancel();
+    GConfig->GetFloat(TEXT("Dino.Session"),TEXT("SwimSpeedMultiplier"),SwimSpeedMultiplier,GGameIni);
     GetCharacterMovement()->SetMovementMode(MOVE_Walking);Placeholder->SetRelativeRotation(FRotator::ZeroRotator);
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     if(WasDead)
     {
-        const FVector Home=IsPlayerControlled()?FVector::ZeroVector:HomePosition;
+        const FVector Home=HomePosition;
         ALostValleyWorld* Valley=nullptr;for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
         FVector P=Home;
         for(int32 Attempt=0;Attempt<33;++Attempt)

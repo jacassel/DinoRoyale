@@ -3,6 +3,7 @@
 #include "GameFramework/HUD.h"
 #include "DinoHUD.generated.h"
 class UTexture2D;
+class UFont;
 class ADinosaurCharacter;
 class ADinoPlayerController;
 UCLASS()
@@ -13,6 +14,8 @@ public:
     virtual void DrawHUD() override;
 private:
     UPROPERTY() UTexture2D* WorldMap=nullptr;
+    UPROPERTY() UFont* DisplayFont=nullptr;
+    UPROPERTY() TArray<UTexture2D*> Portraits;
     bool bMapLoaded=false;
     float Scale=1;
     void Text(const FString& Message,float X,float Y,float Size=1,FLinearColor Color=FLinearColor::White);
