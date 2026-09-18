@@ -1,6 +1,7 @@
 #include "FoodSystem.h"
 #include "DinosaurCharacter.h"
 #include "HealthComponent.h"
+#include "StaminaComponent.h"
 #include "CombatComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -51,6 +52,7 @@ AActor* UFoodInteractionComponent::FindFood(float Range) const
 bool UFoodInteractionComponent::StartEating()
 {
     auto* D=Cast<ADinosaurCharacter>(GetOwner());if(!D||D->bDead||D->Combat->bBracing||D->Combat->IsBusy()||D->Combat->bCharging||D->GetCharacterMovement()->IsFalling())return false;
+    if(GetWorld()->GetTimeSeconds()-D->Health->LastDamageTime<D->Stats().EatSafeDelay)return false;
     Source=FindFood(D->Stats().AttackRange+260);bEating=Source.IsValid();return bEating;
 }
 void UFoodInteractionComponent::StopEating(){bEating=false;Source=nullptr;}
@@ -63,6 +65,6 @@ void UFoodInteractionComponent::TickComponent(float Dt,ELevelTick Type,FActorCom
     if(auto* Plant=Cast<AFoodPlant>(A)){Available=Plant->IsAvailable();if(Available)Plant->Consume(Dt*.14f);}
     if(auto* Corpse=Cast<ADinosaurCharacter>(A)){Available=Corpse->bDead&&Corpse->Nutrition>0;if(Available)Corpse->Nutrition=FMath::Max(0.f,Corpse->Nutrition-Dt*.16f);}
     if(!Available){StopEating();return;}
-    D->GetCharacterMovement()->StopMovementImmediately();D->Health->Heal(D->Health->Maximum*EatRate*Dt);FoodConsumed+=Dt;
-    if(D->Health->Fraction()>=1)StopEating();
+    D->GetCharacterMovement()->StopMovementImmediately();D->Health->Heal(D->Health->Maximum*EatRate*Dt);D->Stamina->Restore(D->Stats().EatStaminaRate*Dt);FoodConsumed+=Dt;
+    if(D->Health->Fraction()>=1&&D->Stamina->Fraction()>=1)StopEating();
 }

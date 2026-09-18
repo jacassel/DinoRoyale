@@ -1,13 +1,14 @@
 #include "DinoTactics.h"
 #include "DinosaurCharacter.h"
 #include "HealthComponent.h"
+#include "StaminaComponent.h"
 #include "CombatComponent.h"
 #include "EngineUtils.h"
 
 FDinoTacticalAssessment AssessDinosaurFight(const ADinosaurCharacter* Self,const ADinosaurCharacter* Enemy)
 {
     FDinoTacticalAssessment A;if(!Self||!Enemy)return A;
-    auto DPS=[](const ADinosaurCharacter* D){return D->Stats().Damage/FMath::Max(.2f,D->Stats().Recovery)*D->Health->AttackSpeedFactor();};
+    auto DPS=[](const ADinosaurCharacter* D){return D->Stats().Damage/FMath::Max(.2f,D->Stats().Recovery+D->Stats().ComboRecovery/3)*D->Health->AttackSpeedFactor()*(.55f+.45f*D->Stamina->Fraction());};
     float MyDPS=DPS(Self),TheirDPS=DPS(Enemy);
     const float MySpeed=Self->Stats().Speed*Self->Health->MovementFactor(),TheirSpeed=Enemy->Stats().Speed*Enemy->Health->MovementFactor();
     const float Distance=FVector::Dist2D(Self->GetActorLocation(),Enemy->GetActorLocation());

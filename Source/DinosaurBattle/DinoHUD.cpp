@@ -4,6 +4,7 @@
 #include "DinoGameMode.h"
 #include "LostValleyWorld.h"
 #include "HealthComponent.h"
+#include "StaminaComponent.h"
 #include "CombatComponent.h"
 #include "FoodSystem.h"
 #include "Engine/Canvas.h"
@@ -37,24 +38,28 @@ void ADinoHUD::DrawHUD()
         FString Goal=GM->bTeamMatch?FString::Printf(TEXT("5v5   YOUR TEAM %d - %d RIVALS   /   GOAL %d"),GM->TeamKills[0],GM->TeamKills[1],GM->TeamKillGoal):FString::Printf(TEXT("FREE-FOR-ALL   %d / %d KILLS"),Score.Kills,GM->SoloKillGoal);
         Text(Goal,W*.5f-160*S,79*S,.73f,Teal);
     }
-    Panel(24*S,24*S,386*S,135*S);
+    Panel(24*S,24*S,386*S,187*S);
     Text(TEXT("DINOSAUR BATTLE  /  0.1"),42*S,37*S,.95f,Gold);
     Text(D->Stats().Name,42*S,64*S,1.32f);
     FLinearColor HealthColor=D->Health->Fraction()<.25f?Red:D->Health->Fraction()<.5f?Gold:Teal;
     Bar(42*S,99*S,350*S,12*S,D->Health->Fraction(),HealthColor);
     FString Status=D->bDead?FString::Printf(TEXT("RESPAWN IN %.0f"),FMath::Max(0.f,D->RespawnDelay-D->DeathTime)):D->Combat->bBracing?TEXT("BRACED - FRONT PROTECTED"):D->Food->bEating?TEXT("FEEDING"):D->Health->Fraction()<.25f?TEXT("CRITICAL - NO CHARGE"):D->Health->Fraction()<.5f?TEXT("INJURED - SLOWED"):TEXT("HEALTHY");
     Text(FString::Printf(TEXT("%.0f / %.0f   %s"),D->Health->Current,D->Health->Maximum,*Status),42*S,124*S,.82f,HealthColor);
+    const auto StaminaColor=D->Stamina->bExhausted?Red:D->Stamina->Fraction()<.3f?Gold:Teal;
+    Bar(42*S,152*S,350*S,9*S,D->Stamina->Fraction(),StaminaColor);
+    Text(FString::Printf(TEXT("STAMINA %.0f / %.0f   %s"),D->Stamina->Current,D->Stamina->Maximum,D->Stamina->bExhausted?TEXT("EXHAUSTED"):D->bSprinting?TEXT("SPRINTING"):TEXT("SHIFT TO SPRINT")),42*S,169*S,.73f,StaminaColor);
+    Text(FString::Printf(TEXT("COMBO %d / 3%s"),D->Combat->ComboCount,D->Combat->ComboCount==3&&D->Combat->IsBusy()?TEXT(" - RECOVERING"):TEXT("")),42*S,190*S,.68f,Muted);
     Text(ALostValleyWorld::RegionName(D->GetActorLocation()),W*.5f-150*S,30*S,.98f,Gold);
     Text(D->bSwimming?TEXT("SWIMMING - SPACE TO SURGE"):D->bInWater?TEXT("WADING - MOVEMENT SLOWED"):TEXT("LOST VALLEY"),W*.5f-80*S,51*S,.70f,D->bInWater?Teal:Muted);
     if(D->Species==1)
     {
         int32 Alive=0,Close=0;
         for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(*It!=D&&It->Species==1&&!It->bDead&&!D->IsEnemy(*It)){++Alive;if(FVector::Dist2D(D->GetActorLocation(),It->GetActorLocation())<5000)++Close;}
-        Text(FString::Printf(TEXT("PACK LEADER   %d nearby / %d alive"),Close,Alive),42*S,174*S,.9f,Teal);
+        Text(FString::Printf(TEXT("PACK LEADER   %d nearby / %d alive"),Close,Alive),42*S,223*S,.9f,Teal);
     }
     float Since=GetWorld()->GetTimeSeconds()-D->Health->LastDamageTime;
     if(!D->bDead&&D->Health->Fraction()<1&&!D->Food->bEating)
-        Text(Since<D->Stats().RegenDelay?FString::Printf(TEXT("Regeneration in %.1fs"),D->Stats().RegenDelay-Since):TEXT("Regenerating +2% / sec"),42*S,199*S,.8f,Muted);
+        Text(Since<D->Stats().RegenDelay?FString::Printf(TEXT("Regeneration in %.1fs"),D->Stats().RegenDelay-Since):TEXT("Regenerating +2% / sec"),42*S,248*S,.8f,Muted);
     if(D->Health->HitFlash>0)
     {
         FLinearColor Flash(.75f,.12f,.08f,D->Health->HitFlash*.8f);
@@ -85,7 +90,7 @@ void ADinoHUD::DrawHUD()
     if(PC->bShowHelp)
     {
         Panel(24*S,H-99*S,W-48*S,75*S,.82f);
-        Text(TEXT("WASD  Move     MOUSE  Look     SPACE  Jump     HOLD Q  Brace"),42*S,H-84*S,.94f);
+        Text(TEXT("WASD Move   SHIFT Sprint   MOUSE Look   SPACE Jump   HOLD Q Brace"),42*S,H-84*S,.94f);
         Text(TEXT("LMB  Quick attack     HOLD / RELEASE RMB  Heavy attack     HOLD E  Eat"),42*S,H-60*S,.88f,Muted);
         Text(TEXT("1 / 2 / 3  Species     M  Map     H  Help     ESC  Pause"),42*S,H-38*S,.78f,Gold);
     }

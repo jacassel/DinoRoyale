@@ -6,7 +6,7 @@
   {
     "test": "Trex W movement",
     "passed": true,
-    "displacement": 698.5
+    "displacement": 621.1
   },
   {
     "test": "Trex S movement",
@@ -16,12 +16,12 @@
   {
     "test": "Trex D movement",
     "passed": true,
-    "displacement": 656.1
+    "displacement": 638.6
   },
   {
     "test": "Trex A movement",
     "passed": true,
-    "displacement": -656.1
+    "displacement": -691.1
   },
   {
     "test": "Trex camera yaw",
@@ -36,7 +36,7 @@
   {
     "test": "Trex jump",
     "passed": true,
-    "rise": 94.7
+    "rise": 99.4
   },
   {
     "test": "Trex brace blocks movement",
@@ -54,7 +54,7 @@
   {
     "test": "Trex quick hit",
     "passed": true,
-    "damage": 180
+    "damage": 170
   },
   {
     "test": "Trex no duplicate hits",
@@ -67,8 +67,8 @@
   {
     "test": "Trex charged hit stronger",
     "passed": true,
-    "quick": 180,
-    "charged": 468
+    "quick": 170,
+    "charged": 561
   },
   {
     "test": "Trex combat state recovers",
@@ -86,7 +86,7 @@
   {
     "test": "Trex injured attack slowdown",
     "passed": true,
-    "ratio": 1.111111120850432
+    "ratio": 1.111111179622199
   },
   {
     "test": "Trex critical movement",
@@ -100,7 +100,7 @@
   {
     "test": "Trex critical attack slowdown",
     "passed": true,
-    "ratio": 1.3333333625512962
+    "ratio": 1.3333333333333333
   },
   {
     "test": "Trex regen waits",
@@ -110,7 +110,7 @@
   {
     "test": "Trex passive regen",
     "passed": true,
-    "delta": 75.90249633789062
+    "delta": 76.63458251953125
   },
   {
     "test": "Trex recovered speed",
@@ -143,22 +143,22 @@
   {
     "test": "Raptor W movement",
     "passed": true,
-    "displacement": 683.2
+    "displacement": 739.7
   },
   {
     "test": "Raptor S movement",
     "passed": true,
-    "displacement": -1129.4
+    "displacement": -1102.8
   },
   {
     "test": "Raptor D movement",
     "passed": true,
-    "displacement": 1209.4
+    "displacement": 1129.9
   },
   {
     "test": "Raptor A movement",
     "passed": true,
-    "displacement": -1129.9
+    "displacement": -1129.4
   },
   {
     "test": "Raptor camera yaw",
@@ -173,7 +173,7 @@
   {
     "test": "Raptor jump",
     "passed": true,
-    "rise": 94.2
+    "rise": 123.3
   },
   {
     "test": "Raptor brace blocks movement",
@@ -191,7 +191,7 @@
   {
     "test": "Raptor quick hit",
     "passed": true,
-    "damage": 100
+    "damage": 82
   },
   {
     "test": "Raptor no duplicate hits",
@@ -204,8 +204,8 @@
   {
     "test": "Raptor charged hit stronger",
     "passed": true,
-    "quick": 100,
-    "charged": 280
+    "quick": 82,
+    "charged": 237.7998046875
   },
   {
     "test": "Raptor combat state recovers",
@@ -223,7 +223,7 @@
   {
     "test": "Raptor injured attack slowdown",
     "passed": true,
-    "ratio": 1.1111111773384932
+    "ratio": 1.1111111324747829
   },
   {
     "test": "Raptor critical movement",
@@ -237,7 +237,7 @@
   {
     "test": "Raptor critical attack slowdown",
     "passed": true,
-    "ratio": 1.3333333830038698
+    "ratio": 1.3333333012878257
   },
   {
     "test": "Raptor regen waits",
@@ -247,7 +247,7 @@
   {
     "test": "Raptor passive regen",
     "passed": true,
-    "delta": 36.92082977294922
+    "delta": 35.53356170654297
   },
   {
     "test": "Raptor recovered speed",
@@ -280,22 +280,22 @@
   {
     "test": "Trike W movement",
     "passed": true,
-    "displacement": 280.0
+    "displacement": 427.4
   },
   {
     "test": "Trike S movement",
     "passed": true,
-    "displacement": -494.8
+    "displacement": -537.3
   },
   {
     "test": "Trike D movement",
     "passed": true,
-    "displacement": 536.9
+    "displacement": 551.5
   },
   {
     "test": "Trike A movement",
     "passed": true,
-    "displacement": -509.0
+    "displacement": -551.5
   },
   {
     "test": "Trike camera yaw",
@@ -310,7 +310,7 @@
   {
     "test": "Trike jump",
     "passed": true,
-    "rise": 65.5
+    "rise": 75.6
   },
   {
     "test": "Trike brace blocks movement",
@@ -328,7 +328,7 @@
   {
     "test": "Trike quick hit",
     "passed": true,
-    "damage": 145
+    "damage": 135
   },
   {
     "test": "Trike no duplicate hits",
@@ -341,8 +341,8 @@
   {
     "test": "Trike charged hit stronger",
     "passed": true,
-    "quick": 145,
-    "charged": 398.75
+    "quick": 135,
+    "charged": 445.5
   },
   {
     "test": "Trike combat state recovers",
@@ -360,7 +360,7 @@
   {
     "test": "Trike injured attack slowdown",
     "passed": true,
-    "ratio": 1.1111111813522723
+    "ratio": 1.1111111610940445
   },
   {
     "test": "Trike critical movement",
@@ -374,7 +374,7 @@
   {
     "test": "Trike critical attack slowdown",
     "passed": true,
-    "ratio": 1.3333333634366882
+    "ratio": 1.3333333708205333
   },
   {
     "test": "Trike regen waits",
@@ -384,7 +384,7 @@
   {
     "test": "Trike passive regen",
     "passed": true,
-    "delta": 132.37359619140625
+    "delta": 114.403564453125
   },
   {
     "test": "Trike recovered speed",

@@ -29,7 +29,7 @@
   {
     "test": "Trex food healing",
     "passed": true,
-    "healed": 222.20379638671875
+    "healed": 222.20367431640625
   },
   {
     "test": "Trex release stops eating",
@@ -85,7 +85,7 @@
   {
     "test": "Raptor food healing",
     "passed": true,
-    "healed": 107.12139892578125
+    "healed": 105.0416259765625
   },
   {
     "test": "Raptor release stops eating",
@@ -141,7 +141,7 @@
   {
     "test": "Trike food healing",
     "passed": true,
-    "healed": 383.8048095703125
+    "healed": 333.30657958984375
   },
   {
     "test": "Trike release stops eating",

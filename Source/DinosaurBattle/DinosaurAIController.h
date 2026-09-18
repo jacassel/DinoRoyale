@@ -18,6 +18,8 @@ public:
     void ClearTravelGoal();
     void ResetTactics();
     void Alert(ADinosaurCharacter* Attacker);
+    int32 Personality=3; // 0 aggressive, 1 defensive, 2 skirmisher, 3 balanced
+    float RepositionUntil=0,NextReposition=0,Temperament=1;
     FString State=TEXT("Roaming");
     bool bPaused=false,bForcedTravel=false;
     int32 StuckRecoveries=0,FailedPaths=0,AttacksMade=0;

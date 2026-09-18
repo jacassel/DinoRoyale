@@ -22,7 +22,12 @@ public:
     float ChargeElapsed=0, RecoveryLeft=0, AttackElapsed=0, AttackDuration=.7f;
     float LastDealtDamage=0;
     int32 TotalHits=0;
-    int32 AttackSerial=0;
+    int32 AttackSerial=0,ComboCount=0;
+    float ComboResetLeft=0,BufferedQuick=0;
+    bool bWeakAttack=false;
+    float CurrentHeavyPower=0;
+    FVector CommitDirection=FVector::ForwardVector;
+    TSet<TWeakObjectPtr<ADinosaurCharacter>> HitActors;
 private:
     bool bHitPending=false;
     float PendingDamage=0,HitTime=0;

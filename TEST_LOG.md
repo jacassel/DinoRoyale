@@ -84,3 +84,15 @@ No gameplay claims have been validated yet.
 
 Checkpoint before combat polish: all four final regression scripts passed. Solo round ended at 221.53s; team round at 251.89s (2:10). Nine major AI remained active, no failed paths or below-terrain falls; team maximum stuck recoveries 3. Standalone BuildCookRun completed successfully; packaged launch still pending.
 
+
+## Combat polish pass 1 — September 18
+
+- Protected the starting build with commit 1715ab6 and tag pre-combat-polish-20260918. Prior standalone archive and original Blender assets retained.
+- Implemented the shared stamina component, species sprint tuning, three-hit quick sequences, heavy drive/knockback/miss recovery, safe feeding delay, and four AI personalities.
+- First live resource/combo run: 66/69. Three assertions used fixed timing inappropriate to fast raptor recovery or allowed regeneration before starting the low-stamina brace. Adjusted assertions to game time and actual remaining recovery, and set low stamina after bracing. Retest: 69/69.
+- Reviewed exhaustion under repeated weak attacks and removed additional stamina spending while exhausted so attacks cannot continually postpone regeneration.
+- Twelve live player-input encounters covered all three player species against all four AI profiles. All resource bounds held; no path failures or stuck recoveries. Profiles used guards, sprinting, charging, retreats and repositioning. Isolated raptors sometimes sensibly disengaged/hunted prey instead of accepting a much larger opponent; these cases do not prove a direct duel.
+- Regression after the initial gameplay change: 90/90 core, 41/41 integration, 28/28 settings/water/blood, 24/24 match rules. Eating regression now waits the intentional 2.5-second safe-feeding window.
+- Raptor frontal survivability was too unforgiving: raised health from 520 to 600, preserving vulnerability but allowing survival of one 561-damage full Rex bite. Follow-up tests running.
+- Found persistent material overrides during species changes. Unreal SetSkinnedAssetAndUpdate preserves overrides; clear them before loading the new species to prevent old skin/slot assignments and nested dynamic instances. Original assets untouched.
+- Read-only Blender jaw audit sampled all 86 frames of the retained Rex Charge/Heavy/Quick clips. Every frame keeps jaw opening downward relative to the skull; maximum openings at the measured tip were 22.50/61.49/43.70 cm. The earlier reversed-axis repair remains present. Multi-angle rendered verification follows.

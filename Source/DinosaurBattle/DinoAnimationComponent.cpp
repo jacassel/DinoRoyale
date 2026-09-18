@@ -18,6 +18,8 @@ void UDinoAnimationComponent::LoadSpecies()
     auto* Sk=LoadObject<USkeletalMesh>(nullptr,*(TEXT("/Game/Dinosaurs/")+Name+TEXT("/")+Name+TEXT(".")+Name));
     D->Placeholder->SetVisibility(!Sk);
     if(!Sk)return;
+    // Mesh swaps retain overrides in Unreal; discard the prior species material instances.
+    D->GetMesh()->EmptyOverrideMaterials();
     D->GetMesh()->SetSkeletalMesh(Sk);
     for(int32 I=0;I<D->GetMesh()->GetNumMaterials();++I)if(auto* MI=D->GetMesh()->CreateAndSetMaterialInstanceDynamic(I))MI->SetVectorParameterValue(TEXT("BaseTint"),D->Stats().Color);
     D->GetMesh()->SetRelativeLocation(FVector(0,0,-D->Stats().HalfHeight));

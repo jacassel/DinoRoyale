@@ -1,0 +1,23 @@
+[
+  {
+    "clip": "Trex_Charge",
+    "frames": 36,
+    "maxUpward": -22.495121002197266,
+    "maxOpening": 22.495121002197266,
+    "passed": true
+  },
+  {
+    "clip": "Trex_Heavy",
+    "frames": 30,
+    "maxUpward": 0.0,
+    "maxOpening": 61.48954772949219,
+    "passed": true
+  },
+  {
+    "clip": "Trex_Quick",
+    "frames": 20,
+    "maxUpward": 0.0,
+    "maxOpening": 43.69778823852539,
+    "passed": true
+  }
+]

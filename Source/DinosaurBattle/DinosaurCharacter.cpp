@@ -1,6 +1,7 @@
 #include "DinosaurCharacter.h"
 #include "DinoMovementComponent.h"
 #include "HealthComponent.h"
+#include "StaminaComponent.h"
 #include "CombatComponent.h"
 #include "DinoAnimationComponent.h"
 #include "FoodSystem.h"
@@ -23,6 +24,7 @@ ADinosaurCharacter::ADinosaurCharacter(const FObjectInitializer& ObjectInitializ
 {
     PrimaryActorTick.bCanEverTick=true;
     Health=CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
+    Stamina=CreateDefaultSubobject<UStaminaComponent>(TEXT("Stamina"));
     Combat=CreateDefaultSubobject<UCombatComponent>(TEXT("Combat"));
     Animation=CreateDefaultSubobject<UDinoAnimationComponent>(TEXT("Animation"));
     Food=CreateDefaultSubobject<UFoodInteractionComponent>(TEXT("Food"));
@@ -58,7 +60,7 @@ void ADinosaurCharacter::ApplySpecies(int32 ID)
     GetCharacterMovement()->RotationRate=FRotator(0,D.TurnRate,0); GetCharacterMovement()->JumpZVelocity=D.JumpVelocity;
     CameraBoom->TargetArmLength=D.CameraDistance; CameraBoom->SocketOffset=FVector(0,0,D.CameraHeight);
     Placeholder->SetRelativeScale3D(FVector(D.AttackRange/140.f,D.Radius/55.f,D.HalfHeight/80.f));
-    Health->Reset(D.MaxHealth,D.RegenDelay,D.RegenRate); Combat->Cancel();Food->StopEating();bDead=false;Nutrition=1;
+    Health->Reset(D.MaxHealth,D.RegenDelay,D.RegenRate);Stamina->Reset();SprintOff(); Combat->Cancel();Food->StopEating();bDead=false;Nutrition=1;
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     Animation->LoadSpecies();
 }
@@ -76,7 +78,11 @@ void ADinosaurCharacter::Tick(float Dt)
     if(ShouldSwim&&!bSwimming){bSwimming=true;M->SetMovementMode(MOVE_Custom);}
     else if(bSwimming&&(!OverWater||Depth<Stats().HalfHeight*1.10f)){bSwimming=false;M->SetMovementMode(MOVE_Falling);}
     M->MaxSwimSpeed=Stats().Speed*SwimSpeedMultiplier*Health->MovementFactor()*(Combat->bCharging?.7f:1.f);
-    M->MaxWalkSpeed=Stats().Speed*Health->MovementFactor()*(Combat->bCharging?.7f:1.f)*(bInWater?WaterSpeedMultiplier:1.f);
+    bSprinting=bSprintRequested&&!Stamina->bExhausted&&Stamina->Current>0&&!bInWater&&!Combat->bBracing&&!Combat->bCharging&&!Combat->IsBusy()&&!Food->bEating&&!M->IsFalling()&&GetVelocity().Size2D()>50;
+    const float Commit=Combat->IsBusy()&&Combat->bChargedAttack?Stats().HeavyMoveFactor:1.f;
+    M->MaxWalkSpeed=Stats().Speed*Health->MovementFactor()*(Combat->bCharging?.55f:Commit)*(bSprinting?Stats().SprintMultiplier:1.f)*(bInWater?WaterSpeedMultiplier:1.f);
+    M->MaxAcceleration=Stats().Acceleration*(bSprinting?Stats().SprintAcceleration:1.f)*Commit;
+    M->RotationRate=FRotator(0,Stats().TurnRate*TurnFactor(),0);
     if(Combat->bBracing){M->StopMovementImmediately(); ConsumeMovementInputVector();}
     if(Combat->bCharging&&Health->Fraction()<.25f) Combat->Cancel();
 }
@@ -89,6 +95,7 @@ void ADinosaurCharacter::SetupPlayerInputComponent(UInputComponent* I)
     I->BindAction("Brace",IE_Pressed,this,&ADinosaurCharacter::BraceOn); I->BindAction("Brace",IE_Released,this,&ADinosaurCharacter::BraceOff);
     I->BindAction("QuickAttack",IE_Pressed,this,&ADinosaurCharacter::Quick);
     I->BindAction("Charge",IE_Pressed,this,&ADinosaurCharacter::ChargeOn); I->BindAction("Charge",IE_Released,this,&ADinosaurCharacter::ChargeOff);
+    I->BindAction("Sprint",IE_Pressed,this,&ADinosaurCharacter::SprintOn); I->BindAction("Sprint",IE_Released,this,&ADinosaurCharacter::SprintOff);
     I->BindAction("Eat",IE_Pressed,this,&ADinosaurCharacter::Eat);
     I->BindAction("Eat",IE_Released,this,&ADinosaurCharacter::StopEating);
 
@@ -97,7 +104,7 @@ void ADinosaurCharacter::MoveForward(float V){if(!FMath::IsNearlyZero(V))Food->S
 void ADinosaurCharacter::MoveRight(float V){if(!FMath::IsNearlyZero(V))Food->StopEating();if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::Y),V);}
 void ADinosaurCharacter::Turn(float V){AddControllerYawInput(V*MouseSensitivity);}
 void ADinosaurCharacter::Look(float V){AddControllerPitchInput(V*MouseSensitivity);}
-void ADinosaurCharacter::BeginJump(){if(!bDead&&!Combat->bBracing&&!Combat->IsBusy()){Food->StopEating();if(bSwimming){bSwimming=false;GetCharacterMovement()->SetMovementMode(MOVE_Falling);LaunchCharacter(FVector(0,0,Stats().JumpVelocity*.8f),false,true);}else Jump();}}
+void ADinosaurCharacter::BeginJump(){if(!bDead&&!Combat->bBracing&&!Combat->bCharging&&!Combat->IsBusy()&&(bSwimming||GetCharacterMovement()->IsMovingOnGround())&&Stamina->Spend(Stats().JumpCost)){Food->StopEating();if(bSwimming){bSwimming=false;GetCharacterMovement()->SetMovementMode(MOVE_Falling);LaunchCharacter(FVector(0,0,Stats().JumpVelocity*.8f),false,true);}else Jump();}}
 void ADinosaurCharacter::BraceOn(){Food->StopEating();Combat->SetBrace(true);}
 void ADinosaurCharacter::BraceOff(){Combat->SetBrace(false);}
 void ADinosaurCharacter::Quick(){Food->StopEating();Combat->QuickAttack();}
@@ -120,7 +127,7 @@ void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
     if(Combat->bBracing&&Attacker)
     {
         FVector Dir=(Attacker->GetActorLocation()-GetActorLocation()).GetSafeNormal2D();
-        if(FVector::DotProduct(GetActorForwardVector(),Dir)>.25f) Damage*=Stats().BraceMultiplier;
+        if(FVector::DotProduct(GetActorForwardVector(),Dir)>.25f){Stamina->Drain(Damage*Stats().BraceHitCost);Damage*=Stats().BraceMultiplier;if(Stamina->bExhausted)Combat->SetBrace(false);}
     }
     float Applied=Health->Receive(Damage);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDamage(this,Attacker,Applied);if(Health->IsDead())Die();
 }
@@ -128,7 +135,7 @@ void ADinosaurCharacter::Die(){if(bDead)return;if(auto* GM=GetWorld()->GetAuthGa
 void ADinosaurCharacter::ResetLife()
 {
     bool WasDead=bDead;bDead=false;bSwimming=false;bInWater=false;DeathTime=0;Nutrition=1;LastAttacker=nullptr;DamageContributors.Empty();Food->StopEating();
-    Health->Reset(Stats().MaxHealth,Stats().RegenDelay,Stats().RegenRate);Combat->Cancel();
+    Health->Reset(Stats().MaxHealth,Stats().RegenDelay,Stats().RegenRate);Stamina->Reset();SprintOff();Combat->Cancel();
     GConfig->GetFloat(TEXT("Dino.Session"),TEXT("SwimSpeedMultiplier"),SwimSpeedMultiplier,GGameIni);
     GetCharacterMovement()->SetMovementMode(MOVE_Walking);Placeholder->SetRelativeRotation(FRotator::ZeroRotator);
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
@@ -154,3 +161,10 @@ void ADinosaurCharacter::ResetLife()
 void ADinosaurCharacter::ChooseRex(){ApplySpecies(0);ResetLife();}
 void ADinosaurCharacter::ChooseRaptor(){ApplySpecies(1);ResetLife();}
 void ADinosaurCharacter::ChooseTrike(){ApplySpecies(2);ResetLife();}
+
+float ADinosaurCharacter::TurnFactor() const
+{
+    if(Combat->IsBusy()&&Combat->bChargedAttack)return Stats().HeavyTurnFactor;
+    if(Combat->bCharging)return .5f;
+    return bSprinting?Stats().SprintTurnFactor:1.f;
+}

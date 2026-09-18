@@ -1,8 +1,11 @@
 #include "DinoPlayerController.h"
 #include "DinosaurCharacter.h"
 #include "HealthComponent.h"
+#include "StaminaComponent.h"
 #include "CombatComponent.h"
 #include "DinoAnimationComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Materials/Material.h"
 #include "DinosaurAIController.h"
 #include "LostValleyWorld.h"
 #include "FoodSystem.h"
@@ -74,7 +77,7 @@ void ADinoPlayerController::SetMenuOpen(bool Open)
     bSelectionOpen=Open;bMapOpen=false;if(!Open)bSettingsOpen=false;
     if(Open)
     {
-        if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->Combat->Cancel();D->Food->StopEating();D->GetCharacterMovement()->StopMovementImmediately();}
+        if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->Combat->bCharging=false;D->Combat->bBracing=false;D->Combat->BufferedQuick=0;D->SprintOff();D->Food->StopEating();D->GetCharacterMovement()->StopMovementImmediately();}
         FlushPressedKeys();SetPause(true);SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock).SetHideCursorDuringCapture(false));bShowMouseCursor=true;
     }
     else{SetPause(false);SetInputMode(FInputModeGameOnly());bShowMouseCursor=false;FlushPressedKeys();}
@@ -134,6 +137,7 @@ void ADinoPlayerController::ReadBridge()
     }
     else if(Cmd==TEXT("species")){DinoSpecies(O->GetIntegerField(TEXT("value")));DinoTeleport(0,0);}
     else if(Cmd==TEXT("damage"))DinoDamage(O->GetNumberField(TEXT("value")));
+    else if(Cmd==TEXT("stamina")){D->Stamina->Current=FMath::Clamp(float(O->GetNumberField(TEXT("value"))),0.f,D->Stamina->Maximum);D->Stamina->bExhausted=D->Stamina->Current<=0;D->Stamina->ExhaustionLeft=D->Stamina->bExhausted?D->Stats().ExhaustionDuration:0;}
     else if(Cmd==TEXT("heal"))DinoHeal();
     else if(Cmd==TEXT("respawn"))D->ResetLife();
     else if(Cmd==TEXT("teleport"))DinoTeleport(O->GetNumberField(TEXT("x")),O->GetNumberField(TEXT("y")));
@@ -237,7 +241,7 @@ void ADinoPlayerController::ReadBridge()
             Other->ApplySpecies(O->GetIntegerField(TEXT("species")));Other->ResetLife();
             float X=O->GetNumberField(TEXT("x")),Y=O->GetNumberField(TEXT("y"));Other->SetActorLocation(FVector(X,Y,ALostValleyWorld::HeightAt(X,Y)+Other->Stats().HalfHeight+12));Other->SetActorRotation(FRotator(0,O->GetNumberField(TEXT("yaw")),0));Other->GetCharacterMovement()->StopMovementImmediately();
             Other->Health->Current=Other->Health->Maximum*O->GetNumberField(TEXT("health"));Other->Health->LastDamageTime=GetWorld()->GetTimeSeconds();
-            if(auto* AI=Cast<ADinosaurAIController>(Other->GetController())){AI->ClearTravelGoal();AI->ResetTactics();AI->bPaused=!O->GetBoolField(TEXT("enabled"));}
+            if(auto* AI=Cast<ADinosaurAIController>(Other->GetController())){AI->ClearTravelGoal();AI->ResetTactics();double Profile;if(O->TryGetNumberField(TEXT("personality"),Profile))AI->Personality=FMath::Clamp(int32(Profile),0,3);AI->bPaused=!O->GetBoolField(TEXT("enabled"));}
         }
     }
     else if(Cmd==TEXT("enableAI")){if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(auto* Other=GM->FindCombatant(O->GetIntegerField(TEXT("id"))))if(auto* AI=Cast<ADinosaurAIController>(Other->GetController()))AI->bPaused=!O->GetBoolField(TEXT("enabled"));}
@@ -262,6 +266,8 @@ void ADinoPlayerController::WriteTelemetry()
     O->SetBoolField(TEXT("brace"),D->Combat->bBracing);O->SetBoolField(TEXT("charging"),D->Combat->bCharging);O->SetBoolField(TEXT("dead"),D->bDead);
     O->SetBoolField(TEXT("falling"),D->GetCharacterMovement()->IsFalling());O->SetNumberField(TEXT("charge"),D->Combat->ChargeFraction());
     O->SetNumberField(TEXT("recovery"),D->Combat->RecoveryLeft);O->SetNumberField(TEXT("attackDuration"),D->Combat->AttackDuration);O->SetNumberField(TEXT("hits"),D->Combat->TotalHits);
+    O->SetNumberField(TEXT("stamina"),D->Stamina->Current);O->SetNumberField(TEXT("maxStamina"),D->Stamina->Maximum);O->SetBoolField(TEXT("exhausted"),D->Stamina->bExhausted);O->SetBoolField(TEXT("sprinting"),D->bSprinting);
+    O->SetNumberField(TEXT("combo"),D->Combat->ComboCount);O->SetNumberField(TEXT("attackSerial"),D->Combat->AttackSerial);O->SetNumberField(TEXT("attackElapsed"),D->Combat->AttackElapsed);O->SetBoolField(TEXT("weakAttack"),D->Combat->bWeakAttack);
     O->SetNumberField(TEXT("damageDealt"),D->Combat->LastDealtDamage);
     O->SetNumberField(TEXT("targetHealth"),IsValid(TestTarget)?TestTarget->Health->Current:-1);
     O->SetNumberField(TEXT("meanFPS"),FrameSum>0?FrameCount/FrameSum:0);
@@ -277,12 +283,16 @@ void ADinoPlayerController::WriteTelemetry()
     }
     for(TActorIterator<ADinoEffects> It(GetWorld());It;++It){O->SetNumberField(TEXT("bloodParticles"),It->ActiveCount());O->SetNumberField(TEXT("bloodEmitted"),It->TotalEmitted);}
     O->SetBoolField(TEXT("settingsOpen"),bSettingsOpen);O->SetBoolField(TEXT("bloodEnabled"),bBloodEnabled);O->SetBoolField(TEXT("inWater"),D->bInWater);O->SetBoolField(TEXT("menuOpen"),bSelectionOpen);O->SetBoolField(TEXT("mapOpen"),bMapOpen);O->SetNumberField(TEXT("sensitivity"),D->MouseSensitivity);O->SetStringField(TEXT("animation"),D->Animation->State);O->SetBoolField(TEXT("eating"),D->Food->bEating);O->SetNumberField(TEXT("foodConsumed"),D->Food->FoodConsumed);
+    TArray<TSharedPtr<FJsonValue>> Materials;
+    for(int32 I=0;I<D->GetMesh()->GetNumMaterials();++I)if(auto* M=D->GetMesh()->GetMaterial(I))Materials.Add(MakeShared<FJsonValueString>(GetNameSafe(M->GetMaterial())));
+    O->SetArrayField(TEXT("materials"),Materials);
     O->SetStringField(TEXT("region"),ALostValleyWorld::RegionName(L));
     TArray<TSharedPtr<FJsonValue>> AIs;
     for(TActorIterator<ADinosaurAIController> It(GetWorld());It;++It)
     {
         auto* Other=Cast<ADinosaurCharacter>(It->GetPawn());if(!Other)continue;
         auto Row=MakeShared<FJsonObject>();Row->SetNumberField(TEXT("team"),Other->TeamID);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())Row->SetBoolField(TEXT("scoringTarget"),GM->IsScoringTarget(Other));Row->SetNumberField(TEXT("id"),Other->CombatantID);Row->SetNumberField(TEXT("species"),Other->Species);Row->SetBoolField(TEXT("major"),Other->bMajor);
+        Row->SetNumberField(TEXT("personality"),It->Personality);Row->SetNumberField(TEXT("stamina"),Other->Stamina->Current);Row->SetBoolField(TEXT("exhausted"),Other->Stamina->bExhausted);Row->SetBoolField(TEXT("sprinting"),Other->bSprinting);Row->SetNumberField(TEXT("combo"),Other->Combat->ComboCount);Row->SetNumberField(TEXT("attackSerial"),Other->Combat->AttackSerial);Row->SetNumberField(TEXT("recovery"),Other->Combat->RecoveryLeft);Row->SetBoolField(TEXT("charging"),Other->Combat->bCharging);
         Row->SetStringField(TEXT("decision"),It->Decision);Row->SetNumberField(TEXT("fightConfidence"),It->FightConfidence);Row->SetNumberField(TEXT("escapeConfidence"),It->EscapeConfidence);Row->SetNumberField(TEXT("guards"),It->GuardsUsed);Row->SetNumberField(TEXT("retreats"),It->RetreatDecisions);Row->SetNumberField(TEXT("retaliations"),It->Retaliations);
         FVector P=Other->GetActorLocation();Row->SetNumberField(TEXT("x"),P.X);Row->SetNumberField(TEXT("y"),P.Y);Row->SetNumberField(TEXT("z"),P.Z);Row->SetNumberField(TEXT("ground"),ALostValleyWorld::HeightAt(P.X,P.Y));
         Row->SetStringField(TEXT("state"),It->State);Row->SetStringField(TEXT("animation"),Other->Animation->State);Row->SetBoolField(TEXT("dead"),Other->bDead);Row->SetBoolField(TEXT("swimming"),Other->bSwimming);

@@ -4,6 +4,7 @@
 #include "SpeciesData.h"
 #include "DinosaurCharacter.generated.h"
 class UHealthComponent;
+class UStaminaComponent;
 class UCombatComponent;
 class USpringArmComponent;
 class UCameraComponent;
@@ -22,6 +23,11 @@ public:
     virtual void SetupPlayerInputComponent(UInputComponent* Input) override;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UHealthComponent* Health;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UCombatComponent* Combat;
+    UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UStaminaComponent* Stamina;
+    bool bSprintRequested=false,bSprinting=false;
+    void SprintOn(){bSprintRequested=true;}
+    void SprintOff(){bSprintRequested=false;bSprinting=false;}
+    float TurnFactor() const;
     UPROPERTY(VisibleAnywhere) UDinoAnimationComponent* Animation;
     UPROPERTY(VisibleAnywhere) UFoodInteractionComponent* Food;
     UPROPERTY(VisibleAnywhere) USpringArmComponent* CameraBoom;

@@ -96,6 +96,6 @@
   {
     "test": "respawns after ten seconds",
     "passed": true,
-    "elapsed": 10.517419002950191
+    "elapsed": 10.467006798833609
   }
 ]

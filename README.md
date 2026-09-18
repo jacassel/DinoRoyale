@@ -17,9 +17,10 @@ No commercial models, online gameplay, accounts, external services or paid APIs 
 |---|---|
 | WASD | Camera-relative movement |
 | Mouse | Look |
+| Hold Left Shift | Sprint; consumes stamina |
 | Space | Jump; surface surge while swimming |
 | Hold Q | Defensive brace; movement is disabled |
-| LMB | Quick bite, slash or horn attack |
+| LMB | Up to three quick strikes, then species-specific recovery |
 | Hold / release RMB | Charge / execute heavy attack |
 | Hold E near suitable food | Eat; release or move to stop |
 | 1 / 2 / 3 | Select T-Rex / Velociraptor / Triceratops and start a new round |
@@ -38,7 +39,8 @@ Blood is optional and off by default. Below 50% health movement and attacks slow
 
 ## Current systems
 
-- Shared character, health, injury, combat and feeding components.
+- Shared character, health, stamina, injury, combat and feeding components.
+- Four lightweight AI personalities: aggressive, defensive, skirmisher and balanced; all use the same stamina and cooldown rules.
 - Configurable species values in `Config/DefaultGame.ini`, including charge, regeneration, camera and movement tuning.
 - Original rigged dinosaur meshes and eleven animation clips per species, including swimming.
 - Nine major AI dinosaurs plus eighteen smaller prey. Carnivores hunt; raptors share a leader; triceratops defend feeding areas; prey flee.
@@ -55,3 +57,15 @@ Original Blender automation is in `Tools/Blender`; native sources are in `Assets
 Live tests require launching with `-DinoDevBridge`. This opt-in local bridge accepts test setup and real input events through `Saved/Automation/command.json`, and writes runtime state to `telemetry.json`. It is disabled during a normal launch. Test scripts and recorded results are in `Tools/Tests` and `Tests/Results`.
 
 See TEST_LOG.md for **actually performed** tests and KNOWN_ISSUES.md for current limitations.
+
+## Combat polish balance
+
+All values are editable in `Config/DefaultGame.ini`. Normal walking never costs stamina. Standing regenerates 22/sec, walking 14/sec, eating restores another 32/sec. Regeneration waits 0.4 seconds after spending; attacking/airborne regeneration is reduced. Jump costs 18. At zero stamina sprint, jump, heavy attacks and brace are disabled until at least 1.2 seconds and 25 stamina have recovered. A weaker, slower quick attack remains available.
+
+| Species | Health | Quick damage | Full heavy | Quick interval | Third-strike extra recovery | Sprint speed / drain | Quick / heavy cost |
+|---|---:|---:|---:|---:|---:|---|---|
+| T-Rex | 1100 | 170 | 561 | 0.58s | 0.95s | 1449 cm/s / 15 per sec | 10 / 36 |
+| Raptor | 600 | 82 | 237.8 | 0.31s | 0.50s | 2400 cm/s / 9 per sec | 7 / 26 |
+| Triceratops | 1650 | 135 | 445.5 | 0.53s | 0.75s | 1317.5 cm/s / 13 per sec | 9 / 34 |
+
+The third quick strike gains 12% damage. Heavy attacks commit forward movement, restrict turning, knock unbraced opponents back and interrupt their charging. A miss adds 0.50 / 0.25 / 0.45 seconds recovery respectively. T-Rex lunges, raptor pounces, and Triceratops drives forward with its horns. Sprint turning is particularly restricted for Triceratops. Eating is interrupted by damage and cannot restart for 2.5 seconds.

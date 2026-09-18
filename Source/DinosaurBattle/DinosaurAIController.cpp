@@ -1,6 +1,7 @@
 #include "DinosaurAIController.h"
 #include "DinosaurCharacter.h"
 #include "HealthComponent.h"
+#include "StaminaComponent.h"
 #include "CombatComponent.h"
 #include "FoodSystem.h"
 #include "LostValleyWorld.h"
@@ -13,7 +14,7 @@ ADinosaurCharacter* ADinosaurAIController::Dino() const{return Cast<ADinosaurCha
 void ADinosaurAIController::OnPossess(APawn* P)
 {
     Super::OnPossess(P);for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
-    auto* D=Dino();if(D){Random.Initialize(9137+D->CombatantID*71);LastLocation=LastProgress=D->GetActorLocation();D->GetCharacterMovement()->bOrientRotationToMovement=false;}
+    auto* D=Dino();if(D){Random.Initialize(9137+D->CombatantID*71);Personality=D->CombatantID%4;Temperament=Random.FRandRange(.85f,1.15f);LastLocation=LastProgress=D->GetActorLocation();D->GetCharacterMovement()->bOrientRotationToMovement=false;}
     ThinkTimer=Random.FRandRange(.05f,.3f);
 }
 ADinosaurCharacter* ADinosaurAIController::PackLeader() const
@@ -66,7 +67,7 @@ void ADinosaurAIController::ChooseRetreat(const ADinosaurCharacter* Threat)
 }
 void ADinosaurAIController::SetTravelGoal(const FVector& Point){bForcedTravel=true;Target=nullptr;GoTo(Point);State=TEXT("Traversing");}
 void ADinosaurAIController::ClearTravelGoal(){bForcedTravel=false;Path.Empty();RoamTimer=0;}
-void ADinosaurAIController::ResetTactics(){Target=nullptr;Leader=nullptr;RecentAttacker=nullptr;RetaliationUntil=RetreatUntil=NextGuardTime=NextTargetReview=BraceTime=0;FightConfidence=EscapeConfidence=.5f;Decision=TEXT("Explore");}
+void ADinosaurAIController::ResetTactics(){Target=nullptr;Leader=nullptr;RecentAttacker=nullptr;RetaliationUntil=RetreatUntil=NextGuardTime=NextTargetReview=BraceTime=RepositionUntil=NextReposition=0;FightConfidence=EscapeConfidence=.5f;Decision=TEXT("Explore");}
 void ADinosaurAIController::GoTo(const FVector& Point)
 {
     if(!Valley||!Dino())return;
@@ -88,7 +89,7 @@ void ADinosaurAIController::Tick(float Dt)
 void ADinosaurAIController::Think(float Dt)
 {
     auto* D=Dino();if(!D||!Valley)return;
-    const float Now=GetWorld()->GetTimeSeconds();
+    const float Now=GetWorld()->GetTimeSeconds();D->SprintOff();
     if(bForcedTravel){if(PathIndex>=Path.Num()&&FVector::Dist2D(D->GetActorLocation(),Goal)>500)GoTo(Goal);return;}
     if(BraceTime<=0&&D->Combat->bBracing)D->Combat->SetBrace(false);
     if(Target.IsValid()&&(Target->bDead||FVector::Dist2D(Target->GetActorLocation(),D->GetActorLocation())>(D->Species==2?6500:12000)))Target=nullptr;
@@ -128,7 +129,7 @@ void ADinosaurAIController::Think(float Dt)
         bool HeavyThreat=Enemy->Combat->bCharging&&Enemy->Combat->ChargeFraction()>.18f;
         bool FreshAttack=Enemy->Combat->IsBusy()&&Enemy->Combat->AttackElapsed<.28f;
         bool Desperate=FightConfidence<.35f&&EscapeConfidence<.38f;
-        if(Dist<Enemy->Stats().AttackRange+D->Stats().Radius+220&&EnemyFacing&&(HeavyThreat||FreshAttack||Desperate)&&Now>=NextGuardTime&&FVector::DotProduct(D->GetActorForwardVector(),ToEnemy)>.65f&&!D->Combat->IsBusy())
+        if(Dist<Enemy->Stats().AttackRange+D->Stats().Radius+220&&EnemyFacing&&(HeavyThreat||FreshAttack||Desperate)&&Now>=NextGuardTime&&FVector::DotProduct(D->GetActorForwardVector(),ToEnemy)>.65f&&!D->Combat->IsBusy()&&(HeavyThreat||Desperate||Random.FRand()<(Personality==1?.95f:Personality==0?.38f:.65f)*Temperament))
         {
             if(D->Combat->SetBrace(true))
             {
@@ -137,12 +138,28 @@ void ADinosaurAIController::Think(float Dt)
             }
         }
         if(D->Combat->bBracing){State=TEXT("Bracing");Decision=HeavyThreat?TEXT("Block incoming heavy attack"):TEXT("Guard and counter");return;}
+        // Recover resources or create an opening, with a committed short path to avoid indecisive spinning.
+        const bool Tired=D->Stamina->Fraction()<.25f||D->Stamina->bExhausted;
+        const bool WantsSpace=Tired||(Personality==2&&Enemy->Combat->IsBusy()&&Dist<Enemy->Stats().AttackRange*1.8f);
+        if(!D->Combat->IsBusy()&&!D->Combat->bCharging&&!A.bFinishingOpportunity&&
+           (Now<RepositionUntil||(Now>NextReposition&&WantsSpace&&Dist<Enemy->Stats().AttackRange*2.3f)))
+        {
+            if(Now>=RepositionUntil)
+            {
+                FVector Away=(Position-Enemy->GetActorLocation()).GetSafeNormal2D();
+                FVector Side=FVector::CrossProduct(Away,FVector::UpVector)*(D->CombatantID%2?1:-1);
+                GoTo(Position+(Away+Side*.45f).GetSafeNormal()*1800);
+                RepositionUntil=Now+(Tired?2.0f:1.1f);NextReposition=RepositionUntil+2.0f;
+            }
+            State=TEXT("Repositioning");Decision=Tired?TEXT("Recover stamina before re-engaging"):TEXT("Skirmish around committed attack");
+            if(!Tired&&D->Stamina->Fraction()>.4f)D->SprintOn();return;
+        }
         bool Losing=FightConfidence<D->Stats().AIRetreatConfidence||(Fraction<.25f&&FightConfidence<.55f)||Now<RetreatUntil;
         if(!A.bFinishingOpportunity&&Losing&&EscapeConfidence>FightConfidence+.06f&&EscapeConfidence>.33f)
         {
             D->Combat->bCharging=false;D->Food->StopEating();
             if(State!=TEXT("Retreating")||Now>=RetreatUntil)ChooseRetreat(Enemy);
-            State=TEXT("Retreating");Decision=TEXT("Escape has better survival odds");return;
+            State=TEXT("Retreating");Decision=TEXT("Escape has better survival odds");if(D->Stamina->Fraction()>.28f)D->SprintOn();return;
         }
         Decision=A.bFinishingOpportunity?TEXT("Finish vulnerable target"):Now<RetaliationUntil?TEXT("Retaliate against attacker"):FightConfidence>D->Stats().AIEngageConfidence?TEXT("Favorable fight"):TEXT("Stand ground and counter");
     }
@@ -169,7 +186,7 @@ void ADinosaurAIController::Think(float Dt)
             if(FVector::DotProduct(D->GetActorForwardVector(),ToEnemy)>.75f&&!D->Combat->IsBusy()&&!D->Combat->bBracing)
             {
                 bool Finish=Enemy->Health->Current<=D->Stats().Damage*1.05f;
-                if(!Finish&&Random.FRand()<(D->Species==0?.42f:.24f)&&D->Combat->StartCharge()){ChargeTarget=Random.FRandRange(.50f,.90f);State=TEXT("Charging");}
+                if(!Finish&&Random.FRand()<FMath::Clamp((Personality==0?.18f:Personality==1?.45f:Personality==2?.38f:.52f)*Temperament+(Enemy->Stamina->bExhausted||Enemy->Combat->RecoveryLeft>.5f?.25f:0.f),.1f,.85f)&&D->Combat->StartCharge()){ChargeTarget=Random.FRandRange(.75f,1.f);State=TEXT("Charging");}
                 else if(D->Combat->QuickAttack())++AttacksMade;
             }
         }
@@ -181,11 +198,12 @@ void ADinosaurAIController::Think(float Dt)
                 float A=(D->CombatantID%4)*PI*.5f+GetWorld()->GetTimeSeconds()*.02f;
                 Dest+=FVector(FMath::Cos(A),FMath::Sin(A),0)*(AttackDistance*.58f);
             }
+            if(Dist>AttackDistance*2&&Dist<7000&&D->Stamina->Fraction()>(Personality==2?.4f:.6f))D->SprintOn();
             GoTo(Dest);
         }
         return;
     }
-    if(Fraction<.88f)if(auto* Food=D->Food->FindFood(12000))
+    if(Fraction<.88f||D->Stamina->Fraction()<.45f)if(auto* Food=D->Food->FindFood(12000))
     {
         State=TEXT("Seeking food");GoTo(Food->GetActorLocation());
         if(FVector::Dist2D(Position,Food->GetActorLocation())<D->Stats().AttackRange+200){Path.Empty();D->Food->StartEating();}return;
@@ -211,7 +229,7 @@ void ADinosaurAIController::Steer(float Dt)
 {
     auto* D=Dino();if(!D||!Valley)return;
     FVector P=D->GetActorLocation(),Facing=FVector::ZeroVector,Direction=FVector::ZeroVector;
-    if(Target.IsValid()&&D->Species!=3&&!bForcedTravel&&State!=TEXT("Retreating"))Facing=(Target->GetActorLocation()-P).GetSafeNormal2D();
+    if(Target.IsValid()&&D->Species!=3&&!bForcedTravel&&State!=TEXT("Retreating")&&State!=TEXT("Repositioning"))Facing=(Target->GetActorLocation()-P).GetSafeNormal2D();
     if(D->Combat->bBracing||D->Food->bEating){D->GetCharacterMovement()->StopMovementImmediately();return;}
     while(PathIndex<Path.Num()&&FVector::Dist2D(P,Path[PathIndex])<(Target.IsValid()?90.f:240.f))++PathIndex;
     if(PathIndex<Path.Num())
@@ -235,9 +253,9 @@ void ADinosaurAIController::Steer(float Dt)
             ++StuckRecoveries;StuckTime=0;LastProgress=P;PathTimer=0;
             FVector Nudge=Valley->NearestWalkable(P+FVector(Random.FRandRange(-900,900),Random.FRandRange(-900,900),0));
             if(Valley->SegmentClear(P,Nudge,D->Stats().Radius+30))GoTo(Nudge);
-            else {GoTo(Goal);D->Jump();}
+            else {GoTo(Goal);D->BeginJump();}
         }
     }
     else StuckTime=0;
-    if(!Facing.IsNearlyZero())D->SetActorRotation(FMath::RInterpConstantTo(D->GetActorRotation(),FRotator(0,Facing.Rotation().Yaw,0),Dt,D->Stats().TurnRate));
+    if(!Facing.IsNearlyZero())D->SetActorRotation(FMath::RInterpConstantTo(D->GetActorRotation(),FRotator(0,Facing.Rotation().Yaw,0),Dt,D->Stats().TurnRate*D->TurnFactor()));
 }
