@@ -31,6 +31,12 @@
       "waypoints": 1
     },
     {
+      "from": 0,
+      "to": 6,
+      "success": true,
+      "waypoints": 3
+    },
+    {
       "from": 1,
       "to": 0,
       "success": true,
@@ -40,7 +46,7 @@
       "from": 1,
       "to": 2,
       "success": true,
-      "waypoints": 4
+      "waypoints": 5
     },
     {
       "from": 1,
@@ -61,6 +67,12 @@
       "waypoints": 3
     },
     {
+      "from": 1,
+      "to": 6,
+      "success": true,
+      "waypoints": 3
+    },
+    {
       "from": 2,
       "to": 0,
       "success": true,
@@ -70,7 +82,7 @@
       "from": 2,
       "to": 1,
       "success": true,
-      "waypoints": 4
+      "waypoints": 5
     },
     {
       "from": 2,
@@ -91,6 +103,12 @@
       "waypoints": 3
     },
     {
+      "from": 2,
+      "to": 6,
+      "success": true,
+      "waypoints": 4
+    },
+    {
       "from": 3,
       "to": 0,
       "success": true,
@@ -117,6 +135,12 @@
     {
       "from": 3,
       "to": 5,
+      "success": true,
+      "waypoints": 1
+    },
+    {
+      "from": 3,
+      "to": 6,
       "success": true,
       "waypoints": 1
     },
@@ -151,6 +175,12 @@
       "waypoints": 3
     },
     {
+      "from": 4,
+      "to": 6,
+      "success": true,
+      "waypoints": 3
+    },
+    {
       "from": 5,
       "to": 0,
       "success": true,
@@ -177,6 +207,48 @@
     {
       "from": 5,
       "to": 4,
+      "success": true,
+      "waypoints": 3
+    },
+    {
+      "from": 5,
+      "to": 6,
+      "success": true,
+      "waypoints": 3
+    },
+    {
+      "from": 6,
+      "to": 0,
+      "success": true,
+      "waypoints": 3
+    },
+    {
+      "from": 6,
+      "to": 1,
+      "success": true,
+      "waypoints": 3
+    },
+    {
+      "from": 6,
+      "to": 2,
+      "success": true,
+      "waypoints": 4
+    },
+    {
+      "from": 6,
+      "to": 3,
+      "success": true,
+      "waypoints": 1
+    },
+    {
+      "from": 6,
+      "to": 4,
+      "success": true,
+      "waypoints": 4
+    },
+    {
+      "from": 6,
+      "to": 5,
       "success": true,
       "waypoints": 3
     }

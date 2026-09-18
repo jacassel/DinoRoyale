@@ -29,7 +29,7 @@
   {
     "test": "Trex food healing",
     "passed": true,
-    "healed": 222.213623046875
+    "healed": 222.20379638671875
   },
   {
     "test": "Trex release stops eating",
@@ -85,7 +85,7 @@
   {
     "test": "Raptor food healing",
     "passed": true,
-    "healed": 105.04141235351562
+    "healed": 107.12139892578125
   },
   {
     "test": "Raptor release stops eating",
@@ -141,7 +141,7 @@
   {
     "test": "Trike food healing",
     "passed": true,
-    "healed": 383.809326171875
+    "healed": 383.8048095703125
   },
   {
     "test": "Trike release stops eating",
@@ -168,9 +168,9 @@
     "passed": true
   },
   {
-    "test": "all 30 region routes",
+    "test": "all 42 region routes",
     "passed": true,
-    "routes": 30
+    "routes": 42
   },
   {
     "test": "ten major combatants",

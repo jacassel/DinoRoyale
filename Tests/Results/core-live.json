@@ -6,22 +6,22 @@
   {
     "test": "Trex W movement",
     "passed": true,
-    "displacement": 650.7
+    "displacement": 698.5
   },
   {
     "test": "Trex S movement",
     "passed": true,
-    "displacement": -638.6
+    "displacement": -621.1
   },
   {
     "test": "Trex D movement",
     "passed": true,
-    "displacement": 638.6
+    "displacement": 656.1
   },
   {
     "test": "Trex A movement",
     "passed": true,
-    "displacement": -638.7
+    "displacement": -656.1
   },
   {
     "test": "Trex camera yaw",
@@ -36,7 +36,7 @@
   {
     "test": "Trex jump",
     "passed": true,
-    "rise": 89.5
+    "rise": 94.7
   },
   {
     "test": "Trex brace blocks movement",
@@ -110,7 +110,7 @@
   {
     "test": "Trex passive regen",
     "passed": true,
-    "delta": 77.00192260742188
+    "delta": 75.90249633789062
   },
   {
     "test": "Trex recovered speed",
@@ -143,17 +143,17 @@
   {
     "test": "Raptor W movement",
     "passed": true,
-    "displacement": 635.3
+    "displacement": 683.2
   },
   {
     "test": "Raptor S movement",
     "passed": true,
-    "displacement": -1130.0
+    "displacement": -1129.4
   },
   {
     "test": "Raptor D movement",
     "passed": true,
-    "displacement": 1129.9
+    "displacement": 1209.4
   },
   {
     "test": "Raptor A movement",
@@ -173,7 +173,7 @@
   {
     "test": "Raptor jump",
     "passed": true,
-    "rise": 109.7
+    "rise": 94.2
   },
   {
     "test": "Raptor brace blocks movement",
@@ -247,7 +247,7 @@
   {
     "test": "Raptor passive regen",
     "passed": true,
-    "delta": 36.52434539794922
+    "delta": 36.92082977294922
   },
   {
     "test": "Raptor recovered speed",
@@ -280,22 +280,22 @@
   {
     "test": "Trike W movement",
     "passed": true,
-    "displacement": 145.6
+    "displacement": 280.0
   },
   {
     "test": "Trike S movement",
     "passed": true,
-    "displacement": -523.1
+    "displacement": -494.8
   },
   {
     "test": "Trike D movement",
     "passed": true,
-    "displacement": 522.4
+    "displacement": 536.9
   },
   {
     "test": "Trike A movement",
     "passed": true,
-    "displacement": -523.1
+    "displacement": -509.0
   },
   {
     "test": "Trike camera yaw",
@@ -310,7 +310,7 @@
   {
     "test": "Trike jump",
     "passed": true,
-    "rise": 69.4
+    "rise": 65.5
   },
   {
     "test": "Trike brace blocks movement",
@@ -384,7 +384,7 @@
   {
     "test": "Trike passive regen",
     "passed": true,
-    "delta": 133.001708984375
+    "delta": 132.37359619140625
   },
   {
     "test": "Trike recovered speed",

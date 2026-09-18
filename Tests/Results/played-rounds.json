@@ -1,0 +1,87 @@
+[
+  {
+    "mode": "solo",
+    "seconds": 221.53,
+    "roundOver": true,
+    "winner": 4,
+    "teamScore": [
+      0,
+      0
+    ],
+    "humanScore": [
+      3,
+      5,
+      1
+    ],
+    "majorAI": 9,
+    "hitsBySpecies": {
+      "0": 37,
+      "1": 54,
+      "2": 83
+    },
+    "failedPaths": 0,
+    "maxStuckRecoveries": 0,
+    "fellBelowTerrain": false,
+    "meanFPS": 58.973348093888994,
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Flanking",
+      "Fleeing",
+      "Following pack",
+      "Pursuing",
+      "Retreating",
+      "Roaming",
+      "Seeking food"
+    ],
+    "observedFPS": 58.4932316844717,
+    "guardsUsed": 64,
+    "retreatDecisions": 47
+  },
+  {
+    "mode": "team",
+    "seconds": 251.89,
+    "roundOver": true,
+    "winner": 9,
+    "teamScore": [
+      2,
+      10
+    ],
+    "humanScore": [
+      1,
+      9,
+      1
+    ],
+    "majorAI": 9,
+    "hitsBySpecies": {
+      "0": 57,
+      "1": 35,
+      "2": 221
+    },
+    "failedPaths": 0,
+    "maxStuckRecoveries": 3,
+    "fellBelowTerrain": false,
+    "meanFPS": 57.75256503508181,
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Feeding",
+      "Flanking",
+      "Fleeing",
+      "Following pack",
+      "Pursuing",
+      "Regrouping",
+      "Retreating",
+      "Roaming",
+      "Seeking food",
+      "With pack"
+    ],
+    "observedFPS": 50.79995236015733,
+    "guardsUsed": 116,
+    "retreatDecisions": 312
+  }
+]

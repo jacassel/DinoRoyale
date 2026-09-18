@@ -81,3 +81,6 @@ No gameplay claims have been validated yet.
 - Visually inspected rendered T-Rex charging and heavy attack after the jaw fix: lower jaw opens below the skull. Inspected visible swimming posture and translucent pond water; screenshots 81–83 under Saved/Screenshots/Windows.
 - Tactical AI estimates fight/escape confidence from current health, attack rate, movement, and nearby support. Guards have a bounded hold time and cooldown; retreat has hysteresis; pack raptors can flank frontal guards.
 - Initial tactical checks were 9/11 during first-load shader warmup; isolated pursuit diagnostics showed the raptor properly pursued and killed its weakened target. Warm retest **11/11 passed** (`ai-tactics.json`), including retaliation damage, pursuit hits, increased retreat separation, actual frontal guard damage reduction, counterattack, desperate defense and supported flanking. Timing assertions now use simulation time to avoid shader-load false failures.
+
+Checkpoint before combat polish: all four final regression scripts passed. Solo round ended at 221.53s; team round at 251.89s (2:10). Nine major AI remained active, no failed paths or below-terrain falls; team maximum stuck recoveries 3. Standalone BuildCookRun completed successfully; packaged launch still pending.
+
