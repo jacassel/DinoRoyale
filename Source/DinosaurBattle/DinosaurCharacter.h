@@ -8,6 +8,8 @@ class UCombatComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UStaticMeshComponent;
+class UDinoAnimationComponent;
+class UFoodInteractionComponent;
 
 UCLASS()
 class DINOSAURBATTLE_API ADinosaurCharacter : public ACharacter
@@ -20,6 +22,8 @@ public:
     virtual void SetupPlayerInputComponent(UInputComponent* Input) override;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UHealthComponent* Health;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UCombatComponent* Combat;
+    UPROPERTY(VisibleAnywhere) UDinoAnimationComponent* Animation;
+    UPROPERTY(VisibleAnywhere) UFoodInteractionComponent* Food;
     UPROPERTY(VisibleAnywhere) USpringArmComponent* CameraBoom;
     UPROPERTY(VisibleAnywhere) UCameraComponent* Camera;
     UPROPERTY(VisibleAnywhere) UStaticMeshComponent* Placeholder;
@@ -27,6 +31,9 @@ public:
     bool bDead=false,bMajor=true;
     float DeathTime=0,MouseSensitivity=1.f;
     int32 CombatantID=0;
+    float Nutrition=1,RespawnDelay=6;
+    FVector HomePosition=FVector::ZeroVector;
+    TWeakObjectPtr<ADinosaurCharacter> LastAttacker;
     const FSpeciesData& Stats() const {return FSpeciesData::Get(Species);}
     void ApplySpecies(int32 ID);
     void ReceiveHit(float Damage,ADinosaurCharacter* Attacker);
@@ -42,6 +49,7 @@ public:
     void ChargeOn();
     void ChargeOff();
     void Eat();
+    void StopEating();
     void Die();
     void ResetLife();
     void ChooseRex();

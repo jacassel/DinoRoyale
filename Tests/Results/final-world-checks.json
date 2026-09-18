@@ -1,0 +1,104 @@
+[
+  {
+    "test": "Trex local traversal Plains",
+    "passed": true,
+    "distance": 1111.1857316578146,
+    "grounded": true
+  },
+  {
+    "test": "Trex local traversal Forest",
+    "passed": true,
+    "distance": 1111.1573582901692,
+    "grounded": true
+  },
+  {
+    "test": "Trex local traversal Ridge",
+    "passed": true,
+    "distance": 1111.159094558825,
+    "grounded": true
+  },
+  {
+    "test": "Trex local traversal Creek",
+    "passed": true,
+    "distance": 1111.1504302377407,
+    "grounded": true
+  },
+  {
+    "test": "Trex local traversal Grove",
+    "passed": true,
+    "distance": 1111.152703468295,
+    "grounded": true
+  },
+  {
+    "test": "Trex local traversal Hunting",
+    "passed": true,
+    "distance": 1111.1475632143265,
+    "grounded": true
+  },
+  {
+    "test": "Raptor local traversal Plains",
+    "passed": true,
+    "distance": 1850.200017425169,
+    "grounded": true
+  },
+  {
+    "test": "Raptor local traversal Forest",
+    "passed": true,
+    "distance": 1849.8918930236687,
+    "grounded": true
+  },
+  {
+    "test": "Raptor local traversal Ridge",
+    "passed": true,
+    "distance": 1849.8904854514367,
+    "grounded": true
+  },
+  {
+    "test": "Raptor local traversal Creek",
+    "passed": true,
+    "distance": 1849.879464702737,
+    "grounded": true
+  },
+  {
+    "test": "Raptor local traversal Grove",
+    "passed": true,
+    "distance": 1849.8802607055313,
+    "grounded": true
+  },
+  {
+    "test": "Raptor local traversal Hunting",
+    "passed": true,
+    "distance": 1849.9253763209017,
+    "grounded": true
+  },
+  {
+    "test": "Trike local traversal Plains",
+    "passed": true,
+    "distance": 905.6423293875604,
+    "grounded": true
+  },
+  {
+    "test": "Trike local traversal Forest",
+    "passed": true,
+    "distance": 905.6644075029108,
+    "grounded": true
+  },
+  {
+    "test": "Trike local traversal Ridge",
+    "passed": true,
+    "distance": 905.6502584237314,
+    "grounded": true
+  },
+  {
+    "test": "Trike local traversal Creek",
+    "passed": true,
+    "distance": 905.640688704133,
+    "grounded": true
+  },
+  {
+    "test": "Trike local traversal Grove",
+    "passed": true,
+    "distance": 905.6560007179014,
+    "grounded": true
+  }
+]

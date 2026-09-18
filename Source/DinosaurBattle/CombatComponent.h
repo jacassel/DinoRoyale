@@ -22,6 +22,7 @@ public:
     float ChargeElapsed=0, RecoveryLeft=0, AttackElapsed=0, AttackDuration=.7f;
     float LastDealtDamage=0;
     int32 TotalHits=0;
+    int32 AttackSerial=0;
 private:
     bool bHitPending=false;
     float PendingDamage=0,HitTime=0;

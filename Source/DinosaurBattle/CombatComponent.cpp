@@ -22,6 +22,7 @@ bool UCombatComponent::ReleaseCharge(){if(!bCharging)return false;float Power=Ch
 void UCombatComponent::Execute(bool Charged,float Power)
 {
     auto* D=Dino();const auto& S=D->Stats(); bChargedAttack=Charged;
+    ++AttackSerial;
     AttackDuration=(Charged?S.ChargeRecovery:S.Recovery)/D->Health->AttackSpeedFactor();
     RecoveryLeft=AttackDuration; AttackElapsed=0; HitTime=S.Windup/D->Health->AttackSpeedFactor();
     PendingDamage=S.Damage*(Charged?FMath::Lerp(1.25f,S.ChargeMultiplier,Power):1.f);
