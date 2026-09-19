@@ -1,12 +1,12 @@
-# Known issues — active development
+# Known issues
 
-- Full team/FFA AI rounds and prolonged pack coherence remain under evaluation. Raptor and Triceratops completed full circuits; an isolated T-Rex circuit retest is pending.
-- Models are recognizable procedural prototypes; visible mesh joins, simple skin shading and foot sliding need polish.
-- Animation transitions currently switch explicit clips without blending.
-- Selection, settings, map/help, K/D/A and optional blood are implemented; sound is not yet implemented.
-- Swimming and the reported T-Rex jaw defect are under active regression testing.
-- Runtime world generation means the saved editor level is sparse before Play.
-- No packaged standalone build yet; LaunchGame.bat uses the installed engine.
-- Nine major AI and eighteen prey are implemented; their runtime performance and combat balance remain under evaluation.
+- Combat and pack balance remains provisional. Packs can overwhelm isolated animals; avoid treating a frontal one-versus-three fight as a fair duel.
+- Animations switch explicit clips without full blending or foot placement. Original models remain procedural; joints, body overlap during close combat and sliding need further polish.
+- No sound effects are implemented. Combat/resource feedback is visual.
+- Carcasses persist during the current game session, not across quitting/reloading. Frozen corpses are grounded approximations without ragdoll physics; reduced detail and slope intersections can be visible.
+- Long-session corpse accumulation and hunger pacing need more human playtesting. Corpse rendering uses reduced LOD and distance culling.
+- Map visibility is sight/noise based; AI target acquisition still uses the existing tactical/proximity system and is not a complete stealth simulation.
+- Terrain/materials and vegetation retain their prototype appearance. The runtime-generated editor level appears sparse before Play.
+- Private GitHub backup is unfinished: Chrome automation could not validate the current URL, and no noninteractive GitHub Git credential was available. Local Git checkpoints remain intact.
 
-These are development notes, not a claim of minimum success. See TEST_LOG.md for verified behavior.
+Final launch/package status and test results are recorded in TEST_LOG.md.

@@ -32,14 +32,14 @@ bool UCombatComponent::QuickAttack()
 bool UCombatComponent::StartCharge()
 {
     auto* D=Dino();if(!D||D->bDead||bBracing||bCharging||IsBusy()||D->Health->Fraction()<.25f||!D->Stamina->CanSpend(D->Stats().HeavyCost))return false;
-    D->Food->StopEating();bCharging=true;ChargeElapsed=0;return true;
+    D->Food->StopEating();D->RevealNoise();bCharging=true;ChargeElapsed=0;return true;
 }
 float UCombatComponent::ChargeFraction() const {auto* D=Dino();return D?FMath::Clamp(ChargeElapsed/FMath::Max(.1f,D->Stats().ChargeTime),0.f,1.f):0;}
 bool UCombatComponent::ReleaseCharge(){if(!bCharging)return false;float Power=ChargeFraction();bCharging=false;auto* D=Dino();if(!D||D->bDead||D->Health->Fraction()<.25f||!D->Stamina->Spend(D->Stats().HeavyCost))return false;Execute(true,Power);return true;}
 void UCombatComponent::Execute(bool Charged,float Power)
 {
     auto* D=Dino();const auto& S=D->Stats(); bChargedAttack=Charged;
-    ++AttackSerial;
+    ++AttackSerial;D->RevealNoise();
     AttackDuration=(Charged?S.ChargeRecovery:S.Recovery)/D->Health->AttackSpeedFactor();
     if(!Charged&&bWeakAttack)AttackDuration*=S.WeakAttackRecovery;
     RecoveryLeft=AttackDuration+(!Charged&&ComboCount==3?S.ComboRecovery/D->Health->AttackSpeedFactor():0);
@@ -79,7 +79,7 @@ void UCombatComponent::TickComponent(float Dt,ELevelTick T,FActorComponentTickFu
     Super::TickComponent(Dt,T,F);
     auto* D=Dino();if(!D||D->bDead)return;
     ComboResetLeft=FMath::Max(0.f,ComboResetLeft-Dt);
-    if(bCharging)ChargeElapsed+=Dt;
+    if(bCharging){ChargeElapsed+=Dt;D->RevealNoise();}
     if(RecoveryLeft>0){RecoveryLeft=FMath::Max(0.f,RecoveryLeft-Dt);AttackElapsed+=Dt;}
     if(bChargedAttack&&IsBusy()&&AttackElapsed<D->Stats().HeavyDriveTime&&!bBracing)
     {

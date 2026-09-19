@@ -2,6 +2,9 @@
 #include "DinosaurCharacter.h"
 #include "HealthComponent.h"
 #include "StaminaComponent.h"
+#include "HungerComponent.h"
+#include "Engine/StaticMeshActor.h"
+#include "Components/StaticMeshComponent.h"
 #include "CombatComponent.h"
 #include "DinoAnimationComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -137,6 +140,28 @@ void ADinoPlayerController::ReadBridge()
     }
     else if(Cmd==TEXT("species")){DinoSpecies(O->GetIntegerField(TEXT("value")));DinoTeleport(0,0);}
     else if(Cmd==TEXT("damage"))DinoDamage(O->GetNumberField(TEXT("value")));
+    else if(Cmd==TEXT("hunger"))
+    {
+        ADinosaurCharacter* Subject=D;double ID;if(O->TryGetNumberField(TEXT("id"),ID))if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())Subject=GM->FindCombatant(int32(ID));
+        if(Subject)Subject->Hunger->Current=FMath::Clamp(float(O->GetNumberField(TEXT("value"))),0.f,Subject->Hunger->Maximum);
+    }
+    else if(Cmd==TEXT("aiAbility"))
+    {
+        if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(auto* A=GM->FindCombatant(O->GetIntegerField(TEXT("id"))))
+        {FString Action=O->GetStringField(TEXT("action"));if(Action==TEXT("quick"))A->Combat->QuickAttack();else if(Action==TEXT("charge"))A->Combat->StartCharge();else if(Action==TEXT("release"))A->Combat->ReleaseCharge();}
+    }
+    else if(Cmd==TEXT("sightBlocker"))
+    {
+        if(IsValid(TestSightBlocker)){TestSightBlocker->Destroy();TestSightBlocker=nullptr;}
+        if(O->GetBoolField(TEXT("enabled")))
+        {
+            auto* Wall=GetWorld()->SpawnActor<AStaticMeshActor>();TestSightBlocker=Wall;
+            Wall->GetStaticMeshComponent()->SetMobility(EComponentMobility::Movable);
+            Wall->GetStaticMeshComponent()->SetStaticMesh(LoadObject<UStaticMesh>(nullptr,TEXT("/Engine/BasicShapes/Cube.Cube")));
+            Wall->SetActorLocation(D->GetActorLocation()+FVector(800,0,200));Wall->SetActorScale3D(FVector(1,20,20));
+            Wall->GetStaticMeshComponent()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);Wall->GetStaticMeshComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);Wall->GetStaticMeshComponent()->SetCollisionResponseToChannel(ECC_Visibility,ECR_Block);
+        }
+    }
     else if(Cmd==TEXT("stamina")){D->Stamina->Current=FMath::Clamp(float(O->GetNumberField(TEXT("value"))),0.f,D->Stamina->Maximum);D->Stamina->bExhausted=D->Stamina->Current<=0;D->Stamina->ExhaustionLeft=D->Stamina->bExhausted?D->Stats().ExhaustionDuration:0;}
     else if(Cmd==TEXT("heal"))DinoHeal();
     else if(Cmd==TEXT("respawn"))D->ResetLife();
@@ -177,16 +202,21 @@ void ADinoPlayerController::ReadBridge()
             D->ReceiveHit(O->GetNumberField(TEXT("value")),TestTarget);
         }
     }
+    else if(Cmd==TEXT("clearTestFood"))
+    {
+        for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It)It->Destroy();
+        for(TActorIterator<AFoodPlant> It(GetWorld());It;++It)if(It->Tags.Contains(TEXT("TestFood")))It->Destroy();
+    }
     else if(Cmd==TEXT("food"))
     {
         FVector P=D->GetActorLocation()+D->GetActorForwardVector()*(D->Stats().AttackRange*.65f);
         P.Z=ALostValleyWorld::HeightAt(P.X,P.Y);
-        if(D->Species==2)GetWorld()->SpawnActor<AFoodPlant>(P,FRotator::ZeroRotator);
+        if(D->Species==2){if(auto* Plant=GetWorld()->SpawnActor<AFoodPlant>(P,FRotator::ZeroRotator))Plant->Tags.Add(TEXT("TestFood"));}
         else
         {
             FActorSpawnParameters S;S.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
             auto* Prey=GetWorld()->SpawnActor<ADinosaurCharacter>(ADinosaurCharacter::StaticClass(),P+FVector(0,0,FSpeciesData::Get(3).HalfHeight),FRotator::ZeroRotator,S);
-            Prey->ApplySpecies(3);Prey->bMajor=false;Prey->RespawnDelay=0;Prey->ReceiveHit(10000,D);
+            double FoodSpecies;Prey->ApplySpecies(O->TryGetNumberField(TEXT("species"),FoodSpecies)?int32(FoodSpecies):3);Prey->CombatantID=-99;Prey->bMajor=false;Prey->SetActorLocation(P+FVector(0,0,Prey->Stats().HalfHeight+10));Prey->RespawnDelay=0;Prey->ReceiveHit(10000,D);
         }
     }
     else if(Cmd==TEXT("route"))
@@ -266,6 +296,7 @@ void ADinoPlayerController::WriteTelemetry()
     O->SetBoolField(TEXT("brace"),D->Combat->bBracing);O->SetBoolField(TEXT("charging"),D->Combat->bCharging);O->SetBoolField(TEXT("dead"),D->bDead);
     O->SetBoolField(TEXT("falling"),D->GetCharacterMovement()->IsFalling());O->SetNumberField(TEXT("charge"),D->Combat->ChargeFraction());
     O->SetNumberField(TEXT("recovery"),D->Combat->RecoveryLeft);O->SetNumberField(TEXT("attackDuration"),D->Combat->AttackDuration);O->SetNumberField(TEXT("hits"),D->Combat->TotalHits);
+    O->SetNumberField(TEXT("hunger"),D->Hunger->Current);O->SetNumberField(TEXT("healthRegenFactor"),D->Hunger->HealthRegenFactor());O->SetNumberField(TEXT("staminaRegenFactor"),D->Hunger->StaminaRegenFactor());O->SetNumberField(TEXT("revealUntil"),D->RevealUntil);
     O->SetNumberField(TEXT("stamina"),D->Stamina->Current);O->SetNumberField(TEXT("maxStamina"),D->Stamina->Maximum);O->SetBoolField(TEXT("exhausted"),D->Stamina->bExhausted);O->SetBoolField(TEXT("sprinting"),D->bSprinting);
     O->SetNumberField(TEXT("combo"),D->Combat->ComboCount);O->SetNumberField(TEXT("attackSerial"),D->Combat->AttackSerial);O->SetNumberField(TEXT("attackElapsed"),D->Combat->AttackElapsed);O->SetBoolField(TEXT("weakAttack"),D->Combat->bWeakAttack);
     O->SetNumberField(TEXT("damageDealt"),D->Combat->LastDealtDamage);
@@ -292,6 +323,7 @@ void ADinoPlayerController::WriteTelemetry()
     {
         auto* Other=Cast<ADinosaurCharacter>(It->GetPawn());if(!Other)continue;
         auto Row=MakeShared<FJsonObject>();Row->SetNumberField(TEXT("team"),Other->TeamID);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())Row->SetBoolField(TEXT("scoringTarget"),GM->IsScoringTarget(Other));Row->SetNumberField(TEXT("id"),Other->CombatantID);Row->SetNumberField(TEXT("species"),Other->Species);Row->SetBoolField(TEXT("major"),Other->bMajor);
+        FVector Marker=FVector::ZeroVector;Row->SetBoolField(TEXT("inSight"),D->CanSeeDinosaur(Other));Row->SetBoolField(TEXT("mapVisible"),D->MapPositionFor(Other,Marker));Row->SetNumberField(TEXT("markerX"),Marker.X);Row->SetNumberField(TEXT("markerY"),Marker.Y);Row->SetNumberField(TEXT("revealUntil"),Other->RevealUntil);Row->SetNumberField(TEXT("hunger"),Other->Hunger->Current);
         Row->SetNumberField(TEXT("personality"),It->Personality);Row->SetNumberField(TEXT("stamina"),Other->Stamina->Current);Row->SetBoolField(TEXT("exhausted"),Other->Stamina->bExhausted);Row->SetBoolField(TEXT("sprinting"),Other->bSprinting);Row->SetNumberField(TEXT("combo"),Other->Combat->ComboCount);Row->SetNumberField(TEXT("attackSerial"),Other->Combat->AttackSerial);Row->SetNumberField(TEXT("recovery"),Other->Combat->RecoveryLeft);Row->SetBoolField(TEXT("charging"),Other->Combat->bCharging);
         Row->SetStringField(TEXT("decision"),It->Decision);Row->SetNumberField(TEXT("fightConfidence"),It->FightConfidence);Row->SetNumberField(TEXT("escapeConfidence"),It->EscapeConfidence);Row->SetNumberField(TEXT("guards"),It->GuardsUsed);Row->SetNumberField(TEXT("retreats"),It->RetreatDecisions);Row->SetNumberField(TEXT("retaliations"),It->Retaliations);
         FVector P=Other->GetActorLocation();Row->SetNumberField(TEXT("x"),P.X);Row->SetNumberField(TEXT("y"),P.Y);Row->SetNumberField(TEXT("z"),P.Z);Row->SetNumberField(TEXT("ground"),ALostValleyWorld::HeightAt(P.X,P.Y));
@@ -304,6 +336,10 @@ void ADinoPlayerController::WriteTelemetry()
         AIs.Add(MakeShared<FJsonValueObject>(Row));
     }
     O->SetArrayField(TEXT("ai"),AIs);
+    TArray<TSharedPtr<FJsonValue>> Corpses,Plants;
+    for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("species"),It->Species);R->SetNumberField(TEXT("source"),It->SourceID);R->SetNumberField(TEXT("food"),It->Nutrition);R->SetNumberField(TEXT("maxFood"),It->MaximumNutrition);R->SetBoolField(TEXT("frozen"),!It->Body->IsComponentTickEnabled());R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Corpses.Add(MakeShared<FJsonValueObject>(R));}
+    for(TActorIterator<AFoodPlant> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("food"),It->Nutrition);R->SetBoolField(TEXT("hidden"),It->IsHidden());R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Plants.Add(MakeShared<FJsonValueObject>(R));}
+    O->SetArrayField(TEXT("corpses"),Corpses);O->SetArrayField(TEXT("plants"),Plants);
     FString Out;auto W=TJsonWriterFactory<>::Create(&Out);FJsonSerializer::Serialize(O,W);
     FFileHelper::SaveStringToFile(Out,*(BridgeRoot/TEXT("telemetry.json")));
 }

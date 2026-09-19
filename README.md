@@ -60,12 +60,29 @@ See TEST_LOG.md for **actually performed** tests and KNOWN_ISSUES.md for current
 
 ## Combat polish balance
 
-All values are editable in `Config/DefaultGame.ini`. Normal walking never costs stamina. Standing regenerates 22/sec, walking 14/sec, eating restores another 32/sec. Regeneration waits 0.4 seconds after spending; attacking/airborne regeneration is reduced. Jump costs 18. At zero stamina sprint, jump, heavy attacks and brace are disabled until at least 1.2 seconds and 25 stamina have recovered. A weaker, slower quick attack remains available.
+All values are editable in `Config/DefaultGame.ini`. Normal walking never costs stamina. Base stamina regeneration is 22/sec standing and 14/sec walking, modified by hunger; eating restores another 32/sec. Regeneration waits 0.4 seconds after spending; attacking/airborne regeneration is reduced. Jump costs 18. At zero stamina sprint, jump, heavy attacks and brace are disabled until at least 1.2 seconds and 25 stamina have recovered. A weaker, slower quick attack remains available.
 
 | Species | Health | Quick damage | Full heavy | Quick interval | Third-strike extra recovery | Sprint speed / drain | Quick / heavy cost |
 |---|---:|---:|---:|---:|---:|---|---|
 | T-Rex | 1100 | 170 | 561 | 0.58s | 0.95s | 1449 cm/s / 15 per sec | 10 / 36 |
-| Raptor | 600 | 82 | 237.8 | 0.31s | 0.50s | 2400 cm/s / 9 per sec | 7 / 26 |
+| Raptor | 600 | 74 | 214.6 | 0.31s | 0.50s | 2400 cm/s / 9 per sec | 7 / 26 |
 | Triceratops | 1650 | 135 | 445.5 | 0.53s | 0.75s | 1317.5 cm/s / 13 per sec | 9 / 34 |
 
 The third quick strike gains 12% damage. Heavy attacks commit forward movement, restrict turning, knock unbraced opponents back and interrupt their charging. A miss adds 0.50 / 0.25 / 0.45 seconds recovery respectively. T-Rex lunges, raptor pounces, and Triceratops drives forward with its horns. Sprint turning is particularly restricted for Triceratops. Eating is interrupted by damage and cannot restart for 2.5 seconds.
+
+## Hunger, food and map visibility
+
+Hunger starts full and declines gently: Rex 0.075, raptor 0.085, Triceratops 0.06 points/second, plus 0.035 while sprinting. Without feeding, reaching 70% takes roughly 6–8 minutes of normal activity; severe starvation takes much longer.
+
+| Hunger | Passive health regeneration | Passive stamina regeneration |
+|---|---|---|
+| 85–100% | 150% of base rate | 125% of base rate |
+| 70–85% | Normal | Normal |
+| 40–70% | 50% | 65% |
+| Above 20%, below 40% | None | 40% |
+| 20% or less | None | None |
+| 10% or less | Lose 0.25% maximum health/sec | None |
+
+Eating bypasses these passive restrictions: food restores 18 hunger/sec, 32 stamina/sec, and 12% maximum health/sec while available. A tiny prey carcass has 25 food units; raptor 120; Rex 360; Triceratops 480. Consumption is 30 / 18 / 24 units/sec for Rex / raptor / Triceratops. Carcasses persist **within the current session**, independently of respawn, until consumed. They are non-blocking and their animation freezes after collapse to reduce cost. Plants contain 120 units, disappear when depleted, and regrow after 120 seconds. Carnivores eat carcasses; Triceratops eats plants.
+
+The map shows other dinosaurs only in line of sight or after they attack, charge or sprint. Noisy actions reveal a position for six seconds; ongoing sprint/charge keeps it updated. Once an animal goes quiet and out of sight, the marker holds its last revealed location until it expires. Health labels also respect line of sight. The player's own map arrow stays visible.

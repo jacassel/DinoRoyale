@@ -16,7 +16,7 @@ for species,name,mult in [(0,'Trex',.22),(1,'Raptor',.30),(2,'Trike',.10)]:
     check(name+' brace animation',b['animation']=='Brace')
     a=b;t.command('hitFromTarget',value=100,front=False);time.sleep(.1);b=t.state();check(name+' rear bypasses shield',abs(a['health']-b['health']-100)<1)
     t.key('Q','up');time.sleep(.2);check(name+' brace release idle',t.state()['animation']=='Idle')
-    t.command('removeTarget');t.command('species',value=species);t.command('food');t.command('damage',value=t.state()['maxHealth']*.6)
+    t.command('removeTarget');t.command('species',value=species);t.command('food',species=0);t.command('damage',value=t.state()['maxHealth']*.6)
     time.sleep(2.7);a=t.state();t.key('E');time.sleep(.4);b=t.state();check(name+' eat animation',b['eating'] and b['animation']=='Eat')
     time.sleep(1.3);b=t.state();check(name+' food healing',b['health']>a['health']+a['maxHealth']*.14,healed=b['health']-a['health'])
     t.key('E','up');time.sleep(.2);check(name+' release stops eating',not t.state()['eating'] and t.state()['animation']=='Idle')

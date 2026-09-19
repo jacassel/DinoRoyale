@@ -2,6 +2,7 @@
 #include "DinosaurCharacter.h"
 #include "CombatComponent.h"
 #include "FoodSystem.h"
+#include "HungerComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 UStaminaComponent::UStaminaComponent(){PrimaryComponentTick.bCanEverTick=true;}
 void UStaminaComponent::Reset(){auto* D=Cast<ADinosaurCharacter>(GetOwner());Maximum=D?D->Stats().MaxStamina:100;Current=Maximum;bExhausted=false;ExhaustionLeft=RegenDelayLeft=0;}
@@ -23,7 +24,7 @@ void UStaminaComponent::TickComponent(float Dt,ELevelTick Type,FActorComponentTi
     {
         float Rate=D->GetVelocity().Size2D()<40?S.StaminaIdleRegen:S.StaminaWalkRegen;
         if(D->Combat->IsBusy()||D->GetCharacterMovement()->IsFalling())Rate*=S.StaminaBusyRegenFactor;
-        Restore(Rate*Dt);
+        Restore(Rate*Dt*D->Hunger->StaminaRegenFactor());
     }
     if(bExhausted&&ExhaustionLeft<=0&&Fraction()>=S.ExhaustionResume)bExhausted=false;
 }

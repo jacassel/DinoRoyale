@@ -4,6 +4,8 @@
 #include "Components/ActorComponent.h"
 #include "FoodSystem.generated.h"
 class UStaticMeshComponent;
+class USkeletalMeshComponent;
+class ADinosaurCharacter;
 
 UCLASS()
 class DINOSAURBATTLE_API AFoodPlant : public AActor
@@ -11,11 +13,26 @@ class DINOSAURBATTLE_API AFoodPlant : public AActor
     GENERATED_BODY()
 public:
     AFoodPlant();
+    virtual void BeginPlay() override;
     virtual void Tick(float Dt) override;
     UPROPERTY(VisibleAnywhere) UStaticMeshComponent* Visual;
-    float Nutrition=1,RegrowTimer=0;
+    float Nutrition=120,MaximumNutrition=120,RegrowTimer=0,RegrowSeconds=120;
     bool IsAvailable() const {return Nutrition>0;}
-    void Consume(float Amount);
+    float Consume(float Amount);
+};
+
+/** Food lifetime is independent of the living combatant's ten-second respawn. */
+UCLASS()
+class DINOSAURBATTLE_API ADinosaurCarcass : public AActor
+{
+    GENERATED_BODY()
+public:
+    ADinosaurCarcass();
+    void Initialize(ADinosaurCharacter* Source);
+    UPROPERTY(VisibleAnywhere) USkeletalMeshComponent* Body;
+    float Nutrition=0,MaximumNutrition=0;
+    int32 Species=3,SourceID=-1;
+    float Consume(float Amount);
 };
 
 UCLASS(ClassGroup=(Dinosaur),meta=(BlueprintSpawnableComponent))

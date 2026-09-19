@@ -18,6 +18,10 @@ struct FSpeciesData
     float ExhaustionDuration=1.2f,ExhaustionResume=.25f,ComboRecovery=.8f,ComboReset=1.0f;
     float HeavyWindup=.23f,HeavyReach=1.2f,HeavyDriveTime=.3f,HeavyTurnFactor=.25f,HeavyKnockback=400;
     float HeavyMissRecovery=.4f,HeavyMoveFactor=.25f,EatSafeDelay=2.5f;
+    float MaxHunger=100,HungerDrain=.075f,HungerSprintDrain=.035f,StarvationRate=.0025f;
+    float FedHealthRegen=1.5f,FedStaminaRegen=1.25f,HungryHealthRegen=.5f,HungryStaminaRegen=.65f,VeryHungryStaminaRegen=.4f;
+    float FoodUnits=360,EatUnitsPerSecond=30,EatHungerRate=18;
+    float SightRange=10000,NoiseRevealDuration=6;
     FLinearColor Color=FLinearColor(.27f,.35f,.19f);
     static const FSpeciesData& Get(int32 Species);
 };

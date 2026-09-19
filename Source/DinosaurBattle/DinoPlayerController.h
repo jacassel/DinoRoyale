@@ -36,6 +36,7 @@ public:
     UFUNCTION(Exec) void DinoSnapshot();
     bool bSelectionOpen=false,bMapOpen=false,bShowHelp=true;
     UPROPERTY() ADinosaurCharacter* TestTarget=nullptr;
+    UPROPERTY() AActor* TestSightBlocker=nullptr;
 private:
     bool bDevBridge=false;
     int32 LastSequence=0;

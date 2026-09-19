@@ -45,3 +45,11 @@ Quick strikes use a three-hit sequence, one buffered input during the final 180m
 Heavies commit a forward direction, active drive, reduced steering and a short swept hit window. A weak-pointer hit set ensures only one hit per target per attack. Unbraced hits knock back and interrupt charges; misses add recovery. Bracing has continuous drain plus an impact cost, with lower Triceratops costs.
 
 AI profiles are assigned per combatant with a seeded +/-15% temperament variation. Aggressive weights quick pressure, defensive weights guards/counters, skirmisher reacts with lateral spacing, and balanced favors varied heavy openings. All react to stamina, injury, support and vulnerability using the existing controller and navigation system.
+
+## Ecology and visibility extension
+
+`UHungerComponent` applies species-configured slow hunger drain, threshold-based passive regeneration modifiers, and gentle starvation. Starvation does not update combat-hit timers, so a starving animal can always start eating when food is available. Lethal starvation clears stale combat attribution and uses normal death/respawn. Direct feeding restores all three resources regardless of passive-regeneration thresholds.
+
+`ADinosaurCarcass` is a separate, non-colliding food actor created by death. It copies the species appearance, plays collapse once, then freezes a reduced-LOD pose. Respawning the combatant never removes the food actor. Food consumption clamps to the remaining units and scales all restoration by the amount actually consumed; the last fragment cannot grant a full tick of free healing. Plants hide at zero and regenerate on their existing timer. AI prioritizes meals when hungry and carnivores prefer prey when food is needed.
+
+Map reveal is presentation/perception state on each character, shared by player and AI abilities. Sight uses view direction, distance and a visibility-channel trace; map and health-label rendering share that test. Attack/charge/sprint update a six-second last-known-position marker. This does not replace the existing AI target-selection architecture.

@@ -2,6 +2,7 @@
 #include "DinosaurCharacter.h"
 #include "HealthComponent.h"
 #include "StaminaComponent.h"
+#include "HungerComponent.h"
 #include "CombatComponent.h"
 #include "FoodSystem.h"
 #include "LostValleyWorld.h"
@@ -36,7 +37,7 @@ ADinosaurCharacter* ADinosaurAIController::SelectEnemy() const
         auto Assessment=AssessDinosaurFight(D,O);
         if(D->Species!=3&&Assessment.FightConfidence<D->Stats().AIEngageConfidence&&Dist>2600&&O!=RecentAttacker.Get())continue;
         float S=(Dist+650)*(1.65f-Assessment.FightConfidence);
-        if(D->Species!=3&&D->Species!=2)S*=O->Species==3?1.7f:.7f;
+        if(D->Species!=3&&D->Species!=2)S*=O->Species==3?(D->Hunger->Fraction()<.65f?.35f:1.7f):.7f;
         if(D->Species==2&&O->Species==0)S*=.8f;
         if(S<Score){Best=O;Score=S;}
     }
@@ -114,6 +115,16 @@ void ADinosaurAIController::Think(float Dt)
     }
     if(D->Species==1&&Leader.IsValid()&&Leader->IsPlayerControlled()&&Target.IsValid()&&Now>RetaliationUntil&&FVector::Dist2D(Target->GetActorLocation(),Leader->GetActorLocation())>5000)Target=nullptr;
     FVector Position=D->GetActorLocation();float Fraction=D->Health->Fraction();
+    if(D->Species!=3&&D->Hunger->Fraction()<.65f&&!D->Combat->IsBusy()&&!D->Combat->bCharging&&Now>RetaliationUntil)
+    {
+        const bool ImmediateThreat=Target.IsValid()&&FVector::Dist2D(Position,Target->GetActorLocation())<2000&&Target->Species!=3;
+        if(!ImmediateThreat&&D->Food->bEating){State=TEXT("Feeding");Path.Empty();return;}
+        if(!ImmediateThreat)if(auto* Meal=D->Food->FindFood(18000))
+        {
+            Target=nullptr;D->Combat->SetBrace(false);State=TEXT("Seeking food");Decision=TEXT("Replenish hunger and stamina");GoTo(Meal->GetActorLocation());
+            if(FVector::Dist2D(Position,Meal->GetActorLocation())<D->Stats().AttackRange+200){Path.Empty();D->Food->StartEating();State=D->Food->bEating?TEXT("Feeding"):TEXT("Seeking food");}return;
+        }
+    }
     if(D->Species==3)
     {
         if(Target.IsValid())
@@ -203,7 +214,7 @@ void ADinosaurAIController::Think(float Dt)
         }
         return;
     }
-    if(Fraction<.88f||D->Stamina->Fraction()<.45f)if(auto* Food=D->Food->FindFood(12000))
+    if(Fraction<.88f||D->Stamina->Fraction()<.45f||D->Hunger->Fraction()<.7f)if(auto* Food=D->Food->FindFood(12000))
     {
         State=TEXT("Seeking food");GoTo(Food->GetActorLocation());
         if(FVector::Dist2D(Position,Food->GetActorLocation())<D->Stats().AttackRange+200){Path.Empty();D->Food->StartEating();}return;

@@ -99,3 +99,13 @@ Checkpoint before combat polish: all four final regression scripts passed. Solo 
 
 Combat follow-up passed 17/17: correct species materials, held-sprint exhaustion/recovery, repeated exhausted attacks recovering, blood preserving materials, and raptor surviving full Rex heavy with 39 HP. Removed inherited F2 unlit/F3 lit and Shift debug bindings after screenshot exposed lighting switching during settings. Repeated 24 rendered capture sequence after fix; fixed test screenshot-copy retry for asynchronous file writes. Pack fights used shared abilities and no failed paths/stuck recoveries. Standalone combat package completed successfully; final packaged launch remains to be verified.
 
+
+## Hunger, finite food and map visibility
+
+- Reduced raptor quick damage from 82 to 74 (full pounce 214.6) at the user's request.
+- Added species-configurable hunger, gentle depletion, the requested 70/40/20/10 percent regeneration/starvation thresholds, and rapid direct restoration through food.
+- Separated edible carcasses from respawning characters. Food budgets: prey 25, raptor 120, Rex 360, Triceratops 480. Corpses collapse, freeze, use reduced LOD/distance culling, and remain until consumed. Depleted plants disappear and regrow after 120 seconds.
+- Implemented sight/noise map visibility and line-of-sight health labels. Noise reveals last-known positions for six seconds; sprinting and charging keep the reveal current.
+- Live ecology/visibility test passed 42/42: measured actual health/stamina regeneration and starvation rates for all three species; verified direct food recovery, exact finite consumption, correct corpse sizes, frozen collapse, persistence beyond respawn, plant hiding, camera-view visibility, physical occlusion, AI/human noise and expiration, and hungry AI actually feeding.
+- Five additional edge checks passed: hidden depleted remote plant, starvation death/carcass, full-resource ten-second respawn, and an offscreen held charge staying revealed beyond six seconds.
+- Full previous-system regression and final packaged launch checks are in progress; only completed results are claimed above.

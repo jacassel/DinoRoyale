@@ -5,6 +5,7 @@
 #include "DinosaurCharacter.generated.h"
 class UHealthComponent;
 class UStaminaComponent;
+class UHungerComponent;
 class UCombatComponent;
 class USpringArmComponent;
 class UCameraComponent;
@@ -24,6 +25,12 @@ public:
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UHealthComponent* Health;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UCombatComponent* Combat;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UStaminaComponent* Stamina;
+    UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UHungerComponent* Hunger;
+    float RevealUntil=-100;
+    FVector LastRevealedPosition=FVector::ZeroVector;
+    void RevealNoise();
+    bool CanSeeDinosaur(const ADinosaurCharacter* Other) const;
+    bool MapPositionFor(const ADinosaurCharacter* Other,FVector& Position) const;
     bool bSprintRequested=false,bSprinting=false;
     void SprintOn(){bSprintRequested=true;}
     void SprintOff(){bSprintRequested=false;bSprinting=false;}
@@ -40,7 +47,7 @@ public:
     float DeathTime=0,MouseSensitivity=1.f;
     int32 CombatantID=0,TeamID=-1;
     TMap<int32,float> DamageContributors;
-    float Nutrition=1,RespawnDelay=10;
+    float RespawnDelay=10;
     FVector HomePosition=FVector::ZeroVector;
     TWeakObjectPtr<ADinosaurCharacter> LastAttacker;
     const FSpeciesData& Stats() const {return FSpeciesData::Get(Species);}

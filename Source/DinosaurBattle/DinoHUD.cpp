@@ -5,6 +5,7 @@
 #include "LostValleyWorld.h"
 #include "HealthComponent.h"
 #include "StaminaComponent.h"
+#include "HungerComponent.h"
 #include "CombatComponent.h"
 #include "FoodSystem.h"
 #include "Engine/Canvas.h"
@@ -38,7 +39,7 @@ void ADinoHUD::DrawHUD()
         FString Goal=GM->bTeamMatch?FString::Printf(TEXT("5v5   YOUR TEAM %d - %d RIVALS   /   GOAL %d"),GM->TeamKills[0],GM->TeamKills[1],GM->TeamKillGoal):FString::Printf(TEXT("FREE-FOR-ALL   %d / %d KILLS"),Score.Kills,GM->SoloKillGoal);
         Text(Goal,W*.5f-160*S,79*S,.73f,Teal);
     }
-    Panel(24*S,24*S,386*S,187*S);
+    Panel(24*S,24*S,386*S,230*S);
     Text(TEXT("DINOSAUR BATTLE  /  0.1"),42*S,37*S,.95f,Gold);
     Text(D->Stats().Name,42*S,64*S,1.32f);
     FLinearColor HealthColor=D->Health->Fraction()<.25f?Red:D->Health->Fraction()<.5f?Gold:Teal;
@@ -49,17 +50,20 @@ void ADinoHUD::DrawHUD()
     Bar(42*S,152*S,350*S,9*S,D->Stamina->Fraction(),StaminaColor);
     Text(FString::Printf(TEXT("STAMINA %.0f / %.0f   %s"),D->Stamina->Current,D->Stamina->Maximum,D->Stamina->bExhausted?TEXT("EXHAUSTED"):D->bSprinting?TEXT("SPRINTING"):TEXT("SHIFT TO SPRINT")),42*S,169*S,.73f,StaminaColor);
     Text(FString::Printf(TEXT("COMBO %d / 3%s"),D->Combat->ComboCount,D->Combat->ComboCount==3&&D->Combat->IsBusy()?TEXT(" - RECOVERING"):TEXT("")),42*S,190*S,.68f,Muted);
+    const float Hunger=D->Hunger->Fraction();const auto HungerColor=Hunger<=.2f?Red:Hunger<.7f?Gold:Teal;
+    Bar(42*S,213*S,350*S,9*S,Hunger,HungerColor);
+    Text(FString::Printf(TEXT("HUNGER %.0f%%   %s"),Hunger*100,Hunger<=.1f?TEXT("STARVING - EAT"):Hunger<=.2f?TEXT("NO STAMINA REGEN"):Hunger<.4f?TEXT("NO HEALTH REGEN"):Hunger<.7f?TEXT("HUNGRY"):TEXT("WELL FED")),42*S,230*S,.71f,HungerColor);
     Text(ALostValleyWorld::RegionName(D->GetActorLocation()),W*.5f-150*S,30*S,.98f,Gold);
     Text(D->bSwimming?TEXT("SWIMMING - SPACE TO SURGE"):D->bInWater?TEXT("WADING - MOVEMENT SLOWED"):TEXT("LOST VALLEY"),W*.5f-80*S,51*S,.70f,D->bInWater?Teal:Muted);
     if(D->Species==1)
     {
         int32 Alive=0,Close=0;
         for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(*It!=D&&It->Species==1&&!It->bDead&&!D->IsEnemy(*It)){++Alive;if(FVector::Dist2D(D->GetActorLocation(),It->GetActorLocation())<5000)++Close;}
-        Text(FString::Printf(TEXT("PACK LEADER   %d nearby / %d alive"),Close,Alive),42*S,223*S,.9f,Teal);
+        Text(FString::Printf(TEXT("PACK LEADER   %d nearby / %d alive"),Close,Alive),42*S,268*S,.9f,Teal);
     }
     float Since=GetWorld()->GetTimeSeconds()-D->Health->LastDamageTime;
     if(!D->bDead&&D->Health->Fraction()<1&&!D->Food->bEating)
-        Text(Since<D->Stats().RegenDelay?FString::Printf(TEXT("Regeneration in %.1fs"),D->Stats().RegenDelay-Since):TEXT("Regenerating +2% / sec"),42*S,248*S,.8f,Muted);
+        Text(Since<D->Stats().RegenDelay?FString::Printf(TEXT("Regeneration in %.1fs"),D->Stats().RegenDelay-Since):D->Hunger->HealthRegenFactor()<=0?TEXT("Eat to restore health regeneration"):TEXT("Regenerating - rate depends on hunger"),42*S,293*S,.8f,Muted);
     if(D->Health->HitFlash>0)
     {
         FLinearColor Flash(.75f,.12f,.08f,D->Health->HitFlash*.8f);
@@ -67,7 +71,7 @@ void ADinoHUD::DrawHUD()
     }
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
     {
-        auto* O=*It;if(O==D||O->bDead||FVector::DistSquared(D->GetActorLocation(),O->GetActorLocation())>FMath::Square(6000.f))continue;
+        auto* O=*It;if(O==D||O->bDead||!D->CanSeeDinosaur(O)||FVector::DistSquared(D->GetActorLocation(),O->GetActorLocation())>FMath::Square(6000.f))continue;
         FVector2D P;if(PlayerOwner->ProjectWorldLocationToScreen(O->GetActorLocation()+FVector(0,0,O->Stats().HalfHeight+80),P)&&P.X>0&&P.X<W&&P.Y>0&&P.Y<H)
         {
             FLinearColor C=D->IsEnemy(O)?Red:Teal;Bar(P.X-45*S,P.Y,90*S,5*S,O->Health->Fraction(),C);
@@ -84,8 +88,11 @@ void ADinoHUD::DrawHUD()
     }
     else if(!D->bDead&&D->Food->FindFood(D->Stats().AttackRange+260))
     {
-        Panel(W*.5f-180*S,H-166*S,360*S,42*S);
-        Text(D->Food->bEating?TEXT("FEEDING  +12% HEALTH / SEC"):D->Species==2?TEXT("HOLD E - EAT VEGETATION"):TEXT("HOLD E - FEED ON CARCASS"),W*.5f-140*S,H-154*S,.95f,Teal);
+        Panel(W*.5f-205*S,H-176*S,410*S,66*S);
+        Text(D->Food->bEating?TEXT("FEEDING  +HEALTH / STAMINA / HUNGER"):D->Species==2?TEXT("HOLD E - EAT VEGETATION"):TEXT("HOLD E - FEED ON CARCASS"),W*.5f-185*S,H-164*S,.76f,Teal);
+        AActor* Meal=D->Food->FindFood(D->Stats().AttackRange+260);float Remaining=0;
+        if(auto* Plant=Cast<AFoodPlant>(Meal))Remaining=Plant->Nutrition;else if(auto* Corpse=Cast<ADinosaurCarcass>(Meal))Remaining=Corpse->Nutrition;
+        Text(FString::Printf(TEXT("%.0f food remaining"),Remaining),W*.5f-185*S,H-138*S,.7f,Muted);
     }
     if(PC->bShowHelp)
     {
@@ -174,11 +181,12 @@ void ADinoHUD::DrawWorldMap(ADinosaurCharacter* D,bool Full)
     if(Full)
     {
         for(FVector P:ALostValleyWorld::Landmarks()){auto Q=Point(P);DrawRect(Gold,Q.X-2*S,Q.Y-2*S,4*S,4*S);Text(ALostValleyWorld::RegionName(P),Q.X+6*S,Q.Y,.65f,Gold);}
-        Text(TEXT("M  Close map     1.15 km playable region     N ^"),X,Y+Size+18*S,.78f,Muted);
+        Text(TEXT("M Close   Markers: sight / recent attack or sprint   N ^"),X,Y+Size+18*S,.78f,Muted);
     }
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(*It!=D&&It->bMajor&&!It->bDead)
     {
-        auto Q=Point(It->GetActorLocation());DrawRect(D->IsEnemy(*It)?Red:Teal,Q.X-2*S,Q.Y-2*S,4*S,4*S);
+        FVector Marker;if(!D->MapPositionFor(*It,Marker))continue;
+        auto Q=Point(Marker);DrawRect(D->IsEnemy(*It)?Red:Teal,Q.X-2*S,Q.Y-2*S,4*S,4*S);
     }
     auto Q=Point(D->GetActorLocation());float A=FMath::DegreesToRadians(D->GetActorRotation().Yaw);FVector2D F(FMath::Cos(A),-FMath::Sin(A)),R(-F.Y,F.X);
     FVector2D Tip=Q+F*9*S,L=Q-F*5*S+R*5*S,B=Q-F*5*S-R*5*S;

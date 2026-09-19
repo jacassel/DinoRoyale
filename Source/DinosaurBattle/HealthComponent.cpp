@@ -1,4 +1,6 @@
 #include "HealthComponent.h"
+#include "DinosaurCharacter.h"
+#include "HungerComponent.h"
 #include "Engine/World.h"
 UHealthComponent::UHealthComponent(){PrimaryComponentTick.bCanEverTick=true;}
 void UHealthComponent::Reset(float Max,float Delay,float Rate){Maximum=Max;Current=Max;RegenDelay=Delay;RegenRate=Rate;LastDamageTime=-100;}
@@ -12,5 +14,5 @@ void UHealthComponent::Heal(float Amount){if(!IsDead()) Current=FMath::Clamp(Cur
 void UHealthComponent::TickComponent(float Dt,ELevelTick Type,FActorComponentTickFunction* Tick)
 {
     Super::TickComponent(Dt,Type,Tick); HitFlash=FMath::Max(0.f,HitFlash-Dt);
-    if(!IsDead() && GetWorld()->GetTimeSeconds()-LastDamageTime>=RegenDelay) Heal(Maximum*RegenRate*Dt);
+    if(!IsDead() && GetWorld()->GetTimeSeconds()-LastDamageTime>=RegenDelay) {auto* D=Cast<ADinosaurCharacter>(GetOwner());Heal(Maximum*RegenRate*Dt*(D?D->Hunger->HealthRegenFactor():1.f));}
 }
