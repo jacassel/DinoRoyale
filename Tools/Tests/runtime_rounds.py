@@ -1,10 +1,11 @@
 """Play two rendered matches with real player inputs while nine independent AI run."""
-import runtime_core as t,time,math,json
+import runtime_core as t,time,math,json,sys
 reports=[]
 for teams,species in [(False,0),(True,1)]:
+    t.command('menu',open=False)
     t.command('species',value=species);t.command('match',teams=teams);t.command('sandbox',enabled=False);t.command('invulnerable',value=False);t.command('removeTarget');t.command('ai',paused=False)
     start=time.monotonic();start_frames=t.state().get('frameCount',0);samples=[];last_sample=0;last_attack=0;charging=False;charge_started=0;walking=False
-    while time.monotonic()-start<300:
+    while time.monotonic()-start<600:
         s=t.state();now=time.monotonic()
         if now-last_sample>1:
             samples.append(s);last_sample=now
@@ -31,5 +32,7 @@ for teams,species in [(False,0),(True,1)]:
     report=dict(mode='team' if teams else 'solo',seconds=round(time.monotonic()-start,2),roundOver=s['roundOver'],winner=s['winner'],teamScore=[s['team0Kills'],s['team1Kills']],humanScore=[s['kills'],s['deaths'],s['assists']],majorAI=len(major),hitsBySpecies={str(i):sum(a['hits'] for a in major if a['species']==i) for i in range(3)},failedPaths=sum(a['failedPaths'] for a in major),maxStuckRecoveries=max(a['stuckRecoveries'] for a in major),fellBelowTerrain=any(a['z']<a['ground']-120 for q in samples for a in q['ai'] if a['major'] and not a['dead']),meanFPS=s['meanFPS'],states=sorted({a['state'] for q in samples for a in q['ai']}))
     report['observedFPS']=(s.get('frameCount',start_frames)-start_frames)/max(.1,time.monotonic()-start)
     report['guardsUsed']=sum(a.get('guards',0) for a in major);report['retreatDecisions']=sum(a.get('retreats',0) for a in major)
+    report['passed']=report['roundOver'] and report['majorAI']==9 and report['failedPaths']==0 and not report['fellBelowTerrain']
     reports.append(report);(t.OUT/'played-rounds.json').write_text(json.dumps(reports,indent=2));print(json.dumps(report),flush=True)
 t.command('ai',paused=True)
+sys.exit(any(not r['passed'] for r in reports))

@@ -4,10 +4,10 @@ The bridge sends FInputKeyEventArgs through the real PlayerController input mapp
 It never substitutes test movement/combat implementations. Setup commands place a dummy
 and apply injury; assertions inspect the continuously simulated game state.
 """
-import json, pathlib, time, math, sys
+import json, pathlib, time, math, sys, os
 
 ROOT=pathlib.Path(__file__).resolve().parents[2]
-BRIDGE=ROOT/'Saved/Automation'
+BRIDGE=pathlib.Path(os.environ.get('DINO_BRIDGE_DIR', str(ROOT/'Saved/Automation')))
 OUT=ROOT/'Tests/Results'
 OUT.mkdir(parents=True,exist_ok=True)
 results=[]
@@ -94,7 +94,11 @@ def run_species(i,name):
     key('RightMouseButton');time.sleep(.2);check(name+' recovered charge',state()['charging']);key('RightMouseButton','up');time.sleep(1.8)
     command('damage',value=100000);time.sleep(.15);check(name+' death',state()['dead'] and state()['health']==0)
     a=state();hold('W',.5);check(name+' dead movement blocked',dist(a,state())<2)
-    time.sleep(state().get('respawnDelay',10));a=state();check(name+' respawn',not a['dead'] and a['health']==a['maxHealth'])
+    deadline=time.monotonic()+25
+    death_game_time=a['time']
+    while state()['dead'] and time.monotonic()<deadline:
+        time.sleep(.1)
+    a=state();check(name+' respawn',not a['dead'] and a['health']==a['maxHealth'],gameSeconds=a['time']-death_game_time)
     b=hold('W',.5);check(name+' respawn movement',dist(a,b)>80)
     command('screenshot');time.sleep(.3)
 

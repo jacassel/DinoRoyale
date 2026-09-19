@@ -3,18 +3,18 @@
     "test": "Trex enters deep pond swimming",
     "passed": true,
     "animation": "Swim",
-    "z": 131.24520090099526
+    "z": 131.24520103070526
   },
   {
     "test": "Trex floats at surface",
     "passed": true,
-    "height": 131.24520090099526,
+    "height": 131.24520103070526,
     "surface": 180
   },
   {
     "test": "Trex swims forward",
     "passed": true,
-    "metres": 5.018660822349266
+    "metres": 5.300409408446367
   },
   {
     "test": "Trex swimming is slower",
@@ -46,7 +46,7 @@
   {
     "test": "Trex surface surge",
     "passed": true,
-    "rise": 62.16703654589432
+    "rise": 48.66208585522534
   },
   {
     "test": "Trex returns to swimming after surge",
@@ -55,8 +55,8 @@
   {
     "test": "Trex swims to shore and exits",
     "passed": true,
-    "x": 12317.457860566656,
-    "z": 812.4345703419804,
+    "x": 12222.320260476497,
+    "z": 757.0495281397565,
     "animation": "Idle"
   },
   {
@@ -67,18 +67,18 @@
     "test": "Raptor enters deep pond swimming",
     "passed": true,
     "animation": "Swim",
-    "z": 158.7454092832333
+    "z": 158.74540991956414
   },
   {
     "test": "Raptor floats at surface",
     "passed": true,
-    "height": 158.7454092832333,
+    "height": 158.74540991956414,
     "surface": 180
   },
   {
     "test": "Raptor swims forward",
     "passed": true,
-    "metres": 8.372306633746875
+    "metres": 7.9724460738030025
   },
   {
     "test": "Raptor swimming is slower",
@@ -88,8 +88,8 @@
   },
   {
     "test": "Raptor brace holds position in water",
-    "passed": true,
-    "distance": 0.0
+    "passed": false,
+    "distance": 2.6558475787642237
   },
   {
     "test": "Raptor injured swim slowdown",
@@ -110,7 +110,7 @@
   {
     "test": "Raptor surface surge",
     "passed": true,
-    "rise": 71.35554956985123
+    "rise": 65.38728865616375
   },
   {
     "test": "Raptor returns to swimming after surge",
@@ -119,8 +119,8 @@
   {
     "test": "Raptor swims to shore and exits",
     "passed": true,
-    "x": 12395.111768984567,
-    "z": 739.8051238201255,
+    "x": 12354.565618173558,
+    "z": 716.1746804827716,
     "animation": "Idle"
   },
   {
@@ -131,18 +131,18 @@
     "test": "Trike enters deep pond swimming",
     "passed": true,
     "animation": "Swim",
-    "z": 142.49550662635986
+    "z": 142.49550795026397
   },
   {
     "test": "Trike floats at surface",
     "passed": true,
-    "height": 142.49550662635986,
+    "height": 142.49550795026397,
     "surface": 180
   },
   {
     "test": "Trike swims forward",
     "passed": true,
-    "metres": 4.0998296833419134
+    "metres": 4.216833404390318
   },
   {
     "test": "Trike swimming is slower",
@@ -174,7 +174,7 @@
   {
     "test": "Trike surface surge",
     "passed": true,
-    "rise": 47.50023922059134
+    "rise": 45.32692357841455
   },
   {
     "test": "Trike returns to swimming after surge",
@@ -183,8 +183,8 @@
   {
     "test": "Trike swims to shore and exits",
     "passed": true,
-    "x": 12229.05566692901,
-    "z": 719.0678681621374,
+    "x": 12271.624106407326,
+    "z": 743.8791774086068,
     "animation": "Idle"
   },
   {

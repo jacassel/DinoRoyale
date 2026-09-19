@@ -1,0 +1,90 @@
+[
+  {
+    "script": "runtime_combat_polish.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 69,
+    "expected": 69,
+    "seconds": 96.8
+  },
+  {
+    "script": "runtime_combat_followup.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 17,
+    "expected": 17,
+    "seconds": 46.2
+  },
+  {
+    "script": "runtime_integration.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 41,
+    "expected": 41,
+    "seconds": 63.4
+  },
+  {
+    "script": "runtime_settings.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 28,
+    "expected": 28,
+    "seconds": 18.7
+  },
+  {
+    "script": "runtime_matches.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 24,
+    "expected": 24,
+    "seconds": 19.1
+  },
+  {
+    "script": "runtime_swimming.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 40,
+    "expected": 40,
+    "seconds": 72.1
+  },
+  {
+    "script": "runtime_ecology.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 42,
+    "expected": 42,
+    "seconds": 113.9
+  },
+  {
+    "script": "runtime_ecology_edges.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 5,
+    "expected": 5,
+    "seconds": 29.7
+  },
+  {
+    "script": "runtime_tactics.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 11,
+    "expected": 11,
+    "seconds": 26.7
+  },
+  {
+    "script": "runtime_personalities.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 12,
+    "expected": 12,
+    "seconds": 179.9
+  },
+  {
+    "script": "runtime_pack_fights.py",
+    "passed": true,
+    "exitCode": 0,
+    "checks": 3,
+    "expected": 3,
+    "seconds": 25.9
+  }
+]

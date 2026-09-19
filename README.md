@@ -4,7 +4,9 @@ A local single-player dinosaur combat prototype in active development.
 
 ## Launch
 
-Double-click `LaunchGame.bat` to play with the installed Unreal Engine 5.8.2.
+Open `C:\Users\joel1\Documents\DinosaurBattle Prototype` in File Explorer and double-click **LaunchGame.bat**.
+It starts the standalone build in `Dist\Windows`; keep that entire folder together. If the packaged build is absent, the launcher falls back to the installed Unreal Engine 5.8.2.
+Choose a dinosaur with **1 / 2 / 3**. **Escape** pauses; **F10** from the menu exits.
 Double-click `LaunchEditor.bat` to open the project for editing.
 The project file is `DinosaurBattle.uproject`; the startup level is `Content/Maps/LostValley.umap`.
 
@@ -72,13 +74,13 @@ The third quick strike gains 12% damage. Heavy attacks commit forward movement, 
 
 ## Hunger, food and map visibility
 
-Hunger starts full and declines gently: Rex 0.075, raptor 0.085, Triceratops 0.06 points/second, plus 0.035 while sprinting. Without feeding, reaching 70% takes roughly 6–8 minutes of normal activity; severe starvation takes much longer.
+Hunger starts full and declines gently: Rex 0.075, raptor 0.085, Triceratops 0.06 points/second, plus 0.035 while sprinting. Without feeding, reaching 70% takes roughly 6-8 minutes of normal activity; severe starvation takes much longer.
 
 | Hunger | Passive health regeneration | Passive stamina regeneration |
 |---|---|---|
-| 85–100% | 150% of base rate | 125% of base rate |
-| 70–85% | Normal | Normal |
-| 40–70% | 50% | 65% |
+| 85-100% | 150% of base rate | 125% of base rate |
+| 70-85% | Normal | Normal |
+| 40-70% | 50% | 65% |
 | Above 20%, below 40% | None | 40% |
 | 20% or less | None | None |
 | 10% or less | Lose 0.25% maximum health/sec | None |

@@ -4,7 +4,7 @@
     "passed": true,
     "walk": 1050,
     "sprint": 1449,
-    "stamina": 84.99981689453125
+    "stamina": 84.99968719482422
   },
   {
     "test": "Trex walking regenerates",
@@ -52,8 +52,8 @@
   {
     "test": "Trex third strike enforces recovery",
     "passed": true,
-    "first": 0.4966640293598175,
-    "third": 1.446658205986023
+    "first": 0.5466522097587585,
+    "third": 1.4633299827575683
   },
   {
     "test": "Trex immediate fourth strike rejected",
@@ -76,7 +76,7 @@
     "passed": true,
     "quick": 170,
     "heavy": 561,
-    "stamina": 65.23753356933594
+    "stamina": 65.65003967285156
   },
   {
     "test": "Trex heavy has no duplicate damage",
@@ -85,12 +85,12 @@
   {
     "test": "Trex heavy miss punished",
     "passed": true,
-    "recovery": 0.9333250522613525
+    "recovery": 0.9499910473823547
   },
   {
     "test": "Trex food restores stamina at full health",
     "passed": true,
-    "stamina": 55.244712829589844
+    "stamina": 55.37550735473633
   },
   {
     "test": "Trex damage prevents immediate combat feeding",
@@ -109,7 +109,7 @@
     "passed": true,
     "walk": 1600,
     "sprint": 2400,
-    "stamina": 90.99990844726562
+    "stamina": 90.69757080078125
   },
   {
     "test": "Raptor walking regenerates",
@@ -157,8 +157,8 @@
   {
     "test": "Raptor third strike enforces recovery",
     "passed": true,
-    "first": 0.24332429543137551,
-    "third": 0.7766099691390991
+    "first": 0.2400712750852108,
+    "third": 0.7549589395523071
   },
   {
     "test": "Raptor immediate fourth strike rejected",
@@ -181,7 +181,7 @@
     "passed": true,
     "quick": 74,
     "heavy": 214.599609375,
-    "stamina": 75.51256561279297
+    "stamina": 75.3779525756836
   },
   {
     "test": "Raptor heavy has no duplicate damage",
@@ -190,12 +190,12 @@
   {
     "test": "Raptor heavy miss punished",
     "passed": true,
-    "recovery": 0.31665587425231934
+    "recovery": 0.3129565119743347
   },
   {
     "test": "Raptor food restores stamina at full health",
     "passed": true,
-    "stamina": 54.683536529541016
+    "stamina": 56.069034576416016
   },
   {
     "test": "Raptor damage prevents immediate combat feeding",
@@ -214,7 +214,7 @@
     "passed": true,
     "walk": 850,
     "sprint": 1317.5,
-    "stamina": 86.78253173828125
+    "stamina": 87.21553802490234
   },
   {
     "test": "Trike walking regenerates",
@@ -262,8 +262,8 @@
   {
     "test": "Trike third strike enforces recovery",
     "passed": true,
-    "first": 0.46333054900169374,
-    "third": 1.1966636896133422
+    "first": 0.4799891829490662,
+    "third": 1.2133315324783325
   },
   {
     "test": "Trike immediate fourth strike rejected",
@@ -286,7 +286,7 @@
     "passed": true,
     "quick": 135,
     "heavy": 445.5,
-    "stamina": 67.51252746582031
+    "stamina": 67.23777770996094
   },
   {
     "test": "Trike heavy has no duplicate damage",
@@ -295,12 +295,12 @@
   {
     "test": "Trike heavy miss punished",
     "passed": true,
-    "recovery": 0.8833262324333191
+    "recovery": 0.8999821543693542
   },
   {
     "test": "Trike food restores stamina at full health",
     "passed": true,
-    "stamina": 58.56650161743164
+    "stamina": 58.592384338378906
   },
   {
     "test": "Trike damage prevents immediate combat feeding",

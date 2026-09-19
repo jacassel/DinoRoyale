@@ -1,0 +1,84 @@
+[
+  {
+    "mode": "solo",
+    "seconds": 90.28100000001723,
+    "majorAI": 9,
+    "majorCount": 10,
+    "observedFPS": 59.96832113068051,
+    "hits": 36,
+    "hitsBySpecies": {
+      "0": 16,
+      "1": 11,
+      "2": 9
+    },
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Feeding",
+      "Flanking",
+      "Following pack",
+      "Pursuing",
+      "Regrouping",
+      "Repositioning",
+      "Retreating",
+      "Roaming",
+      "Seeking food",
+      "With pack"
+    ],
+    "failedPaths": 0,
+    "maxStuckRecoveries": 0,
+    "allMoved": true,
+    "fellBelowTerrain": false,
+    "resourceBounds": true,
+    "corpses": 2,
+    "revealedSamples": 492,
+    "hungryDinosFinal": {
+      "1": 99.11432647705078,
+      "8": 94.07450103759766
+    },
+    "passed": true
+  },
+  {
+    "mode": "team",
+    "seconds": 90.21900000001187,
+    "majorAI": 9,
+    "majorCount": 10,
+    "observedFPS": 59.9319433822065,
+    "hits": 89,
+    "hitsBySpecies": {
+      "0": 23,
+      "1": 22,
+      "2": 44
+    },
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Feeding",
+      "Flanking",
+      "Following pack",
+      "Pursuing",
+      "Regrouping",
+      "Repositioning",
+      "Retreating",
+      "Roaming",
+      "Seeking food",
+      "With pack"
+    ],
+    "failedPaths": 0,
+    "maxStuckRecoveries": 0,
+    "allMoved": true,
+    "fellBelowTerrain": false,
+    "resourceBounds": true,
+    "corpses": 7,
+    "revealedSamples": 659,
+    "hungryDinosFinal": {
+      "1": 98.08137512207031,
+      "8": 94.75261688232422
+    },
+    "passed": true
+  }
+]

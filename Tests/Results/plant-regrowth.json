@@ -1,0 +1,11 @@
+{
+  "elapsed": 245.60639463365078,
+  "plant": {
+    "name": "FoodPlant_36",
+    "food": 120,
+    "hidden": false,
+    "x": 20357.5,
+    "y": 23000
+  },
+  "passed": true
+}
