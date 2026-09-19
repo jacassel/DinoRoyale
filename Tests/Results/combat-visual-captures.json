@@ -1,0 +1,122 @@
+[
+  {
+    "name": "rex_left_charge",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_left_charge.png",
+    "animation": "Charge"
+  },
+  {
+    "name": "rex_left_heavy_early",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_left_heavy_early.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "rex_left_heavy_late",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_left_heavy_late.png",
+    "animation": "Idle"
+  },
+  {
+    "name": "rex_left_quick",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_left_quick.png",
+    "animation": "Idle"
+  },
+  {
+    "name": "rex_right_charge",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_right_charge.png",
+    "animation": "Charge"
+  },
+  {
+    "name": "rex_right_heavy_early",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_right_heavy_early.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "rex_right_heavy_late",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_right_heavy_late.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "rex_right_quick",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_right_quick.png",
+    "animation": "Quick"
+  },
+  {
+    "name": "rex_front_oblique_charge",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_front_oblique_charge.png",
+    "animation": "Charge"
+  },
+  {
+    "name": "rex_front_oblique_heavy_early",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_front_oblique_heavy_early.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "rex_front_oblique_heavy_late",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_front_oblique_heavy_late.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "rex_front_oblique_quick",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_front_oblique_quick.png",
+    "animation": "Quick"
+  },
+  {
+    "name": "rex_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_blood_on.png",
+    "animation": "Quick"
+  },
+  {
+    "name": "rex_heavy_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_heavy_blood_on.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "rex_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_blood_off.png",
+    "animation": "Quick"
+  },
+  {
+    "name": "rex_heavy_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_heavy_blood_off.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "raptor_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\raptor_blood_on.png",
+    "animation": "Idle"
+  },
+  {
+    "name": "raptor_heavy_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\raptor_heavy_blood_on.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "raptor_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\raptor_blood_off.png",
+    "animation": "Idle"
+  },
+  {
+    "name": "raptor_heavy_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\raptor_heavy_blood_off.png",
+    "animation": "Idle"
+  },
+  {
+    "name": "trike_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\trike_blood_on.png",
+    "animation": "Quick"
+  },
+  {
+    "name": "trike_heavy_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\trike_heavy_blood_on.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "trike_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\trike_blood_off.png",
+    "animation": "Quick"
+  },
+  {
+    "name": "trike_heavy_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\trike_heavy_blood_off.png",
+    "animation": "Heavy"
+  }
+]

@@ -9,7 +9,10 @@ def shot(name):
  for _ in range(100):
   new=set(folder.glob('*.png'))-before
   if new:
-   src=max(new,key=lambda p:p.stat().st_mtime);time.sleep(.15);dest=out/(name+'.png');shutil.copyfile(src,dest);shots.append(dict(name=name,path=str(dest),animation=t.state()['animation']));return
+   src=max(new,key=lambda p:p.stat().st_mtime);time.sleep(.15);dest=out/(name+'.png')
+   try:shutil.copyfile(src,dest)
+   except OSError:time.sleep(.1);continue
+   shots.append(dict(name=name,path=str(dest),animation=t.state()['animation']));return
   time.sleep(.03)
  raise RuntimeError('Screenshot missing')
 def toggle_blood(enabled):
