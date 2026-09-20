@@ -1,69 +1,71 @@
 [
   {
     "mode": "solo",
-    "seconds": 221.53,
+    "seconds": 162.86,
     "roundOver": true,
-    "winner": 4,
+    "winner": 9,
     "teamScore": [
       0,
       0
     ],
     "humanScore": [
-      3,
-      5,
-      1
+      1,
+      6,
+      0
     ],
     "majorAI": 9,
     "hitsBySpecies": {
-      "0": 37,
-      "1": 54,
-      "2": 83
+      "0": 150,
+      "1": 16,
+      "2": 61
     },
     "failedPaths": 0,
     "maxStuckRecoveries": 0,
     "fellBelowTerrain": false,
-    "meanFPS": 58.973348093888994,
+    "meanFPS": 59.92845317623468,
     "states": [
       "Attacking",
       "Bracing",
       "Charging",
       "Dead",
-      "Flanking",
+      "Feeding",
       "Fleeing",
       "Following pack",
       "Pursuing",
+      "Repositioning",
       "Retreating",
       "Roaming",
       "Seeking food"
     ],
-    "observedFPS": 58.4932316844717,
-    "guardsUsed": 64,
-    "retreatDecisions": 47
+    "observedFPS": 59.9414217206307,
+    "guardsUsed": 65,
+    "retreatDecisions": 52,
+    "passed": true
   },
   {
     "mode": "team",
-    "seconds": 251.89,
+    "seconds": 250.33,
     "roundOver": true,
     "winner": 9,
     "teamScore": [
-      2,
+      3,
       10
     ],
     "humanScore": [
-      1,
-      9,
+      2,
+      8,
       1
     ],
     "majorAI": 9,
     "hitsBySpecies": {
-      "0": 57,
-      "1": 35,
-      "2": 221
+      "0": 108,
+      "1": 128,
+      "2": 169
     },
     "failedPaths": 0,
-    "maxStuckRecoveries": 3,
+    "maxStuckRecoveries": 0,
     "fellBelowTerrain": false,
-    "meanFPS": 57.75256503508181,
+    "meanFPS": 59.927795103481465,
     "states": [
       "Attacking",
       "Bracing",
@@ -75,13 +77,15 @@
       "Following pack",
       "Pursuing",
       "Regrouping",
+      "Repositioning",
       "Retreating",
       "Roaming",
       "Seeking food",
       "With pack"
     ],
-    "observedFPS": 50.79995236015733,
-    "guardsUsed": 116,
-    "retreatDecisions": 312
+    "observedFPS": 59.84165787875599,
+    "guardsUsed": 132,
+    "retreatDecisions": 225,
+    "passed": true
   }
 ]

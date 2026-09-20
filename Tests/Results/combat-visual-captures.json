@@ -12,6 +12,11 @@
   {
     "name": "rex_left_heavy_late",
     "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_left_heavy_late.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "rex_left_recovery",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_left_recovery.png",
     "animation": "Idle"
   },
   {
@@ -35,9 +40,14 @@
     "animation": "Heavy"
   },
   {
+    "name": "rex_right_recovery",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_right_recovery.png",
+    "animation": "Idle"
+  },
+  {
     "name": "rex_right_quick",
     "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_right_quick.png",
-    "animation": "Quick"
+    "animation": "Idle"
   },
   {
     "name": "rex_front_oblique_charge",
@@ -55,9 +65,14 @@
     "animation": "Heavy"
   },
   {
+    "name": "rex_front_oblique_recovery",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_front_oblique_recovery.png",
+    "animation": "Idle"
+  },
+  {
     "name": "rex_front_oblique_quick",
     "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\rex_front_oblique_quick.png",
-    "animation": "Quick"
+    "animation": "Idle"
   },
   {
     "name": "rex_blood_on",
@@ -87,7 +102,7 @@
   {
     "name": "raptor_heavy_blood_on",
     "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\raptor_heavy_blood_on.png",
-    "animation": "Heavy"
+    "animation": "Idle"
   },
   {
     "name": "raptor_blood_off",
@@ -102,7 +117,7 @@
   {
     "name": "trike_blood_on",
     "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\trike_blood_on.png",
-    "animation": "Quick"
+    "animation": "Idle"
   },
   {
     "name": "trike_heavy_blood_on",
@@ -112,7 +127,7 @@
   {
     "name": "trike_blood_off",
     "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\CombatVisuals\\trike_blood_off.png",
-    "animation": "Quick"
+    "animation": "Idle"
   },
   {
     "name": "trike_heavy_blood_off",
