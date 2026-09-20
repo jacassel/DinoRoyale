@@ -76,11 +76,12 @@ void ADinoPlayerController::SetupInputComponent()
     InputComponent->BindAction("Blood",IE_Pressed,this,&ADinoPlayerController::ToggleBlood).bExecuteWhenPaused=true;
     InputComponent->BindAction("Map",IE_Pressed,this,&ADinoPlayerController::ToggleMap);
     InputComponent->BindAction("Help",IE_Pressed,this,&ADinoPlayerController::ToggleHelp);
-    InputComponent->BindAction("Respawn",IE_Pressed,this,&ADinoPlayerController::RespawnPlayer);
+    InputComponent->BindAction("MapPin",IE_Pressed,this,&ADinoPlayerController::PlaceMapPin);
 }
 void ADinoPlayerController::SetMenuOpen(bool Open)
 {
     bSelectionOpen=Open;bMapOpen=false;if(!Open)bSettingsOpen=false;
+    ResetIgnoreLookInput();ResetIgnoreMoveInput();
     if(Open)
     {
         if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->Combat->bCharging=false;D->Combat->bBracing=false;D->Combat->BufferedQuick=0;D->SprintOff();D->Food->StopEating();D->GetCharacterMovement()->StopMovementImmediately();}
@@ -92,7 +93,31 @@ void ADinoPlayerController::ToggleMenu(){if(bSettingsOpen){bSettingsOpen=false;r
 void ADinoPlayerController::ToggleMatchMode(){if(bSelectionOpen&&!bSettingsOpen)if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->SetTeamMode(!GM->bTeamMatch);}
 void ADinoPlayerController::ToggleSettings(){if(bSelectionOpen)bSettingsOpen=!bSettingsOpen;}
 void ADinoPlayerController::ToggleBlood(){if(bSelectionOpen&&bSettingsOpen){bBloodEnabled=!bBloodEnabled;if(!bBloodEnabled)ADinoEffects::ClearBlood(GetWorld());GConfig->SetBool(TEXT("Dino.UserSettings"),TEXT("BloodEnabled"),bBloodEnabled,GGameIni);GConfig->Flush(false,GGameIni);}}
-void ADinoPlayerController::ToggleMap(){if(!bSelectionOpen)bMapOpen=!bMapOpen;}
+void ADinoPlayerController::ToggleMap()
+{
+    if(bSelectionOpen)return;
+    bMapOpen=!bMapOpen;FlushPressedKeys();
+    SetIgnoreLookInput(bMapOpen);SetIgnoreMoveInput(bMapOpen);bShowMouseCursor=bMapOpen;
+    if(bMapOpen)
+    {
+        if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->Combat->Cancel();D->SprintOff();D->Food->StopEating();D->GetCharacterMovement()->StopMovementImmediately();}
+        SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock).SetHideCursorDuringCapture(false));
+        int32 W,H;GetViewportSize(W,H);SetMouseLocation(W/2,H/2);
+    }
+    else SetInputMode(FInputModeGameOnly());
+}
+void ADinoPlayerController::PlaceMapPin()
+{
+    if(bSelectionOpen||!bMapOpen)return;
+    float MX,MY;if(!GetMousePosition(MX,MY))return;
+    int32 W,H;GetViewportSize(W,H);const float Size=FMath::Min(H*.70f,W*.64f),X=(W-Size)*.5f,Y=(H-Size)*.5f;
+    if(MX<X||MX>X+Size||MY<Y||MY>Y+Size)return;
+    const FVector P(((MX-X)/Size-.5f)*60000.f,(.5f-(MY-Y)/Size)*60000.f,0);
+    const float Radius=12.f*FMath::Clamp(H/900.f,.45f,1.5f)*60000.f/Size;
+    for(int32 I=0;I<MapPins.Num();++I)if(FVector::Dist2D(P,MapPins[I])<Radius){MapPins.RemoveAt(I);return;}
+    if(MapPins.Num()>=8)MapPins.RemoveAt(0);
+    MapPins.Add(P);
+}
 void ADinoPlayerController::ToggleHelp(){bShowHelp=!bShowHelp;}
 void ADinoPlayerController::SelectRex(){DinoSpecies(0);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);}
 void ADinoPlayerController::SelectRaptor(){DinoSpecies(1);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);}
@@ -101,10 +126,10 @@ void ADinoPlayerController::ResumeGame(){if(auto* GM=GetWorld()->GetAuthGameMode
 void ADinoPlayerController::QuitGame(){if(bSelectionOpen)ConsoleCommand(TEXT("quit"));}
 void ADinoPlayerController::SensitivityUp(){if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->MouseSensitivity=FMath::Clamp(D->MouseSensitivity+.1f,.2f,3.f);GConfig->SetFloat(TEXT("Dino.Session"),TEXT("MouseSensitivity"),D->MouseSensitivity,GGameIni);GConfig->Flush(false,GGameIni);}}
 void ADinoPlayerController::SensitivityDown(){if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->MouseSensitivity=FMath::Clamp(D->MouseSensitivity-.1f,.2f,3.f);GConfig->SetFloat(TEXT("Dino.Session"),TEXT("MouseSensitivity"),D->MouseSensitivity,GGameIni);GConfig->Flush(false,GGameIni);}}
-void ADinoPlayerController::RespawnPlayer(){if(auto* D=Cast<ADinosaurCharacter>(GetPawn()))if(!D->bDead)D->Die();}
 void ADinoPlayerController::MenuClick()
 {
     if(!bSelectionOpen)return;float X,Y;if(!GetMousePosition(X,Y))return;int32 W,H;GetViewportSize(W,H);
+    if(const auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bRoundOver&&!bSettingsOpen)return;
     if(X>W*.73f&&Y>H*.1f&&Y<H*.21f){ToggleSettings();return;}
     if(bSettingsOpen){if(Y>H*.33f&&Y<H*.45f)ToggleBlood();else if(Y>H*.50f&&Y<H*.59f){if(X>W*.6f)SensitivityUp();else SensitivityDown();}return;}
     float S=FMath::Clamp(H/900.f,.45f,1.5f),Top=H*.28f,CardW=W*.25f,CardH=400*S,Gap=W*.035f,Left=(W-3*CardW-2*Gap)*.5f;
@@ -141,6 +166,7 @@ void ADinoPlayerController::ReadBridge()
         FInputKeyEventArgs Args(nullptr,FInputDeviceId::CreateFromInternalId(0),Key,Event==TEXT("down")?IE_Pressed:Event==TEXT("up")?IE_Released:IE_Axis,Value,false,FPlatformTime::Cycles64());
         Args.DeltaTime=.05f;Args.NumSamples=1;InputKey(Args);
     }
+    else if(Cmd==TEXT("mouse"))SetMouseLocation(O->GetIntegerField(TEXT("x")),O->GetIntegerField(TEXT("y")));
     else if(Cmd==TEXT("audioRecord"))
     {
         if(O->GetBoolField(TEXT("start")))UAudioMixerBlueprintLibrary::StartRecordingOutput(this,60);
@@ -317,6 +343,7 @@ void ADinoPlayerController::WriteTelemetry()
 {
     auto* D=Cast<ADinosaurCharacter>(GetPawn());if(!D)return;
     auto O=MakeShared<FJsonObject>();O->SetNumberField(TEXT("seq"),LastSequence);O->SetNumberField(TEXT("time"),GetWorld()->GetTimeSeconds());
+    TArray<TSharedPtr<FJsonValue>> Pins;for(const FVector& P:MapPins){auto Pin=MakeShared<FJsonObject>();Pin->SetNumberField(TEXT("x"),P.X);Pin->SetNumberField(TEXT("y"),P.Y);Pins.Add(MakeShared<FJsonValueObject>(Pin));}O->SetArrayField(TEXT("mapPins"),Pins);
     O->SetNumberField(TEXT("audioSteps"),D->Audio->Steps);O->SetNumberField(TEXT("audioQuick"),D->Audio->QuickSounds);O->SetNumberField(TEXT("audioHeavy"),D->Audio->HeavySounds);O->SetNumberField(TEXT("audioImpacts"),D->Audio->Impacts);O->SetNumberField(TEXT("audioDeaths"),D->Audio->Deaths);O->SetNumberField(TEXT("audioVoices"),D->Audio->ActiveVoices());
     O->SetNumberField(TEXT("species"),D->Species);O->SetNumberField(TEXT("health"),D->Health->Current);O->SetNumberField(TEXT("maxHealth"),D->Health->Maximum);
     FVector L=D->GetActorLocation();O->SetNumberField(TEXT("x"),L.X);O->SetNumberField(TEXT("y"),L.Y);O->SetNumberField(TEXT("z"),L.Z);

@@ -1,4 +1,26 @@
-# Stable quality checkpoint — September 20, 2026
+# Map and results update — September 20, 2026
+
+Latest update: all living team allies have current-position markers on both maps,
+including followers and while the human waits to respawn. Enemy/solo concealment
+is unchanged. Open M, point, and press R to add/remove a gold pin (maximum eight;
+ninth replaces oldest). Pins survive respawn and clear on a new round. R no
+longer forces death. M closes the map and restores movement/mouse look.
+
+Solo results at five kills show all ten competitors' kills/deaths/assists for
+human or AI victories. Results pause the game; Enter starts a clean round.
+Hidden dinosaur-selection cards can no longer be activated through results.
+
+Standalone build succeeded; 90/90 packaged checks passed: allies 17, map pins
+and solo results 21, existing match rules 24, settings/water/blood 28. Four
+rendered screenshots were reviewed. Evidence: `Tests/Results/map-results-update`.
+Playable: `Dist/Windows`; recovery: `Dist/Checkpoints/2026-09-20-map-results/Windows`.
+Prior playable retained at `Dist/Checkpoints/2026-09-20-before-map-results/Windows`.
+All 48 runtime files were SHA-256 verified across candidate/recovery/promotion
+staging. Source tag: `map-results-stable-20260920`. Pins are local, round-only
+markers; AI teammates do not follow pins. Account allowance at final checkpoint:
+83% remaining; no separate Astra allowance exposed. No purchases or delegation.
+
+## Previous quality checkpoint
 
 Double-click `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
 It starts the verified standalone package in `Dist\Windows` at 1600x900.

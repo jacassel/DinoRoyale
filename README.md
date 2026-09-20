@@ -31,9 +31,12 @@ No commercial models, online gameplay, accounts, external services or paid APIs 
 | F2 in selection | Settings: B toggles blood; +/- changes mouse sensitivity |
 | Enter | Resume; start another round after results |
 | M / H | Map / control help |
+| R with map open | Pin cursor location; R near a pin removes it (up to eight pins) |
 | F10 in the menu | Quit |
 
 The game opens on dinosaur selection. Choose a card or press 1, 2 or 3 to begin. In solo mode the first competitor to **5 kills** wins; in team mode the first team to **10 kills** wins. The human and nine AI fill the match. Major dinosaurs respawn after **10 seconds**.
+
+At round end, the game pauses on results showing all ten competitors' kills, deaths and assists, including when an AI wins solo play. Press Enter to start again. Map pins appear as gold diamonds on both maps, survive respawns, and clear for a new round. Open M, point at a location, then press R; adding a ninth pin replaces the oldest. The world continues while you use the map; close it with M to resume movement and mouse look.
 
 Raptors cooperate in three-member packs: one scoring leader and two AI followers, in both modes. Only the pack leader awards a kill when defeated. Followers' kills currently credit their leader (`SharePackKills=True` in the match configuration). Prey and pack followers do not add points to the kill goal. Kills, deaths and assists appear at the bottom left.
 
@@ -88,6 +91,6 @@ Hunger starts full and declines gently: Rex 0.075, raptor 0.1125, Triceratops 0.
 
 Eating bypasses these passive restrictions: food restores 18 hunger/sec, 32 stamina/sec, and 12% maximum health/sec while available. A tiny prey carcass has 25 food units; raptor 120; Rex 360; Triceratops 480. Consumption is 30 / 18 / 24 units/sec for Rex / raptor / Triceratops. Carcasses persist **within the current session**, independently of respawn, until consumed. They are non-blocking and their animation freezes after collapse to reduce cost. Plants contain 120 units, disappear when depleted, and regrow after 120 seconds. Carnivores eat carcasses; Triceratops eats plants. Available edible plants have a subtle green-gold outline while playing Triceratops. The cue respects visible surfaces, disappears on depletion, and returns on regrowth.
 
-The map shows other dinosaurs only in line of sight or after they attack, charge or sprint. Noisy actions reveal a position for six seconds; ongoing sprint/charge keeps it updated. Once an animal goes quiet and out of sight, the marker holds its last revealed location until it expires. Health labels also respect line of sight. The player's own map arrow stays visible.
+In team play, all living allies (including raptor followers) are always visible at their current positions on both the minimap and expanded map, including while you wait to respawn. Their markers return immediately when they respawn. Enemies, and other dinosaurs in solo play, appear only in line of sight or after they attack, charge or sprint. Noisy actions reveal a position for six seconds; ongoing sprint/charge keeps it updated. Once an animal goes quiet and out of sight, the marker holds its last revealed location until it expires. Health labels also respect line of sight. The player's own map arrow stays visible.
 
 

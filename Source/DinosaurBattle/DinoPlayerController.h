@@ -15,6 +15,8 @@ public:
     void SetMenuOpen(bool Open);
     void ToggleMenu();
     void ToggleMap();
+    void PlaceMapPin();
+    TArray<FVector> MapPins;
     void ToggleHelp();
     void SelectRex();
     void SelectRaptor();
@@ -24,7 +26,6 @@ public:
     void QuitGame();
     void SensitivityUp();
     void SensitivityDown();
-    void RespawnPlayer();
     void ToggleSettings();
     void ToggleBlood();
     void ToggleMatchMode();

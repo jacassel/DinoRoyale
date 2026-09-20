@@ -113,16 +113,17 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
     if(GM&&GM->bRoundOver&&!PC->bSettingsOpen)
     {
         Text(GM->WinnerName(),W*.20f,H*.27f,1.7f,Gold);
-        Text(TEXT("DINOSAUR"),W*.20f,H*.34f,.90f,Muted);
-        Text(TEXT("K"),W*.59f,H*.34f,.90f,Muted);Text(TEXT("D"),W*.65f,H*.34f,.90f,Muted);Text(TEXT("A"),W*.71f,H*.34f,.90f,Muted);
-        TArray<int32> IDs;GM->Scores.GetKeys(IDs);IDs.Sort([&](int32 A,int32 B){return GM->GetScore(A).Kills>GM->GetScore(B).Kills;});
+        Text(GM->bTeamMatch?TEXT("TEAM RESULTS"):FString::Printf(TEXT("SOLO RESULTS / FIRST TO %d KILLS"),GM->SoloKillGoal),W*.20f,H*.235f,.78f,Teal);
+        Text(TEXT("PLAYER / DINOSAUR"),W*.20f,H*.34f,.78f,Muted);
+        Text(TEXT("KILLS"),W*.59f,H*.34f,.72f,Muted);Text(TEXT("DEATHS"),W*.67f,H*.34f,.72f,Muted);Text(TEXT("ASSISTS"),W*.76f,H*.34f,.72f,Muted);
+        TArray<int32> IDs;GM->Scores.GetKeys(IDs);IDs.Sort([&](int32 A,int32 B){auto SA=GM->GetScore(A),SB=GM->GetScore(B);return SA.Kills!=SB.Kills?SA.Kills>SB.Kills:SA.Deaths!=SB.Deaths?SA.Deaths<SB.Deaths:A<B;});
         float Y=H*.39f;
         for(int32 ID:IDs)
         {
             auto* Who=GM->FindCombatant(ID);if(!Who)continue;auto Score=GM->GetScore(ID);FLinearColor C=ID==0?Teal:Muted;
             FString Name=(ID==0?TEXT("YOU / "):FString::Printf(TEXT("AI %d / "),ID))+Who->Stats().Name;
             if(Who->Species==1&&!GM->IsScoringTarget(Who))Name+=TEXT(" follower");
-            Text(Name,W*.20f,Y,.76f,C);Text(FString::FromInt(Score.Kills),W*.59f,Y,.84f,C);Text(FString::FromInt(Score.Deaths),W*.65f,Y,.84f,C);Text(FString::FromInt(Score.Assists),W*.71f,Y,.84f,C);Y+=27*S;
+            Text(Name,W*.20f,Y,.76f,C);Text(FString::FromInt(Score.Kills),W*.59f,Y,.84f,C);Text(FString::FromInt(Score.Deaths),W*.67f,Y,.84f,C);Text(FString::FromInt(Score.Assists),W*.76f,Y,.84f,C);Y+=27*S;
         }
         Text(TEXT("ENTER / ESC  Play again     1 / 2 / 3  Change dinosaur     F3  Change mode"),W*.20f,H*.85f,.78f,Gold);
         return;
@@ -175,18 +176,26 @@ void ADinoHUD::DrawWorldMap(ADinosaurCharacter* D,bool Full)
     float S=Scale,W=Canvas->SizeX,H=Canvas->SizeY;
     float Size=Full?FMath::Min(H*.70f,W*.64f):166*S;
     float X=Full?(W-Size)*.5f:W-Size-30*S,Y=Full?(H-Size)*.5f:25*S;
-    Panel(X-10*S,Y-10*S,Size+20*S,Size+(Full?55:20)*S,.94f);
+    Panel(X-10*S,Y-10*S,Size+20*S,Size+(Full?78:20)*S,.94f);
     if(WorldMap)DrawTextureSimple(WorldMap,X,Y,Size/512.f);else DrawRect(FLinearColor(.14f,.21f,.15f),X,Y,Size,Size);
     auto Point=[&](FVector P){return FVector2D(X+(P.X/60000.f+.5f)*Size,Y+(.5f-P.Y/60000.f)*Size);};
     if(Full)
     {
         for(FVector P:ALostValleyWorld::Landmarks()){auto Q=Point(P);DrawRect(Gold,Q.X-2*S,Q.Y-2*S,4*S,4*S);Text(ALostValleyWorld::RegionName(P),Q.X+6*S,Q.Y,.65f,Gold);}
-        Text(TEXT("M Close   Markers: sight / recent attack or sprint   N ^"),X,Y+Size+18*S,.78f,Muted);
+        const auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>();
+        Text(GM&&GM->bTeamMatch?TEXT("Allies: always / Enemies: sight or noise   N ^"):TEXT("Markers: sight / recent attack or sprint   N ^"),X,Y+Size+18*S,.70f,Muted);
+        Text(TEXT("M Close   Point + R: add/remove pin   Max 8"),X,Y+Size+41*S,.70f,Gold);
     }
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(*It!=D&&It->bMajor&&!It->bDead)
     {
         FVector Marker;if(!D->MapPositionFor(*It,Marker))continue;
         auto Q=Point(Marker);DrawRect(D->IsEnemy(*It)?Red:Teal,Q.X-2*S,Q.Y-2*S,4*S,4*S);
+    }
+    if(const auto* PC=Cast<ADinoPlayerController>(PlayerOwner))for(const FVector& Pin:PC->MapPins)
+    {
+        auto P=Point(Pin);const float R=Full?7*S:5*S;
+        DrawLine(P.X,P.Y-R,P.X+R,P.Y,Gold,2*S);DrawLine(P.X+R,P.Y,P.X,P.Y+R,Gold,2*S);
+        DrawLine(P.X,P.Y+R,P.X-R,P.Y,Gold,2*S);DrawLine(P.X-R,P.Y,P.X,P.Y-R,Gold,2*S);
     }
     auto Q=Point(D->GetActorLocation());float A=FMath::DegreesToRadians(D->GetActorRotation().Yaw);FVector2D F(FMath::Cos(A),-FMath::Sin(A)),R(-F.Y,F.X);
     FVector2D Tip=Q+F*9*S,L=Q-F*5*S+R*5*S,B=Q-F*5*S-R*5*S;

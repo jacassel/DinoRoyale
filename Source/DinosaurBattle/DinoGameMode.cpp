@@ -113,6 +113,7 @@ void ADinoGameMode::SetTeamMode(bool Enabled)
 }
 void ADinoGameMode::StartRound()
 {
+    if(auto* PC=Cast<ADinoPlayerController>(GetWorld()->GetFirstPlayerController()))PC->MapPins.Empty();
     bRoundOver=false;WinnerID=WinnerTeam=-1;TeamKills[0]=TeamKills[1]=0;Scores.Empty();++RoundNumber;RoundStartTime=GetWorld()->GetTimeSeconds();
     const FVector SoloHomes[]={FVector(0,0,0),FVector(12500,3000,0),FVector(28500,-6000,0),FVector(-23500,13500,0),FVector(4500,4000,0),FVector(5000,4400,0),FVector(4400,4800,0),FVector(-14000,-22000,0),FVector(8500,-6500,0),FVector(22000,18000,0)};
     const int32 TeamSpecies[]={0,1,1,1,2,0,1,1,1,2};

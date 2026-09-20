@@ -208,6 +208,8 @@ bool ADinosaurCharacter::CanSeeDinosaur(const ADinosaurCharacter* Other) const
 bool ADinosaurCharacter::MapPositionFor(const ADinosaurCharacter* Other,FVector& Position) const
 {
     if(!Other||Other->bDead)return false;
+    if(const auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())
+        if(GM->bTeamMatch&&TeamID>=0&&Other->TeamID==TeamID){Position=Other->GetActorLocation();return true;}
     if(Other==this||CanSeeDinosaur(Other)){Position=Other->GetActorLocation();return true;}
     if(GetWorld()->GetTimeSeconds()<Other->RevealUntil){Position=Other->LastRevealedPosition;return true;}
     return false;

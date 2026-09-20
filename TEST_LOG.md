@@ -1,5 +1,13 @@
 # Test log
 
+## Map and results update — 2026-09-20
+
+- Standalone BuildCookRun succeeded. Packaging recovered automatically from a transient local Zen connection failure. An early launch attempt before archive completion found no executable; launch after successful archive passed.
+- New packaged tests: allied visibility **17/17**, including all four teammates, followers, occlusion, distance, noise expiry, current coordinates, respawn, and enemy/solo concealment. Pins and results **21/21**, including actual M/R input, cursor-to-world placement, removal, outside-map rejection, eight-pin limit, restored movement, respawn persistence, round reset, human/AI five-kill wins, all ten KDA rows, paused results and hidden-card click protection.
+- Existing packaged regressions: match rules **24/24**, settings/water/blood **28/28**. Total **90/90**. Reviewed four rendered screenshots: expanded map, minimap, human results and AI results.
+- Evidence is in `Tests/Results/map-results-update`. Tested package promoted to `Dist/Windows`, with recovery at `Dist/Checkpoints/2026-09-20-map-results/Windows` and previous playable retained at `Dist/Checkpoints/2026-09-20-before-map-results/Windows`. SHA-256 compared all 48 runtime files across tested, recovery and promotion staging copies; Saved/test state excluded.
+- No multiplayer added: this remains a local human-plus-AI prototype. Pins are personal round markers, not AI orders. Existing longer quality-sprint verification below was not rerun for this small update.
+
 ## Environment — 2026-09-18
 
 - Confirmed Unreal Engine 5.8.2 at `C:/Unreal Engine/UE_5.8`.
