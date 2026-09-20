@@ -8,6 +8,7 @@
 #include "HungerComponent.h"
 #include "Engine/StaticMeshActor.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "CombatComponent.h"
 #include "DinoAnimationComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -265,6 +266,21 @@ void ADinoPlayerController::ReadBridge()
             R->SetArrayField(TEXT("points"),Points);FString Out;auto W=TJsonWriterFactory<>::Create(&Out);FJsonSerializer::Serialize(R,W);FFileHelper::SaveStringToFile(Out,*(BridgeRoot/TEXT("route.json")));break;
         }
     }
+    else if(Cmd==TEXT("worldAudit"))
+    {
+        for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It)
+        {
+            auto R=MakeShared<FJsonObject>();R->SetNumberField(TEXT("trees"),It->Trunks->GetInstanceCount());R->SetNumberField(TEXT("obstacles"),It->Obstacles.Num());
+            TArray<TSharedPtr<FJsonValue>> Samples;
+            for(float Y=-24000;Y<=24000;Y+=1000)for(float X=-24000;X<=24000;X+=1000)
+            {
+                auto P=MakeShared<FJsonObject>();P->SetNumberField(TEXT("x"),X);P->SetNumberField(TEXT("y"),Y);P->SetNumberField(TEXT("z"),ALostValleyWorld::HeightAt(X,Y));
+                const float DX=ALostValleyWorld::HeightAt(X+150,Y)-ALostValleyWorld::HeightAt(X-150,Y),DY=ALostValleyWorld::HeightAt(X,Y+150)-ALostValleyWorld::HeightAt(X,Y-150);
+                P->SetNumberField(TEXT("slope"),FMath::Sqrt(DX*DX+DY*DY)/300);Samples.Add(MakeShared<FJsonValueObject>(P));
+            }
+            R->SetArrayField(TEXT("terrain"),Samples);FString Out;auto W=TJsonWriterFactory<>::Create(&Out);FJsonSerializer::Serialize(R,W);FFileHelper::SaveStringToFile(Out,*(BridgeRoot/TEXT("world-audit.json")));break;
+        }
+    }
     else if(Cmd==TEXT("navAudit"))
     {
         for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It)
@@ -353,6 +369,9 @@ void ADinoPlayerController::WriteTelemetry()
     O->SetNumberField(TEXT("frameMs"),GetWorld()->GetDeltaSeconds()*1000.0);
     TArray<TSharedPtr<FJsonValue>> Pins;for(const FVector& P:MapPins){auto Pin=MakeShared<FJsonObject>();Pin->SetNumberField(TEXT("x"),P.X);Pin->SetNumberField(TEXT("y"),P.Y);Pins.Add(MakeShared<FJsonValueObject>(Pin));}O->SetArrayField(TEXT("mapPins"),Pins);
     O->SetNumberField(TEXT("audioSteps"),D->Audio->Steps);O->SetNumberField(TEXT("audioQuick"),D->Audio->QuickSounds);O->SetNumberField(TEXT("audioHeavy"),D->Audio->HeavySounds);O->SetNumberField(TEXT("audioImpacts"),D->Audio->Impacts);O->SetNumberField(TEXT("audioDeaths"),D->Audio->Deaths);O->SetNumberField(TEXT("audioVoices"),D->Audio->ActiveVoices());
+    O->SetNumberField(TEXT("audioCharges"),D->Audio->Charges);O->SetNumberField(TEXT("audioHurts"),D->Audio->Hurts);
+    O->SetNumberField(TEXT("audioSprintBreaths"),D->Audio->SprintBreaths);O->SetNumberField(TEXT("audioInjuredBreaths"),D->Audio->InjuredBreaths);O->SetNumberField(TEXT("audioLoadedClips"),D->Audio->LoadedClips);
+    int32 AudioTotal=0;for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->Audio)AudioTotal+=It->Audio->ActiveVoices();O->SetNumberField(TEXT("audioTotalVoices"),AudioTotal);
     O->SetNumberField(TEXT("species"),D->Species);O->SetNumberField(TEXT("health"),D->Health->Current);O->SetNumberField(TEXT("maxHealth"),D->Health->Maximum);
     FVector L=D->GetActorLocation();O->SetNumberField(TEXT("x"),L.X);O->SetNumberField(TEXT("y"),L.Y);O->SetNumberField(TEXT("z"),L.Z);
     O->SetNumberField(TEXT("speed"),D->GetVelocity().Size2D());O->SetNumberField(TEXT("maxSpeed"),D->GetCharacterMovement()->MaxWalkSpeed);

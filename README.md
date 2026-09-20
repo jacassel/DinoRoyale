@@ -51,7 +51,7 @@ Blood is optional and off by default. Below 50% health movement and attacks slow
 - Nine major AI dinosaurs plus eighteen smaller prey. Carnivores hunt; raptors share a leader; triceratops defend feeding areas; prey flee.
 - Seeded terrain approximately 575 m across (half the previous travel scale), with plains, forest, ridge, creek, pond, hunting grounds and feeding groves.
 - Clearance-aware grid navigation and local obstacle avoidance.
-- Original positional footsteps, quick/heavy attack motion, successful impacts, and species death sounds, with finite playback and overlap limits.
+- Species-specific positional quick attacks, charge-up/heavy attacks, impacts, hurt reactions, sprint breaths, injured breaths and death sounds. Layered CC0 recordings have three variations per event, finite playback and overlap limits; see `Assets/Audio/CREDITS.md`.
 - Runtime-generated world: the empty saved map is populated by GameMode when Play starts.
 
 ## Development
@@ -61,6 +61,13 @@ Run `powershell -ExecutionPolicy Bypass -File Tools/Build.ps1` to build the edit
 Original Blender automation is in `Tools/Blender`; native sources are in `Assets/Source`, FBX interchange files in `Assets/Export`, and imported Unreal assets in `Content/Dinosaurs` and `Content/World`.
 
 The visual modernization sources are `Assets/Source/DinosaursModern` and `Assets/Source/WorldModern`. They retain the original rigs and animation timings, with baked 2048px dinosaur color/normal/roughness maps, revised eyes/mouths/teeth and fuller vegetation. Unreal adds layered soil/rock/bark, wet banks, depth-colored water with moving normals and screen-space reflections, contact shadows and restrained grading. Original source assets remain available. See `VISUAL_SPRINT.md` for the iteration and verification record.
+
+The sound/terrain pass adds 81 native sound assets, 502 trees, clustered groves and
+rolling hills reaching approximately 26m within the map interior. Existing water
+basins and main travel corridors are retained. `Tools/Art/build_creature_audio.py`
+rebuilds the WAV files; `Tools/Unreal/import_creature_audio.py` imports them.
+See `SOUND_TERRAIN.md` for scope, source credits, measurements and the listening
+limitation of the development session.
 
 Live tests require launching with `-DinoDevBridge`. This opt-in local bridge accepts test setup and real input events through `Saved/Automation/command.json`, and writes runtime state to `telemetry.json`. It is disabled during a normal launch. Test scripts and recorded results are in `Tools/Tests` and `Tests/Results`.
 

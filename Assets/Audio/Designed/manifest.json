@@ -1,0 +1,812 @@
+[
+  {
+    "file": "Trex_Step_0.wav",
+    "species": 0,
+    "event": "Step",
+    "variant": 0,
+    "seconds": 0.28,
+    "peak": 0.40850268952628244,
+    "rms": 0.09999999999992239,
+    "sha256": "168c468a84722bb333cc2ca1360c222a02426334a4ad05012aa0110605acf082"
+  },
+  {
+    "file": "Trex_Step_1.wav",
+    "species": 0,
+    "event": "Step",
+    "variant": 1,
+    "seconds": 0.28,
+    "peak": 0.46311953429472896,
+    "rms": 0.09999999999998505,
+    "sha256": "6b6bf85617d82934cd505f5282d4d56545d604e10845601f79d747d90a717729"
+  },
+  {
+    "file": "Trex_Step_2.wav",
+    "species": 0,
+    "event": "Step",
+    "variant": 2,
+    "seconds": 0.28,
+    "peak": 0.5957846560676822,
+    "rms": 0.0999999999999696,
+    "sha256": "39110e27663c8d8165a5cf3071aae9a0d4ff9c6969288d3f7119ddd8c6affb38"
+  },
+  {
+    "file": "Trex_Quick_0.wav",
+    "species": 0,
+    "event": "Quick",
+    "variant": 0,
+    "seconds": 0.52,
+    "peak": 0.5304889317984146,
+    "rms": 0.15999999999998832,
+    "sha256": "bf0ec88a35b40fb9e0e348f189b5357828559c7b23d4ba4e7498f2c26fc18655"
+  },
+  {
+    "file": "Trex_Quick_1.wav",
+    "species": 0,
+    "event": "Quick",
+    "variant": 1,
+    "seconds": 0.52,
+    "peak": 0.594611211526798,
+    "rms": 0.15999999999999168,
+    "sha256": "3aecafa78f0e15a70f8ed79a421765e170be17f013a00269409e48a552ed0ec7"
+  },
+  {
+    "file": "Trex_Quick_2.wav",
+    "species": 0,
+    "event": "Quick",
+    "variant": 2,
+    "seconds": 0.52,
+    "peak": 0.7200000000000001,
+    "rms": 0.1575848928763945,
+    "sha256": "63919729170e1753de3245026bd91abb2588e02e55895f1e671d84887b7de91c"
+  },
+  {
+    "file": "Trex_Heavy_0.wav",
+    "species": 0,
+    "event": "Heavy",
+    "variant": 0,
+    "seconds": 1.18,
+    "peak": 0.5338814454925385,
+    "rms": 0.15999999999999717,
+    "sha256": "7ac9c33a260a0d19a965f6ad8e83c4b9746bf42a888a051c301dd2e95ccfdd02"
+  },
+  {
+    "file": "Trex_Heavy_1.wav",
+    "species": 0,
+    "event": "Heavy",
+    "variant": 1,
+    "seconds": 1.18,
+    "peak": 0.6857194527187651,
+    "rms": 0.15999999999999415,
+    "sha256": "aaa31d11d12b027da62ee555bbae473956859e9488ac1b39034809b145eacbfd"
+  },
+  {
+    "file": "Trex_Heavy_2.wav",
+    "species": 0,
+    "event": "Heavy",
+    "variant": 2,
+    "seconds": 1.18,
+    "peak": 0.6010047547680423,
+    "rms": 0.15999999999999456,
+    "sha256": "a43986b8bb676c0c3087779bff19917f9364d8ce6e2947d3334bb93db12a3505"
+  },
+  {
+    "file": "Trex_Impact_0.wav",
+    "species": 0,
+    "event": "Impact",
+    "variant": 0,
+    "seconds": 0.31,
+    "peak": 0.43383594644254825,
+    "rms": 0.09999999999989734,
+    "sha256": "f59c6c597068aa0c3c5ab96c4050cf628ab96912409c52c28ffcae8674174317"
+  },
+  {
+    "file": "Trex_Impact_1.wav",
+    "species": 0,
+    "event": "Impact",
+    "variant": 1,
+    "seconds": 0.31,
+    "peak": 0.4976559065607203,
+    "rms": 0.09999999999999637,
+    "sha256": "10c13a75020a142ec7f9972d4700099af956a50ece66c0a6efc948a0e40aeed2"
+  },
+  {
+    "file": "Trex_Impact_2.wav",
+    "species": 0,
+    "event": "Impact",
+    "variant": 2,
+    "seconds": 0.31,
+    "peak": 0.5721444070272853,
+    "rms": 0.09999999999995106,
+    "sha256": "f57bde2c853a106e027e866856c47a6e9722df3472b3a04822b5de1ee5edfa76"
+  },
+  {
+    "file": "Trex_Death_0.wav",
+    "species": 0,
+    "event": "Death",
+    "variant": 0,
+    "seconds": 2.65,
+    "peak": 0.7067726284632413,
+    "rms": 0.1599999999999964,
+    "sha256": "af09e4b77885b2676d95b403caeba44cf37de5d3991824a8d2c9acb9f09915f2"
+  },
+  {
+    "file": "Trex_Death_1.wav",
+    "species": 0,
+    "event": "Death",
+    "variant": 1,
+    "seconds": 2.65,
+    "peak": 0.72,
+    "rms": 0.13887358683633405,
+    "sha256": "8dc170dbe9e0397292d2f91585e4fd55eabb257927c579f58723d26847de00fc"
+  },
+  {
+    "file": "Trex_Death_2.wav",
+    "species": 0,
+    "event": "Death",
+    "variant": 2,
+    "seconds": 2.65,
+    "peak": 0.7110291322409097,
+    "rms": 0.15999999999999986,
+    "sha256": "ff00a52ce632237ef9e2a438550a97451fafa418b39f31754631b55a584c2145"
+  },
+  {
+    "file": "Trex_Charge_0.wav",
+    "species": 0,
+    "event": "Charge",
+    "variant": 0,
+    "seconds": 0.85,
+    "peak": 0.72,
+    "rms": 0.1577199753555095,
+    "sha256": "f579245a6b9fa15e80ded8e75d538fd29fb2155665885a29bd74a60ddb49bf0e"
+  },
+  {
+    "file": "Trex_Charge_1.wav",
+    "species": 0,
+    "event": "Charge",
+    "variant": 1,
+    "seconds": 0.85,
+    "peak": 0.6998374491305077,
+    "rms": 0.15999999999999584,
+    "sha256": "0727abbb16ebe3aa8c265dd8fe0fc46f260ea2e44c19eb1e4ffd09c6e3f96937"
+  },
+  {
+    "file": "Trex_Charge_2.wav",
+    "species": 0,
+    "event": "Charge",
+    "variant": 2,
+    "seconds": 0.85,
+    "peak": 0.72,
+    "rms": 0.14252082455326037,
+    "sha256": "eb6a703f763683b5f6bf5246cbd37701ad9876bd8e9232cd6765d4737b82427f"
+  },
+  {
+    "file": "Trex_Hurt_0.wav",
+    "species": 0,
+    "event": "Hurt",
+    "variant": 0,
+    "seconds": 0.68,
+    "peak": 0.72,
+    "rms": 0.13673039362633377,
+    "sha256": "2702f343719a5c1b7af5ac15c47a8e61c3eaf5e20e7b5124d8ca14a061e6a187"
+  },
+  {
+    "file": "Trex_Hurt_1.wav",
+    "species": 0,
+    "event": "Hurt",
+    "variant": 1,
+    "seconds": 0.68,
+    "peak": 0.72,
+    "rms": 0.12336273556319936,
+    "sha256": "57a941c846527b73de47e5ffcfaf4e477ea46652a1dc00fcf1f7e1ed54c75070"
+  },
+  {
+    "file": "Trex_Hurt_2.wav",
+    "species": 0,
+    "event": "Hurt",
+    "variant": 2,
+    "seconds": 0.68,
+    "peak": 0.72,
+    "rms": 0.1396887968136113,
+    "sha256": "b7c37c02d084a15191263c2f40e8d5e88edae7d19e7c52270ae850190de9b924"
+  },
+  {
+    "file": "Trex_SprintBreath_0.wav",
+    "species": 0,
+    "event": "SprintBreath",
+    "variant": 0,
+    "seconds": 0.82,
+    "peak": 0.5518389746596422,
+    "rms": 0.09999999999999999,
+    "sha256": "c88ea51e9fc30cf4b5a080fdebfc335dcf82e2fa1284bc23b3d1ba5aabeeda69"
+  },
+  {
+    "file": "Trex_SprintBreath_1.wav",
+    "species": 0,
+    "event": "SprintBreath",
+    "variant": 1,
+    "seconds": 0.82,
+    "peak": 0.5932773399904889,
+    "rms": 0.09999999999999998,
+    "sha256": "92bf3721d4f76ffb48a8dcef354f5dec6a47f297ddb7db978424b500746eff1b"
+  },
+  {
+    "file": "Trex_SprintBreath_2.wav",
+    "species": 0,
+    "event": "SprintBreath",
+    "variant": 2,
+    "seconds": 0.82,
+    "peak": 0.5026325616791707,
+    "rms": 0.1,
+    "sha256": "abe937e4fb0ca9970857511b3e28c6aea61a9a1462b579652ec3bf8271e2a5e0"
+  },
+  {
+    "file": "Trex_InjuredBreath_0.wav",
+    "species": 0,
+    "event": "InjuredBreath",
+    "variant": 0,
+    "seconds": 1.12,
+    "peak": 0.5208261715773876,
+    "rms": 0.1,
+    "sha256": "65da2f9ea3e0456f9db8d29566c4ebea0c6755e3b2aed967673224422d5cf079"
+  },
+  {
+    "file": "Trex_InjuredBreath_1.wav",
+    "species": 0,
+    "event": "InjuredBreath",
+    "variant": 1,
+    "seconds": 1.12,
+    "peak": 0.5277973403799088,
+    "rms": 0.1,
+    "sha256": "08a561daf5dcc15147adfb620c34406c377250d9a8d47806b3a4d5fe581815e4"
+  },
+  {
+    "file": "Trex_InjuredBreath_2.wav",
+    "species": 0,
+    "event": "InjuredBreath",
+    "variant": 2,
+    "seconds": 1.12,
+    "peak": 0.5532643168550222,
+    "rms": 0.10000000000000002,
+    "sha256": "721c4b86f862c32a5b58b1ee688ac0c2d015b93a08ad85c60885449ab39f3847"
+  },
+  {
+    "file": "Raptor_Step_0.wav",
+    "species": 1,
+    "event": "Step",
+    "variant": 0,
+    "seconds": 0.28,
+    "peak": 0.5441884505405002,
+    "rms": 0.09999999999999977,
+    "sha256": "0de5c26d2675a2dc8dee77f4f5f6bef3f9cc5aaa55d5b3f0afa081da9efe4182"
+  },
+  {
+    "file": "Raptor_Step_1.wav",
+    "species": 1,
+    "event": "Step",
+    "variant": 1,
+    "seconds": 0.28,
+    "peak": 0.561245077421086,
+    "rms": 0.09999999999999955,
+    "sha256": "e2aed528a924432d45b415ed020beca4a84e7e4ca50f4b3b6b88b7f5fc65147e"
+  },
+  {
+    "file": "Raptor_Step_2.wav",
+    "species": 1,
+    "event": "Step",
+    "variant": 2,
+    "seconds": 0.28,
+    "peak": 0.6508141402391984,
+    "rms": 0.09999999999999976,
+    "sha256": "ab340b9f6e7065f605999a2d03e2a474dcc2ae1ce597e6045d531094a4e1d6eb"
+  },
+  {
+    "file": "Raptor_Quick_0.wav",
+    "species": 1,
+    "event": "Quick",
+    "variant": 0,
+    "seconds": 0.41079365079365077,
+    "peak": 0.72,
+    "rms": 0.10144056253430668,
+    "sha256": "89c4b60f246704fed1bb8f525bad9c0e2248dc1db0db9cb2e6677a68f3467b6e"
+  },
+  {
+    "file": "Raptor_Quick_1.wav",
+    "species": 1,
+    "event": "Quick",
+    "variant": 1,
+    "seconds": 0.41079365079365077,
+    "peak": 0.72,
+    "rms": 0.08869894548223786,
+    "sha256": "6873fdc675725c85a5e6af5bd3f350ec7bfc49ebc05c9dc0f11698c2c906b29c"
+  },
+  {
+    "file": "Raptor_Quick_2.wav",
+    "species": 1,
+    "event": "Quick",
+    "variant": 2,
+    "seconds": 0.41079365079365077,
+    "peak": 0.72,
+    "rms": 0.08789341693506278,
+    "sha256": "c08737c31adbe5baac3ee070457ef821eabf3ad836ceb5262e029f01035eb962"
+  },
+  {
+    "file": "Raptor_Heavy_0.wav",
+    "species": 1,
+    "event": "Heavy",
+    "variant": 0,
+    "seconds": 0.9321995464852608,
+    "peak": 0.72,
+    "rms": 0.08704710487703345,
+    "sha256": "44b0f2c474149c9424c9054bb1bd4935590a3b265070b43dea1d9ceeba4e74e5"
+  },
+  {
+    "file": "Raptor_Heavy_1.wav",
+    "species": 1,
+    "event": "Heavy",
+    "variant": 1,
+    "seconds": 0.9321995464852608,
+    "peak": 0.72,
+    "rms": 0.08766569437385975,
+    "sha256": "dc8620b43bbc05cd1307527573d2bdc01cc03ffbcef86507edf8901761a0a3a3"
+  },
+  {
+    "file": "Raptor_Heavy_2.wav",
+    "species": 1,
+    "event": "Heavy",
+    "variant": 2,
+    "seconds": 0.9321995464852608,
+    "peak": 0.72,
+    "rms": 0.08333252998730872,
+    "sha256": "d4c4de3520dcf93324fa80097ceacd1329fa50bd57a3b2ba176790a2750af5d5"
+  },
+  {
+    "file": "Raptor_Impact_0.wav",
+    "species": 1,
+    "event": "Impact",
+    "variant": 0,
+    "seconds": 0.31,
+    "peak": 0.6096176191509575,
+    "rms": 0.09999999999999998,
+    "sha256": "351eae6f71eba9c9c487ab7689d29f75df481d6f92f6dc04320ac4836fa441b8"
+  },
+  {
+    "file": "Raptor_Impact_1.wav",
+    "species": 1,
+    "event": "Impact",
+    "variant": 1,
+    "seconds": 0.31,
+    "peak": 0.5747551687997362,
+    "rms": 0.09999999999999855,
+    "sha256": "bcb26446ad54eb5c954281ca78dca752aadc87871ee75206dc80679356c01b81"
+  },
+  {
+    "file": "Raptor_Impact_2.wav",
+    "species": 1,
+    "event": "Impact",
+    "variant": 2,
+    "seconds": 0.31,
+    "peak": 0.6573717303379463,
+    "rms": 0.1,
+    "sha256": "5bce399b42978847349b9adf59b45ffdf770a2e3cbb671c20719956cf89c05e9"
+  },
+  {
+    "file": "Raptor_Death_0.wav",
+    "species": 1,
+    "event": "Death",
+    "variant": 0,
+    "seconds": 2.0934920634920635,
+    "peak": 0.72,
+    "rms": 0.06799573488238943,
+    "sha256": "527550233c8b85de6c9f56a64da11dc74fef065568a0ebf2eecb5f04deb6126f"
+  },
+  {
+    "file": "Raptor_Death_1.wav",
+    "species": 1,
+    "event": "Death",
+    "variant": 1,
+    "seconds": 2.0934920634920635,
+    "peak": 0.72,
+    "rms": 0.07357561740727171,
+    "sha256": "c77a16250eca95e02ca6d0307a2d5d15293a18e0e8bcc980bed6306b9f0ee6a8"
+  },
+  {
+    "file": "Raptor_Death_2.wav",
+    "species": 1,
+    "event": "Death",
+    "variant": 2,
+    "seconds": 2.0934920634920635,
+    "peak": 0.72,
+    "rms": 0.07087722749731241,
+    "sha256": "495aef6deb084a32606158360f9e7ab7e93fd427103d50387bde7ac8b86fa305"
+  },
+  {
+    "file": "Raptor_Charge_0.wav",
+    "species": 1,
+    "event": "Charge",
+    "variant": 0,
+    "seconds": 0.6714965986394558,
+    "peak": 0.72,
+    "rms": 0.10378582345210467,
+    "sha256": "d8788d3afc311029ba7fc0d8843d8e09c18371634b44ba934c08dd539f9b1807"
+  },
+  {
+    "file": "Raptor_Charge_1.wav",
+    "species": 1,
+    "event": "Charge",
+    "variant": 1,
+    "seconds": 0.6714965986394558,
+    "peak": 0.72,
+    "rms": 0.08552721535232144,
+    "sha256": "b802a0f62ca057b4ec5ad3fd32214a5a4d57651d31a2e6fd20532156a6bd1fe7"
+  },
+  {
+    "file": "Raptor_Charge_2.wav",
+    "species": 1,
+    "event": "Charge",
+    "variant": 2,
+    "seconds": 0.6714965986394558,
+    "peak": 0.72,
+    "rms": 0.0765159116608745,
+    "sha256": "28ddaa712844052c4ff29b6322f8a15ae84d0196bb437f1e453df2703d104b2b"
+  },
+  {
+    "file": "Raptor_Hurt_0.wav",
+    "species": 1,
+    "event": "Hurt",
+    "variant": 0,
+    "seconds": 0.5371882086167801,
+    "peak": 0.72,
+    "rms": 0.11154112532723647,
+    "sha256": "5bf5033e646444c9f94f6a6dc2bcaf461207c53ffd754f906564044f3457240f"
+  },
+  {
+    "file": "Raptor_Hurt_1.wav",
+    "species": 1,
+    "event": "Hurt",
+    "variant": 1,
+    "seconds": 0.5371882086167801,
+    "peak": 0.72,
+    "rms": 0.10756413261336345,
+    "sha256": "be12112b872331a17fac0e3b6c4403e8a85c25176bf482a7867eb6124a77d466"
+  },
+  {
+    "file": "Raptor_Hurt_2.wav",
+    "species": 1,
+    "event": "Hurt",
+    "variant": 2,
+    "seconds": 0.5371882086167801,
+    "peak": 0.72,
+    "rms": 0.10439619185222632,
+    "sha256": "e30d35090719acd253a8fe01b19a91bf2c30af5983c28b3a6d3683b4e1dafa11"
+  },
+  {
+    "file": "Raptor_SprintBreath_0.wav",
+    "species": 1,
+    "event": "SprintBreath",
+    "variant": 0,
+    "seconds": 0.6477777777777778,
+    "peak": 0.6631566806866745,
+    "rms": 0.1,
+    "sha256": "8ee8afaaaa11cade02f49f0708e91150a859fd1a72a58bdee42a65b24192156d"
+  },
+  {
+    "file": "Raptor_SprintBreath_1.wav",
+    "species": 1,
+    "event": "SprintBreath",
+    "variant": 1,
+    "seconds": 0.6477777777777778,
+    "peak": 0.5823983068073141,
+    "rms": 0.1,
+    "sha256": "9a2b7c4bf0848471e71fa398b08ec552f02247b32a4d8975be7f0d5047182ed6"
+  },
+  {
+    "file": "Raptor_SprintBreath_2.wav",
+    "species": 1,
+    "event": "SprintBreath",
+    "variant": 2,
+    "seconds": 0.6477777777777778,
+    "peak": 0.695957011386395,
+    "rms": 0.1,
+    "sha256": "132b81e5f7a401a76e0cbd37ffb0db456257257e5c89a3187da2ed36396c553e"
+  },
+  {
+    "file": "Raptor_InjuredBreath_0.wav",
+    "species": 1,
+    "event": "InjuredBreath",
+    "variant": 0,
+    "seconds": 0.8847845804988662,
+    "peak": 0.5399540473520413,
+    "rms": 0.09999999999999999,
+    "sha256": "d3c1ddbbc7fbb37e69170bfe1eadc476fda3a4208d827db9f9f1b8a994d00d99"
+  },
+  {
+    "file": "Raptor_InjuredBreath_1.wav",
+    "species": 1,
+    "event": "InjuredBreath",
+    "variant": 1,
+    "seconds": 0.8847845804988662,
+    "peak": 0.601852922611883,
+    "rms": 0.10000000000000003,
+    "sha256": "bb47e9306fa5a8608fc264e5b8b8b5209ec61c786e657bc4b049b37e61423929"
+  },
+  {
+    "file": "Raptor_InjuredBreath_2.wav",
+    "species": 1,
+    "event": "InjuredBreath",
+    "variant": 2,
+    "seconds": 0.8847845804988662,
+    "peak": 0.607501298736876,
+    "rms": 0.1,
+    "sha256": "ef49a226d9dc6adb134eab54867e8d5a2a04e48c82b188a4565f61c04998982e"
+  },
+  {
+    "file": "Trike_Step_0.wav",
+    "species": 2,
+    "event": "Step",
+    "variant": 0,
+    "seconds": 0.28,
+    "peak": 0.41923700236177475,
+    "rms": 0.0999999999999876,
+    "sha256": "992e954247f72f1c9cf2627111a11eefcc84dcade00b6c1e4ce386368caf7c59"
+  },
+  {
+    "file": "Trike_Step_1.wav",
+    "species": 2,
+    "event": "Step",
+    "variant": 1,
+    "seconds": 0.28,
+    "peak": 0.4893509675185202,
+    "rms": 0.09999999999999969,
+    "sha256": "e737cb25df31df0563d23e18d3873f18236b4eb4abb1af08460cc315f5371c25"
+  },
+  {
+    "file": "Trike_Step_2.wav",
+    "species": 2,
+    "event": "Step",
+    "variant": 2,
+    "seconds": 0.28,
+    "peak": 0.5334038273410349,
+    "rms": 0.09999999999990532,
+    "sha256": "1b407ea6b190c19874288fa90e4143256a59309394eb743e4591af5901f72c23"
+  },
+  {
+    "file": "Trike_Quick_0.wav",
+    "species": 2,
+    "event": "Quick",
+    "variant": 0,
+    "seconds": 0.5407936507936508,
+    "peak": 0.5382551184646532,
+    "rms": 0.15999999999999345,
+    "sha256": "6beb5c0911cf8a8665edd055c9180b5cd2df6af6a7540407362de05b12ae2d0f"
+  },
+  {
+    "file": "Trike_Quick_1.wav",
+    "species": 2,
+    "event": "Quick",
+    "variant": 1,
+    "seconds": 0.5407936507936508,
+    "peak": 0.541663180643252,
+    "rms": 0.15999999999999992,
+    "sha256": "4fc7ca94a944de4fc179cdafc22c5cbbfef9f65a5444b2c2054faab91194cd08"
+  },
+  {
+    "file": "Trike_Quick_2.wav",
+    "species": 2,
+    "event": "Quick",
+    "variant": 2,
+    "seconds": 0.5407936507936508,
+    "peak": 0.5286804469043246,
+    "rms": 0.1599999999999985,
+    "sha256": "704aed1079146ec889ba5b557ca6379dc705693589a8d4f7ba686f32f5126eeb"
+  },
+  {
+    "file": "Trike_Heavy_0.wav",
+    "species": 2,
+    "event": "Heavy",
+    "variant": 0,
+    "seconds": 1.22718820861678,
+    "peak": 0.72,
+    "rms": 0.09779478703663191,
+    "sha256": "f362ed7ff8a4b2076eca39c380c084e3352ac7aaa37cf860bf441bc9651b9634"
+  },
+  {
+    "file": "Trike_Heavy_1.wav",
+    "species": 2,
+    "event": "Heavy",
+    "variant": 1,
+    "seconds": 1.22718820861678,
+    "peak": 0.72,
+    "rms": 0.09262981246002763,
+    "sha256": "963b8ff719a9535fbcea953d555f4be3005c35671d65e7154b6cdf740d673d4d"
+  },
+  {
+    "file": "Trike_Heavy_2.wav",
+    "species": 2,
+    "event": "Heavy",
+    "variant": 2,
+    "seconds": 1.22718820861678,
+    "peak": 0.72,
+    "rms": 0.08822055415819488,
+    "sha256": "04eb7b5bc9e51d85a21d4cebdba6397bd4fa482ab7e353d5f581f105fd406e71"
+  },
+  {
+    "file": "Trike_Impact_0.wav",
+    "species": 2,
+    "event": "Impact",
+    "variant": 0,
+    "seconds": 0.31,
+    "peak": 0.511758495017171,
+    "rms": 0.09999999999998811,
+    "sha256": "c52eb5e291579ba5a7da9b7e226a87db2f02e05ae75124c2bd8574f0c8f98249"
+  },
+  {
+    "file": "Trike_Impact_1.wav",
+    "species": 2,
+    "event": "Impact",
+    "variant": 1,
+    "seconds": 0.31,
+    "peak": 0.48234817863016516,
+    "rms": 0.09999999999998689,
+    "sha256": "7d6b166fa175be4339aed012592ca2c94bda2df87a108c1a40b4df40164a0550"
+  },
+  {
+    "file": "Trike_Impact_2.wav",
+    "species": 2,
+    "event": "Impact",
+    "variant": 2,
+    "seconds": 0.31,
+    "peak": 0.5753064673009636,
+    "rms": 0.09999999999999756,
+    "sha256": "875e421a5da149af0a5565d4688d3fc0c0d069c41fe53d4de9281dc6c139275f"
+  },
+  {
+    "file": "Trike_Death_0.wav",
+    "species": 2,
+    "event": "Death",
+    "variant": 0,
+    "seconds": 2.7559863945578233,
+    "peak": 0.72,
+    "rms": 0.06848429568614686,
+    "sha256": "9f6d1e8bcadc2631ff43b53cf767c297d2735801114e39d3731f2306d4338e8a"
+  },
+  {
+    "file": "Trike_Death_1.wav",
+    "species": 2,
+    "event": "Death",
+    "variant": 1,
+    "seconds": 2.7559863945578233,
+    "peak": 0.72,
+    "rms": 0.06750345879818172,
+    "sha256": "d4dd3aed13a4a2c9ca4468ab6564336a58725e1ec8d088d6ef779429a00d1fdd"
+  },
+  {
+    "file": "Trike_Death_2.wav",
+    "species": 2,
+    "event": "Death",
+    "variant": 2,
+    "seconds": 2.7559863945578233,
+    "peak": 0.72,
+    "rms": 0.06816791497239204,
+    "sha256": "768f3cdac421dd682c2c2ab42026e0f4ef569c7aeff5658c9b87aeea33ceb4c4"
+  },
+  {
+    "file": "Trike_Charge_0.wav",
+    "species": 2,
+    "event": "Charge",
+    "variant": 0,
+    "seconds": 0.8839909297052154,
+    "peak": 0.599715882842917,
+    "rms": 0.16,
+    "sha256": "4029699049b96bd9bdfbefb16b552d0b4be29d3b319c7c82c90c88e5ba91c0dc"
+  },
+  {
+    "file": "Trike_Charge_1.wav",
+    "species": 2,
+    "event": "Charge",
+    "variant": 1,
+    "seconds": 0.8839909297052154,
+    "peak": 0.6333901509107697,
+    "rms": 0.16,
+    "sha256": "cbc0539c982b3f2256d4d590cb5db8f2b75cd0e5895ac0b0ef8ceb6c56b699d1"
+  },
+  {
+    "file": "Trike_Charge_2.wav",
+    "species": 2,
+    "event": "Charge",
+    "variant": 2,
+    "seconds": 0.8839909297052154,
+    "peak": 0.6314258080028435,
+    "rms": 0.16,
+    "sha256": "408dd067a6535b377bb84a23e311c0c69d57204b31f5d9e19a7245a9eb6f46e4"
+  },
+  {
+    "file": "Trike_Hurt_0.wav",
+    "species": 2,
+    "event": "Hurt",
+    "variant": 0,
+    "seconds": 0.70718820861678,
+    "peak": 0.72,
+    "rms": 0.1325237743711985,
+    "sha256": "171a2a8658b3236c4aebc985c1f02cefe3d5deb25cf85f8a96ad609cbe63801b"
+  },
+  {
+    "file": "Trike_Hurt_1.wav",
+    "species": 2,
+    "event": "Hurt",
+    "variant": 1,
+    "seconds": 0.70718820861678,
+    "peak": 0.72,
+    "rms": 0.131374593988915,
+    "sha256": "796741e533bf11c8ce0db77fce42fc9b3ff42af89af0c882d9fe900da153ccce"
+  },
+  {
+    "file": "Trike_Hurt_2.wav",
+    "species": 2,
+    "event": "Hurt",
+    "variant": 2,
+    "seconds": 0.70718820861678,
+    "peak": 0.72,
+    "rms": 0.12654247225218326,
+    "sha256": "76158a85fe55ccdf579ba8a51028575731f3d9c573c49e64664ec1ce5f161dc5"
+  },
+  {
+    "file": "Trike_SprintBreath_0.wav",
+    "species": 2,
+    "event": "SprintBreath",
+    "variant": 0,
+    "seconds": 0.8527891156462585,
+    "peak": 0.5428869189310446,
+    "rms": 0.1,
+    "sha256": "29da5928ef9b20684dad0779734ff899ecdba5a978d944f5a547a85bb5c9cf67"
+  },
+  {
+    "file": "Trike_SprintBreath_1.wav",
+    "species": 2,
+    "event": "SprintBreath",
+    "variant": 1,
+    "seconds": 0.8527891156462585,
+    "peak": 0.5795864977567099,
+    "rms": 0.1,
+    "sha256": "f2c07d19098b2a794d644c5bc1f55733f15c9e62bfcfb27c05317b36087d4aaf"
+  },
+  {
+    "file": "Trike_SprintBreath_2.wav",
+    "species": 2,
+    "event": "SprintBreath",
+    "variant": 2,
+    "seconds": 0.8527891156462585,
+    "peak": 0.544020491066396,
+    "rms": 0.1,
+    "sha256": "44b2bd8a4bdfe624728f58ccb0ce90c7a666e8a4d17449927d4bed4cc884b27b"
+  },
+  {
+    "file": "Trike_InjuredBreath_0.wav",
+    "species": 2,
+    "event": "InjuredBreath",
+    "variant": 0,
+    "seconds": 1.1647845804988661,
+    "peak": 0.5041351364690277,
+    "rms": 0.10000000000000003,
+    "sha256": "6746c3b58adfe283fd529193be237ee8049b32267e70f3fe6456a34046508fff"
+  },
+  {
+    "file": "Trike_InjuredBreath_1.wav",
+    "species": 2,
+    "event": "InjuredBreath",
+    "variant": 1,
+    "seconds": 1.1647845804988661,
+    "peak": 0.5723772093230386,
+    "rms": 0.09999999999999999,
+    "sha256": "c6332a3d45f5691da9e187e1414bce0cb70993c7447f3d1a4b436e8ec46dc995"
+  },
+  {
+    "file": "Trike_InjuredBreath_2.wav",
+    "species": 2,
+    "event": "InjuredBreath",
+    "variant": 2,
+    "seconds": 1.1647845804988661,
+    "peak": 0.5383198144692309,
+    "rms": 0.09999999999999999,
+    "sha256": "cdabb136f42fdd7089a7dc291b1024bb4d73796ce10d97827416fbc36b33183a"
+  }
+]

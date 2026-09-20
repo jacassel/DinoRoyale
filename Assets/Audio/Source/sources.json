@@ -1,0 +1,48 @@
+[
+  {
+    "page": "https://opengameart.org/content/80-cc0-creture-sfx-2",
+    "license": "CC0-1.0",
+    "files": [
+      {
+        "url": "https://opengameart.org/sites/default/files/80-CC0-creature-sfx-2.zip",
+        "path": "Assets\\Audio\\Source\\80-cc0-creture-sfx-2\\80-CC0-creature-sfx-2.zip"
+      }
+    ]
+  },
+  {
+    "page": "https://opengameart.org/content/monster-snarls",
+    "license": "CC0-1.0",
+    "files": [
+      {
+        "url": "https://opengameart.org/sites/default/files/monster-snarls_0.ogg",
+        "path": "Assets\\Audio\\Source\\monster-snarls\\monster-snarls_0.ogg"
+      },
+      {
+        "url": "https://opengameart.org/sites/default/files/monster-snarls-2_0.ogg",
+        "path": "Assets\\Audio\\Source\\monster-snarls\\monster-snarls-2_0.ogg"
+      },
+      {
+        "url": "https://opengameart.org/sites/default/files/monsters-snarls-3_0.ogg",
+        "path": "Assets\\Audio\\Source\\monster-snarls\\monsters-snarls-3_0.ogg"
+      },
+      {
+        "url": "https://opengameart.org/sites/default/files/monster-snarl-attack.ogg",
+        "path": "Assets\\Audio\\Source\\monster-snarls\\monster-snarl-attack.ogg"
+      },
+      {
+        "url": "https://opengameart.org/sites/default/files/monster-snarl-5.ogg",
+        "path": "Assets\\Audio\\Source\\monster-snarls\\monster-snarl-5.ogg"
+      }
+    ]
+  },
+  {
+    "page": "https://opengameart.org/content/cc0-deep-monster-roar",
+    "license": "CC0-1.0",
+    "files": [
+      {
+        "url": "https://opengameart.org/sites/default/files/monster_roar.wav",
+        "path": "Assets\\Audio\\Source\\cc0-deep-monster-roar\\monster_roar.wav"
+      }
+    ]
+  }
+]

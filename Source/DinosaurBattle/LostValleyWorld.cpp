@@ -48,6 +48,18 @@ float ALostValleyWorld::HeightAt(float X,float Y)
     float H=120*FMath::Sin(X/8500)*FMath::Cos(Y/10000)+52.5f*FMath::Sin((X+Y)/4500);
     H+=950*FMath::Exp(-FMath::Square((X-11750)/6750)-FMath::Square((Y-9750)/7750));
     H+=275*FMath::Exp(-FMath::Square((X+14000)/8500)-FMath::Square((Y-8000)/8500));
+    auto Smooth=[](float V){V=FMath::Clamp(V,0.f,1.f);return V*V*(3-2*V);};
+    // Broad climbable hills and secondary folds, fading out at existing water and spawn.
+    float Relief=1550*FMath::Exp(-FMath::Square((X-11750)/7000)-FMath::Square((Y-10500)/7000));
+    Relief+=900*FMath::Exp(-FMath::Square((X+13000)/7500)-FMath::Square((Y-11000)/7500));
+    Relief+=950*FMath::Exp(-FMath::Square((X+12000)/7500)-FMath::Square((Y+17000)/7500));
+    Relief+=750*FMath::Exp(-FMath::Square((X-17500)/8000)-FMath::Square((Y+16000)/8000));
+    Relief+=500*FMath::Exp(-FMath::Square((X+19000)/4500)-FMath::Square((Y+2000)/4500));
+    Relief+=150*FMath::Sin(X/1800)*FMath::Cos(Y/2100)+190*FMath::Sin((X+Y)/3500);
+    const float SpawnMask=Smooth((FMath::Sqrt(X*X+Y*Y)-3000)/3500);
+    const float CreekMask=Smooth((FMath::Abs(Y-CreekY(X))-1800)/4200);
+    const float PondMask=Smooth((PondRadius(X,Y)-1.4f)/1.2f);
+    H+=Relief*SpawnMask*CreekMask*PondMask;
     float Creek=FMath::Exp(-FMath::Square((Y-CreekY(X))/1250));
     H-=210*Creek;
     float Edge=FMath::Clamp((FMath::Max(FMath::Abs(X),FMath::Abs(Y))-25500)/4250,0.f,1.f);
@@ -149,6 +161,26 @@ void ALostValleyWorld::Generate()
         Rocks->AddInstance(FTransform(FRotator(0,R.FRandRange(0,360),0),GroundPoint(X,Y,-45),Scale));
         Obstacles.Add({FVector2D(X,Y),float(285*FMath::Max(Scale.X,Scale.Y))});
     }
+    // Additional groves use a separate seed so the established rocks/trees remain.
+    FRandomStream Woodland(20260921);
+    const auto Clearings=Landmarks();
+    for(int32 K=0;K<5200;++K)
+    {
+        const float X=Woodland.FRandRange(-27000,27000),Y=Woodland.FRandRange(-27000,27000);
+        if(PondRadius(X,Y)<1.42f||FMath::Abs(Y-CreekY(X))<1600)continue;
+        if(FVector2D(X,Y).Size()<3800||FMath::Abs(Y)<1500||FMath::Abs(X)<1500)continue;
+        bool Clearing=false;for(const auto& P:Clearings)if(FVector2D::DistSquared(FVector2D(X,Y),FVector2D(P))<FMath::Square(1400.f)){Clearing=true;break;}
+        if(Clearing||!IsWalkable(FVector(X,Y,0),1000))continue;
+        const float Density=X<-7000&&Y>0?.90f:Y<-8500&&X<1500?.63f:.38f;
+        const float Cluster=.5f+.25f*FMath::Sin(X/2100+FMath::Sin(Y/2800))+.25f*FMath::Cos(Y/2400-X/3200);
+        if(Woodland.FRand()>Density*Cluster)continue;
+        const float Scale=Woodland.FRandRange(.72f,1.8f),Yaw=Woodland.FRandRange(0,360);
+        const FVector P=GroundPoint(X,Y,-10);
+        const FVector S(Scale,Scale,Scale*Woodland.FRandRange(.86f,1.18f));
+        Trunks->AddInstance(FTransform(FRotator(0,Yaw,0),P,S));
+        Canopies->AddInstance(FTransform(FRotator(0,Yaw,0),P,S));
+        Obstacles.Add({FVector2D(X,Y),90*Scale});
+    }
     for(int32 K=0;K<1100;++K)
     {
         float X=R.FRandRange(-27750,27750),Y=R.FRandRange(-27750,27750);
@@ -195,6 +227,15 @@ bool ALostValleyWorld::SegmentClear(const FVector& A,const FVector& B,float Radi
     {
         float T=L>1?FMath::Clamp(FVector2D::DotProduct(O.Center-Start,Delta)/L,0.f,1.f):0;
         if(FVector2D::DistSquared(Start+T*Delta,O.Center)<FMath::Square(O.Radius+Radius))return false;
+    }
+    // A clear endpoint alone cannot validate a shortcut over the new hill shoulders.
+    const float Length=FMath::Sqrt(L);
+    for(float Along=300;Along<Length;Along+=450)
+    {
+        const FVector2D P=Start+Delta*(Along/Length);
+        const float DX=HeightAt(P.X+300,P.Y)-HeightAt(P.X-300,P.Y);
+        const float DY=HeightAt(P.X,P.Y+300)-HeightAt(P.X,P.Y-300);
+        if(FMath::Sqrt(DX*DX+DY*DY)/600>=.6f)return false;
     }
     return true;
 }

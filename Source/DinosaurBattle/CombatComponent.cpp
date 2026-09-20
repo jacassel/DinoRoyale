@@ -33,7 +33,7 @@ bool UCombatComponent::QuickAttack()
 bool UCombatComponent::StartCharge()
 {
     auto* D=Dino();if(!D||D->bDead||bBracing||bCharging||IsBusy()||D->Health->Fraction()<.25f||!D->Stamina->CanSpend(D->Stats().HeavyCost))return false;
-    D->Food->StopEating();D->RevealNoise();bCharging=true;ChargeElapsed=0;return true;
+    D->Food->StopEating();D->RevealNoise();bCharging=true;ChargeElapsed=0;D->Audio->PlayEvent(5);return true;
 }
 float UCombatComponent::ChargeFraction() const {auto* D=Dino();return D?FMath::Clamp(ChargeElapsed/FMath::Max(.1f,D->Stats().ChargeTime),0.f,1.f):0;}
 bool UCombatComponent::ReleaseCharge(){if(!bCharging)return false;float Power=ChargeFraction();bCharging=false;auto* D=Dino();if(!D||D->bDead||D->Health->Fraction()<.25f||!D->Stamina->Spend(D->Stats().HeavyCost))return false;Execute(true,Power);return true;}
