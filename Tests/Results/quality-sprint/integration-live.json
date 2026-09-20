@@ -1,0 +1,180 @@
+[
+  {
+    "test": "Trex stable ground",
+    "passed": true,
+    "displacement": 0.0,
+    "z": 214.15461206436157
+  },
+  {
+    "test": "Trex frontal shield reduction",
+    "passed": true,
+    "damage": 22
+  },
+  {
+    "test": "Trex brace animation",
+    "passed": true
+  },
+  {
+    "test": "Trex rear bypasses shield",
+    "passed": true
+  },
+  {
+    "test": "Trex brace release idle",
+    "passed": true
+  },
+  {
+    "test": "Trex eat animation",
+    "passed": true
+  },
+  {
+    "test": "Trex food healing",
+    "passed": true,
+    "healed": 303.02020263671875
+  },
+  {
+    "test": "Trex release stops eating",
+    "passed": true
+  },
+  {
+    "test": "Trex charge animation",
+    "passed": true
+  },
+  {
+    "test": "Trex heavy animation",
+    "passed": true
+  },
+  {
+    "test": "Trex attack recovers animation",
+    "passed": true
+  },
+  {
+    "test": "Trex death animation",
+    "passed": true
+  },
+  {
+    "test": "Trex respawn animation reset",
+    "passed": true
+  },
+  {
+    "test": "Raptor stable ground",
+    "passed": true,
+    "displacement": 0.0,
+    "z": 104.12685441970825
+  },
+  {
+    "test": "Raptor frontal shield reduction",
+    "passed": true,
+    "damage": 30
+  },
+  {
+    "test": "Raptor brace animation",
+    "passed": true
+  },
+  {
+    "test": "Raptor rear bypasses shield",
+    "passed": true
+  },
+  {
+    "test": "Raptor brace release idle",
+    "passed": true
+  },
+  {
+    "test": "Raptor eat animation",
+    "passed": true
+  },
+  {
+    "test": "Raptor food healing",
+    "passed": true,
+    "healed": 102.91131591796875
+  },
+  {
+    "test": "Raptor release stops eating",
+    "passed": true
+  },
+  {
+    "test": "Raptor charge animation",
+    "passed": true
+  },
+  {
+    "test": "Raptor heavy animation",
+    "passed": true
+  },
+  {
+    "test": "Raptor attack recovers animation",
+    "passed": true
+  },
+  {
+    "test": "Raptor death animation",
+    "passed": true
+  },
+  {
+    "test": "Raptor respawn animation reset",
+    "passed": true
+  },
+  {
+    "test": "Trike stable ground",
+    "passed": true,
+    "displacement": 0.0,
+    "z": 169.1652798652649
+  },
+  {
+    "test": "Trike frontal shield reduction",
+    "passed": true,
+    "damage": 10
+  },
+  {
+    "test": "Trike brace animation",
+    "passed": true
+  },
+  {
+    "test": "Trike rear bypasses shield",
+    "passed": true
+  },
+  {
+    "test": "Trike brace release idle",
+    "passed": true
+  },
+  {
+    "test": "Trike eat animation",
+    "passed": true
+  },
+  {
+    "test": "Trike food healing",
+    "passed": true,
+    "healed": 336.6058349609375
+  },
+  {
+    "test": "Trike release stops eating",
+    "passed": true
+  },
+  {
+    "test": "Trike charge animation",
+    "passed": true
+  },
+  {
+    "test": "Trike heavy animation",
+    "passed": true
+  },
+  {
+    "test": "Trike attack recovers animation",
+    "passed": true
+  },
+  {
+    "test": "Trike death animation",
+    "passed": true
+  },
+  {
+    "test": "Trike respawn animation reset",
+    "passed": true
+  },
+  {
+    "test": "all 42 region routes",
+    "passed": true,
+    "routes": 42
+  },
+  {
+    "test": "ten major combatants",
+    "passed": true,
+    "major": 10
+  }
+]

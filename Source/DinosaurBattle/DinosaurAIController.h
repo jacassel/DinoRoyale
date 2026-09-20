@@ -37,6 +37,7 @@ private:
     int32 PathIndex=0;
     float ThinkTimer=0,RoamTimer=0,PathTimer=0,StuckTime=0,BraceTime=0,ChargeTarget=0;
     FVector LastLocation=FVector::ZeroVector,LastProgress=FVector::ZeroVector;
+    FVector ForcedDestination=FVector::ZeroVector;
     FRandomStream Random;
     TWeakObjectPtr<ADinosaurCharacter> RecentAttacker;
     float RetaliationUntil=0,RetreatUntil=0,NextGuardTime=0,NextTargetReview=0;

@@ -42,7 +42,7 @@ try:
     passed = (before is not None and before['hidden'] and before['food'] == 0
               and 119 <= elapsed <= 121 and current['food'] == 120 and not current['hidden'])
     result = dict(passed=passed, elapsedGameSeconds=elapsed, before=before, plant=current)
-    (t.OUT / 'packaged-milestone' / 'plant-regrowth.json').write_text(json.dumps(result, indent=2))
+    (t.OUT / 'plant-regrowth.json').write_text(json.dumps(result, indent=2))
     print(json.dumps(result), flush=True)
 finally:
     t.key('E', 'up')

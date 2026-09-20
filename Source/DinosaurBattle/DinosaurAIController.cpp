@@ -68,7 +68,7 @@ void ADinosaurAIController::ChooseRetreat(const ADinosaurCharacter* Threat)
     }
     GoTo(Best);RetreatUntil=GetWorld()->GetTimeSeconds()+2.2f;++RetreatDecisions;
 }
-void ADinosaurAIController::SetTravelGoal(const FVector& Point){bForcedTravel=true;Target=nullptr;GoTo(Point);State=TEXT("Traversing");}
+void ADinosaurAIController::SetTravelGoal(const FVector& Point){bForcedTravel=true;Target=nullptr;ForcedDestination=Valley?Valley->NearestWalkable(Point):Point;GoTo(ForcedDestination);State=TEXT("Traversing");}
 void ADinosaurAIController::ClearTravelGoal(){bForcedTravel=false;Path.Empty();RoamTimer=0;}
 void ADinosaurAIController::ResetTactics(){Target=nullptr;Leader=nullptr;RecentAttacker=nullptr;RetaliationUntil=RetreatUntil=NextGuardTime=NextTargetReview=BraceTime=RepositionUntil=NextReposition=0;FightConfidence=EscapeConfidence=.5f;Decision=TEXT("Explore");}
 void ADinosaurAIController::GoTo(const FVector& Point)
@@ -93,7 +93,7 @@ void ADinosaurAIController::Think(float Dt)
 {
     auto* D=Dino();if(!D||!Valley)return;
     const float Now=GetWorld()->GetTimeSeconds();D->SprintOff();
-    if(bForcedTravel){if(PathIndex>=Path.Num()&&FVector::Dist2D(D->GetActorLocation(),Goal)>500)GoTo(Goal);return;}
+    if(bForcedTravel){if(PathIndex>=Path.Num()&&FVector::Dist2D(D->GetActorLocation(),ForcedDestination)>240)GoTo(ForcedDestination);return;}
     if(BraceTime<=0&&D->Combat->bBracing)D->Combat->SetBrace(false);
     if(Target.IsValid()&&(Target->bDead||FVector::Dist2D(Target->GetActorLocation(),D->GetActorLocation())>(D->Species==2?6500:12000)))Target=nullptr;
     if(D->Species==1)
@@ -146,7 +146,7 @@ void ADinosaurAIController::Think(float Dt)
         {
             if(D->Combat->SetBrace(true))
             {
-                BraceTime=HeavyThreat?FMath::Clamp(Enemy->Stats().ChargeTime*(1-Enemy->Combat->ChargeFraction())+.3f,.5f,1.8f):.60f;
+                BraceTime=HeavyThreat?FMath::Clamp(Enemy->Stats().ChargeTime*(1-Enemy->Combat->ChargeFraction())+Enemy->Stats().HeavyWindup/Enemy->Health->AttackSpeedFactor()+.25f,.5f,1.8f):.60f;
                 NextGuardTime=Now+BraceTime+D->Stats().AIGuardCooldown;++GuardsUsed;Path.Empty();
             }
         }

@@ -1,0 +1,67 @@
+[
+  {
+    "test": "AI retaliates against attacker",
+    "passed": true
+  },
+  {
+    "test": "retaliation deals real melee damage",
+    "passed": true,
+    "playerHealth": 1066.56005859375,
+    "aiHits": 3
+  },
+  {
+    "test": "healthy raptor pursues weakened prey dinosaur",
+    "passed": true,
+    "travel": 1414.364880653385,
+    "fight": 0.6822395920753479
+  },
+  {
+    "test": "pursuit results in attacks",
+    "passed": true,
+    "hits": 3
+  },
+  {
+    "test": "critical raptor chooses escape from healthy rex",
+    "passed": true,
+    "fight": 0.8038897514343262,
+    "escape": 0.7484210729598999
+  },
+  {
+    "test": "retreat physically increases separation",
+    "passed": true,
+    "distance": 2979.446860590859
+  },
+  {
+    "test": "triceratops recognizes and braces against charge",
+    "passed": true
+  },
+  {
+    "test": "AI brace actually reduces frontal damage",
+    "passed": false,
+    "damage": 673.2000122070312
+  },
+  {
+    "test": "AI releases guard and counterattacks",
+    "passed": true,
+    "states": [
+      "Attacking",
+      "Bracing"
+    ]
+  },
+  {
+    "test": "slow injured trike guards when escape is poor",
+    "passed": true,
+    "fight": 0.4050804078578949,
+    "escape": 0.0795312449336052
+  },
+  {
+    "test": "supported raptor flanks a frontal guard",
+    "passed": true,
+    "y": -159.38624119612496,
+    "states": [
+      "Charging",
+      "Flanking",
+      "Pursuing"
+    ]
+  }
+]

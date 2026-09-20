@@ -121,3 +121,13 @@ Combat follow-up passed 17/17: correct species materials, held-sprint exhaustion
 - Added original synthesized finite positional footsteps, quick/heavy motion, successful-hit and species death feedback, with per-animal and shared overlap caps.
 - Live requested-rules suite: **36/36**. Live audio suite: **36/36**, including actual Unreal master-output WAV captures. Species peaks 0.095/0.111/0.104; nonzero, unclipped output. Movement/sprint cadence, no airborne/swim steps, miss-vs-impact, death-once, voice termination, pause and respawn checks passed.
 - Full regression, continuous traversal, held-out final balance, longer world observations and replacement packaging are still pending. Do not treat the current source checkpoint as the final playable package.
+
+
+### Smaller-map regression repairs and checkpoint
+
+- Preserved initial failures. Swimming initially passed 36/40: Rex/Triceratops grounded their buoyant capsules before the old exit threshold. Added radius-aware shore clearance and retained entry/exit hysteresis. Retest **40/40**.
+- AI tactics initially passed 10/11: guard duration omitted the released heavy's windup, producing phase-dependent early guard expiration. Included injury-adjusted heavy windup in the guard timer; retest **11/11**, with frontal Rex heavy reduced from 673.2 to 67.32 damage.
+- Continuous traversal **18/18**: all six-region circuits for all species via actual W movement, no inter-region teleports; approximately half the previous route length.
+- AI pond crossing initially **2/3**. Triceratops exited water but a recovery nudge discarded its requested destination when earlier test animals blocked the bank. Preserve the requested travel destination independently of recovery waypoints. Unchanged crowded test retest **3/3**: Triceratops reached shore after one successful recovery, zero failed paths.
+- All fourteen current regression suites pass, **460/460 checks**. Original failed results and guard diagnostic retained in `Tests/Results/quality-sprint`.
+- Final held-out balance, extended packaged world observations, native launch and package promotion remain pending.

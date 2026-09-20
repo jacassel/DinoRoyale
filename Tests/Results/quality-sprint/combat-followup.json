@@ -1,0 +1,97 @@
+[
+  {
+    "test": "Trex correct skin after species switch",
+    "passed": true,
+    "materials": [
+      "M_Trex_BakedSkin",
+      "M_Claw",
+      "M_Eye",
+      "M_Pupil",
+      "M_Tooth",
+      "M_Mouth"
+    ]
+  },
+  {
+    "test": "Trex held sprint exhausts then automatically resumes",
+    "passed": true
+  },
+  {
+    "test": "Trex repeated weak attacks cannot permanently lock stamina",
+    "passed": true,
+    "stamina": 17.453397750854492
+  },
+  {
+    "test": "Trex blood toggle preserves materials",
+    "passed": true
+  },
+  {
+    "test": "Trex disabling clears all particles",
+    "passed": true
+  },
+  {
+    "test": "Raptor correct skin after species switch",
+    "passed": true,
+    "materials": [
+      "M_Raptor_BakedSkin",
+      "M_Claw",
+      "M_Eye",
+      "M_Pupil",
+      "M_Tooth",
+      "M_Mouth"
+    ]
+  },
+  {
+    "test": "Raptor held sprint exhausts then automatically resumes",
+    "passed": true
+  },
+  {
+    "test": "Raptor repeated weak attacks cannot permanently lock stamina",
+    "passed": true,
+    "stamina": 21.58788299560547
+  },
+  {
+    "test": "Raptor blood toggle preserves materials",
+    "passed": true
+  },
+  {
+    "test": "Raptor disabling clears all particles",
+    "passed": true
+  },
+  {
+    "test": "Trike correct skin after species switch",
+    "passed": true,
+    "materials": [
+      "M_Trike_BakedSkin",
+      "M_Claw",
+      "M_Horn",
+      "M_Eye",
+      "M_Pupil"
+    ]
+  },
+  {
+    "test": "Trike held sprint exhausts then automatically resumes",
+    "passed": true
+  },
+  {
+    "test": "Trike repeated weak attacks cannot permanently lock stamina",
+    "passed": true,
+    "stamina": 12.798266410827637
+  },
+  {
+    "test": "Trike blood toggle preserves materials",
+    "passed": true
+  },
+  {
+    "test": "Trike disabling clears all particles",
+    "passed": true
+  },
+  {
+    "test": "raptor fragility adjustment loaded",
+    "passed": true
+  },
+  {
+    "test": "unbraced raptor dies to full rex heavy",
+    "passed": true,
+    "remaining": 0
+  }
+]

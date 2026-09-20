@@ -1,0 +1,27 @@
+[
+  {
+    "name": "rex-left-charge",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\QualityVisuals\\rex-left-charge.png",
+    "animation": "Charge"
+  },
+  {
+    "name": "rex-left-heavy",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\QualityVisuals\\rex-left-heavy.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "rex-front-charge",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\QualityVisuals\\rex-front-charge.png",
+    "animation": "Charge"
+  },
+  {
+    "name": "rex-front-heavy",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\QualityVisuals\\rex-front-heavy.png",
+    "animation": "Heavy"
+  },
+  {
+    "name": "compact-world-map",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Saved\\QualityVisuals\\compact-world-map.png",
+    "animation": "Idle"
+  }
+]

@@ -1,0 +1,289 @@
+[
+  {
+    "time": 0.0,
+    "state": "Roaming",
+    "health": 1650,
+    "playerCharge": 0.6470670104026794,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.0,
+    "state": "Roaming",
+    "health": 1650,
+    "playerCharge": 0.6470670104026794,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.06666780263185501,
+    "state": "Roaming",
+    "health": 1650,
+    "playerCharge": 0.7254995703697205,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.06666780263185501,
+    "state": "Roaming",
+    "health": 1650,
+    "playerCharge": 0.7254995703697205,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.11666830256581306,
+    "state": "Roaming",
+    "health": 1650,
+    "playerCharge": 0.7843238711357117,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.11666830256581306,
+    "state": "Roaming",
+    "health": 1650,
+    "playerCharge": 0.7843238711357117,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.16666899994015694,
+    "state": "Roaming",
+    "health": 1650,
+    "playerCharge": 0.8431482911109924,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.16666899994015694,
+    "state": "Roaming",
+    "health": 1650,
+    "playerCharge": 0.8431482911109924,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.2333364002406597,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 0.9215802550315857,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.2333364002406597,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 0.9215802550315857,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.2333364002406597,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 0.9215802550315857,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.3000045008957386,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.3000045008957386,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.36667170003056526,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.36667170003056526,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.43333910033106804,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.43333910033106804,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.5000066012144089,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.5666743032634258,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.5666743032634258,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 1.0500136613845825
+  },
+  {
+    "time": 0.6333415023982525,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.050000499933958054
+  },
+  {
+    "time": 0.6333415023982525,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.050000499933958054
+  },
+  {
+    "time": 0.7000088021159172,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.11666770279407501
+  },
+  {
+    "time": 0.7000088021159172,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.11666770279407501
+  },
+  {
+    "time": 0.7000088021159172,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.11666770279407501
+  },
+  {
+    "time": 0.76667620241642,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.18333519995212555
+  },
+  {
+    "time": 0.76667620241642,
+    "state": "Bracing",
+    "health": 1650,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.18333519995212555
+  },
+  {
+    "time": 0.8333435021340847,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.25000229477882385
+  },
+  {
+    "time": 0.8333435021340847,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.25000229477882385
+  },
+  {
+    "time": 0.8833443000912666,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.3000030815601349
+  },
+  {
+    "time": 0.8833443000912666,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.3000030815601349
+  },
+  {
+    "time": 0.9333449006080627,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.3500036597251892
+  },
+  {
+    "time": 0.9333449006080627,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.3500036597251892
+  },
+  {
+    "time": 0.983345702290535,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.40000444650650024
+  },
+  {
+    "time": 0.983345702290535,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.40000444650650024
+  },
+  {
+    "time": 1.0500137023627758,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.4666723608970642
+  },
+  {
+    "time": 1.0500137023627758,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.4666723608970642
+  },
+  {
+    "time": 1.1166812032461166,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.5333400964736938
+  },
+  {
+    "time": 1.1166812032461166,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.5333400964736938
+  },
+  {
+    "time": 1.1666818000376225,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.5833407640457153
+  },
+  {
+    "time": 1.1666818000376225,
+    "state": "Attacking",
+    "health": 1582.6800537109375,
+    "playerCharge": 1,
+    "playerAttackElapsed": 0.5833407640457153
+  }
+]
