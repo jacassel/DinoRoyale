@@ -14,6 +14,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Materials/MaterialInterface.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -40,6 +41,8 @@ ADinosaurCharacter::ADinosaurCharacter(const FObjectInitializer& ObjectInitializ
     CameraBoom->ProbeSize=35; CameraBoom->bEnableCameraRotationLag=false;
     Camera=CreateDefaultSubobject<UCameraComponent>(TEXT("Camera")); Camera->SetupAttachment(CameraBoom);
     Camera->FieldOfView=80;
+    static ConstructorHelpers::FObjectFinder<UMaterialInterface> FoodOutline(TEXT("/Game/Materials/M_EdibleOutline.M_EdibleOutline"));
+    if(FoodOutline.Succeeded())Camera->PostProcessSettings.AddBlendable(FoodOutline.Object,1.f);
     Placeholder=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TemporaryBody"));
     Placeholder->SetupAttachment(RootComponent); Placeholder->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     static ConstructorHelpers::FObjectFinder<UStaticMesh> TempMesh(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
@@ -154,16 +157,26 @@ void ADinosaurCharacter::ResetLife()
     {
         const FVector Home=HomePosition;
         ALostValleyWorld* Valley=nullptr;for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
-        FVector P=Home;
-        for(int32 Attempt=0;Attempt<33;++Attempt)
+        FVector P=Valley?Valley->NearestWalkable(Home):Home;
+        float BestEnemyClearance=-1;
+        const auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>();
+        for(int32 Attempt=0;Attempt<49;++Attempt)
         {
-            float A=Attempt*2.4f,R=Attempt==0?0:600.f+Attempt*80.f;
-            P=Home+FVector(FMath::Cos(A)*R,FMath::Sin(A)*R,0);
-            if(Valley&&!Valley->IsWalkable(P,Stats().Radius+70))continue;
-            bool Clear=true;
+            float A=Attempt*2.4f,R=Attempt==0?0:600.f+Attempt*90.f;
+            const FVector Candidate=Home+FVector(FMath::Cos(A)*R,FMath::Sin(A)*R,0);
+            if(Valley&&!Valley->IsWalkable(Candidate,Stats().Radius+70))continue;
+            bool Clear=true;float EnemyClearance=MAX_flt;
             for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
-                if(*It!=this&&!It->bDead&&FVector::Dist2D(P,It->GetActorLocation())<Stats().Radius+It->Stats().Radius+180){Clear=false;break;}
-            if(Clear)break;
+            {
+                if(*It==this||It->bDead)continue;
+                const float Distance=FVector::Dist2D(Candidate,It->GetActorLocation());
+                if(Distance<Stats().Radius+It->Stats().Radius+180){Clear=false;break;}
+                if(bMajor&&It->bMajor&&GM&&GM->AreEnemies(this,*It))EnemyClearance=FMath::Min(EnemyClearance,Distance);
+            }
+            if(!Clear)continue;
+            if(EnemyClearance>BestEnemyClearance){P=Candidate;BestEnemyClearance=EnemyClearance;}
+            // Retain the nearest safe spawn; if surrounded, use the clearest valid candidate.
+            if(EnemyClearance>=3000){P=Candidate;break;}
         }
         P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+Stats().HalfHeight+30;
         SetActorLocation(P,false,nullptr,ETeleportType::TeleportPhysics);

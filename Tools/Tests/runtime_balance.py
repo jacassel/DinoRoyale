@@ -6,8 +6,9 @@ opponent=int(sys.argv[3]) if len(sys.argv)>3 else 0
 pack=not(len(sys.argv)>4 and sys.argv[4] in ['single','rex'])
 challenger=0 if len(sys.argv)>4 and sys.argv[4]=='rex' else 1
 seed_start=int(sys.argv[5]) if len(sys.argv)>5 else 103
-rows=[]
-for trial in range(n):
+result_path=t.OUT/f'balance-{label}.json'
+rows=json.loads(result_path.read_text()) if '--resume' in sys.argv and result_path.exists() else []
+for trial in range(len(rows),n):
     t.command('menu',open=False)
     t.command('duelSetup',seed=seed_start+trial,angle=trial*137.5,opponent=opponent,pack=pack)
     if challenger==0:
@@ -25,6 +26,7 @@ for trial in range(n):
         time.sleep(.35);s=t.state()
     winner=first_score or 'timeout'
     row=dict(trial=trial,seed=seed_start+trial,opponent=opponent,challenger=challenger,pack=pack,winner=winner,seconds=s['time']-start,scoreSeconds=score_time,
+        opponentMaxHealth=base[1]['maxHealth'],challengerMaxHealth=base[2]['maxHealth'],
         winCondition='first scoring death (raptor leader or opposing dinosaur)',counterkill=winner=='opponent' and a[1]['dead'],packWiped=all(v['dead'] for k,v in a.items() if k!=1),
         survivors=[dict(id=k,health=v['health'],hits=v['hits']-base[k]['hits'],stuck=v['stuckRecoveries']-base[k]['stuckRecoveries'],paths=v['failedPaths']-base[k]['failedPaths']) for k,v in a.items()],
         states=sorted({v['state'] for q in samples for v in q['ai']}),

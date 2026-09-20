@@ -1,0 +1,158 @@
+[
+  {
+    "test": "Trex idle quiet",
+    "passed": true
+  },
+  {
+    "test": "Trex movement cadence",
+    "passed": true,
+    "walk": 2,
+    "run": 3
+  },
+  {
+    "test": "Trex airborne quiet",
+    "passed": true
+  },
+  {
+    "test": "Trex swimming has no footsteps",
+    "passed": true
+  },
+  {
+    "test": "Trex miss motion without impact",
+    "passed": true
+  },
+  {
+    "test": "Trex hit sound",
+    "passed": true
+  },
+  {
+    "test": "Trex heavy sound",
+    "passed": true
+  },
+  {
+    "test": "Trex death once",
+    "passed": true
+  },
+  {
+    "test": "Trex menu pauses simulation",
+    "passed": true
+  },
+  {
+    "test": "Trex death voice ends without looping",
+    "passed": true
+  },
+  {
+    "test": "Trex respawn silent",
+    "passed": true
+  },
+  {
+    "test": "Trex rendered audio nonzero and unclipped",
+    "passed": true,
+    "peak": 0.099273681640625,
+    "rms": 0.009886224080551526
+  },
+  {
+    "test": "Raptor idle quiet",
+    "passed": true
+  },
+  {
+    "test": "Raptor movement cadence",
+    "passed": true,
+    "walk": 7,
+    "run": 10
+  },
+  {
+    "test": "Raptor airborne quiet",
+    "passed": true
+  },
+  {
+    "test": "Raptor swimming has no footsteps",
+    "passed": true
+  },
+  {
+    "test": "Raptor miss motion without impact",
+    "passed": true
+  },
+  {
+    "test": "Raptor hit sound",
+    "passed": true
+  },
+  {
+    "test": "Raptor heavy sound",
+    "passed": true
+  },
+  {
+    "test": "Raptor death once",
+    "passed": true
+  },
+  {
+    "test": "Raptor menu pauses simulation",
+    "passed": true
+  },
+  {
+    "test": "Raptor death voice ends without looping",
+    "passed": true
+  },
+  {
+    "test": "Raptor respawn silent",
+    "passed": true
+  },
+  {
+    "test": "Raptor rendered audio nonzero and unclipped",
+    "passed": true,
+    "peak": 0.110595703125,
+    "rms": 0.010526074387663713
+  },
+  {
+    "test": "Trike idle quiet",
+    "passed": true
+  },
+  {
+    "test": "Trike movement cadence",
+    "passed": true,
+    "walk": 3,
+    "run": 4
+  },
+  {
+    "test": "Trike airborne quiet",
+    "passed": true
+  },
+  {
+    "test": "Trike swimming has no footsteps",
+    "passed": true
+  },
+  {
+    "test": "Trike miss motion without impact",
+    "passed": true
+  },
+  {
+    "test": "Trike hit sound",
+    "passed": true
+  },
+  {
+    "test": "Trike heavy sound",
+    "passed": true
+  },
+  {
+    "test": "Trike death once",
+    "passed": true
+  },
+  {
+    "test": "Trike menu pauses simulation",
+    "passed": true
+  },
+  {
+    "test": "Trike death voice ends without looping",
+    "passed": true
+  },
+  {
+    "test": "Trike respawn silent",
+    "passed": true
+  },
+  {
+    "test": "Trike rendered audio nonzero and unclipped",
+    "passed": true,
+    "peak": 0.104522705078125,
+    "rms": 0.009933457095608358
+  }
+]

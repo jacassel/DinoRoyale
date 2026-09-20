@@ -1,0 +1,18 @@
+[
+  {
+    "test": "Triceratops food outline enabled",
+    "passed": true
+  },
+  {
+    "test": "Carnivore 0 food outline disabled",
+    "passed": true
+  },
+  {
+    "test": "Carnivore 1 food outline disabled",
+    "passed": true
+  },
+  {
+    "test": "Return to Triceratops restores outline",
+    "passed": true
+  }
+]

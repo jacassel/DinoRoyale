@@ -1,0 +1,7 @@
+{
+  "accepted": false,
+  "completedTrials": 16,
+  "plannedTrials": 24,
+  "reason": "Stopped early after follow-through showed 14 Rex deaths, zero surviving Rex scoring victories and two disengagements. First-score parity alone was misleading.",
+  "tuning": {"rexHealth":1320,"raptorHealth":600,"rexChargeSeconds":1.05,"rexAttackWidth":200}
+}

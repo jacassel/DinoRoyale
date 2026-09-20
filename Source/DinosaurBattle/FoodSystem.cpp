@@ -15,6 +15,7 @@
 #include "EngineUtils.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Misc/ConfigCacheIni.h"
+#include "GameFramework/PlayerController.h"
 AFoodPlant::AFoodPlant()
 {
     PrimaryActorTick.bCanEverTick=true;PrimaryActorTick.TickInterval=.25f;
@@ -23,6 +24,7 @@ AFoodPlant::AFoodPlant()
     static ConstructorHelpers::FObjectFinder<UStaticMesh> Fern(TEXT("/Game/World/SM_Fern.SM_Fern"));
     if(Fern.Succeeded())Visual->SetStaticMesh(Fern.Object);
     Visual->SetRelativeScale3D(FVector(3));
+    Visual->SetCustomDepthStencilValue(2);
 }
 void AFoodPlant::BeginPlay()
 {
@@ -32,11 +34,14 @@ void AFoodPlant::BeginPlay()
 float AFoodPlant::Consume(float Amount)
 {
     float Taken=FMath::Clamp(Amount,0.f,Nutrition);Nutrition-=Taken;
-    if(Nutrition<=0){RegrowTimer=RegrowSeconds;SetActorHiddenInGame(true);}return Taken;
+    if(Nutrition<=0){RegrowTimer=RegrowSeconds;Visual->SetRenderCustomDepth(false);SetActorHiddenInGame(true);}return Taken;
 }
 void AFoodPlant::Tick(float Dt)
 {
     Super::Tick(Dt);if(Nutrition<=0&&RegrowSeconds>0){RegrowTimer-=Dt;if(RegrowTimer<=0){Nutrition=MaximumNutrition;SetActorHiddenInGame(false);}}
+    const auto* PC=GetWorld()->GetFirstPlayerController();
+    const auto* Player=PC?Cast<ADinosaurCharacter>(PC->GetPawn()):nullptr;
+    Visual->SetRenderCustomDepth(IsAvailable()&&Player&&Player->Species==2&&!Player->bDead);
 }
 ADinosaurCarcass::ADinosaurCarcass()
 {

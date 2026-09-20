@@ -1,0 +1,167 @@
+[
+  {
+    "trial": 0,
+    "seed": 500,
+    "opponent": 2,
+    "challenger": 0,
+    "pack": false,
+    "winner": "opponent",
+    "seconds": 16.98774790018797,
+    "scoreSeconds": 16.98774790018797,
+    "opponentMaxHealth": 1650,
+    "challengerMaxHealth": 1320,
+    "winCondition": "first scoring death (raptor leader or opposing dinosaur)",
+    "counterkill": false,
+    "packWiped": true,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 921.9187622070312,
+        "hits": 8,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 0,
+        "hits": 3,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Pursuing",
+      "Repositioning",
+      "Retreating",
+      "Seeking food"
+    ],
+    "valid": true
+  },
+  {
+    "trial": 1,
+    "seed": 501,
+    "opponent": 2,
+    "challenger": 0,
+    "pack": false,
+    "winner": "trex",
+    "seconds": 26.880921002477407,
+    "scoreSeconds": 26.880921002477407,
+    "opponentMaxHealth": 1650,
+    "challengerMaxHealth": 1320,
+    "winCondition": "first scoring death (raptor leader or opposing dinosaur)",
+    "counterkill": false,
+    "packWiped": false,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 0,
+        "hits": 6,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 820.0729370117188,
+        "hits": 11,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Pursuing",
+      "Repositioning",
+      "Retreating",
+      "Seeking food"
+    ],
+    "valid": true
+  },
+  {
+    "trial": 2,
+    "seed": 502,
+    "opponent": 2,
+    "challenger": 0,
+    "pack": false,
+    "winner": "trex",
+    "seconds": 10.950514797121286,
+    "scoreSeconds": 10.950514797121286,
+    "opponentMaxHealth": 1650,
+    "challengerMaxHealth": 1320,
+    "winCondition": "first scoring death (raptor leader or opposing dinosaur)",
+    "counterkill": false,
+    "packWiped": false,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 0,
+        "hits": 5,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 447.85455322265625,
+        "hits": 7,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Pursuing",
+      "Repositioning",
+      "Seeking food"
+    ],
+    "valid": true
+  },
+  {
+    "trial": 3,
+    "seed": 503,
+    "opponent": 2,
+    "challenger": 0,
+    "pack": false,
+    "winner": "timeout",
+    "seconds": 90.02823101729155,
+    "scoreSeconds": null,
+    "opponentMaxHealth": 1650,
+    "challengerMaxHealth": 1320,
+    "winCondition": "first scoring death (raptor leader or opposing dinosaur)",
+    "counterkill": false,
+    "packWiped": false,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 1650,
+        "hits": 18,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 570.714111328125,
+        "hits": 5,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Pursuing",
+      "Repositioning",
+      "Retreating",
+      "Seeking food"
+    ],
+    "valid": true
+  }
+]

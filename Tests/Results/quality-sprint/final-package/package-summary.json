@@ -1,0 +1,32 @@
+[
+  {
+    "script": "runtime_core.py",
+    "passed": true,
+    "checks": 90,
+    "seconds": 122.7
+  },
+  {
+    "script": "runtime_settings.py",
+    "passed": true,
+    "checks": 28,
+    "seconds": 19.5
+  },
+  {
+    "script": "runtime_audio.py",
+    "passed": true,
+    "checks": 36,
+    "seconds": 93.5
+  },
+  {
+    "script": "runtime_sprint_rules.py",
+    "passed": true,
+    "checks": 36,
+    "seconds": 35.2
+  },
+  {
+    "script": "runtime_ai_swimming.py",
+    "passed": true,
+    "checks": 3,
+    "seconds": 39.0
+  }
+]

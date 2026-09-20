@@ -19,7 +19,7 @@ for teams in [False,True]:
             check(f'one scoring leader teams={teams} species={species} team={team}',sum(a['scoringTarget'] for a in members)+human==1)
         check(f'ten participants {teams} {species}',s['majorCount']==10)
 t.command('match',teams=False);t.command('ai',paused=True);t.command('sandbox',enabled=True)
-for sp,health,quick,heavy,drain in [(0,1500,187,673.2,.075),(1,520,66.6,193.14,.1125),(2,1650,135,445.5,.06)]:
+for sp,health,quick,heavy,drain in [(0,1400,187,673.2,.075),(1,600,66.6,193.14,.1125),(2,1650,135,445.5,.06)]:
     t.command('species',value=sp);t.command('face',yaw=0);wait(.6)
     check(f'health {sp}',t.state()['maxHealth']==health)
     a=t.state();wait(3);b=t.state();rate=(a['hunger']-b['hunger'])/(b['time']-a['time']);check(f'hunger drain {sp}',abs(rate-drain)<.003,rate=rate)

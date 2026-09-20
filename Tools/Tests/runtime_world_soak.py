@@ -1,7 +1,7 @@
 """Three bounded autonomous world scenarios, reporting behavior and persistent stalls."""
 import runtime_core as t,time,json,sys,collections,math
 rows=[]
-for run in range(3):
+for run in ([int(sys.argv[1])] if len(sys.argv)>1 else range(3)):
     t.command('menu',open=False);t.command('species',value=run);t.command('match',teams=run==1);t.command('sandbox',enabled=True);t.command('ai',paused=False)
     if run==2:
         for i in range(10):t.command('hunger',id=i,value=38)

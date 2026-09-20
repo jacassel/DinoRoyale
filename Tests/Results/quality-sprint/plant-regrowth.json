@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "elapsedGameSeconds": 119.75253370031714,
+  "before": {
+    "name": "FoodPlant_36",
+    "food": 0,
+    "hidden": true,
+    "x": 20357.5,
+    "y": 23000
+  },
+  "plant": {
+    "name": "FoodPlant_36",
+    "food": 120,
+    "hidden": false,
+    "x": 20357.5,
+    "y": 23000
+  }
+}

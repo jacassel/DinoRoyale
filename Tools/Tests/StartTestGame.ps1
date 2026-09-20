@@ -1,4 +1,4 @@
-param([int]$Width=1280,[int]$Height=720,[switch]$Offscreen,[switch]$StartMenu)
+param([int]$Width=1280,[int]$Height=720,[switch]$Offscreen,[switch]$StartMenu,[string]$ExtraArguments='')
 $projectRoot=(Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $projectFile=Join-Path $projectRoot 'DinosaurBattle.uproject'
 $bridgeDirectory=Join-Path $projectRoot 'Saved\Automation'
@@ -9,6 +9,7 @@ Set-Content -LiteralPath (Join-Path $bridgeDirectory 'command.json') -Value '{"s
 $arguments='"'+$projectFile+'" -game -windowed -ResX='+$Width+' -ResY='+$Height+' -WinX=20 -WinY=40 -nosplash -DinoDevBridge'
 if($Offscreen){$arguments+=' -RenderOffscreen -unattended -ForceRes -ini:Engine:[Audio]:UnfocusedVolumeMultiplier=1.0'}
 if($StartMenu){$arguments+=' -DinoStartMenu'}
+if($ExtraArguments){$arguments+=' '+$ExtraArguments}
 $windowStyle=if($Offscreen){'Hidden'}else{'Normal'}
 $gameProcess=Start-Process -FilePath 'C:\Unreal Engine\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe' -ArgumentList $arguments -WindowStyle $windowStyle -PassThru
 $gameProcess.Id|Set-Content (Join-Path $projectRoot 'Saved\game.pid')

@@ -35,7 +35,7 @@ No commercial models, online gameplay, accounts, external services or paid APIs 
 
 The game opens on dinosaur selection. Choose a card or press 1, 2 or 3 to begin. In solo mode the first competitor to **5 kills** wins; in team mode the first team to **10 kills** wins. The human and nine AI fill the match. Major dinosaurs respawn after **10 seconds**.
 
-Raptors cooperate as packs in both modes. Only the pack leader awards a kill when defeated. Followers' kills currently credit their leader (`SharePackKills=True` in the match configuration). Prey and pack followers do not add points to the kill goal. Kills, deaths and assists appear at the bottom left.
+Raptors cooperate in three-member packs: one scoring leader and two AI followers, in both modes. Only the pack leader awards a kill when defeated. Followers' kills currently credit their leader (`SharePackKills=True` in the match configuration). Prey and pack followers do not add points to the kill goal. Kills, deaths and assists appear at the bottom left.
 
 Blood is optional and off by default. Below 50% health movement and attacks slow; below 25% the slowdown increases and charged attacks are unavailable. Regeneration starts five seconds after damage; eating restores health faster. The creek slows walking, and Mirror Pond contains deeper swimming water.
 
@@ -46,8 +46,9 @@ Blood is optional and off by default. Below 50% health movement and attacks slow
 - Configurable species values in `Config/DefaultGame.ini`, including charge, regeneration, camera and movement tuning.
 - Original rigged dinosaur meshes and eleven animation clips per species, including swimming.
 - Nine major AI dinosaurs plus eighteen smaller prey. Carnivores hunt; raptors share a leader; triceratops defend feeding areas; prey flee.
-- Seeded terrain approximately 1.15 km across, with plains, forest, ridge, creek, pond, hunting grounds and feeding groves.
+- Seeded terrain approximately 575 m across (half the previous travel scale), with plains, forest, ridge, creek, pond, hunting grounds and feeding groves.
 - Clearance-aware grid navigation and local obstacle avoidance.
+- Original positional footsteps, quick/heavy attack motion, successful impacts, and species death sounds, with finite playback and overlap limits.
 - Runtime-generated world: the empty saved map is populated by GameMode when Play starts.
 
 ## Development
@@ -66,15 +67,15 @@ All values are editable in `Config/DefaultGame.ini`. Normal walking never costs 
 
 | Species | Health | Quick damage | Full heavy | Quick interval | Third-strike extra recovery | Sprint speed / drain | Quick / heavy cost |
 |---|---:|---:|---:|---:|---:|---|---|
-| T-Rex | 1100 | 170 | 561 | 0.58s | 0.95s | 1449 cm/s / 15 per sec | 10 / 36 |
-| Raptor | 600 | 74 | 214.6 | 0.31s | 0.50s | 2400 cm/s / 9 per sec | 7 / 26 |
+| T-Rex | 1400 | 187 | 673.2 | 0.58s | 0.95s | 1449 cm/s / 15 per sec | 10 / 36 |
+| Raptor | 600 | 66.6 | 193.14 | 0.31s | 0.50s | 2400 cm/s / 9 per sec | 7 / 26 |
 | Triceratops | 1650 | 135 | 445.5 | 0.53s | 0.75s | 1317.5 cm/s / 13 per sec | 9 / 34 |
 
-The third quick strike gains 12% damage. Heavy attacks commit forward movement, restrict turning, knock unbraced opponents back and interrupt their charging. A miss adds 0.50 / 0.25 / 0.45 seconds recovery respectively. T-Rex lunges, raptor pounces, and Triceratops drives forward with its horns. Sprint turning is particularly restricted for Triceratops. Eating is interrupted by damage and cannot restart for 2.5 seconds.
+The third quick strike gains 12% damage. Heavy attacks commit forward movement, restrict turning, knock unbraced opponents back and interrupt charging when the attacker is large enough; raptor pounces cannot repeatedly cancel a larger dinosaur's charge. A miss adds 0.50 / 0.25 / 0.45 seconds recovery respectively. T-Rex lunges, raptor pounces, and Triceratops drives forward with its horns. Sprint turning is particularly restricted for Triceratops. Eating is interrupted by damage and cannot restart for 2.5 seconds.
 
 ## Hunger, food and map visibility
 
-Hunger starts full and declines gently: Rex 0.075, raptor 0.085, Triceratops 0.06 points/second, plus 0.035 while sprinting. Without feeding, reaching 70% takes roughly 6-8 minutes of normal activity; severe starvation takes much longer.
+Hunger starts full and declines gently: Rex 0.075, raptor 0.1125, Triceratops 0.06 points/second. Sprinting adds 0.035 for Rex/Triceratops and 0.0525 for raptors. Raptors consume 150% of the ordinary base rate, including the sprint surcharge. Without feeding, a walking raptor reaches 70% in about 4.4 minutes; severe starvation takes much longer.
 
 | Hunger | Passive health regeneration | Passive stamina regeneration |
 |---|---|---|
@@ -85,6 +86,8 @@ Hunger starts full and declines gently: Rex 0.075, raptor 0.085, Triceratops 0.0
 | 20% or less | None | None |
 | 10% or less | Lose 0.25% maximum health/sec | None |
 
-Eating bypasses these passive restrictions: food restores 18 hunger/sec, 32 stamina/sec, and 12% maximum health/sec while available. A tiny prey carcass has 25 food units; raptor 120; Rex 360; Triceratops 480. Consumption is 30 / 18 / 24 units/sec for Rex / raptor / Triceratops. Carcasses persist **within the current session**, independently of respawn, until consumed. They are non-blocking and their animation freezes after collapse to reduce cost. Plants contain 120 units, disappear when depleted, and regrow after 120 seconds. Carnivores eat carcasses; Triceratops eats plants.
+Eating bypasses these passive restrictions: food restores 18 hunger/sec, 32 stamina/sec, and 12% maximum health/sec while available. A tiny prey carcass has 25 food units; raptor 120; Rex 360; Triceratops 480. Consumption is 30 / 18 / 24 units/sec for Rex / raptor / Triceratops. Carcasses persist **within the current session**, independently of respawn, until consumed. They are non-blocking and their animation freezes after collapse to reduce cost. Plants contain 120 units, disappear when depleted, and regrow after 120 seconds. Carnivores eat carcasses; Triceratops eats plants. Available edible plants have a subtle green-gold outline while playing Triceratops. The cue respects visible surfaces, disappears on depletion, and returns on regrowth.
 
 The map shows other dinosaurs only in line of sight or after they attack, charge or sprint. Noisy actions reveal a position for six seconds; ongoing sprint/charge keeps it updated. Once an animal goes quiet and out of sight, the marker holds its last revealed location until it expires. Health labels also respect line of sight. The player's own map arrow stays visible.
+
+

@@ -20,6 +20,6 @@ for i,n in enumerate(['Trex','Raptor','Trike']):
   time.sleep(.06)
  check(n+' repeated weak attacks cannot permanently lock stamina',recovered,stamina=t.state()['stamina']);wait(2)
  t.command('menu',open=True);baseline=t.state()['materials'];press('F2');press('B');check(n+' blood toggle preserves materials',baseline==t.state()['materials']);press('B');check(n+' disabling clears all particles',t.state()['bloodParticles']==0);t.command('menu',open=False)
-t.command('species',value=1);check('raptor fragility adjustment loaded',t.state()['maxHealth']==520)
+t.command('species',value=1);check('raptor baseline health preserved',t.state()['maxHealth']==600)
 t.command('scoreHit',attacker=1,victim=0,value=673.2);wait(.15);check('unbraced raptor dies to full rex heavy',t.state()['dead'] and t.state()['health']==0,remaining=t.state()['health'])
 t.command('species',value=0);t.command('ai',paused=True);print('RESULT',sum(r['passed'] for r in rows),'/',len(rows),flush=True);sys.exit(any(not r['passed'] for r in rows))

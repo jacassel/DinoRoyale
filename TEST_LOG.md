@@ -111,7 +111,7 @@ Combat follow-up passed 17/17: correct species materials, held-sprint exhaustion
 - Full previous-system regression and final packaged launch checks are in progress; only completed results are claimed above.
 
 
-## Compact world / balance / audio sprint — in progress
+## Compact world / balance / audio sprint ï¿½ in progress
 
 - Protected inherited runtime evidence in e71899b (`quality-sprint-input-20260919`); existing `Dist/Windows` and `Dist/Checkpoints/2026-09-19-stable/Windows` remain untouched.
 - Halved horizontal geography, landmarks, spawns, navigation bounds and map projection. Kept corridor/animal sizes and swimming depth. Regenerated and imported the overview texture.
@@ -131,3 +131,27 @@ Combat follow-up passed 17/17: correct species materials, held-sprint exhaustion
 - AI pond crossing initially **2/3**. Triceratops exited water but a recovery nudge discarded its requested destination when earlier test animals blocked the bank. Preserve the requested travel destination independently of recovery waypoints. Unchanged crowded test retest **3/3**: Triceratops reached shore after one successful recovery, zero failed paths.
 - All fourteen current regression suites pass, **460/460 checks**. Original failed results and guard diagnostic retained in `Tests/Results/quality-sprint`.
 - Final held-out balance, extended packaged world observations, native launch and package promotion remain pending.
+
+### Standalone observations and plant cue
+
+- Added a visible-silhouette green-gold outline to edible plants for the human Triceratops only. Custom-depth stencil plus an occlusion-aware postprocess keeps ordinary decorative ferns unmarked. Actual packaged screenshot reviewed; all four species-switch checks passed. The 120-second depletion/regrowth test passed at 119.78 simulated seconds, including outline removal/restoration.
+- The outlined standalone candidate passed 193 targeted checks: core 90, settings 28, audio 36, requested rules 36, AI swimming 3. This candidate used the earlier 1500/520 health tuning; final tuning receives separate checks below.
+- Three four-minute autonomous world scenarios (solo, teams, low hunger) passed. Landed hits: 259/175/251; failed paths 0/0/0; terrain falls 0; no stuck recoveries. Longest stationary travel samples 3/1/1 seconds. Temporary pack separation resolved within 25/17/12 samples. FPS approximately 59.7-59.8. Low-hunger animals actively fed and ended above 75 hunger. Persistent corpses accumulated to 67 across these consecutive rounds without a performance collapse; indefinite-session accumulation remains a limitation.
+- Two of 35 observed AI respawns took damage within two seconds (1.97s and 1.02s). Added a nearest-safe-position preference with 3000cm clearance from living major enemies; when surrounded, choose the clearest valid candidate instead of an invalid last candidate. Verification follows separately.
+- Two real multi-animal combat recordings passed, peaks 0.0811 and 0.0805, with finite unclipped output. All three isolated species recordings and death/respawn voice tests already passed.
+- First 24 varied trials (1500 HP Rex / 520 HP raptor): first scoring death favored Rex 14, pack 3, seven 90-second disengagement timeouts; four Rex first scores were counterkilled within 20 seconds. First score is not complete pack elimination, and counterkills are not erased from the report. Two telemetry-reader interruptions during packaging were preserved; only incomplete trials resumed, completed seeds were retained.
+- Six 1400/600 health trials: four Rex first scores, one pack first score, one timeout; two counterkills. Six 1320/600 trials with original 1.05s Rex charge and 200cm sweep: four Rex first scores, one pack first score, one timeout; one counterkill. Restoring the longer windup gives opponents clearer counterplay while preserving 187/673.2 damage. Raptors retain baseline 600 health, unchanged speed/stamina, 66.6/193.14 damage and 1.5x base hunger. Final held-out seed range starts at 800.
+- Triceratops vs earlier 1500 HP Rex: five Rex wins, one timeout. Revised 1320 HP Rex with restored windup: two Rex wins, one Triceratops win, one timeout. Triceratops vs earlier 520 HP pack: two Triceratops first scores, two pack first scores, two timeouts; follow-through outcomes retained in JSON. Final 600 HP pack sanity follows.
+
+### Rejecting misleading first-score parity
+
+The 1320/600, narrow-sweep validation was stopped after 16 completed trials, rather than wasting the remaining eight: fourteen ended with Rex dead during the follow-through, none with a surviving Rex scoring victory, two disengaged. First-score parity alone is insufficient. The entire result and explicit REJECTED.json are retained. Continue with the earlier 1500/520 durability and 240cm sweep while preserving the original 1.05s charge windup; validate both score order and follow-through survival. This is not a completed final checkpoint.
+
+### Respawn safeguard verified
+
+- All three species respawned at full health after 10.02-10.04 seconds, 3233cm from an enemy placed at their home point.
+- The release candidate passed 36 requested-rule checks, 69 combat checks, 17 combat follow-ups, 90 core checks, and four plant-outline checks after the spawn change (219 total including the three respawn checks). These checks used the intermediate 1320/600 profile; final raw values will be checked again after packaging.
+- A fourth four-minute world run passed: 195 landed hits, zero failed paths, terrain falls or stuck recoveries, approximately 59.6 FPS. All eight observed post-respawn first-hit delays exceeded 4.98 seconds; no immediate respawn hits. Temporary pack separation resolved within 20 samples.
+- The 1500/520 profile with a longer 1.05s charge still lost all five resolved fights in six calibration trials, including three counterkills. The original shorter charge remains necessary under pack pressure. The earlier 1400/600, 0.85s charge, 240cm sweep profile is undergoing held-out validation because its six calibration fights yielded two surviving Rex victories, three pack kills, one disengagement.
+- At 1400/600, four Triceratops/Rex checks yielded three Rex wins and one 90-second disengagement. The defensive Triceratops retained 1463/1650 health in the unresolved fight; one Rex victory ended at 362/1400 health. Rex remains favored in this small AI sample; this is not a claim of equal Triceratops win rates.
+
