@@ -42,9 +42,9 @@ private:
     void Generate();
     void BuildGrid();
     TArray<uint8> Blocked;
-    static constexpr int32 GridN=193;
+    static constexpr int32 GridN=97;
     static constexpr float Cell=600.f;
-    static constexpr float Half=57600.f;
+    static constexpr float Half=28800.f;
     int32 CellIndex(const FVector& P) const;
     FVector CellPoint(int32 I) const;
 };

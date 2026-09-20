@@ -1,6 +1,6 @@
 import runtime_core as t,time,json
 t.command('species',value=0);t.command('match',teams=False);t.command('sandbox',enabled=True);t.command('ai',paused=True);t.command('invulnerable',value=False);t.command('teleport',x=0,y=0);t.command('face',yaw=0)
-for i in range(2,10):t.command('testAI',id=i,species=(i-1)//3,x=-48000+i*900,y=-46000,health=1,enabled=False,yaw=180)
+for i in range(2,10):t.command('testAI',id=i,species=(i-1)//3,x=-24000+i*450,y=-23000,health=1,enabled=False,yaw=180)
 t.command('testAI',id=1,species=1,x=1600,y=0,health=1,enabled=False,yaw=180);t.command('damage',value=t.state()['maxHealth']*.82);time.sleep(.6);t.command('enableAI',id=1,enabled=True)
 samples=[]
 for _ in range(45):

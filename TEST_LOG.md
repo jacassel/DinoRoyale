@@ -109,3 +109,15 @@ Combat follow-up passed 17/17: correct species materials, held-sprint exhaustion
 - Live ecology/visibility test passed 42/42: measured actual health/stamina regeneration and starvation rates for all three species; verified direct food recovery, exact finite consumption, correct corpse sizes, frozen collapse, persistence beyond respawn, plant hiding, camera-view visibility, physical occlusion, AI/human noise and expiration, and hungry AI actually feeding.
 - Five additional edge checks passed: hidden depleted remote plant, starvation death/carcass, full-resource ten-second respawn, and an offscreen held charge staying revealed beyond six seconds.
 - Full previous-system regression and final packaged launch checks are in progress; only completed results are claimed above.
+
+
+## Compact world / balance / audio sprint — in progress
+
+- Protected inherited runtime evidence in e71899b (`quality-sprint-input-20260919`); existing `Dist/Windows` and `Dist/Checkpoints/2026-09-19-stable/Windows` remain untouched.
+- Halved horizontal geography, landmarks, spawns, navigation bounds and map projection. Kept corridor/animal sizes and swimming depth. Regenerated and imported the overview texture.
+- Current calibration: Rex 1500 HP, 187 quick, 673.2 full heavy, 0.85s charge, 240cm sweep width; raptor 520 HP, 66.6 quick, 193.14 full pounce, 0.1125 hunger/sec (1.5x base), unchanged mobility/stamina economy. Normal packs have one leader and two followers in solo and each team.
+- Fixed AI target thrashing under pack hits, AI abandoning its own charge to guard, and small pounces repeatedly interrupting larger animals. Nearby raptor support now contributes appropriately to tactical confidence.
+- Calibration initially used complete pack elimination; that overstates what a Rex must accomplish under the actual leader-only scoring rules. Current trials record first scoring death AND a 20-second survivor follow-through. Six calibration trials: Rex scored first 4, pack 2; 2 Rex first-score wins were counterkilled. This is preliminary, not final balance validation.
+- Added original synthesized finite positional footsteps, quick/heavy motion, successful-hit and species death feedback, with per-animal and shared overlap caps.
+- Live requested-rules suite: **36/36**. Live audio suite: **36/36**, including actual Unreal master-output WAV captures. Species peaks 0.095/0.111/0.104; nonzero, unclipped output. Movement/sprint cadence, no airborne/swim steps, miss-vs-impact, death-once, voice termination, pause and respawn checks passed.
+- Full regression, continuous traversal, held-out final balance, longer world observations and replacement packaging are still pending. Do not treat the current source checkpoint as the final playable package.

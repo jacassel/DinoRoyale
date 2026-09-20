@@ -1,0 +1,301 @@
+[
+  {
+    "trial": 0,
+    "seed": 103,
+    "opponent": 0,
+    "pack": true,
+    "winner": "raptors",
+    "seconds": 12.667117800563574,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 0,
+        "hits": 7,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 0,
+        "hits": 1,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 3,
+        "health": 226,
+        "hits": 5,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 4,
+        "health": 0,
+        "hits": 8,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Pursuing",
+      "Repositioning",
+      "Seeking food"
+    ],
+    "valid": true
+  },
+  {
+    "trial": 1,
+    "seed": 104,
+    "opponent": 0,
+    "pack": true,
+    "winner": "raptors",
+    "seconds": 9.45044019818306,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 0,
+        "hits": 7,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 311.9012145996094,
+        "hits": 4,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 3,
+        "health": 235.0001678466797,
+        "hits": 5,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 4,
+        "health": 226,
+        "hits": 7,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Flanking",
+      "Pursuing",
+      "Repositioning",
+      "Seeking food"
+    ],
+    "valid": true
+  },
+  {
+    "trial": 2,
+    "seed": 105,
+    "opponent": 0,
+    "pack": true,
+    "winner": "raptors",
+    "seconds": 6.666924197226763,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 0,
+        "hits": 3,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 300.79998779296875,
+        "hits": 6,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 3,
+        "health": 600,
+        "hits": 6,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 4,
+        "health": 600,
+        "hits": 4,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Flanking",
+      "Pursuing",
+      "Repositioning",
+      "Seeking food"
+    ],
+    "valid": true
+  },
+  {
+    "trial": 3,
+    "seed": 106,
+    "opponent": 0,
+    "pack": true,
+    "winner": "raptors",
+    "seconds": 10.900567501783371,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 0,
+        "hits": 5,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 0,
+        "hits": 3,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 3,
+        "health": 600,
+        "hits": 5,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 4,
+        "health": 506.9070129394531,
+        "hits": 5,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Flanking",
+      "Pursuing",
+      "Repositioning",
+      "Seeking food",
+      "With pack"
+    ],
+    "valid": true
+  },
+  {
+    "trial": 4,
+    "seed": 107,
+    "opponent": 0,
+    "pack": true,
+    "winner": "timeout",
+    "seconds": 120.12880520150065,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 1500,
+        "hits": 20,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 0,
+        "hits": 6,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 3,
+        "health": 0,
+        "hits": 5,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 4,
+        "health": 600,
+        "hits": 8,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Following pack",
+      "Pursuing",
+      "Regrouping",
+      "Repositioning",
+      "Retreating",
+      "Roaming",
+      "Seeking food"
+    ],
+    "valid": true
+  },
+  {
+    "trial": 5,
+    "seed": 108,
+    "opponent": 0,
+    "pack": true,
+    "winner": "raptors",
+    "seconds": 9.850267700850964,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 0,
+        "hits": 4,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 0,
+        "hits": 2,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 3,
+        "health": 600,
+        "hits": 6,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 4,
+        "health": 454.44287109375,
+        "hits": 6,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Flanking",
+      "Following pack",
+      "Pursuing",
+      "Repositioning",
+      "Roaming",
+      "Seeking food"
+    ],
+    "valid": true
+  }
+]

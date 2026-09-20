@@ -8,7 +8,7 @@ import json, pathlib, time, math, sys, os
 
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 BRIDGE=pathlib.Path(os.environ.get('DINO_BRIDGE_DIR', str(ROOT/'Saved/Automation')))
-OUT=ROOT/'Tests/Results'
+OUT=pathlib.Path(os.environ.get('DINO_RESULTS_DIR',str(ROOT/'Tests/Results')))
 OUT.mkdir(parents=True,exist_ok=True)
 results=[]
 sequence=0

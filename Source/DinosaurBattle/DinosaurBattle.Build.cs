@@ -5,7 +5,7 @@ public class DinosaurBattle : ModuleRules
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         PublicDependencyModuleNames.AddRange(new string[] {
-            "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "NavigationSystem",
+            "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "NavigationSystem", "AudioMixer",
             "UMG", "Slate", "SlateCore", "ProceduralMeshComponent", "Json", "JsonUtilities"
         });
     }

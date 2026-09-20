@@ -7,7 +7,7 @@ def release():
 def place(i,sp,x,y=0,enabled=False,profile=3):t.command('testAI',id=i,species=sp,x=x,y=y,health=1,enabled=enabled,yaw=180,personality=profile)
 for player,enemy,pack in [(1,0,True),(1,2,True),(0,1,False)]:
  t.command('menu',open=False);release();t.command('match',teams=False);t.command('ai',paused=True);t.command('sandbox',enabled=True);t.command('species',value=player);t.command('teleport',x=0,y=0);t.command('face',yaw=0)
- for i in range(1,10):place(i,(i-1)//3,-48000+i*800,-46000)
+ for i in range(1,10):place(i,(i-1)//3,-24000+i*400,-23000)
  place(1,enemy,1300,profile=3)
  if pack:
   place(2,1,-300,400,profile=0);place(3,1,-300,-400,profile=2)

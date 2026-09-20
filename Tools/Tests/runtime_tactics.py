@@ -8,7 +8,7 @@ def place(i,species,x,y=0,health=1,enabled=False,yaw=180):return t.command('test
 def reset(player,foe,x,health=1):
     for k in ['W','Q','RightMouseButton','LeftMouseButton']:t.key(k,'up')
     t.command('species',value=player);t.command('match',teams=False);t.command('sandbox',enabled=True);t.command('ai',paused=True);t.command('invulnerable',value=False);t.command('teleport',x=0,y=0);t.command('face',yaw=0)
-    for i in range(2,10):place(i,(i-1)//3,-48000+i*900,-46000)
+    for i in range(2,10):place(i,(i-1)//3,-24000+i*450,-23000)
     place(1,foe,x,health=health);time.sleep(.5)
 def enable():t.command('enableAI',id=1,enabled=True)
 def observe(seconds):

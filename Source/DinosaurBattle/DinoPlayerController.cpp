@@ -1,4 +1,7 @@
 #include "DinoPlayerController.h"
+#include "DinoAudioComponent.h"
+#include "AudioMixerBlueprintLibrary.h"
+#include "Components/CapsuleComponent.h"
 #include "DinosaurCharacter.h"
 #include "HealthComponent.h"
 #include "StaminaComponent.h"
@@ -138,6 +141,11 @@ void ADinoPlayerController::ReadBridge()
         FInputKeyEventArgs Args(nullptr,FInputDeviceId::CreateFromInternalId(0),Key,Event==TEXT("down")?IE_Pressed:Event==TEXT("up")?IE_Released:IE_Axis,Value,false,FPlatformTime::Cycles64());
         Args.DeltaTime=.05f;Args.NumSamples=1;InputKey(Args);
     }
+    else if(Cmd==TEXT("audioRecord"))
+    {
+        if(O->GetBoolField(TEXT("start")))UAudioMixerBlueprintLibrary::StartRecordingOutput(this,60);
+        else UAudioMixerBlueprintLibrary::StopRecordingOutput(this,EAudioRecordingExportType::WavFile,FString::Printf(TEXT("Species%d"),D->Species),FPaths::ConvertRelativePathToFull(FPaths::ProjectSavedDir()/TEXT("AudioQA")));
+    }
     else if(Cmd==TEXT("species")){DinoSpecies(O->GetIntegerField(TEXT("value")));DinoTeleport(0,0);}
     else if(Cmd==TEXT("damage"))DinoDamage(O->GetNumberField(TEXT("value")));
     else if(Cmd==TEXT("hunger"))
@@ -274,6 +282,31 @@ void ADinoPlayerController::ReadBridge()
             if(auto* AI=Cast<ADinosaurAIController>(Other->GetController())){AI->ClearTravelGoal();AI->ResetTactics();double Profile;if(O->TryGetNumberField(TEXT("personality"),Profile))AI->Personality=FMath::Clamp(int32(Profile),0,3);AI->bPaused=!O->GetBoolField(TEXT("enabled"));}
         }
     }
+    else if(Cmd==TEXT("duelSetup"))
+    {
+        // Isolate real AI combat; no changes to stamina, hunger, damage, injury or ability rules.
+        auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>();if(!GM)return;
+        GM->bTeamMatch=false;GM->bIgnoreWinCondition=true;GM->bRoundOver=false;
+        D->ApplySpecies(2);DinoTeleport(-25000,-25000);D->bDead=true;D->RespawnDelay=0;D->Health->Current=0;
+        const int32 Seed=O->GetIntegerField(TEXT("seed"));FRandomStream R(Seed);
+        const float Angle=O->GetNumberField(TEXT("angle"));const int32 Opponent=O->GetIntegerField(TEXT("opponent"));
+        const bool Pack=O->GetBoolField(TEXT("pack"));
+        for(TActorIterator<ADinosaurAIController> It(GetWorld());It;++It)
+        {
+            auto* A=Cast<ADinosaurCharacter>(It->GetPawn());if(!A)continue;
+            const int32 ID=A->CombatantID;const bool Active=ID>=1&&ID<=(Pack?4:2);
+            A->ApplySpecies(ID==1?Opponent:Active?1:3);A->ResetLife();A->RespawnDelay=0;
+            It->ResetTactics();It->ClearTravelGoal();It->SetTestSeed(Seed+ID*173);It->Personality=(Seed+ID)%4;It->bPaused=!Active;
+            FVector P=Active?FVector(ID==1?-650:650,ID<=2?0:ID==3?-500:500,0).RotateAngleAxis(Angle,FVector::UpVector):FVector(-25000+ID*30,-24000,0);
+            P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+A->Stats().HalfHeight+15;A->SetActorLocation(P);A->HomePosition=P;
+            A->SetActorRotation(FRotator(0,Angle+(ID==1?R.FRandRange(-60,60):180+R.FRandRange(-45,45)),0));
+            A->GetCharacterMovement()->StopMovementImmediately();
+            A->GetCapsuleComponent()->SetCollisionEnabled(Active?ECollisionEnabled::QueryAndPhysics:ECollisionEnabled::NoCollision);
+            if(!Active){A->bDead=true;A->Health->Current=0;A->SetActorHiddenInGame(true);}
+            else A->SetActorHiddenInGame(false);
+        }
+        for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It)It->Destroy();
+    }
     else if(Cmd==TEXT("enableAI")){if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(auto* Other=GM->FindCombatant(O->GetIntegerField(TEXT("id"))))if(auto* AI=Cast<ADinosaurAIController>(Other->GetController()))AI->bPaused=!O->GetBoolField(TEXT("enabled"));}
     else if(Cmd==TEXT("camera")){FRotator R=GetControlRotation();R.Yaw=O->GetNumberField(TEXT("yaw"));SetControlRotation(R);}
     else if(Cmd==TEXT("menu"))SetMenuOpen(O->GetBoolField(TEXT("open")));
@@ -284,6 +317,7 @@ void ADinoPlayerController::WriteTelemetry()
 {
     auto* D=Cast<ADinosaurCharacter>(GetPawn());if(!D)return;
     auto O=MakeShared<FJsonObject>();O->SetNumberField(TEXT("seq"),LastSequence);O->SetNumberField(TEXT("time"),GetWorld()->GetTimeSeconds());
+    O->SetNumberField(TEXT("audioSteps"),D->Audio->Steps);O->SetNumberField(TEXT("audioQuick"),D->Audio->QuickSounds);O->SetNumberField(TEXT("audioHeavy"),D->Audio->HeavySounds);O->SetNumberField(TEXT("audioImpacts"),D->Audio->Impacts);O->SetNumberField(TEXT("audioDeaths"),D->Audio->Deaths);O->SetNumberField(TEXT("audioVoices"),D->Audio->ActiveVoices());
     O->SetNumberField(TEXT("species"),D->Species);O->SetNumberField(TEXT("health"),D->Health->Current);O->SetNumberField(TEXT("maxHealth"),D->Health->Maximum);
     FVector L=D->GetActorLocation();O->SetNumberField(TEXT("x"),L.X);O->SetNumberField(TEXT("y"),L.Y);O->SetNumberField(TEXT("z"),L.Z);
     O->SetNumberField(TEXT("speed"),D->GetVelocity().Size2D());O->SetNumberField(TEXT("maxSpeed"),D->GetCharacterMovement()->MaxWalkSpeed);

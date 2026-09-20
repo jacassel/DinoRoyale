@@ -35,7 +35,7 @@ check('tiny carcass consumed exactly and removed',not any(x['name']==c['name'] f
 setup(2);t.command('food');plant=min(t.state()['plants'],key=lambda x:t.dist(x,t.state()));t.command('hunger',value=0);t.command('stamina',value=0);t.command('damage',value=t.state()['maxHealth']*.75);wait(2.7);t.key('E');wait(5.6);t.key('E','up');p=next(x for x in t.state()['plants'] if x['name']==plant['name']);check('eaten plant disappears and cannot supply more food',p['hidden'] and p['food']==0,food=p['food']);t.command('screenshot')
 # Deterministic map visibility tests with real visibility-channel occlusion.
 setup(0)
-for i in range(2,10):place(i,(i-1)//3,-48000+i*800,-46000)
+for i in range(2,10):place(i,(i-1)//3,-24000+i*400,-23000)
 place(1,0,1600);wait(.5);check('quiet dinosaur visible in line of sight',ai()['inSight'] and ai()['mapVisible'])
 t.command('camera',yaw=180);wait(.4);check('quiet dinosaur outside view hidden on map',not ai()['inSight'] and not ai()['mapVisible'])
 t.command('aiAbility',id=1,action='quick');wait(.2);check('AI attack reveals an unseen position',ai()['mapVisible'] and not ai()['inSight'] and abs(ai()['markerX']-1600)<1)

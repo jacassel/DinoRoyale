@@ -21,7 +21,7 @@ time.sleep(.7);blood(True);t.command('target');time.sleep(.3);a=t.state();press(
 blood(False);check('turning blood off clears particles',t.state()['bloodParticles']==0);t.command('removeTarget')
 for i,name in enumerate(['Trex','Raptor','Trike']):
     t.command('species',value=i);time.sleep(.7);land=t.state()['maxSpeed']
-    t.command('teleport',x=0,y=-11500);time.sleep(.8);s=t.state();check(name+' water slows',s['inWater'] and abs(s['maxSpeed']/land-.65)<.02,ratio=s['maxSpeed']/land)
+    t.command('teleport',x=0,y=-5750);time.sleep(.8);s=t.state();check(name+' water slows',s['inWater'] and abs(s['maxSpeed']/land-.65)<.02,ratio=s['maxSpeed']/land)
     t.command('damage',value=s['maxHealth']*.6);time.sleep(.2);s=t.state();check(name+' water plus 50 percent injury',abs(s['maxSpeed']/land-.65*.85)<.02,ratio=s['maxSpeed']/land)
     t.command('damage',value=s['maxHealth']*.2);time.sleep(.2);s=t.state();check(name+' water plus critical injury',abs(s['maxSpeed']/land-.65*.70)<.02,ratio=s['maxSpeed']/land)
     press('RightMouseButton');check(name+' critical charge blocked in water',not t.state()['charging'])

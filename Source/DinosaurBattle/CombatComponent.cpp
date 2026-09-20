@@ -4,6 +4,7 @@
 #include "StaminaComponent.h"
 #include "FoodSystem.h"
 #include "DinoEffects.h"
+#include "DinoAudioComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
@@ -40,6 +41,7 @@ void UCombatComponent::Execute(bool Charged,float Power)
 {
     auto* D=Dino();const auto& S=D->Stats(); bChargedAttack=Charged;
     ++AttackSerial;D->RevealNoise();
+    D->Audio->PlayEvent(Charged?2:1);
     AttackDuration=(Charged?S.ChargeRecovery:S.Recovery)/D->Health->AttackSpeedFactor();
     if(!Charged&&bWeakAttack)AttackDuration*=S.WeakAttackRecovery;
     RecoveryLeft=AttackDuration+(!Charged&&ComboCount==3?S.ComboRecovery/D->Health->AttackSpeedFactor():0);
@@ -66,10 +68,13 @@ void UCombatComponent::DetectHits()
         if(GetWorld()->LineTraceSingleByChannel(Wall,Origin,Target->GetActorLocation(),ECC_Visibility,WallParams))continue;
         HitActors.Add(Target);
         float Before=Target->Health->Current;Target->ReceiveHit(PendingDamage,D);float Applied=Before-Target->Health->Current;LastDealtDamage+=Applied;++TotalHits;
+        if(Applied>0)D->Audio->PlayEvent(3);
         if(Applied>0&&bChargedAttack&&!Target->Combat->bBracing&&!Target->bDead)
         {
-            Target->Combat->bCharging=false;
-            Target->LaunchCharacter(CommitDirection*S.HeavyKnockback*(.5f+.5f*CurrentHeavyPower)+FVector(0,0,40),true,false);
+            // A small pounce cannot repeatedly interrupt an apex animal's committed windup.
+            const float MassRatio=FMath::Min(1.f,S.Radius/Target->Stats().Radius);
+            if(MassRatio>=.65f)Target->Combat->bCharging=false;
+            Target->LaunchCharacter(CommitDirection*S.HeavyKnockback*MassRatio*(.5f+.5f*CurrentHeavyPower)+FVector(0,0,40*MassRatio),true,false);
         }
         if(Applied>0)ADinoEffects::EmitBlood(GetWorld(),H.ImpactPoint.IsNearlyZero()?Target->GetActorLocation():FVector(H.ImpactPoint),D->GetActorForwardVector(),Applied);
     }

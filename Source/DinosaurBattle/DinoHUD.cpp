@@ -177,7 +177,7 @@ void ADinoHUD::DrawWorldMap(ADinosaurCharacter* D,bool Full)
     float X=Full?(W-Size)*.5f:W-Size-30*S,Y=Full?(H-Size)*.5f:25*S;
     Panel(X-10*S,Y-10*S,Size+20*S,Size+(Full?55:20)*S,.94f);
     if(WorldMap)DrawTextureSimple(WorldMap,X,Y,Size/512.f);else DrawRect(FLinearColor(.14f,.21f,.15f),X,Y,Size,Size);
-    auto Point=[&](FVector P){return FVector2D(X+(P.X/120000.f+.5f)*Size,Y+(.5f-P.Y/120000.f)*Size);};
+    auto Point=[&](FVector P){return FVector2D(X+(P.X/60000.f+.5f)*Size,Y+(.5f-P.Y/60000.f)*Size);};
     if(Full)
     {
         for(FVector P:ALostValleyWorld::Landmarks()){auto Q=Point(P);DrawRect(Gold,Q.X-2*S,Q.Y-2*S,4*S,4*S);Text(ALostValleyWorld::RegionName(P),Q.X+6*S,Q.Y,.65f,Gold);}

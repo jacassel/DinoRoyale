@@ -13,7 +13,7 @@ t.command('menu',open=False);t.command('sandbox',enabled=True);t.command('match'
 for species in range(3):
  for profile in range(4):
   release();t.command('ai',paused=True);t.command('removeTarget');t.command('species',value=species);t.command('teleport',x=0,y=0);t.command('face',yaw=0)
-  for i in range(2,10):place(i,(i-1)//3,-48000+i*900,-46000)
+  for i in range(2,10):place(i,(i-1)//3,-24000+i*450,-23000)
   enemy=([0,1,2,0] if species==0 else [2,0,2,0] if species==1 else [1,0,1,0])[profile]
   place(1,enemy,1400,profile=profile);wait(.5);a=t.state();start=a['time'];base=foe();t.command('enableAI',id=1,enabled=True)
   samples=[];last_action='';heavy_started=None;deadline=time.monotonic()+180

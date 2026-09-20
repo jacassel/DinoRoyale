@@ -3,6 +3,7 @@ import runtime_core as t
 import time,json,math,pathlib
 ROOT=t.ROOT;rows=[];snapshots=[]
 regions=[('Plains',0,0),('Forest',-25000,17000),('Ridge',23000,19000),('Creek',5000,-11500),('Grove',-15000,-23000),('Hunting',27000,-5000)]
+regions=[(name,x*.5,y*.5) for name,x,y in regions]
 def save():
     (t.OUT/'final-world-checks.json').write_text(json.dumps(rows,indent=2))
     (t.OUT/'ai-observation.json').write_text(json.dumps(snapshots,indent=2))

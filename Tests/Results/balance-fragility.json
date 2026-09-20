@@ -1,0 +1,52 @@
+[
+  {
+    "trial": 0,
+    "seed": 103,
+    "opponent": 0,
+    "pack": true,
+    "winner": "timeout",
+    "seconds": 120.08924590051174,
+    "survivors": [
+      {
+        "id": 1,
+        "health": 1500,
+        "hits": 11,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "health": 0,
+        "hits": 1,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 3,
+        "health": 0,
+        "hits": 4,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 4,
+        "health": 520,
+        "hits": 5,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Pursuing",
+      "Regrouping",
+      "Repositioning",
+      "Retreating",
+      "Seeking food"
+    ],
+    "valid": true
+  }
+]

@@ -1,5 +1,6 @@
 #include "DinosaurCharacter.h"
 #include "DinoMovementComponent.h"
+#include "DinoAudioComponent.h"
 #include "HealthComponent.h"
 #include "StaminaComponent.h"
 #include "HungerComponent.h"
@@ -31,6 +32,7 @@ ADinosaurCharacter::ADinosaurCharacter(const FObjectInitializer& ObjectInitializ
     Combat=CreateDefaultSubobject<UCombatComponent>(TEXT("Combat"));
     Animation=CreateDefaultSubobject<UDinoAnimationComponent>(TEXT("Animation"));
     Food=CreateDefaultSubobject<UFoodInteractionComponent>(TEXT("Food"));
+    Audio=CreateDefaultSubobject<UDinoAudioComponent>(TEXT("Audio"));
     CameraBoom=CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent); CameraBoom->bUsePawnControlRotation=true;
     CameraBoom->bEnableCameraLag=true; CameraBoom->CameraLagSpeed=10;
@@ -55,6 +57,7 @@ ADinosaurCharacter::ADinosaurCharacter(const FObjectInitializer& ObjectInitializ
 void ADinosaurCharacter::BeginPlay(){Super::BeginPlay();HomePosition=GetActorLocation();GConfig->GetFloat(TEXT("Dino.Session"),TEXT("RespawnDelay"),RespawnDelay,GGameIni);GConfig->GetFloat(TEXT("Dino.Session"),TEXT("MouseSensitivity"),MouseSensitivity,GGameIni);GConfig->GetFloat(TEXT("Dino.Session"),TEXT("EatingHealRate"),Food->EatRate,GGameIni);GConfig->GetFloat(TEXT("Dino.Session"),TEXT("WaterSpeedMultiplier"),WaterSpeedMultiplier,GGameIni);ApplySpecies(Species);}
 void ADinosaurCharacter::ApplySpecies(int32 ID)
 {
+    Audio->ResetAudio();
     const float OldHalf=GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
     Species=FMath::Clamp(ID,0,3); const auto& D=Stats();
     GetCapsuleComponent()->SetCapsuleSize(D.Radius,D.HalfHeight);
@@ -135,9 +138,10 @@ void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
     }
     float Applied=Health->Receive(Damage);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDamage(this,Attacker,Applied);if(Health->IsDead())Die();
 }
-void ADinosaurCharacter::Die(){if(bDead)return;if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDeath(this);bDead=true;DeathTime=0;if(auto* Corpse=GetWorld()->SpawnActor<ADinosaurCarcass>())Corpse->Initialize(this);GetMesh()->SetHiddenInGame(true);Placeholder->SetHiddenInGame(true);Combat->Cancel();Food->StopEating();GetCharacterMovement()->StopMovementImmediately();GetCharacterMovement()->DisableMovement();GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);Placeholder->SetRelativeRotation(FRotator(0,0,75));}
+void ADinosaurCharacter::Die(){if(bDead)return;if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDeath(this);bDead=true;DeathTime=0;Audio->PlayEvent(4);if(auto* Corpse=GetWorld()->SpawnActor<ADinosaurCarcass>())Corpse->Initialize(this);GetMesh()->SetHiddenInGame(true);Placeholder->SetHiddenInGame(true);Combat->Cancel();Food->StopEating();GetCharacterMovement()->StopMovementImmediately();GetCharacterMovement()->DisableMovement();GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);Placeholder->SetRelativeRotation(FRotator(0,0,75));}
 void ADinosaurCharacter::ResetLife()
 {
+    Audio->ResetAudio();
     bool WasDead=bDead;bDead=false;bSwimming=false;bInWater=false;DeathTime=0;LastAttacker=nullptr;DamageContributors.Empty();Food->StopEating();
     Health->Reset(Stats().MaxHealth,Stats().RegenDelay,Stats().RegenRate);Stamina->Reset();Hunger->Reset();RevealUntil=-100;SprintOff();GetMesh()->SetHiddenInGame(false);Combat->Cancel();
     GConfig->GetFloat(TEXT("Dino.Session"),TEXT("SwimSpeedMultiplier"),SwimSpeedMultiplier,GGameIni);

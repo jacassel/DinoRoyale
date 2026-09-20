@@ -59,11 +59,11 @@ void ADinoGameMode::BeginPlay()
     const FVector Spawns[]={FVector(12500,3000,0),FVector(28500,-6000,0),FVector(-23500,13500,0),
         FVector(4500,4000,0),FVector(5000,4400,0),FVector(4400,4800,0),
         FVector(-14000,-22000,0),FVector(8500,-6500,0),FVector(22000,18000,0)};
-    for(int32 I=0;I<9;++I)SpawnDino(I/3,Spawns[I],I+1,true);
+    for(int32 I=0;I<9;++I)SpawnDino(I/3,Spawns[I]*.5f,I+1,true);
     FRandomStream Random(7512);
     for(int32 I=0;I<18;++I)
     {
-        FVector P=ALostValleyWorld::Landmarks()[I%6]+FVector(Random.FRandRange(-6500,6500),Random.FRandRange(-6500,6500),0);
+        FVector P=ALostValleyWorld::Landmarks()[I%6]+FVector(Random.FRandRange(-3250,3250),Random.FRandRange(-3250,3250),0);
         if(P.Size2D()<2700)P.X+=4000;
         SpawnDino(3,P,100+I,false);
     }
@@ -115,15 +115,17 @@ void ADinoGameMode::StartRound()
 {
     bRoundOver=false;WinnerID=WinnerTeam=-1;TeamKills[0]=TeamKills[1]=0;Scores.Empty();++RoundNumber;RoundStartTime=GetWorld()->GetTimeSeconds();
     const FVector SoloHomes[]={FVector(0,0,0),FVector(12500,3000,0),FVector(28500,-6000,0),FVector(-23500,13500,0),FVector(4500,4000,0),FVector(5000,4400,0),FVector(4400,4800,0),FVector(-14000,-22000,0),FVector(8500,-6500,0),FVector(22000,18000,0)};
-    const int32 TeamSpecies[]={0,0,1,1,2,0,1,1,2,2};
+    const int32 TeamSpecies[]={0,1,1,1,2,0,1,1,1,2};
+    const auto* Player=Cast<ADinosaurCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+    const bool PlayerRaptor=Player&&Player->Species==1;
     ALostValleyWorld* Valley=nullptr;for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
     {
         auto* D=*It;if(!D->bMajor)continue;int32 ID=D->CombatantID;if(ID<0||ID>9)continue;
         D->TeamID=bTeamMatch?(ID<=4?0:1):-1;
-        if(!D->IsPlayerControlled())D->ApplySpecies(bTeamMatch?TeamSpecies[ID]:(ID-1)/3);
-        FVector Home=SoloHomes[ID];
-        if(bTeamMatch){int32 Slot=ID<=4?ID:ID-5;Home=FVector(ID<=4?-12000:12000,(Slot-2)*1300,0);}
+        if(!D->IsPlayerControlled())D->ApplySpecies(bTeamMatch?(PlayerRaptor&&ID==1?0:TeamSpecies[ID]):(PlayerRaptor&&ID==6?0:(ID-1)/3));
+        FVector Home=SoloHomes[ID]*.5f;
+        if(bTeamMatch){int32 Slot=ID<=4?ID:ID-5;Home=FVector(ID<=4?-6000:6000,(Slot-2)*1300,0);}
         if(Valley)Home=Valley->NearestWalkable(Home);
         D->HomePosition=Home;D->bDead=true;D->ResetLife();D->GetCharacterMovement()->StopMovementImmediately();
         D->SetActorRotation(FRotator(0,bTeamMatch&&D->TeamID==1?180:0,0));Scores.Add(ID,FDinoScore());

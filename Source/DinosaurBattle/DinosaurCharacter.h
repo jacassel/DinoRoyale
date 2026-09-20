@@ -12,6 +12,7 @@ class UCameraComponent;
 class UStaticMeshComponent;
 class UDinoAnimationComponent;
 class UFoodInteractionComponent;
+class UDinoAudioComponent;
 
 UCLASS()
 class DINOSAURBATTLE_API ADinosaurCharacter : public ACharacter
@@ -37,6 +38,7 @@ public:
     float TurnFactor() const;
     UPROPERTY(VisibleAnywhere) UDinoAnimationComponent* Animation;
     UPROPERTY(VisibleAnywhere) UFoodInteractionComponent* Food;
+    UPROPERTY(VisibleAnywhere) UDinoAudioComponent* Audio;
     UPROPERTY(VisibleAnywhere) USpringArmComponent* CameraBoom;
     UPROPERTY(VisibleAnywhere) UCameraComponent* Camera;
     UPROPERTY(VisibleAnywhere) UStaticMeshComponent* Placeholder;

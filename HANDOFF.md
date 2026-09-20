@@ -42,3 +42,8 @@ soak guarantee. Combat balance still needs human feedback. See KNOWN_ISSUES.md.
 
 Usage at stabilization entry: 16% five-hour / 40% weekly remaining. AGENTS.md
 records the user's thresholds, single-agent rule, and prohibition on purchases.
+
+
+## Active quality sprint (source candidate, not promoted)
+
+The original launcher/package above remains protected. Current source changes halve map dimensions, rebalance the three-member pack, and add generated audio. Requested-rules and recorded-audio suites both pass 36/36; full regression is running through `Tools/Tests/run_quality_regression.py`, with fresh results in `Tests/Results/quality-sprint`. Balance calibration details are in TEST_LOG.md. Finish the requested held-out balance, traversal, world, regression, visual and packaged checks before promoting a new package or declaring completion.

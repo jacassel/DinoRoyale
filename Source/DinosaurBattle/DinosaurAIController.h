@@ -17,6 +17,7 @@ public:
     void SetTravelGoal(const FVector& Point);
     void ClearTravelGoal();
     void ResetTactics();
+    void SetTestSeed(int32 Seed){Random.Initialize(Seed);}
     void Alert(ADinosaurCharacter* Attacker);
     int32 Personality=3; // 0 aggressive, 1 defensive, 2 skirmisher, 3 balanced
     float RepositionUntil=0,NextReposition=0,Temperament=1;

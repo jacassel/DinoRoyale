@@ -21,19 +21,19 @@ ALostValleyWorld::ALostValleyWorld()
     {
         C->SetupAttachment(RootComponent);C->SetCanEverAffectNavigation(false);C->SetCollisionObjectType(ECC_WorldStatic);
         C->SetCollisionEnabled((C==Trunks||C==Rocks)?ECollisionEnabled::QueryAndPhysics:ECollisionEnabled::NoCollision);
-        C->SetCullDistances(0,(C==Grass)?16000:(C==Ferns)?28000:140000);
+        C->SetCullDistances(0,(C==Grass)?8000:(C==Ferns)?14000:140000);
     }
     Grass->SetCastShadow(false);Ferns->SetCastShadow(false);
     for(int32 I=0;I<4;++I)
     {
         auto* Wall=CreateDefaultSubobject<UBoxComponent>(*FString::Printf(TEXT("Boundary%d"),I));Wall->SetupAttachment(RootComponent);
-        Wall->SetBoxExtent(FVector(I<2?200:60000,I<2?60000:200,12000));
-        Wall->SetRelativeLocation(FVector(I==0?-59000:I==1?59000:0,I==2?-59000:I==3?59000:0,5000));
+        Wall->SetBoxExtent(FVector(I<2?200:30000,I<2?30000:200,6000));
+        Wall->SetRelativeLocation(FVector(I==0?-29500:I==1?29500:0,I==2?-29500:I==3?29500:0,2500));
         Wall->SetCollisionProfileName(TEXT("BlockAll"));Wall->SetHiddenInGame(true);Wall->SetCanEverAffectNavigation(false);
     }
 }
-float ALostValleyWorld::CreekY(float X){return -11500+2600*FMath::Sin(X/12000);}
-float ALostValleyWorld::PondRadius(float X,float Y){return FMath::Sqrt(FMath::Square((X-6000)/5500)+FMath::Square((Y-9000)/3800));}
+float ALostValleyWorld::CreekY(float X){return -5750+1300*FMath::Sin(X/6000);}
+float ALostValleyWorld::PondRadius(float X,float Y){return FMath::Sqrt(FMath::Square((X-3000)/2750)+FMath::Square((Y-4500)/1900));}
 bool ALostValleyWorld::WaterAt(float X,float Y,float& Surface)
 {
     if(PondRadius(X,Y)<1.f){Surface=180;return true;}
@@ -42,13 +42,13 @@ bool ALostValleyWorld::WaterAt(float X,float Y,float& Surface)
 }
 float ALostValleyWorld::HeightAt(float X,float Y)
 {
-    float H=240*FMath::Sin(X/17000)*FMath::Cos(Y/20000)+105*FMath::Sin((X+Y)/9000);
-    H+=1900*FMath::Exp(-FMath::Square((X-23500)/13500)-FMath::Square((Y-19500)/15500));
-    H+=550*FMath::Exp(-FMath::Square((X+28000)/17000)-FMath::Square((Y-16000)/17000));
+    float H=120*FMath::Sin(X/8500)*FMath::Cos(Y/10000)+52.5f*FMath::Sin((X+Y)/4500);
+    H+=950*FMath::Exp(-FMath::Square((X-11750)/6750)-FMath::Square((Y-9750)/7750));
+    H+=275*FMath::Exp(-FMath::Square((X+14000)/8500)-FMath::Square((Y-8000)/8500));
     float Creek=FMath::Exp(-FMath::Square((Y-CreekY(X))/1250));
     H-=210*Creek;
-    float Edge=FMath::Clamp((FMath::Max(FMath::Abs(X),FMath::Abs(Y))-51000)/8500,0.f,1.f);
-    H+=Edge*Edge*(2800+1000*FMath::Sin(X/4700)*FMath::Cos(Y/6600));
+    float Edge=FMath::Clamp((FMath::Max(FMath::Abs(X),FMath::Abs(Y))-25500)/4250,0.f,1.f);
+    H+=Edge*Edge*(1400+500*FMath::Sin(X/2350)*FMath::Cos(Y/3300));
     const float Pond=PondRadius(X,Y);
     if(Pond<1.3f)
     {
@@ -63,13 +63,13 @@ FString ALostValleyWorld::RegionName(const FVector& P)
 {
     if(PondRadius(P.X,P.Y)<1.4f)return TEXT("MIRROR POND");
     if(FMath::Abs(P.Y-CreekY(P.X))<2200)return TEXT("RIBBON CREEK");
-    if(P.X<-14000&&P.Y>0)return TEXT("FERNWOOD FOREST");
-    if(P.X>13000&&P.Y>6000)return TEXT("REDSTONE RIDGE");
-    if(P.Y<-15000&&P.X<3000)return TEXT("AMBER FEEDING GROVE");
-    if(P.X>16000&&P.Y<6000)return TEXT("THE HUNTING GROUNDS");
+    if(P.X<-7000&&P.Y>0)return TEXT("FERNWOOD FOREST");
+    if(P.X>6500&&P.Y>3000)return TEXT("REDSTONE RIDGE");
+    if(P.Y<-7500&&P.X<1500)return TEXT("AMBER FEEDING GROVE");
+    if(P.X>8000&&P.Y<3000)return TEXT("THE HUNTING GROUNDS");
     return TEXT("SUNGRASS PLAINS");
 }
-TArray<FVector> ALostValleyWorld::Landmarks(){return {FVector(0,0,0),FVector(-25000,17000,0),FVector(23000,19000,0),FVector(5000,-11500,0),FVector(-15000,-23000,0),FVector(27000,-5000,0),FVector(6000,9000,0)};}
+TArray<FVector> ALostValleyWorld::Landmarks(){return {FVector(0,0,0),FVector(-12500,8500,0),FVector(11500,9500,0),FVector(2500,-5750,0),FVector(-7500,-11500,0),FVector(13500,-2500,0),FVector(3000,4500,0)};}
 void ALostValleyWorld::OnConstruction(const FTransform& T){Super::OnConstruction(T);Generate();}
 void ALostValleyWorld::BeginPlay(){Super::BeginPlay();if(Obstacles.IsEmpty())Generate();BuildGrid();}
 void ALostValleyWorld::Generate()
@@ -85,14 +85,14 @@ void ALostValleyWorld::Generate()
         auto* M=LoadObject<UStaticMesh>(nullptr,S.Path);if(!M)M=LoadObject<UStaticMesh>(nullptr,S.Fallback);S.C->SetStaticMesh(M);
     }
     TArray<FVector> V,N;TArray<int32> I;TArray<FVector2D> UV;TArray<FLinearColor> C;TArray<FProcMeshTangent> Tangent;
-    constexpr int32 Res=192;constexpr float Size=120000.f;
+    constexpr int32 Res=192;constexpr float Size=60000.f;
     for(int32 Y=0;Y<=Res;++Y)for(int32 X=0;X<=Res;++X)
     {
         float WX=-Size/2+Size*X/Res,WY=-Size/2+Size*Y/Res,H=HeightAt(WX,WY);
         V.Add(FVector(WX,WY,H));UV.Add(FVector2D(WX/1600,WY/1600));
         FVector Normal(HeightAt(WX-50,WY)-HeightAt(WX+50,WY),HeightAt(WX,WY-50)-HeightAt(WX,WY+50),100);Normal.Normalize();N.Add(Normal);Tangent.Add(FProcMeshTangent(1,0,0));
         float Moist=FMath::Exp(-FMath::Square((WY-CreekY(WX))/1800));
-        FLinearColor Col=FLinearColor::LerpUsingHSV(FLinearColor(.23f,.30f,.12f),FLinearColor(.13f,.20f,.12f),FMath::Clamp((-WX-8000)/24000,0.f,1.f));
+        FLinearColor Col=FLinearColor::LerpUsingHSV(FLinearColor(.23f,.30f,.12f),FLinearColor(.13f,.20f,.12f),FMath::Clamp((-WX-4000)/12000,0.f,1.f));
         Col=FMath::Lerp(Col,FLinearColor(.29f,.20f,.12f),FMath::Clamp((H-550)/2000,0.f,1.f));
         Col=FMath::Lerp(Col,FLinearColor(.35f,.30f,.19f),Moist*.85f);C.Add(Col);
         if(X<Res&&Y<Res){int32 A=Y*(Res+1)+X;I.Append({A,A+Res+1,A+1,A+1,A+Res+1,A+Res+2});}
@@ -102,7 +102,7 @@ void ALostValleyWorld::Generate()
     V.Empty();I.Empty();N.Empty();UV.Empty();C.Empty();Tangent.Empty();
     for(int32 K=0;K<=240;++K)
     {
-        float X=-58500+K*487.5f,Y=CreekY(X);
+        float X=-29250+K*243.75f,Y=CreekY(X);
         for(int32 Side=0;Side<2;++Side)
         {
             float YY=Y+(Side?360:-360);V.Add(FVector(X,YY,HeightAt(X,Y)+80));N.Add(FVector::UpVector);
@@ -113,19 +113,19 @@ void ALostValleyWorld::Generate()
     Water->CreateMeshSection_LinearColor(0,V,I,N,UV,C,Tangent,false);
     Water->SetMaterial(0,LoadObject<UMaterialInterface>(nullptr,TEXT("/Game/Materials/M_ValleyWater.M_ValleyWater")));
     V.Empty();I.Empty();N.Empty();UV.Empty();C.Empty();Tangent.Empty();
-    V.Add(FVector(6000,9000,180));N.Add(FVector::UpVector);UV.Add(FVector2D(5,5));C.Add(FLinearColor::White);Tangent.Add(FProcMeshTangent(1,0,0));
+    V.Add(FVector(3000,4500,180));N.Add(FVector::UpVector);UV.Add(FVector2D(5,5));C.Add(FLinearColor::White);Tangent.Add(FProcMeshTangent(1,0,0));
     for(int32 K=0;K<=96;++K)
     {
         float A=K*2*PI/96;
-        V.Add(FVector(6000+5500*FMath::Cos(A),9000+3800*FMath::Sin(A),180));N.Add(FVector::UpVector);UV.Add(FVector2D((1+FMath::Cos(A))*5,(1+FMath::Sin(A))*5));C.Add(FLinearColor::White);Tangent.Add(FProcMeshTangent(1,0,0));
+        V.Add(FVector(3000+2750*FMath::Cos(A),4500+1900*FMath::Sin(A),180));N.Add(FVector::UpVector);UV.Add(FVector2D((1+FMath::Cos(A))*5,(1+FMath::Sin(A))*5));C.Add(FLinearColor::White);Tangent.Add(FProcMeshTangent(1,0,0));
         if(K<96)I.Append({0,K+2,K+1});
     }
     Water->CreateMeshSection_LinearColor(1,V,I,N,UV,C,Tangent,false);Water->SetMaterial(1,Water->GetMaterial(0));
     FRandomStream R(83021);
-    for(int32 K=0;K<1050;++K)
+    for(int32 K=0;K<360;++K)
     {
-        float X=R.FRandRange(-54000,54000),Y=R.FRandRange(-54000,54000);
-        bool Forest=X<-14000&&Y>0;
+        float X=R.FRandRange(-27000,27000),Y=R.FRandRange(-27000,27000);
+        bool Forest=X<-7000&&Y>0;
         if(PondRadius(X,Y)<1.15f)continue;
         if(!Forest&&R.FRand()>.19f)continue;
         // Broad roads link every region; central spawn remains clear.
@@ -135,30 +135,30 @@ void ALostValleyWorld::Generate()
         Canopies->AddInstance(FTransform(FRotator(0,Yaw,0),P,FVector(Scale)));
         Obstacles.Add({FVector2D(X,Y),90*Scale});
     }
-    for(int32 K=0;K<170;++K)
+    for(int32 K=0;K<65;++K)
     {
-        float X=R.FRandRange(-55000,55000),Y=R.FRandRange(-55000,55000);
+        float X=R.FRandRange(-27500,27500),Y=R.FRandRange(-27500,27500);
         if(PondRadius(X,Y)<1.15f)continue;
         if(FVector2D(X,Y).Size()<3000||FMath::Abs(Y)<1600||FMath::Abs(X)<1600||FMath::Abs(Y-CreekY(X))<1600)continue;
-        float S=R.FRandRange(1.f,3.5f);if(X>14000&&Y>7000)S*=1.6f;
+        float S=R.FRandRange(1.f,3.5f);if(X>7000&&Y>3500)S*=1.6f;
         FVector Scale(S,R.FRandRange(.7f,1.2f)*S,R.FRandRange(.65f,1.8f)*S);
         Rocks->AddInstance(FTransform(FRotator(0,R.FRandRange(0,360),0),GroundPoint(X,Y,-45),Scale));
         Obstacles.Add({FVector2D(X,Y),float(285*FMath::Max(Scale.X,Scale.Y))});
     }
-    for(int32 K=0;K<3200;++K)
+    for(int32 K=0;K<1100;++K)
     {
-        float X=R.FRandRange(-55500,55500),Y=R.FRandRange(-55500,55500);
+        float X=R.FRandRange(-27750,27750),Y=R.FRandRange(-27750,27750);
         if(PondRadius(X,Y)<1.08f||FMath::Abs(Y-CreekY(X))<620||!IsWalkable(FVector(X,Y,0),80))continue;
         float S=R.FRandRange(.6f,1.8f);
-        auto* Comp=(K%4==0||X<-14000)?Ferns:Grass;
+        auto* Comp=(K%4==0||X<-7000)?Ferns:Grass;
         Comp->AddInstance(FTransform(FRotator(0,R.FRandRange(0,360),0),GroundPoint(X,Y,-2),FVector(S)));
     }
-    for(FVector P:{FVector(-15000,-23000,0),FVector(-19000,-21000,0),FVector(-12000,-26000,0),FVector(8000,-7000,0),FVector(12000,-6000,0),FVector(-3500,2500,0),FVector(2000,4500,0),FVector(-27000,14000,0),FVector(27000,16000,0)})
+    for(FVector P:{FVector(-7500,-11500,0),FVector(-9500,-10500,0),FVector(-6000,-13000,0),FVector(4000,-3500,0),FVector(6000,-3000,0),FVector(-1750,1250,0),FVector(2000,2250,0),FVector(-13500,7000,0),FVector(13500,8000,0)})
         FeedingSpots.Add(NearestWalkable(P));
 }
 bool ALostValleyWorld::IsWalkable(const FVector& P,float Radius) const
 {
-    if(FMath::Abs(P.X)>56500||FMath::Abs(P.Y)>56500)return false;
+    if(FMath::Abs(P.X)>28250||FMath::Abs(P.Y)>28250)return false;
     for(const auto& O:Obstacles)if(FVector2D::DistSquared(FVector2D(P),O.Center)<FMath::Square(O.Radius+Radius))return false;
     float DX=HeightAt(P.X+300,P.Y)-HeightAt(P.X-300,P.Y),DY=HeightAt(P.X,P.Y+300)-HeightAt(P.X,P.Y-300);
     return FMath::Sqrt(DX*DX+DY*DY)/600<.6f;
@@ -176,7 +176,7 @@ bool ALostValleyWorld::SegmentClear(const FVector& A,const FVector& B,float Radi
 }
 FVector ALostValleyWorld::NearestWalkable(const FVector& Input) const
 {
-    FVector P(FMath::Clamp(Input.X,-55400.,55400.),FMath::Clamp(Input.Y,-55400.,55400.),0);
+    FVector P(FMath::Clamp(Input.X,-27700.,27700.),FMath::Clamp(Input.Y,-27700.,27700.),0);
     if(IsWalkable(P,240))return GroundPoint(P.X,P.Y);
     for(int32 Ring=1;Ring<=16;++Ring)for(int32 K=0;K<16;++K)
     {
@@ -206,7 +206,7 @@ bool ALostValleyWorld::FindPath(const FVector& Start,const FVector& End,TArray<F
     struct Node{int32 Id;float F;bool operator<(const Node& O)const{return F>O.F;}};
     std::priority_queue<Node> Open;TArray<float> G;G.Init(FLT_MAX,Blocked.Num());TArray<int32> Parent;Parent.Init(-1,Blocked.Num());TArray<uint8> Closed;Closed.Init(0,Blocked.Num());
     G[S]=0;Open.push({S,0});bool Found=false;int32 Iter=0;
-    while(!Open.empty()&&++Iter<60000)
+    while(!Open.empty()&&++Iter<30000)
     {
         int32 A=Open.top().Id;Open.pop();if(Closed[A])continue;Closed[A]=1;if(A==E){Found=true;break;}
         int32 AX=A%GridN,AY=A/GridN;

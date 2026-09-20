@@ -6,6 +6,7 @@ selected=int(sys.argv[1]) if len(sys.argv)>1 else None
 suffix='-retest-'+str(selected) if selected is not None else ''
 rows=[];samples=[]
 regions=[('Forest',-25000,17000),('Ridge',23000,19000),('Hunting',27000,-5000),('Creek',5000,-11500),('Grove',-15000,-23000),('Plains',0,0)]
+regions=[(name,x*.5,y*.5) for name,x,y in regions]
 def save():
     (t.OUT/('full-traversal'+suffix+'.json')).write_text(json.dumps(rows,indent=2));(t.OUT/('traversal-samples'+suffix+'.json')).write_text(json.dumps(samples,indent=2))
 t.command('ai',paused=True);t.command('match',teams=False);t.command('ai',paused=True);t.command('sandbox',enabled=True);t.command('invulnerable',value=True);t.command('removeTarget')

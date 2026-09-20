@@ -47,6 +47,8 @@ void ADinosaurAIController::Alert(ADinosaurCharacter* A)
 {
     if(A&&Dino()&&Dino()->IsEnemy(A))
     {
+        // Finish the current close-range response instead of spinning toward every pack hit.
+        if(Target.IsValid()&&!Target->bDead&&Target.Get()!=A&&FVector::Dist2D(Dino()->GetActorLocation(),Target->GetActorLocation())<Dino()->Stats().AttackRange*1.6f)return;
         if(RecentAttacker.Get()!=A)++Retaliations;
         RecentAttacker=A;Target=A;RetaliationUntil=GetWorld()->GetTimeSeconds()+8;ThinkTimer=0;
     }
@@ -140,7 +142,7 @@ void ADinosaurAIController::Think(float Dt)
         bool HeavyThreat=Enemy->Combat->bCharging&&Enemy->Combat->ChargeFraction()>.18f;
         bool FreshAttack=Enemy->Combat->IsBusy()&&Enemy->Combat->AttackElapsed<.28f;
         bool Desperate=FightConfidence<.35f&&EscapeConfidence<.38f;
-        if(Dist<Enemy->Stats().AttackRange+D->Stats().Radius+220&&EnemyFacing&&(HeavyThreat||FreshAttack||Desperate)&&Now>=NextGuardTime&&FVector::DotProduct(D->GetActorForwardVector(),ToEnemy)>.65f&&!D->Combat->IsBusy()&&(HeavyThreat||Desperate||Random.FRand()<(Personality==1?.95f:Personality==0?.38f:.65f)*Temperament))
+        if(Dist<Enemy->Stats().AttackRange+D->Stats().Radius+220&&EnemyFacing&&(HeavyThreat||FreshAttack||Desperate)&&Now>=NextGuardTime&&FVector::DotProduct(D->GetActorForwardVector(),ToEnemy)>.65f&&!D->Combat->IsBusy()&&!D->Combat->bCharging&&(HeavyThreat||Desperate||Random.FRand()<(Personality==1?.95f:Personality==0?.38f:.65f)*Temperament))
         {
             if(D->Combat->SetBrace(true))
             {
