@@ -1,0 +1,92 @@
+[
+  {
+    "time": 0.0,
+    "inSight": true,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.0523344986140728,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.0523344986140728,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.11900199949741364,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.16900279745459557,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.16900279745459557,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.23566989973187447,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.30233699828386307,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.30233699828386307,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.3690044991672039,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.4356720969080925,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.48567259684205055,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.5357056967914104,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.5857065990567207,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  },
+  {
+    "time": 0.5857065990567207,
+    "inSight": false,
+    "mapVisible": true,
+    "positionCurrent": true
+  }
+]

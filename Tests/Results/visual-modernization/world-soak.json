@@ -1,0 +1,41 @@
+[
+  {
+    "run": 0,
+    "teams": false,
+    "seconds": 240.65202710404992,
+    "states": {
+      "Roaming": 271,
+      "Pursuing": 1222,
+      "Attacking": 143,
+      "Bracing": 41,
+      "Charging": 64,
+      "Repositioning": 95,
+      "Dead": 78,
+      "Retreating": 206,
+      "Seeking food": 16,
+      "Following pack": 21,
+      "Feeding": 2,
+      "With pack": 1
+    },
+    "hits": 187,
+    "failedPaths": 0,
+    "maxStallSamples": 1,
+    "belowTerrain": false,
+    "maxCorpses": 20,
+    "meanFPS": 58.44300556294118,
+    "playerDeaths": 2,
+    "hungriest": 68.55401611328125,
+    "stuckRecoveries": 0,
+    "respawnFirstHitDelays": [
+      3.0000738985836506,
+      43.10963770002127,
+      31.083621699362993,
+      40.085747096687555,
+      7.0001060999929905,
+      32.06740079820156
+    ],
+    "immediateRespawnHits": 0,
+    "maxPackSplitSamples": 0,
+    "passed": true
+  }
+]

@@ -60,6 +60,8 @@ Run `powershell -ExecutionPolicy Bypass -File Tools/Build.ps1` to build the edit
 
 Original Blender automation is in `Tools/Blender`; native sources are in `Assets/Source`, FBX interchange files in `Assets/Export`, and imported Unreal assets in `Content/Dinosaurs` and `Content/World`.
 
+The visual modernization sources are `Assets/Source/DinosaursModern` and `Assets/Source/WorldModern`. They retain the original rigs and animation timings, with baked 2048px dinosaur color/normal/roughness maps, revised eyes/mouths/teeth and fuller vegetation. Unreal adds layered soil/rock/bark, wet banks, depth-colored water with moving normals and screen-space reflections, contact shadows and restrained grading. Original source assets remain available. See `VISUAL_SPRINT.md` for the iteration and verification record.
+
 Live tests require launching with `-DinoDevBridge`. This opt-in local bridge accepts test setup and real input events through `Saved/Automation/command.json`, and writes runtime state to `telemetry.json`. It is disabled during a normal launch. Test scripts and recorded results are in `Tools/Tests` and `Tests/Results`.
 
 See TEST_LOG.md for **actually performed** tests and KNOWN_ISSUES.md for current limitations.

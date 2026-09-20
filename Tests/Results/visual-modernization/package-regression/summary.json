@@ -1,0 +1,50 @@
+[
+  {
+    "script": "runtime_core.py",
+    "passed": true,
+    "checks": 90,
+    "expected": 90,
+    "seconds": 122.0,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_settings.py",
+    "passed": true,
+    "checks": 28,
+    "expected": 28,
+    "seconds": 18.9,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_matches.py",
+    "passed": true,
+    "checks": 24,
+    "expected": 24,
+    "seconds": 19.1,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_swimming.py",
+    "passed": true,
+    "checks": 40,
+    "expected": 40,
+    "seconds": 56.6,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_allied_map.py",
+    "passed": true,
+    "checks": 17,
+    "expected": 17,
+    "seconds": 15.4,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_map_results.py",
+    "passed": true,
+    "checks": 21,
+    "expected": 21,
+    "seconds": 8.9,
+    "exitCode": 0
+  }
+]

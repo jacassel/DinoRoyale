@@ -1,0 +1,86 @@
+[
+  {
+    "test": "R outside map no longer kills player",
+    "passed": true
+  },
+  {
+    "test": "R pins map cursor at world center",
+    "passed": false
+  },
+  {
+    "test": "Map cursor converts to world coordinates",
+    "passed": false
+  },
+  {
+    "test": "Outside-map R ignored",
+    "passed": true
+  },
+  {
+    "test": "R on existing pin removes it",
+    "passed": true
+  },
+  {
+    "test": "Pins capped at eight with oldest replaced",
+    "passed": true
+  },
+  {
+    "test": "Closing map restores movement input",
+    "passed": true
+  },
+  {
+    "test": "Movement works after closing map",
+    "passed": true
+  },
+  {
+    "test": "Pins survive respawn",
+    "passed": true
+  },
+  {
+    "test": "New round clears pins",
+    "passed": true
+  },
+  {
+    "test": "Solo human kill 1 ends only at five",
+    "passed": true
+  },
+  {
+    "test": "Solo human kill 2 ends only at five",
+    "passed": true
+  },
+  {
+    "test": "Solo human kill 3 ends only at five",
+    "passed": true
+  },
+  {
+    "test": "Solo human kill 4 ends only at five",
+    "passed": true
+  },
+  {
+    "test": "Solo human kill 5 ends only at five",
+    "passed": true
+  },
+  {
+    "test": "Human win opens results with all ten KDA rows",
+    "passed": true
+  },
+  {
+    "test": "Defeated AI deaths included",
+    "passed": true
+  },
+  {
+    "test": "Results clicks cannot activate hidden selection cards",
+    "passed": true
+  },
+  {
+    "test": "Results pause the match",
+    "passed": true
+  },
+  {
+    "test": "Enter starts a clean round",
+    "passed": true
+  },
+  {
+    "test": "AI reaching five also opens all-player solo results",
+    "passed": true
+  }
+]

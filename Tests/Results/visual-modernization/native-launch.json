@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-20",
+  "launcher": "C:/Users/joel1/Documents/DinosaurBattle Prototype/LaunchGame.bat",
+  "executable": "Dist/Windows/DinosaurBattle.exe",
+  "arguments": "-windowed -ResX=1600 -ResY=900",
+  "developmentBridge": false,
+  "permissionPromptObserved": false,
+  "nativeChecks": [
+    "Selection menu rendered",
+    "Keyboard 1 selected Rex and started the round",
+    "Mouse selection switched to Raptor",
+    "Mouse movement changed camera angle",
+    "M opened the map",
+    "R added a gold map pin",
+    "Escape paused and released the mouse",
+    "F10 quit from the menu"
+  ],
+  "inputsExercised": ["Shift+W", "Space"],
+  "inputMeasurementLimit": "Native movement/sprint/jump inputs were exercised visually; quantitative behavior is verified in the core regression suite.",
+  "normalExitLogUtc": "2026-09-20T21:45:08.517Z",
+  "exitEvidence": "LogExit: Exiting. followed by Log file closed; game PID 20056 and bootstrap PID 2776 no longer running.",
+  "visualLimit": "Menu portraits retain their previous artwork; in-game species use modernized meshes/materials.",
+  "evidence": "Native computer-use state images reviewed in the task; normal runtime log at Dist/Windows/DinosaurBattle/Saved/Logs/DinosaurBattle.log. No separate native screenshot file was saved."
+}

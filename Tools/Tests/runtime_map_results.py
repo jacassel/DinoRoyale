@@ -2,9 +2,14 @@
 import json
 import time
 import shutil
+import os
 import runtime_core as t
 
 rows=[]
+width=int(os.environ.get('DINO_TEST_WIDTH','1280'))
+height=int(os.environ.get('DINO_TEST_HEIGHT','720'))
+cx,cy=width//2,height//2
+map_size=min(height*.7,width*.64)
 def check(name, passed):
     rows.append(dict(test=name, passed=bool(passed)))
     (t.OUT/'map-results.json').write_text(json.dumps(rows, indent=2))
@@ -29,18 +34,18 @@ t.command('match',teams=False);t.command('ai',paused=True)
 t.command('sandbox',enabled=False)
 press('R')
 check('R outside map no longer kills player',not t.state()['dead'] and not t.state()['mapPins'])
-press('M');t.command('mouse',x=640,y=360);press('R')
+press('M');t.command('mouse',x=cx,y=cy);press('R')
 s=t.state()
 check('R pins map cursor at world center',len(s['mapPins'])==1 and abs(s['mapPins'][0]['x'])<1 and abs(s['mapPins'][0]['y'])<1)
-t.command('mouse',x=766,y=234);press('R')
-s=t.state();check('Map cursor converts to world coordinates',len(s['mapPins'])==2 and abs(s['mapPins'][1]['x']-15000)<1 and abs(s['mapPins'][1]['y']-15000)<1)
+t.command('mouse',x=round(cx+map_size/3),y=round(cy-map_size/3));press('R')
+s=t.state();check('Map cursor converts to world coordinates',len(s['mapPins'])==2 and abs(s['mapPins'][1]['x']-20000)<=30000/map_size+1 and abs(s['mapPins'][1]['y']-20000)<=30000/map_size+1)
 t.command('mouse',x=20,y=20);press('R')
 check('Outside-map R ignored',len(t.state()['mapPins'])==2)
-t.command('mouse',x=640,y=360);press('R')
+t.command('mouse',x=cx,y=cy);press('R')
 check('R on existing pin removes it',len(t.state()['mapPins'])==1)
-for x,y in [(430,160),(490,160),(550,160),(610,160),(670,160),(730,160),(790,160),(850,160)]:
+for x,y in [(round(cx+map_size*(-.42+i*.12)),round(cy-map_size*.40)) for i in range(8)]:
     t.command('mouse',x=x,y=y);press('R')
-check('Pins capped at eight with oldest replaced',len(t.state()['mapPins'])==8 and all(abs(p['y']-15000)>1 for p in t.state()['mapPins']))
+check('Pins capped at eight with oldest replaced',len(t.state()['mapPins'])==8 and all(abs(p['y']-20000)>100 for p in t.state()['mapPins']))
 capture('map-pins')
 press('M');check('Closing map restores movement input',not t.state()['ignoreMove'] and not t.state()['mapOpen'])
 a=t.state();t.hold('W',.4);check('Movement works after closing map',t.dist(a,t.state())>50)
@@ -58,7 +63,7 @@ for n in range(5):
 s=t.state();check('Human win opens results with all ten KDA rows',s['menuOpen'] and s['winner']==0 and len(s['scoreboard'])==10 and s['kills']==5 and s['assists']==1)
 check('Defeated AI deaths included',next(r for r in s['scoreboard'] if r['id']==1)['deaths']==6)
 capture('solo-human-results')
-t.command('mouse',x=640,y=400);press('LeftMouseButton')
+t.command('mouse',x=cx,y=round(height*400/720));press('LeftMouseButton')
 check('Results clicks cannot activate hidden selection cards',t.state()['roundOver'] and t.state()['menuOpen'])
 stamp=t.state()['time'];time.sleep(.4);check('Results pause the match',abs(t.state()['time']-stamp)<.05)
 press('Enter');check('Enter starts a clean round',not t.state()['roundOver'] and not t.state()['menuOpen'] and all(r['kills']==0 and r['deaths']==0 and r['assists']==0 for r in t.state()['scoreboard']))

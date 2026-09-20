@@ -9,7 +9,7 @@ def check(n,ok,**v):
  rows.append(dict(test=n,passed=bool(ok),**v));(t.OUT/'combat-followup.json').write_text(json.dumps(rows,indent=2));print(('PASS ' if ok else 'FAIL ')+n+' '+json.dumps(v),flush=True)
 t.command('menu',open=False);t.command('ai',paused=True);t.command('sandbox',enabled=True)
 for i,n in enumerate(['Trex','Raptor','Trike']):
- t.command('species',value=i);wait(.6);check(n+' correct skin after species switch','M_'+n+'_BakedSkin' in t.state()['materials'],materials=t.state()['materials'])
+ t.command('species',value=i);wait(.6);materials=t.state()['materials'];check(n+' correct skin after species switch',bool(materials) and all(m=='M_'+n+'_Modern' for m in materials),materials=materials)
  t.key('W');t.key('LeftShift');t.command('stamina',value=2);samples=[];start=t.state()['time']
  while t.state()['time']-start<4:samples.append(t.state());time.sleep(.04)
  t.key('W','up');t.key('LeftShift','up');check(n+' held sprint exhausts then automatically resumes',any(s['exhausted'] and not s['sprinting'] for s in samples) and any(s['sprinting'] and s['stamina']>10 for s in samples[15:]))

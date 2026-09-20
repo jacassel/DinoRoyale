@@ -1,0 +1,11 @@
+{
+  "region": "pond continuous follow-up",
+  "seconds": 45.03199069947004,
+  "fps": 59.935169600036424,
+  "sampledFrames": 955,
+  "medianMs": 16.666900634765625,
+  "p95Ms": 16.66710090637207,
+  "p99Ms": 16.67759895324707,
+  "maxMs": 16.737398147583008,
+  "samplesOver50Ms": 0
+}

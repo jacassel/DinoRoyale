@@ -1,0 +1,57 @@
+{
+  "bindings": [
+    {
+      "mesh": "SM_ConiferCanopy",
+      "materials": [
+        "/Game/Materials/M_NaturalFoliageSurface.M_NaturalFoliageSurface",
+        "/Game/Materials/M_NaturalFoliageSurface.M_NaturalFoliageSurface"
+      ]
+    },
+    {
+      "mesh": "SM_Grass",
+      "materials": [
+        "/Game/Materials/M_NaturalFoliageSurface.M_NaturalFoliageSurface",
+        "/Game/Materials/M_NaturalFoliageSurface.M_NaturalFoliageSurface"
+      ]
+    },
+    {
+      "mesh": "SM_Fern",
+      "materials": [
+        "/Game/Materials/M_NaturalFoliageSurface.M_NaturalFoliageSurface"
+      ]
+    },
+    {
+      "mesh": "Trex",
+      "materials": [
+        "/Game/Materials/M_Trex_Modern.M_Trex_Modern",
+        "/Game/Materials/M_Trex_Modern.M_Trex_Modern",
+        "/Game/Materials/M_Trex_Modern.M_Trex_Modern",
+        "/Game/Materials/M_Trex_Modern.M_Trex_Modern",
+        "/Game/Materials/M_Trex_Modern.M_Trex_Modern",
+        "/Game/Materials/M_Trex_Modern.M_Trex_Modern"
+      ]
+    },
+    {
+      "mesh": "Raptor",
+      "materials": [
+        "/Game/Materials/M_Raptor_Modern.M_Raptor_Modern",
+        "/Game/Materials/M_Raptor_Modern.M_Raptor_Modern",
+        "/Game/Materials/M_Raptor_Modern.M_Raptor_Modern",
+        "/Game/Materials/M_Raptor_Modern.M_Raptor_Modern",
+        "/Game/Materials/M_Raptor_Modern.M_Raptor_Modern",
+        "/Game/Materials/M_Raptor_Modern.M_Raptor_Modern"
+      ]
+    },
+    {
+      "mesh": "Trike",
+      "materials": [
+        "/Game/Materials/M_Trike_Modern.M_Trike_Modern",
+        "/Game/Materials/M_Trike_Modern.M_Trike_Modern",
+        "/Game/Materials/M_Trike_Modern.M_Trike_Modern",
+        "/Game/Materials/M_Trike_Modern.M_Trike_Modern",
+        "/Game/Materials/M_Trike_Modern.M_Trike_Modern"
+      ]
+    }
+  ],
+  "unusedMaterialRemoved": true
+}

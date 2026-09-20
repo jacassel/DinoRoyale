@@ -1,6 +1,6 @@
 """Capture the actual rendered jaw, attacks, stamina HUD and blood toggles."""
 import runtime_core as t,time,json,pathlib,shutil
-out=t.ROOT/'Saved/CombatVisuals';out.mkdir(exist_ok=True);shots=[]
+out=t.OUT/'combat';out.mkdir(parents=True,exist_ok=True);shots=[]
 def wait(sec):
  start=t.state()['time']
  while t.state()['time']-start<sec:time.sleep(.015)
@@ -12,7 +12,7 @@ def shot(name):
    src=max(new,key=lambda p:p.stat().st_mtime);time.sleep(.15);dest=out/(name+'.png')
    try:shutil.copyfile(src,dest)
    except OSError:time.sleep(.1);continue
-   shots.append(dict(name=name,path=str(dest),animation=t.state()['animation']));return
+   state=t.state();shots.append(dict(name=name,path=str(dest),animation=state['animation'],bloodEnabled=state['bloodEnabled'],bloodParticles=state['bloodParticles'],materials=state['materials']));return
   time.sleep(.03)
  raise RuntimeError('Screenshot missing')
 def toggle_blood(enabled):

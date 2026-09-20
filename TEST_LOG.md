@@ -180,3 +180,61 @@ The earlier fourth world observation followed control tests that could leave a n
 - Final clean four-minute world run: 197 hits, zero failed paths, zero terrain falls, zero stuck recoveries, longest stationary-travel sample 1 second, no immediate respawn hits, approximately 59.95 FPS. All eight observed respawn-to-first-hit delays exceeded seven seconds. The three earlier clean scenarios plus this run provide sixteen minutes of autonomous world observation.
 - Native standalone launched and rendered dinosaur selection. A Windows Security network permission prompt blocked the extra desktop-input check. No security action was automated; the user was asked to cancel the prompt. This limitation is explicit in `stable-release/native-launch.json`; automated real-input controls passed.
 - Promoted the tested package to `Dist/Windows`; the old playable moved intact to `Dist/Checkpoints/2026-09-20-before-quality/Windows`. New recovery package is `Dist/Checkpoints/2026-09-20-quality/Windows`. All 49 runtime files matched SHA-256 across the tested, staged/promoted and recovery copies. Test Saved directories were excluded from the clean copies.
+
+
+## Visual modernization — September 20, 2026
+
+Evidence: `Tests/Results/visual-modernization`; iteration narrative and fixture
+corrections: `VISUAL_SPRINT.md`. Original working package was SHA-256 verified
+before changes; original Blender sources and the staged input configuration were
+preserved. No gameplay balance, AI, collision, water physics or animation timing
+was changed.
+
+- Reviewed nine final front/side/rear views, 51 action/environment details and 27
+  packaged combat captures. Earlier rejected visual passes remain available.
+- Blender jaw probe: all 86 frames across Charge/Heavy/Quick passed; rendered
+  left/right/front-oblique jaw sequences also reviewed.
+- Source regression: **462/462**, 15 suites, including 18 continuous routes and
+  all three crowded AI pond crossings. The latter had one successful Triceratops
+  recovery and zero failed paths.
+- Standalone BuildCookRun passed; no reported compile errors, warnings or failed
+  shader compilations. Actual packaged regression: **220/220**, six suites.
+- Twelve packaged blood/material capture checks pass: ON has 6–20 particles,
+  OFF has zero, and every creature slot retains its new species material.
+- Corrected stale test material names, finite-guard/desperation setups (verified
+  against the untouched old package), physics-settle timing and fixed-resolution
+  mouse coordinates. These changes affect tests only. All initial failures and
+  the archive-time telemetry interruption are retained with explanations.
+- Completed packaged world observation, performance, native controls and promotion
+  evidence are recorded below.
+
+
+### Packaged world and performance
+
+- Four-minute post-regression AI run passed: 187 hits, no failed paths, terrain
+  falls, stuck recoveries or immediate respawn hits; maximum stationary travel
+  sample one second, maximum 20 persistent corpses. Cumulative session mean
+  58.44 FPS (includes preceding tests).
+- Warmed 20-second counter-delta samples at 1600x900: plains 60.00, forest 58.81,
+  pond 59.41 FPS. Sampled p95 frame time approximately 16.667ms. A single 194.8ms
+  pond frame was sampled. Same-scene 45-second follow-up: 59.94 FPS, sampled max
+  16.74ms, no sampled frames over 50ms. The original hitch is retained as a limit.
+- Runtime log scan found no fatal errors, GPU crashes, failed material/shader
+  compilations or texture-pool-over-budget messages. Measurements are capped at
+  60 and frame-time sampling is about 22Hz, not an exhaustive profiler trace.
+
+### Promoted package and native launcher
+
+- All 48 runtime files were SHA-256 verified across the candidate, independent
+  recovery and promoted `Dist/Windows`. Previous playable retained intact at
+  `Dist/Checkpoints/2026-09-20-before-visual-modernization/Windows`; new recovery
+  at `Dist/Checkpoints/2026-09-20-visual-modernization/Windows`.
+- Normal `LaunchGame.bat` opened the promoted standalone at 1600x900 without a
+  development bridge or permission prompt. Native species selection, mouse look,
+  M map, R pin and Escape pause responded. Movement/sprint/jump inputs were also
+  exercised; the automated core suite provides their quantitative checks.
+- F10 quit normally. Runtime log ended `LogExit: Exiting.` at 21:45:08 UTC and
+  both game/launcher processes closed. Old menu portraits are an art limitation.
+- Source tag: `visual-modernization-stable-20260920`. Preexisting staged input
+  configuration remains byte-identical and excluded from the visual commit.
+  Final account allowance 70%; no separate Astra allowance exposed.

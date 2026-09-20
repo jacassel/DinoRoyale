@@ -1,0 +1,9 @@
+PASS {"species": "Trex", "passed": true, "seconds": 11.69, "stuck": 0, "failedPaths": 0, "swimSamples": 37, "end": [6237.088473790412, 4500]}
+PASS {"species": "Raptor", "passed": true, "seconds": 8.77, "stuck": 0, "failedPaths": 0, "swimSamples": 31, "end": [6155.193638761113, 4439.8536017483875]}
+Traceback (most recent call last):
+  File "C:\Users\joel1\Documents\DinosaurBattle Prototype\Tools\Tests\runtime_ai_swimming.py", line 7, in <module>
+    a=next(a for a in t.state()['ai'] if a['id']==ident);samples.append(a)
+                      ^^^^^^^^^
+  File "C:\Users\joel1\Documents\DinosaurBattle Prototype\Tools\Tests\runtime_core.py", line 21, in state
+    raise RuntimeError('Game telemetry did not respond')
+RuntimeError: Game telemetry did not respond

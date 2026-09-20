@@ -23,6 +23,7 @@ public:
     UPROPERTY(VisibleAnywhere) UHierarchicalInstancedStaticMeshComponent* Rocks;
     UPROPERTY(VisibleAnywhere) UHierarchicalInstancedStaticMeshComponent* Ferns;
     UPROPERTY(VisibleAnywhere) UHierarchicalInstancedStaticMeshComponent* Grass;
+    UPROPERTY(VisibleAnywhere) UHierarchicalInstancedStaticMeshComponent* BankStones;
     static float HeightAt(float X,float Y);
     static float CreekY(float X);
     static float PondRadius(float X,float Y);

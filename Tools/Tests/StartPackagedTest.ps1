@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$PackageDirectory,[string]$ExtraArguments='')
+param([Parameter(Mandatory=$true)][string]$PackageDirectory,[string]$ExtraArguments='',[int]$Width=1280,[int]$Height=720)
 $ErrorActionPreference='Stop'
 $packageRoot=(Resolve-Path -LiteralPath $PackageDirectory).Path
 $gameExe=Join-Path $packageRoot 'DinosaurBattle.exe'
@@ -8,7 +8,7 @@ New-Item -ItemType Directory -Force -Path $bridgeDirectory | Out-Null
 $telemetryFile=Join-Path $bridgeDirectory 'telemetry.json'
 if(Test-Path -LiteralPath $telemetryFile){Remove-Item -LiteralPath $telemetryFile}
 Set-Content -LiteralPath (Join-Path $bridgeDirectory 'command.json') -Value '{"seq":0,"cmd":"noop"}'
-$arguments='-windowed -ResX=1280 -ResY=720 -DinoDevBridge -DinoStartMenu -RenderOffscreen -ForceRes -unattended -ini:Engine:[Audio]:UnfocusedVolumeMultiplier=1.0'
+$arguments="-windowed -ResX=$Width -ResY=$Height -DinoDevBridge -DinoStartMenu -RenderOffscreen -ForceRes -unattended -ini:Engine:[Audio]:UnfocusedVolumeMultiplier=1.0"
 if($ExtraArguments){$arguments+=' '+$ExtraArguments}
 $gameProcess=Start-Process -FilePath $gameExe -ArgumentList $arguments -WindowStyle Hidden -PassThru
 $deadline=(Get-Date).AddSeconds(60)

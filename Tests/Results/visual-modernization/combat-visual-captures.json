@@ -1,0 +1,403 @@
+[
+  {
+    "name": "rex_left_charge",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_left_charge.png",
+    "animation": "Charge",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_left_heavy_early",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_left_heavy_early.png",
+    "animation": "Heavy",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_left_heavy_late",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_left_heavy_late.png",
+    "animation": "Heavy",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_left_recovery",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_left_recovery.png",
+    "animation": "Idle",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_left_quick",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_left_quick.png",
+    "animation": "Idle",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_right_charge",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_right_charge.png",
+    "animation": "Charge",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_right_heavy_early",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_right_heavy_early.png",
+    "animation": "Heavy",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_right_heavy_late",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_right_heavy_late.png",
+    "animation": "Heavy",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_right_recovery",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_right_recovery.png",
+    "animation": "Idle",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_right_quick",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_right_quick.png",
+    "animation": "Idle",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_front_oblique_charge",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_front_oblique_charge.png",
+    "animation": "Charge",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_front_oblique_heavy_early",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_front_oblique_heavy_early.png",
+    "animation": "Heavy",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_front_oblique_heavy_late",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_front_oblique_heavy_late.png",
+    "animation": "Heavy",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_front_oblique_recovery",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_front_oblique_recovery.png",
+    "animation": "Idle",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_front_oblique_quick",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_front_oblique_quick.png",
+    "animation": "Idle",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_blood_on.png",
+    "animation": "Quick",
+    "bloodEnabled": true,
+    "bloodParticles": 9,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_heavy_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_heavy_blood_on.png",
+    "animation": "Heavy",
+    "bloodEnabled": true,
+    "bloodParticles": 20,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_blood_off.png",
+    "animation": "Quick",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "rex_heavy_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\rex_heavy_blood_off.png",
+    "animation": "Heavy",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern",
+      "M_Trex_Modern"
+    ]
+  },
+  {
+    "name": "raptor_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\raptor_blood_on.png",
+    "animation": "Idle",
+    "bloodEnabled": true,
+    "bloodParticles": 6,
+    "materials": [
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern"
+    ]
+  },
+  {
+    "name": "raptor_heavy_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\raptor_heavy_blood_on.png",
+    "animation": "Idle",
+    "bloodEnabled": true,
+    "bloodParticles": 9,
+    "materials": [
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern"
+    ]
+  },
+  {
+    "name": "raptor_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\raptor_blood_off.png",
+    "animation": "Idle",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern"
+    ]
+  },
+  {
+    "name": "raptor_heavy_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\raptor_heavy_blood_off.png",
+    "animation": "Heavy",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern",
+      "M_Raptor_Modern"
+    ]
+  },
+  {
+    "name": "trike_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\trike_blood_on.png",
+    "animation": "Quick",
+    "bloodEnabled": true,
+    "bloodParticles": 7,
+    "materials": [
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern"
+    ]
+  },
+  {
+    "name": "trike_heavy_blood_on",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\trike_heavy_blood_on.png",
+    "animation": "Heavy",
+    "bloodEnabled": true,
+    "bloodParticles": 20,
+    "materials": [
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern"
+    ]
+  },
+  {
+    "name": "trike_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\trike_blood_off.png",
+    "animation": "Idle",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern"
+    ]
+  },
+  {
+    "name": "trike_heavy_blood_off",
+    "path": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Tests\\Results\\visual-modernization\\combat\\trike_heavy_blood_off.png",
+    "animation": "Heavy",
+    "bloodEnabled": false,
+    "bloodParticles": 0,
+    "materials": [
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern",
+      "M_Trike_Modern"
+    ]
+  }
+]

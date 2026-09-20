@@ -28,12 +28,18 @@ reset(0,1,1000,health=.12);a=ai();enable();samples=observe(1.8);b=ai()
 check('critical raptor chooses escape from healthy rex',any(s['state']=='Retreating' and s['escapeConfidence']>s['fightConfidence'] for s in samples),fight=b['fightConfidence'],escape=b['escapeConfidence'])
 check('retreat physically increases separation',t.dist(b,t.state())>t.dist(a,dict(x=0,y=0))+500,distance=t.dist(b,t.state()))
 
-reset(0,2,550);t.command('invulnerable',value=True);a=ai();t.key('RightMouseButton');time.sleep(.5);enable();samples=observe(.5);b=ai()
-check('triceratops recognizes and braces against charge',any(s['state']=='Bracing' for s in samples) and b['guards']>a['guards'])
+# Present a fully charged threat, then release during the observed guard window.
+# Holding another half-second after recognition can deliberately outlast the finite guard.
+reset(0,2,550);t.command('invulnerable',value=True);a=ai();t.key('RightMouseButton');time.sleep(.9);enable();samples=[];guard_start=t.state()['time'];b=ai()
+while b['state']!='Bracing' and t.state()['time']-guard_start<.6:
+ samples+=observe(.04);b=ai()
+check('triceratops recognizes and braces against charge',b['state']=='Bracing' and b['guards']>a['guards'])
 t.key('RightMouseButton','up');time.sleep(.45);c=ai();damage=b['health']-c['health'];check('AI brace actually reduces frontal damage',0<damage<80,damage=damage)
 samples=observe(3);check('AI releases guard and counterattacks',any(s['state'] in ['Attacking','Charging','Pursuing'] for s in samples) and ai()['hits']>c['hits'],states=sorted({s['state'] for s in samples}))
 
-reset(1,2,300,health=.18);enable();samples=observe(1.2);b=ai();check('slow injured trike guards when escape is poor',any(s['state']=='Bracing' for s in samples) and all(s['state']!='Retreating' for s in samples),fight=b['fightConfidence'],escape=b['escapeConfidence'])
+# With the retained 1650 HP / 155 damage balance, 18% health still favors fighting
+# a lone raptor. Six percent sets up the intended desperate, poor-escape condition.
+reset(1,2,300,health=.06);enable();samples=observe(1.2);b=ai();check('slow injured trike guards when escape is poor',any(s['state']=='Bracing' and s['fightConfidence']<.35 and s['escapeConfidence']<.38 for s in samples) and all(s['state']!='Retreating' for s in samples),fight=b['fightConfidence'],escape=b['escapeConfidence'])
 
 reset(2,1,500);place(4,1,1000,550);place(5,1,1000,-550);t.key('Q');enable();samples=observe(1.5);b=ai()
 check('supported raptor flanks a frontal guard',any(s['state']=='Flanking' for s in samples) and abs(b['y'])>100,y=b['y'],states=sorted({s['state'] for s in samples}));t.key('Q','up')

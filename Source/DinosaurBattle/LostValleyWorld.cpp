@@ -17,6 +17,9 @@ ALostValleyWorld::ALostValleyWorld()
     Rocks=CreateDefaultSubobject<UHierarchicalInstancedStaticMeshComponent>(TEXT("Boulders"));
     Ferns=CreateDefaultSubobject<UHierarchicalInstancedStaticMeshComponent>(TEXT("Ferns"));
     Grass=CreateDefaultSubobject<UHierarchicalInstancedStaticMeshComponent>(TEXT("Grass"));
+    BankStones=CreateDefaultSubobject<UHierarchicalInstancedStaticMeshComponent>(TEXT("BankStones"));
+    BankStones->SetupAttachment(RootComponent);BankStones->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    BankStones->SetCanEverAffectNavigation(false);BankStones->SetCullDistances(0,16000);
     for(auto* C:{Trunks,Canopies,Rocks,Ferns,Grass})
     {
         C->SetupAttachment(RootComponent);C->SetCanEverAffectNavigation(false);C->SetCollisionObjectType(ECC_WorldStatic);
@@ -74,7 +77,7 @@ void ALostValleyWorld::OnConstruction(const FTransform& T){Super::OnConstruction
 void ALostValleyWorld::BeginPlay(){Super::BeginPlay();if(Obstacles.IsEmpty())Generate();BuildGrid();}
 void ALostValleyWorld::Generate()
 {
-    Obstacles.Empty();FeedingSpots.Empty();for(auto* C:{Trunks,Canopies,Rocks,Ferns,Grass})C->ClearInstances();
+    Obstacles.Empty();FeedingSpots.Empty();for(auto* C:{Trunks,Canopies,Rocks,Ferns,Grass,BankStones})C->ClearInstances();
     struct FMeshSetup{UHierarchicalInstancedStaticMeshComponent* C;const TCHAR* Path;const TCHAR* Fallback;};
     for(auto S:{FMeshSetup{Trunks,TEXT("/Game/World/SM_ConiferTrunk.SM_ConiferTrunk"),TEXT("/Engine/BasicShapes/Cylinder.Cylinder")},
         FMeshSetup{Canopies,TEXT("/Game/World/SM_ConiferCanopy.SM_ConiferCanopy"),TEXT("/Engine/BasicShapes/Cone.Cone")},
@@ -84,6 +87,7 @@ void ALostValleyWorld::Generate()
     {
         auto* M=LoadObject<UStaticMesh>(nullptr,S.Path);if(!M)M=LoadObject<UStaticMesh>(nullptr,S.Fallback);S.C->SetStaticMesh(M);
     }
+    BankStones->SetStaticMesh(Rocks->GetStaticMesh());
     TArray<FVector> V,N;TArray<int32> I;TArray<FVector2D> UV;TArray<FLinearColor> C;TArray<FProcMeshTangent> Tangent;
     constexpr int32 Res=192;constexpr float Size=60000.f;
     for(int32 Y=0;Y<=Res;++Y)for(int32 X=0;X<=Res;++X)
@@ -152,6 +156,26 @@ void ALostValleyWorld::Generate()
         float S=R.FRandRange(.6f,1.8f);
         auto* Comp=(K%4==0||X<-7000)?Ferns:Grass;
         Comp->AddInstance(FTransform(FRotator(0,R.FRandRange(0,360),0),GroundPoint(X,Y,-2),FVector(S)));
+    }
+    // Visual-only dressing has an independent stream: gameplay obstacles/food stay identical.
+    FRandomStream Dressing(20260920);
+    for(int32 K=0;K<160000;++K)
+    {
+        const float X=Dressing.FRandRange(-27750,27750),Y=Dressing.FRandRange(-27750,27750);
+        if(PondRadius(X,Y)<1.035f||FMath::Abs(Y-CreekY(X))<430||!IsWalkable(FVector(X,Y,0),90))continue;
+        const float Patch=.5f+.25f*FMath::Sin(X/1200+FMath::Sin(Y/850))+.25f*FMath::Cos(Y/1500-X/2400);
+        if(Dressing.FRand()>Patch*.85f)continue;
+        const float S=Dressing.FRandRange(.65f,1.35f);
+        Grass->AddInstance(FTransform(FRotator(0,Dressing.FRandRange(0,360),0),GroundPoint(X,Y,-3),FVector(S,S,S*Dressing.FRandRange(.7f,1.2f))));
+    }
+    for(int32 K=0;K<1100;++K)
+    {
+        float X,Y;
+        if(K<650){X=Dressing.FRandRange(-27500,27500);Y=CreekY(X)+(K%2?1:-1)*Dressing.FRandRange(375,790);}
+        else{const float A=Dressing.FRandRange(0,2*PI),Rim=Dressing.FRandRange(1.0f,1.13f);X=3000+2750*FMath::Cos(A)*Rim;Y=4500+1900*FMath::Sin(A)*Rim;}
+        if(FMath::Sin(X/380+FMath::Sin(Y/290))<-.15f)continue;
+        const float S=Dressing.FRandRange(.035f,.16f);
+        BankStones->AddInstance(FTransform(FRotator(0,Dressing.FRandRange(0,360),0),GroundPoint(X,Y,-8),FVector(S,S*Dressing.FRandRange(.6f,1.2f),S*.55f)));
     }
     for(FVector P:{FVector(-7500,-11500,0),FVector(-9500,-10500,0),FVector(-6000,-13000,0),FVector(4000,-3500,0),FVector(6000,-3000,0),FVector(-1750,1250,0),FVector(2000,2250,0),FVector(-13500,7000,0),FVector(13500,8000,0)})
         FeedingSpots.Add(NearestWalkable(P));

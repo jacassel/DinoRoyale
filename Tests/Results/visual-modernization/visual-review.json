@@ -1,0 +1,56 @@
+{
+  "reviewedSurveyViews": 9,
+  "reviewedDetailCaptures": 51,
+  "species": [
+    "Trex",
+    "Raptor",
+    "Trike"
+  ],
+  "views": [
+    "front",
+    "side",
+    "rear",
+    "close",
+    "medium",
+    "bright plains",
+    "forest shadow",
+    "ridge",
+    "creek",
+    "pond",
+    "grove"
+  ],
+  "actions": [
+    "walking",
+    "sprinting",
+    "turning",
+    "quick",
+    "charged attack",
+    "heavy",
+    "swimming",
+    "feeding",
+    "damage",
+    "death"
+  ],
+  "findings": [
+    "PBR skin and earthy coloration reduce pale plastic appearance",
+    "Species mesh silhouettes/rigs preserved; no exploded vertices or inverted joints seen",
+    "Rex jaw opens downward in inspected attacks; separate 86-frame source probe passed",
+    "All foliage uses intended material after slot fix",
+    "Water reflects scenery with depth/shore transitions; SSR remains view dependent",
+    "Food outline remains visible for Triceratops"
+  ],
+  "remaining": [
+    "Procedural anatomy and fern/rock forms still visible",
+    "Original unblended clips, some foot sliding and close body overlap",
+    "Raptor bands and distant terrain still somewhat repetitive",
+    "No physical water wake or wave simulation"
+  ],
+  "basis": "Actual runtime screenshots, not import success. See review contact sheets and raw captures.",
+  "reviewedPackagedCombatCaptures": 27,
+  "packagedCombatFindings": [
+    "Rex charge/heavy early/heavy late/recovery/quick inspected from both sides and front oblique",
+    "No upward jaw penetration seen",
+    "Blood ON records 6 to 20 live particles; OFF records zero for all three species",
+    "All animal materials remain the appropriate Modern material; no full-body blood replacement or giant blobs"
+  ]
+}

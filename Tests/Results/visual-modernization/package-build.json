@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "configuration": "Win64 Development",
+  "destination": "Dist/VisualCandidate/Windows",
+  "buildCookRunSeconds": 328.86,
+  "compileErrors": 0,
+  "compilerWarnings": 0,
+  "failedShaderCompilations": 0,
+  "buildLog": "Saved/visual-package.log"
+}

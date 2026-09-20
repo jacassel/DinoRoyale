@@ -1,0 +1,20 @@
+[
+  {
+    "mesh": "SM_ConiferCanopy",
+    "slots": 2,
+    "before": [
+      "<Object '/Game/Materials/M_NaturalFoliageSurface.M_NaturalFoliageSurface' (0x00000211A9AB0000) Class 'Material'>",
+      "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x00000211A3C57E00) Class 'Material'>"
+    ],
+    "allSlotsBound": true
+  },
+  {
+    "mesh": "SM_Grass",
+    "slots": 2,
+    "before": [
+      "<Object '/Game/Materials/M_NaturalFoliageSurface.M_NaturalFoliageSurface' (0x00000211A9AB0000) Class 'Material'>",
+      "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x00000211A3C57E00) Class 'Material'>"
+    ],
+    "allSlotsBound": true
+  }
+]

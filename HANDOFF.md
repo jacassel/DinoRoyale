@@ -1,4 +1,51 @@
-# Map and results update — September 20, 2026
+# Visual modernization checkpoint — September 20, 2026
+
+Double-click `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
+The launcher was verified on the promoted standalone at 1600x900, without a
+development bridge or permission prompt. Native species selection, mouse look,
+map, R pin, pause and F10 quit worked. Movement/sprint/jump inputs were exercised;
+their quantitative behavior is covered by the regression suites. The game exited
+normally and both launch processes closed.
+
+Source checkpoint tag: `visual-modernization-stable-20260920`.
+Playable: `Dist/Windows`.
+Independent recovery: `Dist/Checkpoints/2026-09-20-visual-modernization/Windows`.
+Previous playable: `Dist/Checkpoints/2026-09-20-before-visual-modernization/Windows`.
+All 48 runtime files were SHA-256 verified across candidate, recovery and promoted
+copies. Dist is ignored by Git; the recovery package is a separate local backup.
+
+Blender sources: `Assets/Source/DinosaursModern` and `WorldModern`. All three
+species have new skin color/normal/roughness maps, improved eyes and varied teeth;
+carnivores have added tongues. Fuller conifers and curved grass complement new
+soil, bark, stone, wet banks, layered water, restrained lighting and atmosphere.
+Original sources, rigs, all 33 animation durations and gameplay rules are retained.
+The preexisting staged `Config/DefaultInput.ini` remains byte-identical to
+`Tests/Results/visual-modernization/DefaultInput.before.ini` and is excluded from
+this source commit.
+
+Verification: source 462/462 across 15 suites; actual package 220/220 across six
+suites; blood/material checks 12/12; jaw probe 86/86 frames; 51 detail captures,
+nine species-angle views and 27 packaged combat captures reviewed. A four-minute
+packaged world run recorded 187 hits with no failed paths, falls, stuck recoveries
+or immediate respawn hits. Evidence and rejected iterations are retained under
+`Tests/Results/visual-modernization`; see `VISUAL_SPRINT.md` and `TEST_LOG.md`.
+
+RTX 3060 at 1600x900: warmed packaged scenes averaged 58.81–60.00 FPS at the 60 FPS
+cap. One 194.8ms pond hitch was sampled; a 45-second follow-up averaged 59.94 FPS
+without sampled frames above 50ms. These are bounded samples, not a full trace.
+Anatomy, fern/rock silhouettes, clip transitions/sliding and distant repetition
+remain procedural. Menu portraits retain the prior artwork. Water reflections
+have screen-edge limitations. This is an improvement, not reference-level realism.
+
+Controls: 1/2/3 select Rex/raptor/Triceratops; WASD moves; mouse looks; Shift
+sprints; Space jumps; Q braces; LMB attacks; hold/release RMB charges; hold E eats.
+M toggles the map; point and R adds/removes a pin. Escape pauses/releases mouse;
+F10 in the menu quits. See README for match and settings details.
+
+Final reported account allowance: 70% remaining; no separate Astra allowance
+exposed. No purchases, delegation or gameplay rebalancing in this sprint.
+
+## Previous map and results update — September 20, 2026
 
 Latest update: all living team allies have current-position markers on both maps,
 including followers and while the human waits to respawn. Enemy/solo concealment

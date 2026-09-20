@@ -1,0 +1,26 @@
+[
+  {
+    "species": "Trex",
+    "passed": true,
+    "seconds": 11.69,
+    "stuck": 0,
+    "failedPaths": 0,
+    "swimSamples": 37,
+    "end": [
+      6237.088473790412,
+      4500
+    ]
+  },
+  {
+    "species": "Raptor",
+    "passed": true,
+    "seconds": 8.77,
+    "stuck": 0,
+    "failedPaths": 0,
+    "swimSamples": 31,
+    "end": [
+      6155.193638761113,
+      4439.8536017483875
+    ]
+  }
+]

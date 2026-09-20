@@ -1,0 +1,70 @@
+[
+  {
+    "test": "Unseen quiet teammate 1 has current marker",
+    "passed": true
+  },
+  {
+    "test": "Unseen quiet teammate 2 has current marker",
+    "passed": true
+  },
+  {
+    "test": "Unseen quiet teammate 3 has current marker",
+    "passed": true
+  },
+  {
+    "test": "Unseen quiet teammate 4 has current marker",
+    "passed": true
+  },
+  {
+    "test": "All four allied markers survive noise expiry",
+    "passed": true
+  },
+  {
+    "test": "Unseen ally marker follows changed position",
+    "passed": true
+  },
+  {
+    "test": "Occluded ally stays visible",
+    "passed": false
+  },
+  {
+    "test": "Expanded map opens with all allied markers",
+    "passed": true
+  },
+  {
+    "test": "Minimap retains all allied markers",
+    "passed": true
+  },
+  {
+    "test": "Quiet unseen enemy remains hidden",
+    "passed": true
+  },
+  {
+    "test": "Enemy attack still reveals marker",
+    "passed": true
+  },
+  {
+    "test": "Enemy noise marker still expires",
+    "passed": true
+  },
+  {
+    "test": "Dead ally has no living marker",
+    "passed": true
+  },
+  {
+    "test": "Respawned ally immediately returns",
+    "passed": true
+  },
+  {
+    "test": "Allies stay visible during player respawn wait",
+    "passed": true
+  },
+  {
+    "test": "Switching to solo removes allied visibility",
+    "passed": true
+  },
+  {
+    "test": "Solo same-species raptor remains hidden",
+    "passed": true
+  }
+]

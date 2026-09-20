@@ -1,0 +1,16 @@
+{
+  "resolution": [
+    1600,
+    900
+  ],
+  "fpsCap": 60,
+  "renderer": "UE 5.8.2 Win64 Development packaged game, DX12, offscreen",
+  "hardware": "NVIDIA GeForce RTX 3060, 12288 MiB, 812 MiB, 38 %",
+  "capture": "runtime_visual_performance.py: three warmed 20 second samples with live team AI",
+  "metric": "FPS from frame counter deltas; frameMs is sampled game delta at roughly 22Hz; not a complete frame trace",
+  "notes": "Numbers are bounded local measurements, not an uncapped GPU benchmark.",
+  "editorReport": "performance-editor.json",
+  "packagedReport": "performance.json",
+  "followup": "performance-pond-followup.json",
+  "limitation": "Initial packaged pond sample caught one 194.8ms frame; 45-second continuous follow-up averaged 59.94 FPS with zero sampled frames over 50ms. Occasional hitches are not ruled out."
+}

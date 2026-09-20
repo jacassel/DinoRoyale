@@ -1,0 +1,34 @@
+[
+  {
+    "script": "runtime_sprint_rules.py",
+    "passed": true,
+    "checks": 36,
+    "expected": 36,
+    "seconds": 35.2,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_core.py",
+    "passed": true,
+    "checks": 90,
+    "expected": 90,
+    "seconds": 120.8,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_combat_polish.py",
+    "passed": true,
+    "checks": 69,
+    "expected": 69,
+    "seconds": 96.9,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_combat_followup.py",
+    "passed": false,
+    "checks": 17,
+    "expected": 17,
+    "seconds": 46.2,
+    "exitCode": 1
+  }
+]

@@ -18,6 +18,7 @@
 #include "DinoEffects.h"
 #include "DinoGameMode.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Engine/World.h"
 #include "Engine/Engine.h"
 #include "Engine/GameViewportClient.h"
@@ -334,7 +335,13 @@ void ADinoPlayerController::ReadBridge()
         for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It)It->Destroy();
     }
     else if(Cmd==TEXT("enableAI")){if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(auto* Other=GM->FindCombatant(O->GetIntegerField(TEXT("id"))))if(auto* AI=Cast<ADinosaurAIController>(Other->GetController()))AI->bPaused=!O->GetBoolField(TEXT("enabled"));}
-    else if(Cmd==TEXT("camera")){FRotator R=GetControlRotation();R.Yaw=O->GetNumberField(TEXT("yaw"));SetControlRotation(R);}
+    else if(Cmd==TEXT("camera"))
+    {
+        FRotator R=GetControlRotation();R.Yaw=O->GetNumberField(TEXT("yaw"));
+        if(O->HasField(TEXT("pitch")))R.Pitch=O->GetNumberField(TEXT("pitch"));
+        if(O->HasField(TEXT("distance")))D->CameraBoom->TargetArmLength=O->GetNumberField(TEXT("distance"));
+        SetControlRotation(R);
+    }
     else if(Cmd==TEXT("menu"))SetMenuOpen(O->GetBoolField(TEXT("open")));
     else if(Cmd==TEXT("screenshot"))DinoSnapshot();
     else if(Cmd==TEXT("quit"))ConsoleCommand(TEXT("quit"));
@@ -343,6 +350,7 @@ void ADinoPlayerController::WriteTelemetry()
 {
     auto* D=Cast<ADinosaurCharacter>(GetPawn());if(!D)return;
     auto O=MakeShared<FJsonObject>();O->SetNumberField(TEXT("seq"),LastSequence);O->SetNumberField(TEXT("time"),GetWorld()->GetTimeSeconds());
+    O->SetNumberField(TEXT("frameMs"),GetWorld()->GetDeltaSeconds()*1000.0);
     TArray<TSharedPtr<FJsonValue>> Pins;for(const FVector& P:MapPins){auto Pin=MakeShared<FJsonObject>();Pin->SetNumberField(TEXT("x"),P.X);Pin->SetNumberField(TEXT("y"),P.Y);Pins.Add(MakeShared<FJsonValueObject>(Pin));}O->SetArrayField(TEXT("mapPins"),Pins);
     O->SetNumberField(TEXT("audioSteps"),D->Audio->Steps);O->SetNumberField(TEXT("audioQuick"),D->Audio->QuickSounds);O->SetNumberField(TEXT("audioHeavy"),D->Audio->HeavySounds);O->SetNumberField(TEXT("audioImpacts"),D->Audio->Impacts);O->SetNumberField(TEXT("audioDeaths"),D->Audio->Deaths);O->SetNumberField(TEXT("audioVoices"),D->Audio->ActiveVoices());
     O->SetNumberField(TEXT("species"),D->Species);O->SetNumberField(TEXT("health"),D->Health->Current);O->SetNumberField(TEXT("maxHealth"),D->Health->Maximum);

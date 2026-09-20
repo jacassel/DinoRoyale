@@ -37,6 +37,7 @@ place(1, -16000, 6000)
 check('Unseen ally marker follows changed position', current(actor(1)) and actor(1)['markerX'] < -15000)
 place(4, 1800, 0, 2)
 t.command('sightBlocker', enabled=True)
+time.sleep(.2)  # Let the newly spawned blocking shape enter the physics query scene.
 check('Occluded ally stays visible', not actor(4)['inSight'] and current(actor(4)))
 t.key('M'); t.key('M', 'up')
 t.command('screenshot')

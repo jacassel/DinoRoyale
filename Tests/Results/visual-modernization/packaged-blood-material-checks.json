@@ -1,0 +1,62 @@
+[
+  {
+    "capture": "rex_blood_on",
+    "passed": true,
+    "particles": 9
+  },
+  {
+    "capture": "rex_heavy_blood_on",
+    "passed": true,
+    "particles": 20
+  },
+  {
+    "capture": "rex_blood_off",
+    "passed": true,
+    "particles": 0
+  },
+  {
+    "capture": "rex_heavy_blood_off",
+    "passed": true,
+    "particles": 0
+  },
+  {
+    "capture": "raptor_blood_on",
+    "passed": true,
+    "particles": 6
+  },
+  {
+    "capture": "raptor_heavy_blood_on",
+    "passed": true,
+    "particles": 9
+  },
+  {
+    "capture": "raptor_blood_off",
+    "passed": true,
+    "particles": 0
+  },
+  {
+    "capture": "raptor_heavy_blood_off",
+    "passed": true,
+    "particles": 0
+  },
+  {
+    "capture": "trike_blood_on",
+    "passed": true,
+    "particles": 7
+  },
+  {
+    "capture": "trike_heavy_blood_on",
+    "passed": true,
+    "particles": 20
+  },
+  {
+    "capture": "trike_blood_off",
+    "passed": true,
+    "particles": 0
+  },
+  {
+    "capture": "trike_heavy_blood_off",
+    "passed": true,
+    "particles": 0
+  }
+]

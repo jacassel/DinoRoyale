@@ -1,0 +1,23 @@
+{
+  "materials": [
+    "M_ValleyTerrain",
+    "M_ValleyWater",
+    "M_NaturalRock",
+    "M_NaturalBark",
+    "M_NaturalFoliageSurface"
+  ],
+  "textures": [
+    "Bark_BaseColor",
+    "Bark_Masks",
+    "Bark_Normal",
+    "Ripples_BaseColor",
+    "Ripples_Masks",
+    "Ripples_Normal",
+    "Rock_BaseColor",
+    "Rock_Masks",
+    "Rock_Normal",
+    "Soil_BaseColor",
+    "Soil_Masks",
+    "Soil_Normal"
+  ]
+}
