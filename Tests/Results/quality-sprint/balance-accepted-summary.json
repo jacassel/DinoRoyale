@@ -1,0 +1,25 @@
+{
+  "accepted": true,
+  "trials": 24,
+  "rexSurvivedLeaderKill": 10,
+  "packKilledRex": 7,
+  "unresolved": 7,
+  "rexFirstScores": 14,
+  "packFirstScores": 3,
+  "counterkills": 4,
+  "completePackWipes": 3,
+  "rexShareResolved": 58.82,
+  "packShareResolved": 41.18,
+  "method": "Healthy full pack, real AI and shared abilities; first scoring death followed by up to 20 seconds of survivor combat. A surviving Rex leader-kill is not a claim of complete pack elimination. Unresolved encounters cap at 90 seconds.",
+  "evidence": "packaged/balance-final.json",
+  "profile": {
+    "rexAttackWidth": 240,
+    "rexHeavy": 673.2,
+    "raptorHealth": 520,
+    "raptorQuick": 66.6,
+    "rexHealth": 1500,
+    "rexQuick": 187,
+    "rexChargeSeconds": 0.85,
+    "raptorHeavy": 193.14
+  }
+}

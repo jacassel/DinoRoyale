@@ -1,49 +1,60 @@
-# Playable checkpoint — September 19, 2026
+# Stable quality checkpoint — September 20, 2026
 
 Double-click `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
-It opens the standalone game in `Dist\Windows`, verified in a normal window.
-Press 1 / 2 / 3 to choose a dinosaur; WASD moves, mouse looks, Shift sprints,
-Space jumps, Q braces, LMB attacks, hold/release RMB charges, E eats.
-Escape pauses; F2 opens settings, B toggles blood; F3 changes match mode in
-selection; F10 quits from the menu.
+It starts the verified standalone package in `Dist\Windows` at 1600x900.
+Choose 1 / 2 / 3 for Rex / raptor / Triceratops. WASD moves; mouse looks;
+Shift sprints; Space jumps; Q braces; LMB attacks; hold/release RMB charges;
+hold E eats. Escape pauses and releases the mouse; F10 in the menu quits.
 
-The inherited terrain material repair and cooked sky/ambient dependency are
-present in the successfully packaged build. No gameplay balance changed this
-session: raptor quick damage remains 74 and full pounce damage 214.6.
+Triceratops edible plants now have a subtle green-gold silhouette glow.
+Decorative plants and carnivore views are unmarked; depleted plants lose the
+cue and regain it on their 120-second regrowth. Geometry occludes the cue.
 
-Fresh packaged verification passed: core 90/90; combat 69/69; combat follow-up
-17/17; integration 41/41; settings/blood/wading 28/28; match rules 24/24;
-swimming 40/40; ecology/map visibility 42/42; ecology edges 5/5; AI tactics
-11/11; twelve personality encounters and three pack fights. See
-`Tests/Results/packaged-milestone`. These are live Unreal simulation/input tests.
-Some AI encounters include disengagement and hunting, not sustained duels.
+Final values: Rex 1500 health, 187 quick, 673.2 heavy; raptor 520 health,
+66.6 quick, 193.14 pounce, 1.5x base hunger, one leader plus two followers.
+Triceratops retains 1650 health, with 155 quick / 511.5 heavy to maintain
+its offensive relevance. Mobility and stamina costs remain species-specific.
+Practical map travel span is half the previous scale, roughly 575m across.
+Movement, attack-motion, impact and once-only death sounds are implemented.
 
-One swimming assertion initially failed because its position baseline preceded
-input processing. Three diagnostic replays measured zero drift after brace
-became active. The test now waits for brace activation without relaxing the
-movement tolerance; all 40 swimming checks passed on rerun. Original failure
-and diagnostic evidence are retained. Respawn tests wait for actual simulation
-completion. Visual capture now locates screenshots in the selected game's Saved
-directory. The sequential packaged runner stops on failure and supports resume.
+Retained 24-trial Rex/pack validation: 10 Rex leader-kills surviving the
+20-second follow-through, 7 pack kills of Rex (including 4 counterkills),
+7 disengagements at 90 seconds. Resolved survival outcomes: 58.8% / 41.2%.
+First scores alone were 14 Rex / 3 pack; only 3 trials wiped every raptor.
+Do not confuse a surviving scoring victory with complete pack elimination.
+Triceratops sanity: 1 win / 3 losses against Rex; pack trials had one first
+score each and two disengagements, with a pack counterkill after the Trike score.
+Human competitive balance is not proven by these bounded AI samples.
 
-Recovery copy: `Dist\Checkpoints\2026-09-19-stable\Windows\DinosaurBattle.exe`.
-Keep its entire Windows folder together. All 47 copied runtime files were
-SHA-256 compared with the playable package; this copy also launched and accepted
-species selection. The manifest is `Tests/Results/checkpoint-package-manifest.json`.
-Dist is local and ignored by Git; no cloud backup was created.
+Verification: 460-check full regression; all-species six-region traversal;
+42 directed navigation routes; swimming and crowded AI pond exits; five jaw/map
+visual captures; real audio-output recordings; three initial clean four-minute
+world scenarios and one final clean four-minute run. The final package passed
+129 targeted checks. The final world run recorded 197 hits, zero path failures,
+terrain falls or stuck recoveries, approximately 60 FPS, and no immediate
+respawn hits. All three targeted respawns were ten seconds and over 32m from
+an enemy camping the home point. Earlier failed tests and rejected tunings are
+retained and explained in TEST_LOG.md.
 
-Final multi-angle jaw/blood captures, precisely timed plant regrowth, AI pond
-crossings, and complete-match verification are still running at this checkpoint.
-Do not infer those final results from the earlier regression passes.
+The native standalone rendered its selection menu. Windows then displayed a
+firewall permission prompt. The extra desktop input check stopped there;
+automated real-input control checks passed. Click Cancel if this network prompt
+appears; this local single-player game does not require network permission.
+No security permissions were changed by the agent.
 
-Known limitations: prototype visuals and animation transitions/foot contact,
-close-body overlap, no audio, session-only carcasses, and no extended ecology
-soak guarantee. Combat balance still needs human feedback. See KNOWN_ISSUES.md.
+Recovery package:
+`Dist\Checkpoints\2026-09-20-quality\Windows\DinosaurBattle.exe`.
+Keep the entire Windows directory together. All 49 runtime files were SHA-256
+compared across the tested package, promoted playable and recovery copies.
+Manifest: `Tests\Results\quality-sprint\stable-package-manifest.json`.
+Previous playable retained at `Dist\Checkpoints\2026-09-20-before-quality\Windows`;
+the September 19 stable recovery copy also remains intact.
 
-Usage at stabilization entry: 16% five-hour / 40% weekly remaining. AGENTS.md
-records the user's thresholds, single-agent rule, and prohibition on purchases.
+Source tag: `quality-sprint-stable-20260920`. Dist is ignored by Git; the local
+recovery folder is the playable-package backup. No cloud backup was created.
+Known limits: procedural visuals/animation transitions and body overlap,
+synthetic prototype audio, session-only carcasses, and indefinite-session corpse
+accumulation/human balance still needing playtesting. See KNOWN_ISSUES.md.
 
-
-## Active quality sprint (source candidate, not promoted)
-
-The original launcher/package above remains protected. Current source changes halve map dimensions, rebalance the three-member pack, and add generated audio. Requested-rules and recorded-audio suites both pass 36/36; full regression is running through `Tools/Tests/run_quality_regression.py`, with fresh results in `Tests/Results/quality-sprint`. Balance calibration details are in TEST_LOG.md. Finish the requested held-out balance, traversal, world, regression, visual and packaged checks before promoting a new package or declaring completion.
+The bounded sprint is complete. No further development or background tests
+should run after the completion report.

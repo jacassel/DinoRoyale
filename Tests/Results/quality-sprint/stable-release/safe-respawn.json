@@ -1,0 +1,23 @@
+[
+  {
+    "species": 0,
+    "passed": true,
+    "seconds": 10.03375069797039,
+    "enemyDistance": 3233.2638189682984,
+    "health": 1500
+  },
+  {
+    "species": 1,
+    "passed": true,
+    "seconds": 10.0175312012434,
+    "enemyDistance": 3233.2638189682984,
+    "health": 520
+  },
+  {
+    "species": 2,
+    "passed": true,
+    "seconds": 10.016968999058008,
+    "enemyDistance": 3233.2638189682984,
+    "health": 1650
+  }
+]

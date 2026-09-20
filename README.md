@@ -67,9 +67,9 @@ All values are editable in `Config/DefaultGame.ini`. Normal walking never costs 
 
 | Species | Health | Quick damage | Full heavy | Quick interval | Third-strike extra recovery | Sprint speed / drain | Quick / heavy cost |
 |---|---:|---:|---:|---:|---:|---|---|
-| T-Rex | 1400 | 187 | 673.2 | 0.58s | 0.95s | 1449 cm/s / 15 per sec | 10 / 36 |
-| Raptor | 600 | 66.6 | 193.14 | 0.31s | 0.50s | 2400 cm/s / 9 per sec | 7 / 26 |
-| Triceratops | 1650 | 135 | 445.5 | 0.53s | 0.75s | 1317.5 cm/s / 13 per sec | 9 / 34 |
+| T-Rex | 1500 | 187 | 673.2 | 0.58s | 0.95s | 1449 cm/s / 15 per sec | 10 / 36 |
+| Raptor | 520 | 66.6 | 193.14 | 0.31s | 0.50s | 2400 cm/s / 9 per sec | 7 / 26 |
+| Triceratops | 1650 | 155 | 511.5 | 0.53s | 0.75s | 1317.5 cm/s / 13 per sec | 9 / 34 |
 
 The third quick strike gains 12% damage. Heavy attacks commit forward movement, restrict turning, knock unbraced opponents back and interrupt charging when the attacker is large enough; raptor pounces cannot repeatedly cancel a larger dinosaur's charge. A miss adds 0.50 / 0.25 / 0.45 seconds recovery respectively. T-Rex lunges, raptor pounces, and Triceratops drives forward with its horns. Sprint turning is particularly restricted for Triceratops. Eating is interrupted by damage and cannot restart for 2.5 seconds.
 

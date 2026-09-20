@@ -1,0 +1,27 @@
+[
+  {
+    "passed": true,
+    "checks": 36,
+    "suite": "sprint-rules.json"
+  },
+  {
+    "passed": true,
+    "checks": 69,
+    "suite": "combat-polish.json"
+  },
+  {
+    "passed": true,
+    "checks": 17,
+    "suite": "combat-followup.json"
+  },
+  {
+    "passed": true,
+    "checks": 3,
+    "suite": "safe-respawn.json"
+  },
+  {
+    "passed": true,
+    "checks": 4,
+    "suite": "food-outline.json"
+  }
+]
