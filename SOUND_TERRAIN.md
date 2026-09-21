@@ -76,5 +76,54 @@ material now masks geometry within roughly 140cm of the camera plane. Final
 ridge-overlook captures show the obstruction removed. Nearby rocks/other animals
 can still push the collision-aware camera close to the player, as before.
 
-Reported account allowance after the audio milestone: 67% remaining; no separate
-Astra allowance exposed. The full gameplay and package gates are still pending.
+Full source gameplay regression passed 462/462 across fifteen suites. All eighteen
+continuous player traversals passed in 287.7 seconds combined; each species drove
+through six regions. AI swimming passed all three species (39.9 seconds combined).
+Allied visibility, map pins and results screens passed their existing checks.
+No gameplay test fixture changes were needed for the new terrain.
+The Triceratops pond crossing used one normal crowded-bank recovery and still
+completed without a failed path; the other two species needed no recovery.
+
+The separate candidate completed BuildCookRun successfully in 141.84 seconds.
+Its 54/54 audio checks passed again with actual packaged output peaks of 0.226
+(Rex), 0.281 (raptor) and 0.230 (Triceratops). Two packaged group-fight recordings
+were unclipped at peaks 0.383 / 0.312, with maximum observed voice counts 10 / 9.
+The audio credits are included beside the packaged launcher.
+
+The first packaged gameplay attempt passed 84/90 core checks but failed the six
+respawn assertions. Diagnosis: the preceding audio group-fight fixture used
+`duelSetup`, which deliberately sets player/AI respawn delays to zero for a dead
+spectator. That fixture state persisted into the core test. The package runner
+now restarts the test process after group fights to restore the normal world
+and respawn defaults. The first attempt is retained in
+`package-regression-first-attempt`; no gameplay code or expected assertions were
+changed for this test-isolation repair.
+
+The fresh-process package rerun passed **220/220 across six suites**, including
+all respawn assertions at the normal ten-second delay. The package also found
+all 42 directed navigation-audit routes. Nine packaged landscape captures were
+reviewed together, with full-resolution hill-approach and ridge-overlook checks.
+Warmed 1600x900 packaged performance: plains 59.98 FPS, forest 60.00 FPS and pond
+59.49 FPS; sampled maxima 16.71 / 16.68 / 169.21ms. The isolated pond hitch remains
+a limitation; these measurements do not establish hitch-free play.
+
+Four-minute packaged world observation passed: 179 hits in 240.52 seconds, zero
+failed paths, stuck recoveries, below-terrain actors or immediate respawn hits.
+Up to 20 carcasses were observed. This is a bounded run, not a long-session test.
+
+Source implementation checkpoint: `c2ba3a1`. Reported account allowance after
+source regression: 65% remaining; final package checkpoint: 63% remaining. No
+separate Astra allowance was exposed.
+
+The verified candidate was promoted to `Dist/Windows`; all 49 runtime files were
+SHA-256 checked across candidate, recovery and promoted copies. Independent
+recovery: `Dist/Checkpoints/2026-09-20-sound-terrain/Windows`. The previous playable
+is retained at `Dist/Checkpoints/2026-09-20-before-sound-terrain/Windows`, alongside
+the earlier visual-modernization recovery. Dist is ignored by Git.
+
+`LaunchGame.bat` started the promoted standalone at 1600x900 without test flags
+and reached the selection menu. A Windows Firewall permission prompt blocked
+the native control check. User dismissal was requested; no permission action or
+security-setting change was made by the agent. Native input/quit verification
+remains pending until that prompt is dismissed. The packaged mapped-input
+regression above passed separately with the opt-in development bridge.

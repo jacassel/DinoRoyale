@@ -1,0 +1,326 @@
+[
+  {
+    "name": "Raptor_Charge_0",
+    "duration": 0.671496570110321
+  },
+  {
+    "name": "Raptor_Charge_1",
+    "duration": 0.671496570110321
+  },
+  {
+    "name": "Raptor_Charge_2",
+    "duration": 0.671496570110321
+  },
+  {
+    "name": "Raptor_Death_0",
+    "duration": 2.093492031097412
+  },
+  {
+    "name": "Raptor_Death_1",
+    "duration": 2.093492031097412
+  },
+  {
+    "name": "Raptor_Death_2",
+    "duration": 2.093492031097412
+  },
+  {
+    "name": "Raptor_Heavy_0",
+    "duration": 0.9321995377540588
+  },
+  {
+    "name": "Raptor_Heavy_1",
+    "duration": 0.9321995377540588
+  },
+  {
+    "name": "Raptor_Heavy_2",
+    "duration": 0.9321995377540588
+  },
+  {
+    "name": "Raptor_Hurt_0",
+    "duration": 0.5371882319450378
+  },
+  {
+    "name": "Raptor_Hurt_1",
+    "duration": 0.5371882319450378
+  },
+  {
+    "name": "Raptor_Hurt_2",
+    "duration": 0.5371882319450378
+  },
+  {
+    "name": "Raptor_Impact_0",
+    "duration": 0.3100000023841858
+  },
+  {
+    "name": "Raptor_Impact_1",
+    "duration": 0.3100000023841858
+  },
+  {
+    "name": "Raptor_Impact_2",
+    "duration": 0.3100000023841858
+  },
+  {
+    "name": "Raptor_InjuredBreath_0",
+    "duration": 0.8847845792770386
+  },
+  {
+    "name": "Raptor_InjuredBreath_1",
+    "duration": 0.8847845792770386
+  },
+  {
+    "name": "Raptor_InjuredBreath_2",
+    "duration": 0.8847845792770386
+  },
+  {
+    "name": "Raptor_Quick_0",
+    "duration": 0.410793662071228
+  },
+  {
+    "name": "Raptor_Quick_1",
+    "duration": 0.410793662071228
+  },
+  {
+    "name": "Raptor_Quick_2",
+    "duration": 0.410793662071228
+  },
+  {
+    "name": "Raptor_SprintBreath_0",
+    "duration": 0.647777795791626
+  },
+  {
+    "name": "Raptor_SprintBreath_1",
+    "duration": 0.647777795791626
+  },
+  {
+    "name": "Raptor_SprintBreath_2",
+    "duration": 0.647777795791626
+  },
+  {
+    "name": "Raptor_Step_0",
+    "duration": 0.2800000011920929
+  },
+  {
+    "name": "Raptor_Step_1",
+    "duration": 0.2800000011920929
+  },
+  {
+    "name": "Raptor_Step_2",
+    "duration": 0.2800000011920929
+  },
+  {
+    "name": "Trex_Charge_0",
+    "duration": 0.8500000238418579
+  },
+  {
+    "name": "Trex_Charge_1",
+    "duration": 0.8500000238418579
+  },
+  {
+    "name": "Trex_Charge_2",
+    "duration": 0.8500000238418579
+  },
+  {
+    "name": "Trex_Death_0",
+    "duration": 2.6500000953674316
+  },
+  {
+    "name": "Trex_Death_1",
+    "duration": 2.6500000953674316
+  },
+  {
+    "name": "Trex_Death_2",
+    "duration": 2.6500000953674316
+  },
+  {
+    "name": "Trex_Heavy_0",
+    "duration": 1.1799999475479126
+  },
+  {
+    "name": "Trex_Heavy_1",
+    "duration": 1.1799999475479126
+  },
+  {
+    "name": "Trex_Heavy_2",
+    "duration": 1.1799999475479126
+  },
+  {
+    "name": "Trex_Hurt_0",
+    "duration": 0.6800000071525574
+  },
+  {
+    "name": "Trex_Hurt_1",
+    "duration": 0.6800000071525574
+  },
+  {
+    "name": "Trex_Hurt_2",
+    "duration": 0.6800000071525574
+  },
+  {
+    "name": "Trex_Impact_0",
+    "duration": 0.3100000023841858
+  },
+  {
+    "name": "Trex_Impact_1",
+    "duration": 0.3100000023841858
+  },
+  {
+    "name": "Trex_Impact_2",
+    "duration": 0.3100000023841858
+  },
+  {
+    "name": "Trex_InjuredBreath_0",
+    "duration": 1.1200000047683716
+  },
+  {
+    "name": "Trex_InjuredBreath_1",
+    "duration": 1.1200000047683716
+  },
+  {
+    "name": "Trex_InjuredBreath_2",
+    "duration": 1.1200000047683716
+  },
+  {
+    "name": "Trex_Quick_0",
+    "duration": 0.5199999809265137
+  },
+  {
+    "name": "Trex_Quick_1",
+    "duration": 0.5199999809265137
+  },
+  {
+    "name": "Trex_Quick_2",
+    "duration": 0.5199999809265137
+  },
+  {
+    "name": "Trex_SprintBreath_0",
+    "duration": 0.8199999928474426
+  },
+  {
+    "name": "Trex_SprintBreath_1",
+    "duration": 0.8199999928474426
+  },
+  {
+    "name": "Trex_SprintBreath_2",
+    "duration": 0.8199999928474426
+  },
+  {
+    "name": "Trex_Step_0",
+    "duration": 0.2800000011920929
+  },
+  {
+    "name": "Trex_Step_1",
+    "duration": 0.2800000011920929
+  },
+  {
+    "name": "Trex_Step_2",
+    "duration": 0.2800000011920929
+  },
+  {
+    "name": "Trike_Charge_0",
+    "duration": 0.8839909434318542
+  },
+  {
+    "name": "Trike_Charge_1",
+    "duration": 0.8839909434318542
+  },
+  {
+    "name": "Trike_Charge_2",
+    "duration": 0.8839909434318542
+  },
+  {
+    "name": "Trike_Death_0",
+    "duration": 2.755986452102661
+  },
+  {
+    "name": "Trike_Death_1",
+    "duration": 2.755986452102661
+  },
+  {
+    "name": "Trike_Death_2",
+    "duration": 2.755986452102661
+  },
+  {
+    "name": "Trike_Heavy_0",
+    "duration": 1.227188229560852
+  },
+  {
+    "name": "Trike_Heavy_1",
+    "duration": 1.227188229560852
+  },
+  {
+    "name": "Trike_Heavy_2",
+    "duration": 1.227188229560852
+  },
+  {
+    "name": "Trike_Hurt_0",
+    "duration": 0.7071881890296936
+  },
+  {
+    "name": "Trike_Hurt_1",
+    "duration": 0.7071881890296936
+  },
+  {
+    "name": "Trike_Hurt_2",
+    "duration": 0.7071881890296936
+  },
+  {
+    "name": "Trike_Impact_0",
+    "duration": 0.3100000023841858
+  },
+  {
+    "name": "Trike_Impact_1",
+    "duration": 0.3100000023841858
+  },
+  {
+    "name": "Trike_Impact_2",
+    "duration": 0.3100000023841858
+  },
+  {
+    "name": "Trike_InjuredBreath_0",
+    "duration": 1.164784550666809
+  },
+  {
+    "name": "Trike_InjuredBreath_1",
+    "duration": 1.164784550666809
+  },
+  {
+    "name": "Trike_InjuredBreath_2",
+    "duration": 1.164784550666809
+  },
+  {
+    "name": "Trike_Quick_0",
+    "duration": 0.5407936573028564
+  },
+  {
+    "name": "Trike_Quick_1",
+    "duration": 0.5407936573028564
+  },
+  {
+    "name": "Trike_Quick_2",
+    "duration": 0.5407936573028564
+  },
+  {
+    "name": "Trike_SprintBreath_0",
+    "duration": 0.8527891039848328
+  },
+  {
+    "name": "Trike_SprintBreath_1",
+    "duration": 0.8527891039848328
+  },
+  {
+    "name": "Trike_SprintBreath_2",
+    "duration": 0.8527891039848328
+  },
+  {
+    "name": "Trike_Step_0",
+    "duration": 0.2800000011920929
+  },
+  {
+    "name": "Trike_Step_1",
+    "duration": 0.2800000011920929
+  },
+  {
+    "name": "Trike_Step_2",
+    "duration": 0.2800000011920929
+  }
+]

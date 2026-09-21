@@ -1,5 +1,60 @@
 # Test log
 
+## Sound and terrain — September 20, 2026
+
+Evidence: `Tests/Results/sound-terrain`; scope/provenance: `SOUND_TERRAIN.md` and
+`Assets/Audio/CREDITS.md`. Source checkpoint `c2ba3a1`; previous source tagged
+`sound-terrain-before-20260920`. Original playable remains intact during validation.
+
+- 81 designed sound files: finite 44.1kHz PCM, clean boundaries, peak <=0.72.
+- 54/54 source audio checks cover all three playable species: loaded assets,
+  footsteps/cadence, quick misses versus impacts, charge-up/heavy, hurt/injured
+  breathing, healing, one-shot death, respawn, pause and rendered output levels.
+- Recorded output peaks: Rex 0.219, raptor 0.313, Triceratops 0.255. Two initial
+  pack-fight mixes were unclipped, at peaks 0.327 / 0.243. Direct listening is not
+  available in this agent session; these are measured playback checks.
+- 502 trees; 2,401 terrain samples show interior maximum 25.64m versus the prior
+  9.61m, with maximum added relief 16.80m. Pond basin preserved to <0.001cm
+  numerical tolerance at sampled points. Initial navigation audit: 42/42 routes.
+- Nine landscape views inspected. Near-camera leaf obstruction was discovered
+  and repaired with a material cutout; nine final views were captured, including
+  a clear ridge-overlook comparison. Existing close camera collision with rocks
+  and animals remains visible in some fixed test positions.
+- Full source regression: **462/462, fifteen suites**. All eighteen continuous
+  all-species regional traversals passed, plus all three AI pond crossings.
+  Existing combat, food, visibility, resource, map and match checks also passed.
+- Initial warmed 1600x900 source performance: 60.00 / 60.00 / 59.95 FPS across
+  plains/forest/pond, max sampled frame 31.62ms. Packaged measurements follow.
+- Standalone candidate BuildCookRun succeeded in 141.84 seconds. Packaged audio:
+  **54/54**; recorded Rex/raptor/Triceratops peaks 0.226 / 0.281 / 0.230.
+  Both group-fight mix checks passed (peaks 0.383 / 0.312; observed voice maxima
+  10 / 9). Credits included beside the packaged launcher.
+- Initial packaged core attempt: 84/90; six respawn checks failed because the
+  preceding `duelSetup` audio fixture intentionally disabled respawning. The
+  runner now starts a fresh candidate process after that fixture. Original
+  evidence retained in `package-regression-first-attempt`; gameplay and test
+  assertions were unchanged. Fresh-process rerun follows.
+- Fresh-process package regression: **220/220, six suites**. All three natural
+  respawns and subsequent movement passed. Packaged navigation audit: **42/42**.
+  Nine packaged landscape views reviewed, plus full-size hill/ridge views.
+- Packaged RTX 3060 at 1600x900, warmed 20-second live-AI samples: plains 59.98,
+  forest 60.00 and pond 59.49 FPS. Maximum sampled frame times 16.71 / 16.68 /
+  169.21ms; the pond hitch is retained as a known limitation.
+- Four-minute packaged autonomous run passed: 240.52 seconds, 179 hits, no
+  failed paths, no stuck recoveries, no below-terrain live actors and no immediate
+  respawn hits. Up to 20 carcasses observed; maximum stationary travel sample
+  count was one. Detailed samples are in `world-soak-0-samples.json`.
+
+- Promoted the validated candidate to `Dist/Windows`. All **49 runtime files**
+  SHA-256 verified against the independent sound-terrain recovery. Previous
+  playable retained in `Dist/Checkpoints/2026-09-20-before-sound-terrain/Windows`.
+- Normal `LaunchGame.bat` started the promoted standalone at 1600x900 without
+  development/test arguments and reached the selection menu. Windows Firewall
+  then displayed a permission prompt. Native input/quit check is pending user
+  dismissal; the agent did not act on the prompt or alter security settings.
+- Final package checkpoint allowance: 63% remaining; no Astra-specific allowance
+  exposed. Preexisting staged input configuration retains its original SHA-256.
+
 ## Map and results update — 2026-09-20
 
 - Standalone BuildCookRun succeeded. Packaging recovered automatically from a transient local Zen connection failure. An early launch attempt before archive completion found no executable; launch after successful archive passed.

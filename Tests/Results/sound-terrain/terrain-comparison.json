@@ -1,0 +1,17 @@
+{
+  "trees": 502,
+  "obstacles": 556,
+  "samples": 2401,
+  "oldInteriorHeightRangeMetres": [
+    -4.2498614958448755,
+    9.610846418751892
+  ],
+  "newInteriorHeightRangeMetres": [
+    -4.249861450195312,
+    25.6372802734375
+  ],
+  "maxAddedHeightMetres": 16.799128485446303,
+  "terrainSamplesBelowWalkableSlope": 0.9991670137442732,
+  "maxSampledSlope": 0.6602997183799744,
+  "waterMaskDifferenceCm": 9.033902040300745e-05
+}

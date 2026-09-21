@@ -1,0 +1,16 @@
+[
+  {
+    "opponent": 0,
+    "passed": true,
+    "peak": 0.3831787109375,
+    "rms": 0.030131028105905986,
+    "maxVoices": 10
+  },
+  {
+    "opponent": 2,
+    "passed": true,
+    "peak": 0.311767578125,
+    "rms": 0.0281600934455488,
+    "maxVoices": 9
+  }
+]

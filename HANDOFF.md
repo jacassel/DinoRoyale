@@ -1,4 +1,59 @@
-# Visual modernization checkpoint — September 20, 2026
+# Sound and terrain checkpoint — September 20, 2026
+
+Launch: double-click
+`C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
+The promoted standalone starts at 1600x900 and reached the selection menu. A
+Windows Firewall prompt currently blocks the final native control check; the
+user was asked to dismiss it with Cancel for this single-player prototype.
+The agent did not act on the permission prompt or change security settings.
+The fresh packaged mapped-input regression passed separately with the opt-in
+development bridge. Native input/quit verification remains pending dismissal.
+
+Source implementation: `c2ba3a1`; final source tag:
+`sound-terrain-stable-20260920`. Playable: `Dist/Windows`.
+Independent recovery: `Dist/Checkpoints/2026-09-20-sound-terrain/Windows`.
+Previous playable: `Dist/Checkpoints/2026-09-20-before-sound-terrain/Windows`.
+All 49 runtime files were SHA-256 verified across candidate, recovery and
+promoted copies. The earlier visual-modernization recovery remains intact.
+Dist is ignored by Git; source commits do not replace the package backup.
+
+81 finite, varied CC0-based sound assets cover quick attacks, charge-up/heavy,
+impacts, hurt, sprinting, ongoing injury and death for all three playable species.
+Audio caps, attenuation and state-driven stops prevent uncontrolled overlap.
+The user's video supplied cinematic direction; no video samples are shipped.
+Credits: `Assets/Audio/CREDITS.md`, also included beside the packaged launcher.
+Direct listening was unavailable to the agent; timing and output levels were
+measured, but perceived realism/mix still need human listening. Preview reels
+and packaged recordings: `Tests/Results/sound-terrain/review.html`.
+
+502 trees and rolling hills; sampled interior high point increased from 9.61m
+to 25.64m while preserving water basins. Trunks affect navigation, path shortcuts
+check slopes, and a near-camera foliage mask repairs an observed leaf obstruction.
+Combat values, controls and match rules are unchanged.
+
+Verification: source gameplay 462/462; packaged gameplay 220/220; source and
+packaged audio each 54/54; both packaged group mixes unclipped; 42/42 packaged
+navigation routes. All eighteen source player traversals and three AI pond
+crossings passed. A 240.52-second packaged world run recorded 179 hits, no failed
+paths, falls, stuck recoveries or immediate respawn hits. First packaged core
+attempt exposed audio-test fixture contamination; a fresh-process rerun passed
+all assertions. Failed evidence and diagnosis are retained in `SOUND_TERRAIN.md`.
+
+Warmed RTX 3060 packaged samples at 1600x900 averaged 59.49–60.00 FPS. One 169ms
+pond hitch was sampled; this is not a full trace or a hitch-free guarantee.
+Nine packaged map views reviewed. Evidence: `Tests/Results/sound-terrain`.
+
+The preexisting staged `Config/DefaultInput.ini` is byte-identical to
+`Tests/Results/sound-terrain/DefaultInput.before.ini` and excluded from source
+commits. Final package checkpoint allowance: 63% remaining; no separate Astra
+allowance exposed. No purchases, delegation or gameplay rebalancing.
+
+Controls: 1/2/3 select Rex/raptor/Triceratops; WASD moves; mouse looks; Shift
+sprints; Space jumps; Q braces; LMB attacks; hold/release RMB charges; hold E eats.
+M opens/closes the map; point and R adds/removes a pin. Escape pauses; F10 in
+the menu quits. See README for match/settings details.
+
+## Previous visual modernization checkpoint — September 20, 2026
 
 Double-click `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
 The launcher was verified on the promoted standalone at 1600x900, without a

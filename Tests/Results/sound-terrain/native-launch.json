@@ -1,0 +1,14 @@
+{
+  "commandLine": "-windowed -ResX=1600 -ResY=900",
+  "selectedWindowId": 11404216,
+  "pending": "Native input and quit checks blocked by Windows Firewall permission prompt; user dismissal requested.",
+  "directListeningAvailable": false,
+  "package": "Dist/Windows",
+  "launcher": "LaunchGame.bat",
+  "permissionActionTaken": false,
+  "reachedSelectionMenu": true,
+  "launcherPid": 10504,
+  "gamePid": 32092,
+  "date": "2026-09-20T20:10:07.7505974-04:00",
+  "developmentBridge": false
+}

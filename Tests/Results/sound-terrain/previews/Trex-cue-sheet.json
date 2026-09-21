@@ -1,0 +1,47 @@
+[
+  {
+    "event": "Step",
+    "startSeconds": 0,
+    "duration": 0.28
+  },
+  {
+    "event": "Quick",
+    "startSeconds": 0.73,
+    "duration": 0.52
+  },
+  {
+    "event": "Charge",
+    "startSeconds": 1.7,
+    "duration": 0.85
+  },
+  {
+    "event": "Heavy",
+    "startSeconds": 3.0,
+    "duration": 1.18
+  },
+  {
+    "event": "Impact",
+    "startSeconds": 4.63,
+    "duration": 0.31
+  },
+  {
+    "event": "Hurt",
+    "startSeconds": 5.39,
+    "duration": 0.68
+  },
+  {
+    "event": "SprintBreath",
+    "startSeconds": 6.52,
+    "duration": 0.82
+  },
+  {
+    "event": "InjuredBreath",
+    "startSeconds": 7.789999999999999,
+    "duration": 1.12
+  },
+  {
+    "event": "Death",
+    "startSeconds": 9.36,
+    "duration": 2.65
+  }
+]
