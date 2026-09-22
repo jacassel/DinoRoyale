@@ -1,0 +1,849 @@
+GOAL #2 — INTERNET MULTIPLAYER FOR UP TO 10 PLAYERS
+
+PRIMARY OUTCOME
+
+Upgrade my existing Unreal Engine dinosaur battle game so that
+friends on completely different internet connections and Wi-Fi
+networks can play together.
+
+This is NOT LAN-only multiplayer.
+
+One player should be able to host a match from their own PC
+and play in that match while up to nine additional human
+players connect over the internet from their own homes.
+
+Support:
+
+- Up to 10 simultaneous human players including the host.
+- Smaller matches with fewer than 10 players.
+- Optional AI/bot filling.
+- Free-for-All.
+- Team Battle.
+- Existing raptor pack mechanics.
+- Existing combat, stamina, hunger, food, scoring, respawning,
+  visibility, blood, swimming, AI, and dinosaur mechanics.
+
+The finished system should ultimately be suitable for a
+Steam release.
+
+IMPORTANT ARCHITECTURE DECISION
+
+Do NOT build multiplayer around LAN discovery, raw public IP
+addresses, manual router configuration, or port forwarding.
+
+Use Unreal's standard client/server replication model with a
+player-hosted LISTEN SERVER.
+
+Add an ONLINE SESSION / LOBBY abstraction so the actual
+network provider can be changed without rewriting gameplay.
+
+For the first implementation:
+
+PREFER EPIC ONLINE SERVICES (EOS) for internet session
+discovery, lobby/session functionality, and P2P connectivity
+if it can be configured using the free Epic Online Services
+developer offering.
+
+The purpose of EOS at this stage is to allow external
+playtesting between players on different home internet
+connections without requiring me to rent a dedicated server
+or ask players to configure their routers.
+
+However:
+
+STRUCTURE THE SESSION CODE SO THAT STEAM ONLINE SUBSYSTEM /
+STEAM SOCKETS CAN BE ADDED OR substituted later without
+rewriting the dinosaur multiplayer gameplay.
+
+If this project already has a legitimate unique Steamworks
+App ID available, then Steam may be used instead of EOS if
+that provides a clearly simpler and more reliable solution.
+
+Do NOT:
+- Purchase Steam Direct.
+- Purchase server hosting.
+- Purchase cloud infrastructure.
+- Buy assets.
+- Consume paid APIs.
+- Sign me up for a paid service.
+- Use Steam's public Spacewar/test App ID as though it were
+  production infrastructure.
+- Expose my public IP unnecessarily.
+- Disable Windows security protections.
+- Automatically change router settings.
+
+If a Steamworks App ID is required and none is already
+available, implement and test the EOS path instead and leave
+the Steam provider as a documented future integration point.
+
+CHATGPT SITES IS NOT THE GAME SERVER
+
+Do not deploy the game itself or its multiplayer networking
+through ChatGPT Sites.
+
+The actual game remains a packaged Unreal Engine Windows game.
+
+A website could potentially be used later for information or
+distribution links, but it must not be treated as the
+real-time multiplayer transport, authoritative game server,
+or matchmaking backend.
+
+1. PRESERVE THE EXISTING GAME FIRST
+
+Before touching networking:
+
+- Inspect the current project.
+- Identify all GameMode, GameState, PlayerState,
+  PlayerController, Character, AI, combat, scoring, stamina,
+  hunger, food, map visibility, raptor-pack, respawn and
+  match-flow systems.
+- Commit/checkpoint the current working build.
+- Preserve offline single-player.
+- Preserve the current playable Windows build.
+- Do not start a new project.
+
+This game already contains substantial working gameplay.
+Convert it carefully rather than replacing it.
+
+2. INTERNET HOST / JOIN EXPERIENCE
+
+Create a simple multiplayer menu:
+
+MULTIPLAYER
+    HOST GAME
+    JOIN GAME
+    BACK
+
+HOST GAME should allow:
+
+MODE:
+- Free-for-All
+- Team Battle
+
+MAX PARTICIPANTS:
+- 2 through 10
+
+FILL EMPTY SLOTS WITH BOTS:
+- ON
+- OFF
+
+LOBBY VISIBILITY:
+- Friends / Invite Only where supported
+- Public/Searchable where appropriate during testing
+
+HOST creates an online lobby/session and then becomes the
+listen server.
+
+JOIN GAME should:
+
+- Search for available internet sessions.
+- Display recognizable session information.
+- Show host/session name.
+- Show mode.
+- Show current players / maximum players.
+- Show whether bots are enabled.
+- Allow the player to select a valid session and join it.
+
+Where supported by the online provider, also support friend
+invites.
+
+Do not require players to:
+- Enter the host's public IP.
+- Know the host's router configuration.
+- Be on the same LAN.
+- Forward ports manually.
+
+3. INTERNET CONNECTIVITY
+
+This feature must work between DIFFERENT physical networks.
+
+Testing two processes on localhost is useful during
+development but DOES NOT prove completion.
+
+Eventually verify:
+
+HOST PC:
+Home Internet Connection A
+
+CLIENT PC:
+Different Home Internet Connection B
+
+The two computers must not share the same router.
+
+If only one physical network is available during autonomous
+development, complete all feasible tests but mark external
+internet testing as NOT VERIFIED rather than claiming that it
+passed.
+
+Prefer relay/NAT traversal supplied by EOS or Steam rather
+than asking users to configure their routers.
+
+4. PLAYER-HOSTED LISTEN SERVER
+
+One human player is simultaneously:
+
+- Player.
+- Match host.
+- Authoritative server.
+
+The host counts as ONE of the maximum 10 human players.
+
+Example:
+
+10-player match =
+1 host + 9 remote players.
+
+Do not interpret this as 10 clients plus a host.
+
+The server must remain authoritative over:
+
+- Damage.
+- Health.
+- Stamina.
+- Hunger.
+- Food.
+- Attacks.
+- Cooldowns.
+- Blocking.
+- Sprinting validation.
+- Death.
+- Respawning.
+- Team assignment.
+- Kills.
+- Deaths.
+- Assists.
+- Match score.
+- AI.
+- Raptor followers.
+- Carcasses.
+- Plants.
+- Win conditions.
+
+Clients should communicate player intentions rather than
+directly assigning authoritative game values.
+
+5. MATCH CAPACITY
+
+Allow match capacity from 2 through 10 main participant slots.
+
+A PARTICIPANT SLOT means:
+
+- One human-controlled dinosaur
+OR
+- One AI-controlled main dinosaur / raptor leader.
+
+Raptor followers DO NOT consume participant slots.
+
+Wildlife/prey DO NOT consume participant slots.
+
+Carcasses DO NOT consume participant slots.
+
+Examples:
+
+Capacity 10 + 10 humans + bots OFF =
+10 humans.
+
+Capacity 10 + 4 humans + bots OFF =
+4 humans and six unused slots.
+
+Capacity 10 + 4 humans + bots ON =
+4 humans + 6 AI opponents.
+
+Capacity 6 + 2 humans + bots ON =
+2 humans + 4 AI opponents.
+
+Never require all ten slots to be occupied before beginning.
+
+6. BOT REPLACEMENT
+
+When bot filling is ON:
+
+Bots occupy currently unused participant slots.
+
+If a human player joins a lobby with bot-filled slots,
+remove/replace one eligible filler bot so the human can join.
+
+Do this cleanly.
+
+Do not:
+- Award a kill for removing the bot.
+- Leave behind duplicate controllers.
+- Leave behind duplicate raptor followers.
+- Alter team score.
+- Create an extra participant.
+
+If a human disconnects during the match:
+
+BOTS ON:
+Replace the missing player with a bot where appropriate.
+
+BOTS OFF:
+Leave the slot vacant.
+
+7. FREE-FOR-ALL
+
+Support 2–10 main participants.
+
+Existing goal:
+First combatant to 5 dinosaur kills wins.
+
+Preserve existing scoring rules unless newer approved project
+values are found.
+
+Raptor leader + its two followers remain ONE allied pack.
+
+Only killing the raptor leader awards the scoring dinosaur kill.
+
+Raptor follower deaths must not increase FFA kill score.
+
+FFA humans should otherwise remain enemies.
+
+8. TEAM BATTLE
+
+Support flexible two-team matches up to:
+
+5 versus 5.
+
+Examples:
+
+1v1
+2v2
+2v1
+3v3
+3v2
+4v4
+4v3
+5v5
+
+Ten main participants remains the overall maximum.
+
+Existing team goal:
+First team to 10 scoring dinosaur kills wins.
+
+Preserve ten-second respawns.
+
+Keep human teammates and their associated raptor followers
+correctly allied.
+
+Prevent friendly-fire where that is the current intended rule.
+
+Never require five people on each team before starting.
+
+9. LOBBY
+
+Before the match starts, show a synchronized lobby.
+
+Display:
+
+- Connected players.
+- Player names where the online service provides them.
+- Selected dinosaur.
+- Team where applicable.
+- Ready status.
+- Host status.
+- Maximum participant count.
+- Bot setting.
+- Game mode.
+
+Only the host can modify match-wide settings.
+
+Clients can choose their own dinosaur.
+
+In Team Battle, allow players to select teams when legal.
+
+Do not allow a team to exceed five main participants.
+
+Have sensible automatic team assignment available.
+
+The host starts the match.
+
+All players transition into the same game together.
+
+10. RAPTOR PACKS
+
+This deserves special multiplayer testing.
+
+A player-controlled raptor leader keeps TWO AI raptor
+followers.
+
+This remains true even if match bots are turned OFF.
+
+The leader + two followers consume ONE participant slot.
+
+The SERVER owns authoritative pack logic.
+
+Replicate enough information for every client to see the
+correct:
+
+- Pack leader.
+- Pack followers.
+- Movement.
+- Attacks.
+- Targets.
+- Team/faction.
+- Health/death states.
+
+Do not allow one player's raptor followers to become assigned
+to another player's pack.
+
+When the leader dies and respawns, reconstruct its pack
+correctly.
+
+When the human disconnects, clean up the pack correctly.
+
+Test multiple human raptor players simultaneously.
+
+A 10-player match could produce substantially more than 10
+physical dinosaur actors because of these followers.
+
+Networking and performance testing must account for that.
+
+11. REPLICATE EXISTING GAME SYSTEMS
+
+Convert all gameplay-critical systems to work correctly
+across the network.
+
+Verify replication for:
+
+MOVEMENT
+- WASD.
+- Rotation.
+- Sprint.
+- Jump.
+- Swimming.
+- Water slowdown.
+
+COMBAT
+- Quick attacks.
+- Three-hit attack combo.
+- Heavy attacks.
+- Charged attacks.
+- Pounce/charge behavior.
+- Defense/brace.
+- Damage.
+- Knockback/stagger where applicable.
+- Attack cooldowns.
+- Stamina requirements.
+
+SURVIVAL
+- Health.
+- Injury penalties at 50%.
+- Critical penalties at 25%.
+- Stamina.
+- Hunger.
+- Starvation.
+- Food regeneration.
+- Eating.
+
+ECOLOGY
+- Plants.
+- Plant depletion.
+- Carcasses.
+- Carcass food quantity.
+- Prey.
+- AI dinosaurs.
+
+MATCH
+- Kills.
+- Deaths.
+- Assists.
+- FFA score.
+- Team score.
+- Respawn timers.
+- Victory.
+- Results screen.
+- Rematch.
+
+VISIBILITY
+Preserve the current intended visibility system.
+
+A player should not receive omniscient map information merely
+because networking was added.
+
+Recent attack/sprint reveals and line-of-sight rules should
+remain authoritative and synchronized appropriately.
+
+12. COSMETICS
+
+Do not make purely local cosmetic settings authoritative.
+
+Examples:
+
+- Optional blood.
+- Local graphics options.
+- Local mouse sensitivity.
+- Camera behavior.
+
+Player A having blood ON must not force Player B to have blood ON.
+
+Blood should represent replicated combat events but be rendered
+according to each local player's preference.
+
+13. NETWORK QUALITY
+
+Internet play introduces latency.
+
+Do not build the game assuming near-zero LAN latency.
+
+Test with Unreal's network emulation where feasible.
+
+Test representative conditions such as:
+
+GOOD:
+~30 ms latency.
+
+NORMAL:
+~60–80 ms.
+
+POOR BUT PLAYABLE:
+~120–150 ms.
+
+Also test modest packet loss.
+
+Focus particularly on:
+
+- Movement.
+- Sprint.
+- Attack initiation.
+- Attack hit validation.
+- Charged attacks.
+- Blocking.
+- Raptor followers.
+- Death.
+- Respawn.
+- Scoring.
+
+Do not radically implement competitive shooter-style
+rollback networking unless clearly necessary.
+
+For this small dinosaur combat game, favor reliable,
+maintainable Unreal networking over an unnecessarily complex
+netcode architecture.
+
+14. DISCONNECTIONS
+
+Handle gracefully:
+
+- Client leaves.
+- Client loses internet.
+- Host quits.
+- Failed join.
+- Full lobby.
+- Match already ending.
+- Online service temporarily unavailable.
+
+If a client disconnects:
+
+Clean up their authoritative gameplay actors.
+
+If the HOST leaves:
+
+Do not attempt complicated host migration during this goal.
+
+Return remaining clients safely to the menu and explain:
+
+"Host disconnected."
+
+Host migration can be considered later.
+
+15. PACKAGED BUILDS
+
+Internet multiplayer must work in packaged Windows builds.
+
+Do not treat multiplayer-in-editor as sufficient.
+
+Produce/update the packaged build.
+
+A friend should ultimately only need:
+
+1. The correct packaged build.
+2. Internet access.
+3. Whatever free account/sign-in is genuinely required by
+   the selected online provider.
+4. To launch the game.
+5. Join the host's session.
+
+They should NOT need:
+
+- Unreal Engine.
+- Blender.
+- Visual Studio.
+- The source repository.
+- Router configuration.
+- Developer console commands.
+
+16. BUILD COMPATIBILITY
+
+Prevent confusing connections between incompatible versions.
+
+Add or use a session/build version identifier.
+
+Sessions created by incompatible builds should either:
+
+- Not appear.
+OR
+- Produce a clear "Different game version" message.
+
+17. TESTING ORDER
+
+Do this incrementally.
+
+STAGE A
+Make the current game network-aware while preserving
+single-player.
+
+STAGE B
+Host + ONE remote client.
+
+Verify:
+- Connection.
+- Spawn.
+- Movement.
+- Combat.
+- Damage.
+- Death.
+- Respawn.
+
+Do not proceed until two-player fundamentals work.
+
+STAGE C
+Lobby and game settings.
+
+STAGE D
+FFA.
+
+STAGE E
+Team Battle.
+
+STAGE F
+Bots and human replacement.
+
+STAGE G
+Raptor packs.
+
+STAGE H
+4-player testing.
+
+STAGE I
+10-player testing.
+
+STAGE J
+Internet/WAN testing and latency simulation.
+
+STAGE K
+Packaged build and regression testing.
+
+Do not attempt everything simultaneously.
+
+18. MULTIPLAYER ACCEPTANCE TESTS
+
+Record PASS / FAIL / NOT VERIFIED for each.
+
+CORE:
+
+[ ] Host can create an internet session.
+[ ] Remote player can discover it.
+[ ] Remote player can join it.
+[ ] Players can be on different networks.
+[ ] No manual port forwarding required.
+[ ] Host also plays normally.
+[ ] Client movement works.
+[ ] Client combat works.
+[ ] Server authoritative damage works.
+[ ] Respawning works.
+[ ] Scoring works.
+
+FFA:
+
+[ ] 2 humans.
+[ ] 4 humans.
+[ ] Fewer than 10 players with bots OFF.
+[ ] Humans + bots.
+[ ] 10 networked human/player instances.
+[ ] Five-kill victory condition.
+
+TEAM:
+
+[ ] 1v1.
+[ ] 2v2.
+[ ] Odd configuration such as 2v1.
+[ ] 5v5.
+[ ] Team bot filling.
+[ ] Ten-team-kill victory condition.
+
+RAPTORS:
+
+[ ] Human raptor leader.
+[ ] Two followers replicated.
+[ ] Followers remain allied.
+[ ] Leader-only scoring.
+[ ] Multiple simultaneous packs.
+[ ] Death/respawn correctly recreates pack.
+[ ] Disconnect correctly destroys/transfers pack.
+
+NETWORK:
+
+[ ] 30 ms simulation.
+[ ] ~75 ms simulation.
+[ ] ~150 ms simulation.
+[ ] Modest packet loss.
+[ ] No duplicate damage.
+[ ] No duplicate scoring.
+[ ] No duplicate bots.
+[ ] No persistent ghost players.
+
+SESSION:
+
+[ ] Full lobby rejects additional players.
+[ ] Human replaces bot.
+[ ] Client disconnect handled.
+[ ] Host disconnect handled.
+[ ] Rematch works.
+[ ] Return to lobby works.
+[ ] Repeated matches do not accumulate actors/state.
+
+PACKAGED:
+
+[ ] Packaged host works.
+[ ] Packaged client works.
+[ ] External network test completed if physically possible.
+
+19. TEN-PLAYER STRESS TEST
+
+Eventually test the maximum configuration.
+
+Ten connected player instances means TEN NETWORKED GAME CLIENTS,
+not merely one player plus nine local bots.
+
+Where hardware allows, automate multiple clients.
+
+Run sustained sessions.
+
+Also test a raptor-heavy configuration because ten raptor
+leaders could create many additional replicated follower actors.
+
+Observe:
+
+- Server FPS.
+- Client FPS.
+- Network bandwidth.
+- Latency.
+- Packet loss symptoms.
+- AI responsiveness.
+- Movement smoothness.
+- Combat correctness.
+- Memory usage.
+- Relevant Unreal network warnings/errors.
+
+Do not destroy machine stability merely to claim ten-client
+coverage.
+
+If the available hardware cannot realistically support ten
+simultaneous local test clients, report the largest genuinely
+tested configuration and mark ten-player testing NOT VERIFIED.
+
+20. STEAM-FUTURE-PROOFING
+
+Keep Steam release in mind.
+
+The networking architecture should permit a later provider
+configuration such as:
+
+Unreal gameplay replication
+        |
+Session/Lobby abstraction
+        |
++------------------+-------------------+
+|                                      |
+EOS                                  STEAM
+Development/free testing             Retail/Steam Playtest
+                                     Steam Lobbies
+                                     Steam Sockets
+
+Do NOT create two separate gameplay networking systems.
+
+Gameplay replication should remain provider-independent.
+
+Steam integration later should primarily change:
+
+- Authentication.
+- Lobby/session discovery.
+- Invitations.
+- Transport/net driver where appropriate.
+
+It should NOT require rewriting dinosaur combat.
+
+21. COMPUTE AND PROJECT SAFETY
+
+Remain ONE agent.
+
+Preserve the existing usage-management goal.
+
+Do not buy anything.
+
+Do not enroll me in Steam Direct.
+
+Do not purchase hosting.
+
+Do not deploy dedicated cloud servers.
+
+Do not make unrelated gameplay changes.
+
+Checkpoint frequently.
+
+Prioritize:
+
+1. Correctness.
+2. Working two-player networking.
+3. Stable gameplay.
+4. Flexible match sizes.
+5. Internet connectivity.
+6. Ten-player scaling.
+7. Polish.
+
+If usage becomes low, STOP EXPANDING FEATURES.
+
+Save/commit the multiplayer work.
+
+Leave single-player functional.
+
+Run the best regression test possible.
+
+Document exactly what multiplayer functionality is verified.
+
+22. COMPLETION STANDARD
+
+This goal is complete only when:
+
+- My packaged Unreal game supports internet multiplayer.
+- A player can host from their PC.
+- Friends on different internet connections can join.
+- Nobody needs to manually forward router ports.
+- Host + clients can actually control dinosaurs and fight.
+- FFA supports 2–10 participants.
+- Team Battle supports up to 5v5.
+- Bots can be enabled or disabled.
+- Smaller matches work.
+- Human players can replace filler bots.
+- Existing gameplay systems replicate correctly.
+- Raptors preserve their pack behavior.
+- Five-kill FFA and ten-kill team victory conditions work.
+- Ten-second respawns work.
+- Packaged builds work.
+- Single-player still works.
+- Testing evidence supports these claims.
+
+At completion, give me a concise report containing:
+
+- Online provider used.
+- How hosting works.
+- How joining works.
+- Whether different-network testing actually occurred.
+- Maximum real player/client count tested.
+- Maximum bots tested.
+- Latency tests performed.
+- Known multiplayer bugs.
+- Any configuration I must perform manually.
+- Exact location of packaged build.
+- Simple instructions I can send to my friends.
+- What remains before Steam integration/release.
