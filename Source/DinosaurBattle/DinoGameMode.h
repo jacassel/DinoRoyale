@@ -1,12 +1,10 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "DinoGameState.h"
 #include "DinoGameMode.generated.h"
 class ADinosaurCharacter;
-struct FDinoScore
-{
-    int32 Kills=0,Deaths=0,Assists=0;
-};
+
 /** Local match rules; health and abilities remain independent of scorekeeping. */
 UCLASS()
 class DINOSAURBATTLE_API ADinoGameMode : public AGameModeBase
@@ -14,6 +12,10 @@ class DINOSAURBATTLE_API ADinoGameMode : public AGameModeBase
     GENERATED_BODY()
 public:
     ADinoGameMode();
+    virtual void PostLogin(APlayerController* PC) override;
+    virtual void RestartPlayer(AController* C) override;
+    virtual void Logout(AController* C) override;
+    virtual void PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& ID,FString& Error) override;
     virtual void BeginPlay() override;
     bool bTeamMatch=false,bRoundOver=false,bIgnoreWinCondition=false,bSharePackKills=true;
     int32 SoloKillGoal=5,TeamKillGoal=10,TeamKills[2]={0,0},WinnerID=-1,WinnerTeam=-1,RoundNumber=0;

@@ -8,11 +8,15 @@ class DINOSAURBATTLE_API UHealthComponent : public UActorComponent
 {
     GENERATED_BODY()
 public:
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
     UHealthComponent();
     virtual void TickComponent(float Dt,ELevelTick TickType,FActorComponentTickFunction* Tick) override;
-    UPROPERTY(VisibleAnywhere,BlueprintReadOnly) float Current=1000;
-    UPROPERTY(VisibleAnywhere,BlueprintReadOnly) float Maximum=1000;
-    float RegenDelay=5, RegenRate=.02f, LastDamageTime=-100, HitFlash=0;
+    UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Replicated) float Current=1000;
+    UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Replicated) float Maximum=1000;
+    UPROPERTY(Replicated) float RegenDelay=5;
+    UPROPERTY(Replicated) float  RegenRate=.02f;
+    UPROPERTY(Replicated) float  LastDamageTime=-100;
+    UPROPERTY(Replicated) float  HitFlash=0;
     bool bInvulnerable=false;
     void Reset(float Max,float Delay,float Rate);
     float Receive(float Amount);

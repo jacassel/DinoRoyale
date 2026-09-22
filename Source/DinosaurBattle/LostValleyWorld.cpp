@@ -1,3 +1,30 @@
+#include "DinoGameMode.h"
+#include "DinosaurCharacter.h"
+#include "DinosaurAIController.h"
+#include "LostValleyWorld.h"
+#include "FoodSystem.h"
+#include "DinoHUD.h"
+#include "DinoEffects.h"
+#include "DinoPlayerController.h"
+#include "Engine/DirectionalLight.h"
+#include "Engine/SkyLight.h"
+#include "Engine/TextureCube.h"
+#include "Engine/ExponentialHeightFog.h"
+#include "Engine/PostProcessVolume.h"
+#include "Components/DirectionalLightComponent.h"
+#include "Components/SkyLightComponent.h"
+#include "Components/SkyAtmosphereComponent.h"
+#include "Components/ExponentialHeightFogComponent.h"
+#include "GameFramework/PlayerController.h"
+#include "Camera/PlayerCameraManager.h"
+#include "Engine/World.h"
+#include "EngineUtils.h"
+#include "Kismet/GameplayStatics.h"
+#include "HealthComponent.h"
+#include "CombatComponent.h"
+#include "Misc/ConfigCacheIni.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 #include "LostValleyWorld.h"
 #include "ProceduralMeshComponent.h"
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
@@ -308,4 +335,33 @@ FVector ALostValleyWorld::AvoidObstacles(const FVector& P,const FVector& Desired
         }
     }
     return Steer.GetSafeNormal2D();
+}
+
+void ALostValleyWorld::EnsureLocalScene(UWorld* World)
+{
+    for(TActorIterator<ALostValleyWorld> It(World);It;++It)return;
+    ALostValleyWorld* Valley=nullptr;
+    for(TActorIterator<ALostValleyWorld> It(World);It;++It){Valley=*It;break;}
+    if(!Valley)Valley=World->SpawnActor<ALostValleyWorld>();
+    World->SpawnActor<ADinoEffects>();
+    auto* Sun=World->SpawnActor<ADirectionalLight>(FVector(0,0,8000),FRotator(-32,-38,0));
+    auto* Light=Cast<UDirectionalLightComponent>(Sun->GetLightComponent());
+    Light->SetMobility(EComponentMobility::Movable);Light->SetIntensity(3.6f);Light->SetLightColor(FLinearColor(1,.94f,.84f));
+    Light->SetAtmosphereSunLight(true);Light->DynamicShadowDistanceMovableLight=26000;Light->DynamicShadowCascades=4;
+    Light->SetLightSourceAngle(1.25f);Light->ContactShadowLength=.035f;Light->ShadowSharpen=0;
+    World->SpawnActor<ASkyAtmosphere>();
+    auto* Sky=World->SpawnActor<ASkyLight>();Sky->GetLightComponent()->SetMobility(EComponentMobility::Movable);
+    Sky->GetLightComponent()->SourceType=SLS_SpecifiedCubemap;Sky->GetLightComponent()->SetCubemap(LoadObject<UTextureCube>(nullptr,TEXT("/Engine/MapTemplates/Sky/DaylightAmbientCubemap.DaylightAmbientCubemap")));Sky->GetLightComponent()->SetIntensity(1.25f);Sky->GetLightComponent()->SetRealTimeCaptureEnabled(false);
+    auto* Fog=World->SpawnActor<AExponentialHeightFog>();
+    Fog->GetComponent()->SetFogDensity(.012f);Fog->GetComponent()->SetFogHeightFalloff(.12f);
+    Fog->GetComponent()->SetFogInscatteringColor(FLinearColor(.43f,.53f,.59f));Fog->GetComponent()->SetStartDistance(8500);
+    // Restrained grading and local contact depth; keep exposure fixed for combat readability.
+    auto* Grade=World->SpawnActor<APostProcessVolume>();Grade->bUnbound=true;
+    auto& GradeSettings=Grade->Settings;
+    GradeSettings.bOverride_ColorSaturation=true;GradeSettings.ColorSaturation=FVector4(.94f,.94f,.94f,1);
+    GradeSettings.bOverride_BloomIntensity=true;GradeSettings.BloomIntensity=.12f;
+    GradeSettings.bOverride_AmbientOcclusionIntensity=true;GradeSettings.AmbientOcclusionIntensity=.75f;
+    GradeSettings.bOverride_AmbientOcclusionRadius=true;GradeSettings.AmbientOcclusionRadius=110.f;
+    GradeSettings.bOverride_ScreenSpaceReflectionIntensity=true;GradeSettings.ScreenSpaceReflectionIntensity=85.f;
+    GradeSettings.bOverride_ScreenSpaceReflectionQuality=true;GradeSettings.ScreenSpaceReflectionQuality=60.f;
 }

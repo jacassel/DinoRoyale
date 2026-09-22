@@ -9,6 +9,7 @@ class DINOSAURBATTLE_API UCombatComponent : public UActorComponent
 {
     GENERATED_BODY()
 public:
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
     UCombatComponent();
     virtual void TickComponent(float Dt,ELevelTick TickType,FActorComponentTickFunction* Tick) override;
     bool QuickAttack();
@@ -18,13 +19,19 @@ public:
     bool SetBrace(bool Active);
     float ChargeFraction() const;
     bool IsBusy() const {return RecoveryLeft>0;}
-    bool bBracing=false,bCharging=false,bChargedAttack=false;
-    float ChargeElapsed=0, RecoveryLeft=0, AttackElapsed=0, AttackDuration=.7f;
-    float LastDealtDamage=0;
-    int32 TotalHits=0;
-    int32 AttackSerial=0,ComboCount=0;
+    UPROPERTY(Replicated) bool bBracing=false;
+    UPROPERTY(Replicated) bool bCharging=false;
+    UPROPERTY(Replicated) bool bChargedAttack=false;
+    UPROPERTY(Replicated) float ChargeElapsed=0;
+    UPROPERTY(Replicated) float  RecoveryLeft=0;
+    UPROPERTY(Replicated) float  AttackElapsed=0;
+    UPROPERTY(Replicated) float  AttackDuration=.7f;
+    UPROPERTY(Replicated) float LastDealtDamage=0;
+    UPROPERTY(Replicated) int32 TotalHits=0;
+    UPROPERTY(Replicated) int32 AttackSerial=0;
+    UPROPERTY(Replicated) int32 ComboCount=0;
     float ComboResetLeft=0,BufferedQuick=0;
-    bool bWeakAttack=false;
+    UPROPERTY(Replicated) bool bWeakAttack=false;
     float CurrentHeavyPower=0;
     FVector CommitDirection=FVector::ForwardVector;
     TSet<TWeakObjectPtr<ADinosaurCharacter>> HitActors;

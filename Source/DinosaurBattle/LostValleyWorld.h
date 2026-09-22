@@ -14,6 +14,7 @@ class DINOSAURBATTLE_API ALostValleyWorld : public AActor
     GENERATED_BODY()
 public:
     ALostValleyWorld();
+    static void EnsureLocalScene(UWorld* World);
     virtual void OnConstruction(const FTransform& Transform) override;
     virtual void BeginPlay() override;
     UPROPERTY(VisibleAnywhere) UProceduralMeshComponent* Terrain;

@@ -1,3 +1,4 @@
+#include "Net/UnrealNetwork.h"
 #include "CombatComponent.h"
 #include "DinosaurCharacter.h"
 #include "HealthComponent.h"
@@ -8,11 +9,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
-UCombatComponent::UCombatComponent(){PrimaryComponentTick.bCanEverTick=true;}
+UCombatComponent::UCombatComponent(){PrimaryComponentTick.bCanEverTick=true;SetIsReplicatedByDefault(true);}
 ADinosaurCharacter* UCombatComponent::Dino() const {return Cast<ADinosaurCharacter>(GetOwner());}
-void UCombatComponent::Cancel(){bBracing=false;bCharging=false;bHitPending=false;RecoveryLeft=0;ChargeElapsed=0;ComboCount=0;ComboResetLeft=0;BufferedQuick=0;HitActors.Empty();}
+void UCombatComponent::Cancel(){if(!GetOwner()->HasAuthority()){return;}bBracing=false;bCharging=false;bHitPending=false;RecoveryLeft=0;ChargeElapsed=0;ComboCount=0;ComboResetLeft=0;BufferedQuick=0;HitActors.Empty();}
 bool UCombatComponent::SetBrace(bool Active)
-{
+{if(!GetOwner()->HasAuthority()){return false;}
     auto* D=Dino(); if(!D||D->bDead) return false;
     if(Active&&(D->GetCharacterMovement()->IsFalling()||IsBusy()||D->Stamina->bExhausted||D->Stamina->Current<=0)) return false;
     bBracing=Active;
@@ -20,7 +21,7 @@ bool UCombatComponent::SetBrace(bool Active)
     return true;
 }
 bool UCombatComponent::QuickAttack()
-{
+{if(!GetOwner()->HasAuthority()){return false;}
     auto* D=Dino();if(!D||D->bDead||bBracing||bCharging)return false;
     if(IsBusy()){if(RecoveryLeft<=.18f)BufferedQuick=.2f;return false;}
     D->Food->StopEating();
@@ -31,17 +32,17 @@ bool UCombatComponent::QuickAttack()
     ++ComboCount;Execute(false,0);return true;
 }
 bool UCombatComponent::StartCharge()
-{
+{if(!GetOwner()->HasAuthority()){return false;}
     auto* D=Dino();if(!D||D->bDead||bBracing||bCharging||IsBusy()||D->Health->Fraction()<.25f||!D->Stamina->CanSpend(D->Stats().HeavyCost))return false;
-    D->Food->StopEating();D->RevealNoise();bCharging=true;ChargeElapsed=0;D->Audio->PlayEvent(5);return true;
+    D->Food->StopEating();D->RevealNoise();bCharging=true;ChargeElapsed=0;D->PlayCombatSound(5);return true;
 }
 float UCombatComponent::ChargeFraction() const {auto* D=Dino();return D?FMath::Clamp(ChargeElapsed/FMath::Max(.1f,D->Stats().ChargeTime),0.f,1.f):0;}
-bool UCombatComponent::ReleaseCharge(){if(!bCharging)return false;float Power=ChargeFraction();bCharging=false;auto* D=Dino();if(!D||D->bDead||D->Health->Fraction()<.25f||!D->Stamina->Spend(D->Stats().HeavyCost))return false;Execute(true,Power);return true;}
+bool UCombatComponent::ReleaseCharge(){if(!GetOwner()->HasAuthority()){return false;}if(!bCharging)return false;float Power=ChargeFraction();bCharging=false;auto* D=Dino();if(!D||D->bDead||D->Health->Fraction()<.25f||!D->Stamina->Spend(D->Stats().HeavyCost))return false;Execute(true,Power);return true;}
 void UCombatComponent::Execute(bool Charged,float Power)
-{
+{if(!GetOwner()->HasAuthority()){return;}
     auto* D=Dino();const auto& S=D->Stats(); bChargedAttack=Charged;
     ++AttackSerial;D->RevealNoise();
-    D->Audio->PlayEvent(Charged?2:1);
+    D->PlayCombatSound(Charged?2:1);
     AttackDuration=(Charged?S.ChargeRecovery:S.Recovery)/D->Health->AttackSpeedFactor();
     if(!Charged&&bWeakAttack)AttackDuration*=S.WeakAttackRecovery;
     RecoveryLeft=AttackDuration+(!Charged&&ComboCount==3?S.ComboRecovery/D->Health->AttackSpeedFactor():0);
@@ -53,7 +54,7 @@ void UCombatComponent::Execute(bool Charged,float Power)
     if(Charged&&D->Species==1&&!D->bSwimming)D->LaunchCharacter(CommitDirection*S.LungeSpeed*(.55f+.45f*Power)+FVector(0,0,260),true,false);
 }
 void UCombatComponent::DetectHits()
-{
+{if(!GetOwner()->HasAuthority()){return;}
     auto* D=Dino();const auto& S=D->Stats();FVector Origin=D->GetActorLocation();
     // Timed sweep window; each target is damaged once across all samples/components.
     FVector End=Origin+D->GetActorForwardVector()*S.AttackRange*(bChargedAttack?S.HeavyReach:1.f);
@@ -68,7 +69,7 @@ void UCombatComponent::DetectHits()
         if(GetWorld()->LineTraceSingleByChannel(Wall,Origin,Target->GetActorLocation(),ECC_Visibility,WallParams))continue;
         HitActors.Add(Target);
         float Before=Target->Health->Current;Target->ReceiveHit(PendingDamage,D);float Applied=Before-Target->Health->Current;LastDealtDamage+=Applied;++TotalHits;
-        if(Applied>0)D->Audio->PlayEvent(3);
+        if(Applied>0)D->PlayCombatSound(3);
         if(Applied>0&&bChargedAttack&&!Target->Combat->bBracing&&!Target->bDead)
         {
             // A small pounce cannot repeatedly interrupt an apex animal's committed windup.
@@ -76,11 +77,11 @@ void UCombatComponent::DetectHits()
             if(MassRatio>=.65f)Target->Combat->bCharging=false;
             Target->LaunchCharacter(CommitDirection*S.HeavyKnockback*MassRatio*(.5f+.5f*CurrentHeavyPower)+FVector(0,0,40*MassRatio),true,false);
         }
-        if(Applied>0)ADinoEffects::EmitBlood(GetWorld(),H.ImpactPoint.IsNearlyZero()?Target->GetActorLocation():FVector(H.ImpactPoint),D->GetActorForwardVector(),Applied);
+        if(Applied>0)D->MulticastBlood(H.ImpactPoint.IsNearlyZero()?Target->GetActorLocation():FVector(H.ImpactPoint),D->GetActorForwardVector(),Applied);
     }
 }
 void UCombatComponent::TickComponent(float Dt,ELevelTick T,FActorComponentTickFunction* F)
-{
+{if(!GetOwner()->HasAuthority()){return;}
     Super::TickComponent(Dt,T,F);
     auto* D=Dino();if(!D||D->bDead)return;
     ComboResetLeft=FMath::Max(0.f,ComboResetLeft-Dt);
@@ -101,4 +102,21 @@ void UCombatComponent::TickComponent(float Dt,ELevelTick T,FActorComponentTickFu
         }
     }
     if(BufferedQuick>0){BufferedQuick-=Dt;if(!IsBusy()){BufferedQuick=0;QuickAttack();}}
+}
+
+void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    DOREPLIFETIME(UCombatComponent,bBracing);
+    DOREPLIFETIME(UCombatComponent,bCharging);
+    DOREPLIFETIME(UCombatComponent,bChargedAttack);
+    DOREPLIFETIME(UCombatComponent,ChargeElapsed);
+    DOREPLIFETIME(UCombatComponent, RecoveryLeft);
+    DOREPLIFETIME(UCombatComponent, AttackElapsed);
+    DOREPLIFETIME(UCombatComponent, AttackDuration);
+    DOREPLIFETIME(UCombatComponent,AttackSerial);
+    DOREPLIFETIME(UCombatComponent,ComboCount);
+    DOREPLIFETIME(UCombatComponent,bWeakAttack);
+    DOREPLIFETIME(UCombatComponent,LastDealtDamage);
+    DOREPLIFETIME(UCombatComponent,TotalHits);
 }

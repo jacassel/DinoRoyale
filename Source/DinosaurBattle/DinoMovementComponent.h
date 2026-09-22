@@ -10,6 +10,8 @@ class DINOSAURBATTLE_API UDinoMovementComponent : public UCharacterMovementCompo
     GENERATED_BODY()
 public:
     virtual float GetMaxSpeed() const override;
+    virtual void UpdateFromCompressedFlags(uint8 Flags) override;
+    virtual FNetworkPredictionData_Client* GetPredictionData_Client() const override;
 protected:
     virtual void PhysCustom(float DeltaTime,int32 Iterations) override;
 };

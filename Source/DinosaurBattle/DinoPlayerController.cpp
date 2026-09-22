@@ -39,8 +39,11 @@
 void ADinoPlayerController::BeginPlay()
 {
     Super::BeginPlay();
+    if(!IsLocalController())return;
+    ALostValleyWorld::EnsureLocalScene(GetWorld());
     bDevBridge=FParse::Param(FCommandLine::Get(),TEXT("DinoDevBridge"));
     BridgeRoot=FPaths::ProjectSavedDir()/TEXT("Automation");
+    FString BridgeName;if(FParse::Value(FCommandLine::Get(),TEXT("DinoBridge="),BridgeName))BridgeRoot=FPaths::ProjectSavedDir()/TEXT("Automation")/FPaths::MakeValidFileName(BridgeName);
     if(bDevBridge)
     {
         IFileManager::Get().MakeDirectory(*BridgeRoot,true);
@@ -56,7 +59,7 @@ void ADinoPlayerController::BeginPlay()
 void ADinoPlayerController::PlayerTick(float Dt)
 {
     Super::PlayerTick(Dt);
-    if(!bDevBridge)return;
+    if(!IsLocalController()||!bDevBridge)return;
     if(Dt>0){FrameSum+=Dt;FrameCount++;}
     const double Now=FPlatformTime::Seconds();
     if(Now-LastBridgeTime>=.05){LastBridgeTime=Now;ReadBridge();WriteTelemetry();}
@@ -82,14 +85,15 @@ void ADinoPlayerController::SetupInputComponent()
 }
 void ADinoPlayerController::SetMenuOpen(bool Open)
 {
+    if(!IsLocalController())return;
     bSelectionOpen=Open;bMapOpen=false;if(!Open)bSettingsOpen=false;
     ResetIgnoreLookInput();ResetIgnoreMoveInput();
     if(Open)
     {
         if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->Combat->bCharging=false;D->Combat->bBracing=false;D->Combat->BufferedQuick=0;D->SprintOff();D->Food->StopEating();D->GetCharacterMovement()->StopMovementImmediately();}
-        FlushPressedKeys();SetPause(true);SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock).SetHideCursorDuringCapture(false));bShowMouseCursor=true;
+        FlushPressedKeys();if(GetNetMode()==NM_Standalone)SetPause(true);SetInputMode(FInputModeGameAndUI().SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock).SetHideCursorDuringCapture(false));bShowMouseCursor=true;
     }
-    else{SetPause(false);SetInputMode(FInputModeGameOnly());bShowMouseCursor=false;FlushPressedKeys();}
+    else{if(GetNetMode()==NM_Standalone)SetPause(false);SetInputMode(FInputModeGameOnly());bShowMouseCursor=false;FlushPressedKeys();}
 }
 void ADinoPlayerController::ToggleMenu(){if(bSettingsOpen){bSettingsOpen=false;return;}if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bRoundOver){ResumeGame();return;}SetMenuOpen(!bSelectionOpen);}
 void ADinoPlayerController::ToggleMatchMode(){if(bSelectionOpen&&!bSettingsOpen)if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->SetTeamMode(!GM->bTeamMatch);}
@@ -121,9 +125,9 @@ void ADinoPlayerController::PlaceMapPin()
     MapPins.Add(P);
 }
 void ADinoPlayerController::ToggleHelp(){bShowHelp=!bShowHelp;}
-void ADinoPlayerController::SelectRex(){DinoSpecies(0);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);}
-void ADinoPlayerController::SelectRaptor(){DinoSpecies(1);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);}
-void ADinoPlayerController::SelectTrike(){DinoSpecies(2);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);}
+void ADinoPlayerController::SelectRex(){DinoSpecies(0);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GetNetMode()==NM_Standalone)GM->StartRound();SetMenuOpen(false);}
+void ADinoPlayerController::SelectRaptor(){DinoSpecies(1);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GetNetMode()==NM_Standalone)GM->StartRound();SetMenuOpen(false);}
+void ADinoPlayerController::SelectTrike(){DinoSpecies(2);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GetNetMode()==NM_Standalone)GM->StartRound();SetMenuOpen(false);}
 void ADinoPlayerController::ResumeGame(){if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bRoundOver)GM->StartRound();if(bSelectionOpen)SetMenuOpen(false);}
 void ADinoPlayerController::QuitGame(){if(bSelectionOpen)ConsoleCommand(TEXT("quit"));}
 void ADinoPlayerController::SensitivityUp(){if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->MouseSensitivity=FMath::Clamp(D->MouseSensitivity+.1f,.2f,3.f);GConfig->SetFloat(TEXT("Dino.Session"),TEXT("MouseSensitivity"),D->MouseSensitivity,GGameIni);GConfig->Flush(false,GGameIni);}}
@@ -136,10 +140,10 @@ void ADinoPlayerController::MenuClick()
     if(bSettingsOpen){if(Y>H*.33f&&Y<H*.45f)ToggleBlood();else if(Y>H*.50f&&Y<H*.59f){if(X>W*.6f)SensitivityUp();else SensitivityDown();}return;}
     float S=FMath::Clamp(H/900.f,.45f,1.5f),Top=H*.28f,CardW=W*.25f,CardH=400*S,Gap=W*.035f,Left=(W-3*CardW-2*Gap)*.5f;
     if(Y>H*.215f&&Y<H*.285f){ToggleMatchMode();return;}
-    if(Y>=Top&&Y<=Top+CardH)for(int32 I=0;I<3;++I)if(X>=Left+I*(CardW+Gap)&&X<=Left+I*(CardW+Gap)+CardW){DinoSpecies(I);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);return;}
+    if(Y>=Top&&Y<=Top+CardH)for(int32 I=0;I<3;++I)if(X>=Left+I*(CardW+Gap)&&X<=Left+I*(CardW+Gap)+CardW){DinoSpecies(I);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GetNetMode()==NM_Standalone)GM->StartRound();SetMenuOpen(false);return;}
     if(Y>H*.83f&&Y<H*.91f){if(X>W*.62f)QuitGame();else if(X>W*.18f)ResumeGame();}
 }
-void ADinoPlayerController::DinoSpecies(int32 I){if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->ApplySpecies(I);D->ResetLife();}}
+void ADinoPlayerController::DinoSpecies(int32 I){if(GetNetMode()!=NM_Standalone)return;if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->ApplySpecies(I);D->ResetLife();}}
 void ADinoPlayerController::DinoDamage(float A){if(auto* D=Cast<ADinosaurCharacter>(GetPawn()))D->ReceiveHit(A,nullptr);}
 void ADinoPlayerController::DinoHeal(){if(auto* D=Cast<ADinosaurCharacter>(GetPawn()))D->Health->Heal(D->Health->Maximum);}
 void ADinoPlayerController::DinoTeleport(float X,float Y)
@@ -366,6 +370,16 @@ void ADinoPlayerController::WriteTelemetry()
 {
     auto* D=Cast<ADinosaurCharacter>(GetPawn());if(!D)return;
     auto O=MakeShared<FJsonObject>();O->SetNumberField(TEXT("seq"),LastSequence);O->SetNumberField(TEXT("time"),GetWorld()->GetTimeSeconds());
+    O->SetNumberField(TEXT("netMode"),GetNetMode());O->SetNumberField(TEXT("combatantID"),D->CombatantID);
+    TArray<TSharedPtr<FJsonValue>> NetworkActors;
+    for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
+    {
+        auto A=MakeShared<FJsonObject>();A->SetNumberField(TEXT("id"),It->CombatantID);A->SetNumberField(TEXT("species"),It->Species);
+        A->SetNumberField(TEXT("health"),It->Health->Current);A->SetNumberField(TEXT("stamina"),It->Stamina->Current);A->SetBoolField(TEXT("dead"),It->bDead);
+        A->SetNumberField(TEXT("x"),It->GetActorLocation().X);A->SetNumberField(TEXT("y"),It->GetActorLocation().Y);A->SetNumberField(TEXT("z"),It->GetActorLocation().Z);
+        A->SetNumberField(TEXT("attackSerial"),It->Combat->AttackSerial);A->SetBoolField(TEXT("player"),It->IsPlayerControlled());NetworkActors.Add(MakeShared<FJsonValueObject>(A));
+    }
+    O->SetArrayField(TEXT("networkActors"),NetworkActors);
     O->SetNumberField(TEXT("frameMs"),GetWorld()->GetDeltaSeconds()*1000.0);
     TArray<TSharedPtr<FJsonValue>> Pins;for(const FVector& P:MapPins){auto Pin=MakeShared<FJsonObject>();Pin->SetNumberField(TEXT("x"),P.X);Pin->SetNumberField(TEXT("y"),P.Y);Pins.Add(MakeShared<FJsonValueObject>(Pin));}O->SetArrayField(TEXT("mapPins"),Pins);
     O->SetNumberField(TEXT("audioSteps"),D->Audio->Steps);O->SetNumberField(TEXT("audioQuick"),D->Audio->QuickSounds);O->SetNumberField(TEXT("audioHeavy"),D->Audio->HeavySounds);O->SetNumberField(TEXT("audioImpacts"),D->Audio->Impacts);O->SetNumberField(TEXT("audioDeaths"),D->Audio->Deaths);O->SetNumberField(TEXT("audioVoices"),D->Audio->ActiveVoices());

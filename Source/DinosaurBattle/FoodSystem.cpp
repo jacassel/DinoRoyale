@@ -1,3 +1,4 @@
+#include "Net/UnrealNetwork.h"
 #include "FoodSystem.h"
 #include "DinosaurCharacter.h"
 #include "HealthComponent.h"
@@ -18,6 +19,7 @@
 #include "GameFramework/PlayerController.h"
 AFoodPlant::AFoodPlant()
 {
+    bReplicates=true;bAlwaysRelevant=true;SetReplicateMovement(true);
     PrimaryActorTick.bCanEverTick=true;PrimaryActorTick.TickInterval=.25f;
     Visual=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("EdibleCycad"));SetRootComponent(Visual);
     Visual->SetCollisionEnabled(ECollisionEnabled::NoCollision);Visual->SetCanEverAffectNavigation(false);
@@ -29,22 +31,24 @@ AFoodPlant::AFoodPlant()
 void AFoodPlant::BeginPlay()
 {
     Super::BeginPlay();GConfig->GetFloat(TEXT("Dino.Food"),TEXT("PlantFoodUnits"),MaximumNutrition,GGameIni);
-    GConfig->GetFloat(TEXT("Dino.Food"),TEXT("PlantRegrowSeconds"),RegrowSeconds,GGameIni);Nutrition=MaximumNutrition;
+    GConfig->GetFloat(TEXT("Dino.Food"),TEXT("PlantRegrowSeconds"),RegrowSeconds,GGameIni);if(HasAuthority())Nutrition=MaximumNutrition;
 }
 float AFoodPlant::Consume(float Amount)
 {
+    if(!HasAuthority())return 0;
     float Taken=FMath::Clamp(Amount,0.f,Nutrition);Nutrition-=Taken;
     if(Nutrition<=0){RegrowTimer=RegrowSeconds;Visual->SetRenderCustomDepth(false);SetActorHiddenInGame(true);}return Taken;
 }
 void AFoodPlant::Tick(float Dt)
 {
-    Super::Tick(Dt);if(Nutrition<=0&&RegrowSeconds>0){RegrowTimer-=Dt;if(RegrowTimer<=0){Nutrition=MaximumNutrition;SetActorHiddenInGame(false);}}
+    Super::Tick(Dt);if(HasAuthority()&&Nutrition<=0&&RegrowSeconds>0){RegrowTimer-=Dt;if(RegrowTimer<=0){Nutrition=MaximumNutrition;SetActorHiddenInGame(false);}}
     const auto* PC=GetWorld()->GetFirstPlayerController();
     const auto* Player=PC?Cast<ADinosaurCharacter>(PC->GetPawn()):nullptr;
     Visual->SetRenderCustomDepth(IsAvailable()&&Player&&Player->Species==2&&!Player->bDead);
 }
 ADinosaurCarcass::ADinosaurCarcass()
 {
+    bReplicates=true;bAlwaysRelevant=true;SetReplicateMovement(true);
     PrimaryActorTick.bCanEverTick=false;
     auto* Root=CreateDefaultSubobject<USceneComponent>(TEXT("CarcassRoot"));SetRootComponent(Root);
     Body=CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CarcassBody"));Body->SetupAttachment(Root);
@@ -52,9 +56,10 @@ ADinosaurCarcass::ADinosaurCarcass()
 }
 void ADinosaurCarcass::Initialize(ADinosaurCharacter* Source)
 {
+    if(!HasAuthority())return;
     if(!Source){Destroy();return;}
     Species=Source->Species;SourceID=Source->CombatantID;Nutrition=MaximumNutrition=Source->Stats().FoodUnits;
-    SetActorTransform(Source->GetActorTransform());FVector P=GetActorLocation();P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+Source->Stats().HalfHeight;SetActorLocation(P);Body->SetCullDistance(14000);Body->SetForcedLOD(3);Body->SetRelativeTransform(Source->GetMesh()->GetRelativeTransform());
+    SetActorTransform(Source->GetActorTransform());FVector P=GetActorLocation();P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+Source->Stats().HalfHeight;SetActorLocation(P);Body->SetCullDistance(14000);Body->SetForcedLOD(3);BodyTransform=Source->GetMesh()->GetRelativeTransform();Body->SetRelativeTransform(BodyTransform);
     Body->SetSkeletalMesh(Cast<USkeletalMesh>(Source->GetMesh()->GetSkinnedAsset()));
     for(int32 I=0;I<Source->GetMesh()->GetNumMaterials();++I)Body->SetMaterial(I,Source->GetMesh()->GetMaterial(I));
     const FString Name=Source->Stats().AssetName,A=Name+TEXT("_Death");
@@ -66,9 +71,10 @@ void ADinosaurCarcass::Initialize(ADinosaurCharacter* Source)
 }
 float ADinosaurCarcass::Consume(float Amount)
 {
+    if(!HasAuthority())return 0;
     float Taken=FMath::Clamp(Amount,0.f,Nutrition);Nutrition-=Taken;if(Nutrition<=0)Destroy();return Taken;
 }
-UFoodInteractionComponent::UFoodInteractionComponent(){PrimaryComponentTick.bCanEverTick=true;}
+UFoodInteractionComponent::UFoodInteractionComponent(){PrimaryComponentTick.bCanEverTick=true;SetIsReplicatedByDefault(true);}
 AActor* UFoodInteractionComponent::FindFood(float Range) const
 {
     auto* D=Cast<ADinosaurCharacter>(GetOwner());if(!D||D->bDead)return nullptr;
@@ -93,14 +99,15 @@ AActor* UFoodInteractionComponent::FindFood(float Range) const
 }
 bool UFoodInteractionComponent::StartEating()
 {
+    if(!GetOwner()->HasAuthority())return false;
     auto* D=Cast<ADinosaurCharacter>(GetOwner());if(!D||D->bDead||D->Combat->bBracing||D->Combat->IsBusy()||D->Combat->bCharging||D->GetCharacterMovement()->IsFalling())return false;
     if(GetWorld()->GetTimeSeconds()-D->Health->LastDamageTime<D->Stats().EatSafeDelay)return false;
     Source=FindFood(D->Stats().AttackRange+260);bEating=Source.IsValid();return bEating;
 }
-void UFoodInteractionComponent::StopEating(){bEating=false;Source=nullptr;}
+void UFoodInteractionComponent::StopEating(){if(!GetOwner()->HasAuthority())return;bEating=false;Source=nullptr;}
 void UFoodInteractionComponent::TickComponent(float Dt,ELevelTick Type,FActorComponentTickFunction* Tick)
 {
-    Super::TickComponent(Dt,Type,Tick);if(!bEating)return;
+    Super::TickComponent(Dt,Type,Tick);if(!GetOwner()->HasAuthority()||!bEating)return;
     auto* D=Cast<ADinosaurCharacter>(GetOwner());AActor* A=Source.Get();
     if(!D||D->bDead||!A||D->Combat->bBracing||D->Combat->IsBusy()||FVector::Dist2D(D->GetActorLocation(),A->GetActorLocation())>D->Stats().AttackRange+300){StopEating();return;}
     const float Requested=Dt*D->Stats().EatUnitsPerSecond;float Consumed=0;
@@ -114,3 +121,20 @@ void UFoodInteractionComponent::TickComponent(float Dt,ELevelTick Type,FActorCom
     D->Hunger->Restore(D->Stats().EatHungerRate*FeedingTime);FoodConsumed+=Consumed;
     if(D->Health->Fraction()>=1&&D->Stamina->Fraction()>=1&&D->Hunger->Fraction()>=1)StopEating();
 }
+
+void AFoodPlant::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{Super::GetLifetimeReplicatedProps(OutLifetimeProps);DOREPLIFETIME(AFoodPlant,Nutrition);DOREPLIFETIME(AFoodPlant,MaximumNutrition);}
+void AFoodPlant::OnRep_Nutrition(){SetActorHiddenInGame(Nutrition<=0);if(Nutrition<=0)Visual->SetRenderCustomDepth(false);}
+void ADinosaurCarcass::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{Super::GetLifetimeReplicatedProps(OutLifetimeProps);DOREPLIFETIME(ADinosaurCarcass,Nutrition);DOREPLIFETIME(ADinosaurCarcass,MaximumNutrition);DOREPLIFETIME(ADinosaurCarcass,Species);DOREPLIFETIME(ADinosaurCarcass,SourceID);DOREPLIFETIME(ADinosaurCarcass,BodyTransform);}
+void ADinosaurCarcass::OnRep_Carcass()
+{
+    const FString Name=FSpeciesData::Get(Species).AssetName,A=Name+TEXT("_Death");
+    Body->SetRelativeTransform(BodyTransform);Body->SetCullDistance(14000);Body->SetForcedLOD(3);
+    Body->SetSkeletalMesh(LoadObject<USkeletalMesh>(nullptr,*(TEXT("/Game/Dinosaurs/")+Name+TEXT("/")+Name+TEXT(".")+Name)));
+    auto* Clip=LoadObject<UAnimSequence>(nullptr,*(TEXT("/Game/Dinosaurs/")+Name+TEXT("/")+A+TEXT(".")+A));
+    Body->SetAnimationMode(EAnimationMode::AnimationSingleNode);if(Clip){Body->PlayAnimation(Clip,false);Body->SetPosition(Clip->GetPlayLength(),false);}
+    Body->SetComponentTickEnabled(false);
+}
+void UFoodInteractionComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{Super::GetLifetimeReplicatedProps(OutLifetimeProps);DOREPLIFETIME(UFoodInteractionComponent,bEating);}

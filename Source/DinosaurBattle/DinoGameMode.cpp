@@ -1,3 +1,5 @@
+#include "DinoGameState.h"
+#include "DinoPlayerState.h"
 #include "DinoGameMode.h"
 #include "DinosaurCharacter.h"
 #include "DinosaurAIController.h"
@@ -24,7 +26,7 @@
 #include "CombatComponent.h"
 #include "Misc/ConfigCacheIni.h"
 #include "GameFramework/CharacterMovementComponent.h"
-ADinoGameMode::ADinoGameMode(){DefaultPawnClass=ADinosaurCharacter::StaticClass();HUDClass=ADinoHUD::StaticClass();PlayerControllerClass=ADinoPlayerController::StaticClass();}
+ADinoGameMode::ADinoGameMode(){GameStateClass=ADinoGameState::StaticClass();PlayerStateClass=ADinoPlayerState::StaticClass();DefaultPawnClass=ADinosaurCharacter::StaticClass();HUDClass=ADinoHUD::StaticClass();PlayerControllerClass=ADinoPlayerController::StaticClass();}
 void ADinoGameMode::BeginPlay()
 {
     Super::BeginPlay();
@@ -33,30 +35,8 @@ void ADinoGameMode::BeginPlay()
     GConfig->GetInt(TEXT("Dino.Match"),TEXT("TeamKillGoal"),TeamKillGoal,GGameIni);
     GConfig->GetFloat(TEXT("Dino.Match"),TEXT("AssistWindow"),AssistWindow,GGameIni);
     GConfig->GetBool(TEXT("Dino.Match"),TEXT("SharePackKills"),bSharePackKills,GGameIni);
-    ALostValleyWorld* Valley=nullptr;
-    for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
-    if(!Valley)Valley=GetWorld()->SpawnActor<ALostValleyWorld>();
-    GetWorld()->SpawnActor<ADinoEffects>();
-    auto* Sun=GetWorld()->SpawnActor<ADirectionalLight>(FVector(0,0,8000),FRotator(-32,-38,0));
-    auto* Light=Cast<UDirectionalLightComponent>(Sun->GetLightComponent());
-    Light->SetMobility(EComponentMobility::Movable);Light->SetIntensity(3.6f);Light->SetLightColor(FLinearColor(1,.94f,.84f));
-    Light->SetAtmosphereSunLight(true);Light->DynamicShadowDistanceMovableLight=26000;Light->DynamicShadowCascades=4;
-    Light->SetLightSourceAngle(1.25f);Light->ContactShadowLength=.035f;Light->ShadowSharpen=0;
-    GetWorld()->SpawnActor<ASkyAtmosphere>();
-    auto* Sky=GetWorld()->SpawnActor<ASkyLight>();Sky->GetLightComponent()->SetMobility(EComponentMobility::Movable);
-    Sky->GetLightComponent()->SourceType=SLS_SpecifiedCubemap;Sky->GetLightComponent()->SetCubemap(LoadObject<UTextureCube>(nullptr,TEXT("/Engine/MapTemplates/Sky/DaylightAmbientCubemap.DaylightAmbientCubemap")));Sky->GetLightComponent()->SetIntensity(1.25f);Sky->GetLightComponent()->SetRealTimeCaptureEnabled(false);
-    auto* Fog=GetWorld()->SpawnActor<AExponentialHeightFog>();
-    Fog->GetComponent()->SetFogDensity(.012f);Fog->GetComponent()->SetFogHeightFalloff(.12f);
-    Fog->GetComponent()->SetFogInscatteringColor(FLinearColor(.43f,.53f,.59f));Fog->GetComponent()->SetStartDistance(8500);
-    // Restrained grading and local contact depth; keep exposure fixed for combat readability.
-    auto* Grade=GetWorld()->SpawnActor<APostProcessVolume>();Grade->bUnbound=true;
-    auto& GradeSettings=Grade->Settings;
-    GradeSettings.bOverride_ColorSaturation=true;GradeSettings.ColorSaturation=FVector4(.94f,.94f,.94f,1);
-    GradeSettings.bOverride_BloomIntensity=true;GradeSettings.BloomIntensity=.12f;
-    GradeSettings.bOverride_AmbientOcclusionIntensity=true;GradeSettings.AmbientOcclusionIntensity=.75f;
-    GradeSettings.bOverride_AmbientOcclusionRadius=true;GradeSettings.AmbientOcclusionRadius=110.f;
-    GradeSettings.bOverride_ScreenSpaceReflectionIntensity=true;GradeSettings.ScreenSpaceReflectionIntensity=85.f;
-    GradeSettings.bOverride_ScreenSpaceReflectionQuality=true;GradeSettings.ScreenSpaceReflectionQuality=60.f;
+    ALostValleyWorld::EnsureLocalScene(GetWorld());
+    ALostValleyWorld* Valley=nullptr;for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
     auto SpawnDino=[&](int32 Species,FVector P,int32 ID,bool Major)
     {
         P=Valley->NearestWalkable(P);P.Z+=FSpeciesData::Get(Species).HalfHeight+20;
@@ -70,7 +50,7 @@ void ADinoGameMode::BeginPlay()
     const FVector Spawns[]={FVector(12500,3000,0),FVector(28500,-6000,0),FVector(-23500,13500,0),
         FVector(4500,4000,0),FVector(5000,4400,0),FVector(4400,4800,0),
         FVector(-14000,-22000,0),FVector(8500,-6500,0),FVector(22000,18000,0)};
-    for(int32 I=0;I<9;++I)SpawnDino(I/3,Spawns[I]*.5f,I+1,true);
+    if(GetNetMode()==NM_Standalone)for(int32 I=0;I<9;++I)SpawnDino(I/3,Spawns[I]*.5f,I+1,true);
     FRandomStream Random(7512);
     for(int32 I=0;I<18;++I)
     {
@@ -101,11 +81,13 @@ bool ADinoGameMode::AreEnemies(const ADinosaurCharacter* A,const ADinosaurCharac
 {
     if(!A||!B||A==B)return false;
     if(A->Species==3||B->Species==3)return A->Species!=B->Species;
+    if(GetNetMode()!=NM_Standalone)return bTeamMatch&&A->TeamID>=0&&B->TeamID>=0?A->TeamID!=B->TeamID:true;
     if(bTeamMatch&&A->TeamID>=0&&B->TeamID>=0)return A->TeamID!=B->TeamID;
     return !(A->Species==1&&B->Species==1);
 }
 ADinosaurCharacter* ADinoGameMode::GetPackLeader(const ADinosaurCharacter* Member) const
 {
+    if(GetNetMode()!=NM_Standalone)return const_cast<ADinosaurCharacter*>(Member);
     if(!Member||Member->Species!=1)return nullptr;ADinosaurCharacter* Leader=nullptr;
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
     {
@@ -120,6 +102,7 @@ ADinosaurCharacter* ADinoGameMode::ScoringOwner(ADinosaurCharacter* D) const{ret
 bool ADinoGameMode::IsScoringTarget(const ADinosaurCharacter* D) const{return D&&D->bMajor&&(D->Species!=1||GetPackLeader(D)==D);}
 void ADinoGameMode::SetTeamMode(bool Enabled)
 {
+    if(GetNetMode()!=NM_Standalone)return;
     bTeamMatch=Enabled;GConfig->SetBool(TEXT("Dino.UserSettings"),TEXT("TeamMode"),bTeamMatch,GGameIni);GConfig->Flush(false,GGameIni);StartRound();
 }
 void ADinoGameMode::StartRound()
@@ -128,7 +111,8 @@ void ADinoGameMode::StartRound()
     bRoundOver=false;WinnerID=WinnerTeam=-1;TeamKills[0]=TeamKills[1]=0;Scores.Empty();++RoundNumber;RoundStartTime=GetWorld()->GetTimeSeconds();
     const FVector SoloHomes[]={FVector(0,0,0),FVector(12500,3000,0),FVector(28500,-6000,0),FVector(-23500,13500,0),FVector(4500,4000,0),FVector(5000,4400,0),FVector(4400,4800,0),FVector(-14000,-22000,0),FVector(8500,-6500,0),FVector(22000,18000,0)};
     const int32 TeamSpecies[]={0,1,1,1,2,0,1,1,1,2};
-    const auto* Player=Cast<ADinosaurCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+    const auto* FirstPC=GetWorld()->GetFirstPlayerController();
+    const auto* Player=FirstPC?Cast<ADinosaurCharacter>(FirstPC->GetPawn()):nullptr;
     const bool PlayerRaptor=Player&&Player->Species==1;
     ALostValleyWorld* Valley=nullptr;for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
@@ -143,6 +127,8 @@ void ADinoGameMode::StartRound()
         D->SetActorRotation(FRotator(0,bTeamMatch&&D->TeamID==1?180:0,0));Scores.Add(ID,FDinoScore());
         if(auto* AI=Cast<ADinosaurAIController>(D->GetController())){AI->ResetTactics();AI->ClearTravelGoal();AI->State=TEXT("Roaming");}
     }
+    for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)It->bScoringParticipant=IsScoringTarget(*It);
+    if(auto* GS=GetGameState<ADinoGameState>())GS->SynchronizeRules();
 }
 void ADinoGameMode::RegisterDamage(ADinosaurCharacter* Victim,ADinosaurCharacter* Attacker,float Amount)
 {
@@ -151,7 +137,7 @@ void ADinoGameMode::RegisterDamage(ADinosaurCharacter* Victim,ADinosaurCharacter
 }
 void ADinoGameMode::RegisterDeath(ADinosaurCharacter* Victim)
 {
-    if(!Victim||!Victim->bMajor||bRoundOver)return;Scores.FindOrAdd(Victim->CombatantID).Deaths++;
+    if(!HasAuthority()||!Victim||!Victim->bMajor||bRoundOver)return;Scores.FindOrAdd(Victim->CombatantID).Deaths++;
     if(!IsScoringTarget(Victim))return;
     auto* ActualKiller=Victim->LastAttacker.Get();auto* Killer=ScoringOwner(ActualKiller);
     const float* LastHit=ActualKiller?Victim->DamageContributors.Find(ActualKiller->CombatantID):nullptr;
@@ -169,6 +155,7 @@ void ADinoGameMode::RegisterDeath(ADinosaurCharacter* Victim)
     if(Won&&!bIgnoreWinCondition)
     {
         bRoundOver=true;WinnerID=Killer->CombatantID;WinnerTeam=Killer->TeamID;
+        if(auto* GS=GetGameState<ADinoGameState>())GS->SynchronizeRules();
         if(auto* PC=Cast<ADinoPlayerController>(GetWorld()->GetFirstPlayerController()))PC->SetMenuOpen(true);
     }
 }
@@ -177,4 +164,38 @@ FString ADinoGameMode::WinnerName() const
     if(bTeamMatch)return WinnerTeam==0?TEXT("YOUR TEAM WINS"):TEXT("RIVAL TEAM WINS");
     if(WinnerID==0)return TEXT("YOU WIN");
     auto* D=FindCombatant(WinnerID);return D?D->Stats().Name+TEXT(" WINS"):TEXT("ROUND COMPLETE");
+}
+
+void ADinoGameMode::PostLogin(APlayerController* PC)
+{
+    Super::PostLogin(PC);
+    if(auto* PS=PC->GetPlayerState<ADinoPlayerState>())
+    {
+        TSet<int32> Used;
+        for(auto It=GetWorld()->GetPlayerControllerIterator();It;++It)
+            if(It->Get()!=PC)if(auto* Other=It->Get()->GetPlayerState<ADinoPlayerState>())Used.Add(Other->CombatantID);
+        PS->CombatantID=0;while(Used.Contains(PS->CombatantID))++PS->CombatantID;
+    }
+}
+void ADinoGameMode::RestartPlayer(AController* C)
+{
+    Super::RestartPlayer(C);
+    if(auto* D=Cast<ADinosaurCharacter>(C->GetPawn()))if(auto* PS=C->GetPlayerState<ADinoPlayerState>())
+    {
+        D->CombatantID=FMath::Max(0,PS->CombatantID);D->ApplySpecies(PS->SelectedSpecies);
+        D->HomePosition=FVector(D->CombatantID*2400.f,0,0);D->bDead=true;D->ResetLife();
+        Scores.FindOrAdd(D->CombatantID);
+    }
+}
+void ADinoGameMode::Logout(AController* C)
+{
+    if(auto* D=Cast<ADinosaurCharacter>(C->GetPawn())){Scores.Remove(D->CombatantID);D->Destroy();}
+    Super::Logout(C);
+}
+void ADinoGameMode::PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& ID,FString& Error)
+{
+    Super::PreLogin(Options,Address,ID,Error);
+    // Stage B is intentionally limited to two humans until the fundamentals pass.
+    if(Error.IsEmpty()&&GetNumPlayers()>=2)Error=TEXT("This two-player development match is full.");
+    if(bRoundOver)Error=TEXT("Match is ending.");
 }

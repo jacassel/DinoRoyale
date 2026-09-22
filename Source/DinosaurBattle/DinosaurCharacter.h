@@ -21,18 +21,28 @@ class DINOSAURBATTLE_API ADinosaurCharacter : public ACharacter
 public:
     ADinosaurCharacter(const FObjectInitializer& ObjectInitializer=FObjectInitializer::Get());
     virtual void BeginPlay() override;
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    UFUNCTION() void OnRep_Species();
+    UFUNCTION() void OnRep_Life();
+    UFUNCTION(Server,Reliable) void ServerAction(uint8 Action);
+    UFUNCTION(NetMulticast,Unreliable) void MulticastSound(int32 Kind);
+    UFUNCTION(NetMulticast,Unreliable) void MulticastBlood(FVector Position,FVector Direction,float Damage);
+    void PlayCombatSound(int32 Kind);
+    bool AcceptsGameplayInput() const;
+    UPROPERTY(Replicated) bool bScoringParticipant=true;
     virtual void Tick(float Dt) override;
     virtual void SetupPlayerInputComponent(UInputComponent* Input) override;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UHealthComponent* Health;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UCombatComponent* Combat;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UStaminaComponent* Stamina;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UHungerComponent* Hunger;
-    float RevealUntil=-100;
-    FVector LastRevealedPosition=FVector::ZeroVector;
+    UPROPERTY(Replicated) float RevealUntil=-100;
+    UPROPERTY(Replicated) FVector LastRevealedPosition=FVector::ZeroVector;
     void RevealNoise();
     bool CanSeeDinosaur(const ADinosaurCharacter* Other) const;
     bool MapPositionFor(const ADinosaurCharacter* Other,FVector& Position) const;
-    bool bSprintRequested=false,bSprinting=false;
+    bool bSprintRequested=false;
+    UPROPERTY(Replicated) bool bSprinting=false;
     void SprintOn(){bSprintRequested=true;}
     void SprintOff(){bSprintRequested=false;bSprinting=false;}
     float TurnFactor() const;
@@ -42,12 +52,17 @@ public:
     UPROPERTY(VisibleAnywhere) USpringArmComponent* CameraBoom;
     UPROPERTY(VisibleAnywhere) UCameraComponent* Camera;
     UPROPERTY(VisibleAnywhere) UStaticMeshComponent* Placeholder;
-    UPROPERTY(EditAnywhere,BlueprintReadWrite) int32 Species=0;
-    bool bDead=false,bMajor=true,bInWater=false,bSwimming=false;
+    UPROPERTY(EditAnywhere,BlueprintReadWrite,ReplicatedUsing=OnRep_Species) int32 Species=0;
+    UPROPERTY(ReplicatedUsing=OnRep_Life) bool bDead=false;
+    UPROPERTY(Replicated) bool bMajor=true;
+    UPROPERTY(Replicated) bool bInWater=false;
+    UPROPERTY(Replicated) bool bSwimming=false;
     float WaterSurface=0,SwimSpeedMultiplier=.50f;
     float WaterSpeedMultiplier=.65f;
-    float DeathTime=0,MouseSensitivity=1.f;
-    int32 CombatantID=0,TeamID=-1;
+    UPROPERTY(Replicated) float DeathTime=0;
+    float MouseSensitivity=1.f;
+    UPROPERTY(Replicated) int32 CombatantID=0;
+    UPROPERTY(Replicated) int32 TeamID=-1;
     TMap<int32,float> DamageContributors;
     float RespawnDelay=10;
     FVector HomePosition=FVector::ZeroVector;

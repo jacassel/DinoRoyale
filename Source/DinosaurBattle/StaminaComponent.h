@@ -9,10 +9,14 @@ class DINOSAURBATTLE_API UStaminaComponent : public UActorComponent
 {
     GENERATED_BODY()
 public:
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
     UStaminaComponent();
     virtual void TickComponent(float Dt,ELevelTick Type,FActorComponentTickFunction* Tick) override;
-    float Current=100,Maximum=100,ExhaustionLeft=0,RegenDelayLeft=0;
-    bool bExhausted=false;
+    UPROPERTY(Replicated) float Current=100;
+    UPROPERTY(Replicated) float Maximum=100;
+    UPROPERTY(Replicated) float ExhaustionLeft=0;
+    UPROPERTY(Replicated) float RegenDelayLeft=0;
+    UPROPERTY(Replicated) bool bExhausted=false;
     float Fraction() const {return Current/FMath::Max(1.f,Maximum);}
     bool CanSpend(float Amount) const {return !bExhausted&&Current>=Amount;}
     bool Spend(float Amount);

@@ -1,3 +1,7 @@
+#include "Net/UnrealNetwork.h"
+#include "DinoGameState.h"
+#include "DinoPlayerController.h"
+#include "DinoEffects.h"
 #include "DinosaurCharacter.h"
 #include "DinoMovementComponent.h"
 #include "DinoAudioComponent.h"
@@ -27,6 +31,7 @@ ADinosaurCharacter::ADinosaurCharacter(const FObjectInitializer& ObjectInitializ
     :Super(ObjectInitializer.SetDefaultSubobjectClass<UDinoMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
     PrimaryActorTick.bCanEverTick=true;
+    bReplicates=true;SetReplicateMovement(true);SetNetUpdateFrequency(30);SetMinNetUpdateFrequency(10);bAlwaysRelevant=true;
     Health=CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
     Hunger=CreateDefaultSubobject<UHungerComponent>(TEXT("Hunger"));
     Stamina=CreateDefaultSubobject<UStaminaComponent>(TEXT("Stamina"));
@@ -64,20 +69,25 @@ void ADinosaurCharacter::ApplySpecies(int32 ID)
     const float OldHalf=GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
     Species=FMath::Clamp(ID,0,3); const auto& D=Stats();
     GetCapsuleComponent()->SetCapsuleSize(D.Radius,D.HalfHeight);
-    if(HasActorBegunPlay()) AddActorWorldOffset(FVector(0,0,D.HalfHeight-OldHalf+3),false);
+    if(HasAuthority()&&HasActorBegunPlay()) AddActorWorldOffset(FVector(0,0,D.HalfHeight-OldHalf+3),false);
     GetCharacterMovement()->MaxWalkSpeed=D.Speed; GetCharacterMovement()->MaxAcceleration=D.Acceleration;
     GetCharacterMovement()->RotationRate=FRotator(0,D.TurnRate,0); GetCharacterMovement()->JumpZVelocity=D.JumpVelocity;
     CameraBoom->TargetArmLength=D.CameraDistance; CameraBoom->SocketOffset=FVector(0,0,D.CameraHeight);
     Placeholder->SetRelativeScale3D(FVector(D.AttackRange/140.f,D.Radius/55.f,D.HalfHeight/80.f));
+    if(HasAuthority())
+    {
     Health->Reset(D.MaxHealth,D.RegenDelay,D.RegenRate);Stamina->Reset();Hunger->Reset();RevealUntil=-100;SprintOff();GetMesh()->SetHiddenInGame(false); Combat->Cancel();Food->StopEating();bDead=false;
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    }
     Animation->LoadSpecies();
 }
 void ADinosaurCharacter::Tick(float Dt)
 {
     Super::Tick(Dt);
-    if(Health->IsDead()&&!bDead) Die();
-    if(bDead){DeathTime+=Dt;if(RespawnDelay>0&&DeathTime>(bMajor?RespawnDelay:45))ResetLife();return;}
+    if(HasAuthority()&&Health->IsDead()&&!bDead) Die();
+    if(HasAuthority())if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())bScoringParticipant=GM->IsScoringTarget(this);
+    if(bDead){DeathTime+=Dt;if(HasAuthority()&&RespawnDelay>0&&DeathTime>(bMajor?RespawnDelay:45))ResetLife();return;}
+    if(GetLocalRole()==ROLE_SimulatedProxy)return;
     auto* M=GetCharacterMovement();
     FVector Feet=GetActorLocation()-FVector(0,0,Stats().HalfHeight);
     const bool OverWater=ALostValleyWorld::WaterAt(Feet.X,Feet.Y,WaterSurface);
@@ -91,7 +101,7 @@ void ADinosaurCharacter::Tick(float Dt)
     else if(bSwimming&&(!OverWater||Depth<ShoreDepth)){bSwimming=false;M->SetMovementMode(MOVE_Falling);}
     M->MaxSwimSpeed=Stats().Speed*SwimSpeedMultiplier*Health->MovementFactor()*(Combat->bCharging?.7f:1.f);
     bSprinting=bSprintRequested&&!Stamina->bExhausted&&Stamina->Current>0&&!bInWater&&!Combat->bBracing&&!Combat->bCharging&&!Combat->IsBusy()&&!Food->bEating&&!M->IsFalling()&&GetVelocity().Size2D()>50;
-    if(bSprinting)RevealNoise();
+    if(HasAuthority()&&bSprinting)RevealNoise();
     const float Commit=Combat->IsBusy()&&Combat->bChargedAttack?Stats().HeavyMoveFactor:1.f;
     M->MaxWalkSpeed=Stats().Speed*Health->MovementFactor()*(Combat->bCharging?.55f:Commit)*(bSprinting?Stats().SprintMultiplier:1.f)*(bInWater?WaterSpeedMultiplier:1.f);
     M->MaxAcceleration=Stats().Acceleration*(bSprinting?Stats().SprintAcceleration:1.f)*Commit;
@@ -113,27 +123,29 @@ void ADinosaurCharacter::SetupPlayerInputComponent(UInputComponent* I)
     I->BindAction("Eat",IE_Released,this,&ADinosaurCharacter::StopEating);
 
 }
-void ADinosaurCharacter::MoveForward(float V){if(!FMath::IsNearlyZero(V))Food->StopEating();if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::X),V);}
-void ADinosaurCharacter::MoveRight(float V){if(!FMath::IsNearlyZero(V))Food->StopEating();if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::Y),V);}
+void ADinosaurCharacter::MoveForward(float V){if(!AcceptsGameplayInput())return;if(!FMath::IsNearlyZero(V))Food->StopEating();if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::X),V);}
+void ADinosaurCharacter::MoveRight(float V){if(!AcceptsGameplayInput())return;if(!FMath::IsNearlyZero(V))Food->StopEating();if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::Y),V);}
 void ADinosaurCharacter::Turn(float V){AddControllerYawInput(V*MouseSensitivity);}
 void ADinosaurCharacter::Look(float V){AddControllerPitchInput(V*MouseSensitivity);}
-void ADinosaurCharacter::BeginJump(){if(!bDead&&!Combat->bBracing&&!Combat->bCharging&&!Combat->IsBusy()&&(bSwimming||GetCharacterMovement()->IsMovingOnGround())&&Stamina->Spend(Stats().JumpCost)){Food->StopEating();if(bSwimming){bSwimming=false;GetCharacterMovement()->SetMovementMode(MOVE_Falling);LaunchCharacter(FVector(0,0,Stats().JumpVelocity*.8f),false,true);}else Jump();}}
-void ADinosaurCharacter::BraceOn(){Food->StopEating();Combat->SetBrace(true);}
-void ADinosaurCharacter::BraceOff(){Combat->SetBrace(false);}
-void ADinosaurCharacter::Quick(){Food->StopEating();Combat->QuickAttack();}
-void ADinosaurCharacter::ChargeOn(){Food->StopEating();Combat->StartCharge();}
-void ADinosaurCharacter::ChargeOff(){Combat->ReleaseCharge();}
-void ADinosaurCharacter::Eat(){Food->StartEating();}
-void ADinosaurCharacter::StopEating(){Food->StopEating();}
+void ADinosaurCharacter::BeginJump(){if(!AcceptsGameplayInput())return;if(!HasAuthority()){ServerAction(7);return;}if(!bDead&&!Combat->bBracing&&!Combat->bCharging&&!Combat->IsBusy()&&(bSwimming||GetCharacterMovement()->IsMovingOnGround())&&Stamina->Spend(Stats().JumpCost)){Food->StopEating();if(bSwimming){bSwimming=false;GetCharacterMovement()->SetMovementMode(MOVE_Falling);LaunchCharacter(FVector(0,0,Stats().JumpVelocity*.8f),false,true);}else if(GetNetMode()!=NM_Standalone)LaunchCharacter(FVector(0,0,Stats().JumpVelocity),false,true);else Jump();}}
+void ADinosaurCharacter::BraceOn(){if(!AcceptsGameplayInput())return;if(!HasAuthority()){ServerAction(3);return;}Food->StopEating();Combat->SetBrace(true);}
+void ADinosaurCharacter::BraceOff(){if(!HasAuthority()){ServerAction(4);return;}Combat->SetBrace(false);}
+void ADinosaurCharacter::Quick(){if(!AcceptsGameplayInput())return;if(!HasAuthority()){ServerAction(0);return;}Food->StopEating();Combat->QuickAttack();}
+void ADinosaurCharacter::ChargeOn(){if(!AcceptsGameplayInput())return;if(!HasAuthority()){ServerAction(1);return;}Food->StopEating();Combat->StartCharge();}
+void ADinosaurCharacter::ChargeOff(){if(!HasAuthority()){ServerAction(2);return;}Combat->ReleaseCharge();}
+void ADinosaurCharacter::Eat(){if(!AcceptsGameplayInput())return;if(!HasAuthority()){ServerAction(5);return;}Food->StartEating();}
+void ADinosaurCharacter::StopEating(){if(!HasAuthority()){ServerAction(6);return;}Food->StopEating();}
 bool ADinosaurCharacter::IsEnemy(const ADinosaurCharacter* O) const
 {
     if(!O||O==this||O->bDead) return false;
     if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())return GM->AreEnemies(this,O);
+    if(GetNetMode()!=NM_Standalone){auto* GS=GetWorld()->GetGameState<ADinoGameState>();return !(GS&&GS->bTeamMatch&&TeamID>=0&&TeamID==O->TeamID);}
     if(Species==1&&O->Species==1)return false;
     return true;
 }
 void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
 {
+    if(!HasAuthority())return;
     if(bDead) return;
     Food->StopEating();LastAttacker=Attacker;
     if(auto* AI=Cast<ADinosaurAIController>(GetController()))AI->Alert(Attacker);
@@ -143,11 +155,12 @@ void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
         if(FVector::DotProduct(GetActorForwardVector(),Dir)>.25f){Stamina->Drain(Damage*Stats().BraceHitCost);Damage*=Stats().BraceMultiplier;if(Stamina->bExhausted)Combat->SetBrace(false);}
     }
     float Applied=Health->Receive(Damage);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDamage(this,Attacker,Applied);
-    if(Health->IsDead())Die();else if(Applied>0)Audio->PlayEvent(6);
+    if(Health->IsDead())Die();else if(Applied>0)PlayCombatSound(6);
 }
-void ADinosaurCharacter::Die(){if(bDead)return;if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDeath(this);bDead=true;DeathTime=0;Audio->PlayEvent(4);if(auto* Corpse=GetWorld()->SpawnActor<ADinosaurCarcass>())Corpse->Initialize(this);GetMesh()->SetHiddenInGame(true);Placeholder->SetHiddenInGame(true);Combat->Cancel();Food->StopEating();GetCharacterMovement()->StopMovementImmediately();GetCharacterMovement()->DisableMovement();GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);Placeholder->SetRelativeRotation(FRotator(0,0,75));}
+void ADinosaurCharacter::Die(){if(!HasAuthority())return;if(bDead)return;if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDeath(this);bDead=true;DeathTime=0;PlayCombatSound(4);if(auto* Corpse=GetWorld()->SpawnActor<ADinosaurCarcass>())Corpse->Initialize(this);GetMesh()->SetHiddenInGame(true);Placeholder->SetHiddenInGame(true);Combat->Cancel();Food->StopEating();GetCharacterMovement()->StopMovementImmediately();GetCharacterMovement()->DisableMovement();GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);Placeholder->SetRelativeRotation(FRotator(0,0,75));}
 void ADinosaurCharacter::ResetLife()
 {
+    if(!HasAuthority())return;
     Audio->ResetAudio();
     bool WasDead=bDead;bDead=false;bSwimming=false;bInWater=false;DeathTime=0;LastAttacker=nullptr;DamageContributors.Empty();Food->StopEating();
     Health->Reset(Stats().MaxHealth,Stats().RegenDelay,Stats().RegenRate);Stamina->Reset();Hunger->Reset();RevealUntil=-100;SprintOff();GetMesh()->SetHiddenInGame(false);Combat->Cancel();
@@ -194,7 +207,7 @@ float ADinosaurCharacter::TurnFactor() const
     return bSprinting?Stats().SprintTurnFactor:1.f;
 }
 
-void ADinosaurCharacter::RevealNoise(){RevealUntil=GetWorld()->GetTimeSeconds()+Stats().NoiseRevealDuration;LastRevealedPosition=GetActorLocation();}
+void ADinosaurCharacter::RevealNoise(){if(!HasAuthority())return;RevealUntil=GetWorld()->GetTimeSeconds()+Stats().NoiseRevealDuration;LastRevealedPosition=GetActorLocation();}
 bool ADinosaurCharacter::CanSeeDinosaur(const ADinosaurCharacter* Other) const
 {
     if(!Other||Other->bDead||bDead)return false;
@@ -209,9 +222,48 @@ bool ADinosaurCharacter::CanSeeDinosaur(const ADinosaurCharacter* Other) const
 bool ADinosaurCharacter::MapPositionFor(const ADinosaurCharacter* Other,FVector& Position) const
 {
     if(!Other||Other->bDead)return false;
-    if(const auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())
+    if(const auto* GM=GetWorld()->GetGameState<ADinoGameState>())
         if(GM->bTeamMatch&&TeamID>=0&&Other->TeamID==TeamID){Position=Other->GetActorLocation();return true;}
     if(Other==this||CanSeeDinosaur(Other)){Position=Other->GetActorLocation();return true;}
     if(GetWorld()->GetTimeSeconds()<Other->RevealUntil){Position=Other->LastRevealedPosition;return true;}
     return false;
 }
+
+void ADinosaurCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+    DOREPLIFETIME(ADinosaurCharacter,Species);DOREPLIFETIME(ADinosaurCharacter,bDead);
+    DOREPLIFETIME(ADinosaurCharacter,bMajor);DOREPLIFETIME(ADinosaurCharacter,CombatantID);
+    DOREPLIFETIME(ADinosaurCharacter,TeamID);DOREPLIFETIME(ADinosaurCharacter,DeathTime);
+    DOREPLIFETIME(ADinosaurCharacter,bSprinting);DOREPLIFETIME(ADinosaurCharacter,bInWater);
+    DOREPLIFETIME(ADinosaurCharacter,bSwimming);DOREPLIFETIME(ADinosaurCharacter,RevealUntil);
+    DOREPLIFETIME(ADinosaurCharacter,LastRevealedPosition);DOREPLIFETIME(ADinosaurCharacter,bScoringParticipant);
+}
+void ADinosaurCharacter::OnRep_Species(){ApplySpecies(Species);OnRep_Life();}
+void ADinosaurCharacter::OnRep_Life()
+{
+    GetMesh()->SetHiddenInGame(bDead);Placeholder->SetHiddenInGame(bDead);
+    GetCapsuleComponent()->SetCollisionEnabled(bDead?ECollisionEnabled::NoCollision:ECollisionEnabled::QueryAndPhysics);
+    if(bDead){GetCharacterMovement()->StopMovementImmediately();GetCharacterMovement()->DisableMovement();}
+    else{GetCharacterMovement()->SetMovementMode(MOVE_Walking);Audio->ResetAudio();}
+}
+bool ADinosaurCharacter::AcceptsGameplayInput() const
+{
+    if(bDead)return false;
+    if(const auto* GS=GetWorld()->GetGameState<ADinoGameState>())if(GS->bRoundOver)return false;
+    if(const auto* PC=Cast<ADinoPlayerController>(GetController()))if(PC->IsLocalController()&&(PC->bSelectionOpen||PC->bMapOpen))return false;
+    return true;
+}
+void ADinosaurCharacter::ServerAction_Implementation(uint8 Action)
+{
+    if(!AcceptsGameplayInput()&&Action!=2&&Action!=4&&Action!=6)return;
+    switch(Action){case 0:Quick();break;case 1:ChargeOn();break;case 2:ChargeOff();break;
+        case 3:BraceOn();break;case 4:BraceOff();break;case 5:Eat();break;case 6:StopEating();break;case 7:BeginJump();break;default:break;}
+    ForceNetUpdate();
+}
+void ADinosaurCharacter::PlayCombatSound(int32 Kind)
+{if(HasAuthority())MulticastSound(Kind);}
+void ADinosaurCharacter::MulticastSound_Implementation(int32 Kind)
+{if(GetNetMode()!=NM_DedicatedServer)Audio->PlayEvent(Kind);}
+void ADinosaurCharacter::MulticastBlood_Implementation(FVector P,FVector Direction,float Damage)
+{if(GetNetMode()!=NM_DedicatedServer)ADinoEffects::EmitBlood(GetWorld(),P,Direction,Damage);}

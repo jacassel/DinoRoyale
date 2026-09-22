@@ -1,7 +1,7 @@
 #include "DinoHUD.h"
 #include "DinosaurCharacter.h"
 #include "DinoPlayerController.h"
-#include "DinoGameMode.h"
+#include "DinoGameState.h"
 #include "LostValleyWorld.h"
 #include "HealthComponent.h"
 #include "StaminaComponent.h"
@@ -30,7 +30,7 @@ void ADinoHUD::DrawHUD()
     Scale=FMath::Clamp(Canvas->SizeY/900.f,.45f,1.5f);float S=Scale,W=Canvas->SizeX,H=Canvas->SizeY;
     if(!bMapLoaded){WorldMap=LoadObject<UTexture2D>(nullptr,TEXT("/Game/UI/T_ValleyMap.T_ValleyMap"));bMapLoaded=true;}
     if(PC->bSelectionOpen){DrawMenu(D,PC);return;}
-    if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())
+    if(auto* GM=GetWorld()->GetGameState<ADinoGameState>())
     {
         auto Score=GM->GetScore(D->CombatantID);
         Panel(24*S,H-188*S,246*S,75*S);
@@ -76,7 +76,7 @@ void ADinoHUD::DrawHUD()
         {
             FLinearColor C=D->IsEnemy(O)?Red:Teal;Bar(P.X-45*S,P.Y,90*S,5*S,O->Health->Fraction(),C);
             FString Name=O->Stats().Name;
-            if(O->Species==1)if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())Name=GM->IsScoringTarget(O)?TEXT("RAPTOR LEADER"):TEXT("Pack follower");
+            if(O->Species==1)if(auto* GM=GetWorld()->GetGameState<ADinoGameState>())Name=GM->IsScoringTarget(O)?TEXT("RAPTOR LEADER"):TEXT("Pack follower");
             Text(Name,P.X-45*S,P.Y-19*S,.58f,C);
         }
     }
@@ -109,7 +109,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
     float W=Canvas->SizeX,H=Canvas->SizeY,S=Scale;Panel(0,0,W,H,.93f);
     Text(TEXT("DINOSAUR BATTLE"),W*.105f,H*.11f,2.7f,Gold);
     Text(TEXT("LOST VALLEY  /  SINGLE PLAYER  /  PRE-ALPHA 0.1"),W*.108f,H*.19f,.75f,Muted);
-    auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>();
+    auto* GM=GetWorld()->GetGameState<ADinoGameState>();
     if(GM&&GM->bRoundOver&&!PC->bSettingsOpen)
     {
         Text(GM->WinnerName(),W*.20f,H*.27f,1.7f,Gold);
@@ -120,8 +120,8 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
         float Y=H*.39f;
         for(int32 ID:IDs)
         {
-            auto* Who=GM->FindCombatant(ID);if(!Who)continue;auto Score=GM->GetScore(ID);FLinearColor C=ID==0?Teal:Muted;
-            FString Name=(ID==0?TEXT("YOU / "):FString::Printf(TEXT("AI %d / "),ID))+Who->Stats().Name;
+            auto* Who=GM->FindCombatant(ID);if(!Who)continue;auto Score=GM->GetScore(ID);FLinearColor C=ID==D->CombatantID?Teal:Muted;
+            FString Name=(ID==D->CombatantID?TEXT("YOU / "):FString::Printf(TEXT("AI %d / "),ID))+Who->Stats().Name;
             if(Who->Species==1&&!GM->IsScoringTarget(Who))Name+=TEXT(" follower");
             Text(Name,W*.20f,Y,.76f,C);Text(FString::FromInt(Score.Kills),W*.59f,Y,.84f,C);Text(FString::FromInt(Score.Deaths),W*.67f,Y,.84f,C);Text(FString::FromInt(Score.Assists),W*.76f,Y,.84f,C);Y+=27*S;
         }
@@ -182,7 +182,7 @@ void ADinoHUD::DrawWorldMap(ADinosaurCharacter* D,bool Full)
     if(Full)
     {
         for(FVector P:ALostValleyWorld::Landmarks()){auto Q=Point(P);DrawRect(Gold,Q.X-2*S,Q.Y-2*S,4*S,4*S);Text(ALostValleyWorld::RegionName(P),Q.X+6*S,Q.Y,.65f,Gold);}
-        const auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>();
+        const auto* GM=GetWorld()->GetGameState<ADinoGameState>();
         Text(GM&&GM->bTeamMatch?TEXT("Allies: always / Enemies: sight or noise   N ^"):TEXT("Markers: sight / recent attack or sprint   N ^"),X,Y+Size+18*S,.70f,Muted);
         Text(TEXT("M Close   Point + R: add/remove pin   Max 8"),X,Y+Size+41*S,.70f,Gold);
     }

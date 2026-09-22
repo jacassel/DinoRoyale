@@ -55,3 +55,12 @@ Primary implementation references:
 - https://dev.epicgames.com/documentation/unreal-engine/online-subsystem-eos-plugin-in-unreal-engine
 - https://dev.epicgames.com/documentation/unreal-engine/online-subsystem-in-unreal-engine
 - Installed UE 5.8 headers and plugin source are authoritative for compile-time APIs.
+
+## Stage A checkpoint
+
+Editor/game module builds successfully with UE 5.8.2. Rendered offline gameplay
+regression: 183/183 assertions (core 90, animation/navigation 41, settings/water/
+blood 28, match rules 24). Evidence: Tests/Results/multiplayer/stage-a-offline.
+These are offline results only; online participant/session features are not yet verified.
+Account milestone: 60% remaining. The original standalone package remains active.
+
