@@ -45,6 +45,7 @@ def check(name,passed,**data):
 def dist(a,b):return math.hypot(a['x']-b['x'],a['y']-b['y'])
 
 def run_species(i,name):
+    command('removeTarget') # A previous species' collision dummy must not obstruct movement.
     command('species',value=i);command('face',yaw=0);time.sleep(.8)
     base=state();normal_speed=base['maxSpeed']
     check(name+' selection',base['species']==i and base['health']==base['maxHealth'])

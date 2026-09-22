@@ -9,6 +9,7 @@
 #include "EngineUtils.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/GameSession.h"
 
 void ADinoGameMode::InitGame(const FString& Map,const FString& Options,FString& Error)
 {
@@ -16,6 +17,7 @@ void ADinoGameMode::InitGame(const FString& Map,const FString& Options,FString& 
     bOnlineMatch=UGameplayStatics::HasOption(Options,TEXT("OnlineLobby"));
     bLobby=bOnlineMatch;
     MaxParticipants=FMath::Clamp(UGameplayStatics::GetIntOption(Options,TEXT("Capacity"),10),2,10);
+    if(GameSession){GameSession->MaxPlayers=MaxParticipants;GameSession->MaxSpectators=0;}
     if(bOnlineMatch)
     {
         bTeamMatch=UGameplayStatics::GetIntOption(Options,TEXT("Teams"),0)!=0;
@@ -32,6 +34,7 @@ int32 ADinoGameMode::ChooseTeam(int32 ExcludeID) const
 }
 void ADinoGameMode::UpdateLobby()
 {
+    if(GameSession){GameSession->MaxPlayers=MaxParticipants;GameSession->MaxSpectators=0;}
     ReconcileBots();
     SynchronizePacks();
     if(auto* GS=GetGameState<ADinoGameState>()){GS->SynchronizeRules();GS->ForceNetUpdate();}

@@ -1,0 +1,1 @@
+Native host/client inspected. 0.2 HUD and scoreboard alignment verified; ESC and F2 settings exercised. Windows Firewall prompt occluded part of windows and was not accepted. A remaining settings context caption was corrected afterward; UI-only follow-up required.

@@ -226,7 +226,7 @@ void UDinoOnlineSession::UpdateHostedSettings(bool Teams,int32 Capacity,bool Bot
 void UDinoOnlineSession::OnNetworkFailure(UWorld* World,UNetDriver*,ENetworkFailure::Type,const FString& Error)
 {
     if((World&&World->GetGameInstance()!=GetGameInstance())||bLeaving)return;
-    const FString Reason=Error.Contains(TEXT("Different game version"))?TEXT("Different game version."):Error.Contains(TEXT("Lobby is full"))?TEXT("Lobby is full."):Error.Contains(TEXT("Match is ending"))?TEXT("Match is ending."):bHosting?TEXT("Multiplayer connection failed."):bConnected?TEXT("Host disconnected."):TEXT("Could not connect to host.");
+    const FString Reason=Error.Contains(TEXT("Different game version"))?TEXT("Different game version."):Error.Contains(TEXT("full"),ESearchCase::IgnoreCase)?TEXT("Lobby is full."):Error.Contains(TEXT("Match is ending"))?TEXT("Match is ending."):bHosting?TEXT("Multiplayer connection failed."):bConnected?TEXT("Host disconnected."):TEXT("Could not connect to host.");
     bBusy=false;Operation=EOperation::None;Leave(Reason);
 }
 void UDinoOnlineSession::OnTravelFailure(UWorld* World,ETravelFailure::Type,const FString&)

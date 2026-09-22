@@ -38,11 +38,11 @@ void ADinoHUD::DrawHUD()
         Panel(24*S,H-188*S,246*S,75*S);
         Text(TEXT("KILLS     DEATHS     ASSISTS"),40*S,H-176*S,.69f,Muted);
         Text(FString::Printf(TEXT("%d          %d          %d"),Score.Kills,Score.Deaths,Score.Assists),43*S,H-151*S,1.35f,Gold);
-        FString Goal=GM->bTeamMatch?FString::Printf(TEXT("5v5   YOUR TEAM %d - %d RIVALS   /   GOAL %d"),GM->TeamKills[0],GM->TeamKills[1],GM->TeamKillGoal):FString::Printf(TEXT("FREE-FOR-ALL   %d / %d KILLS"),Score.Kills,GM->SoloKillGoal);
+        FString Goal=GM->bTeamMatch?FString::Printf(TEXT("TEAM BATTLE   YOUR TEAM %d - %d RIVALS   /   GOAL %d"),GM->TeamKills[FMath::Clamp(D->TeamID,0,1)],GM->TeamKills[1-FMath::Clamp(D->TeamID,0,1)],GM->TeamKillGoal):FString::Printf(TEXT("FREE-FOR-ALL   %d / %d KILLS"),Score.Kills,GM->SoloKillGoal);
         Text(Goal,W*.5f-160*S,79*S,.73f,Teal);
     }
     Panel(24*S,24*S,386*S,230*S);
-    Text(TEXT("DINOSAUR BATTLE  /  0.1"),42*S,37*S,.95f,Gold);
+    Text(TEXT("DINOSAUR BATTLE  /  0.2"),42*S,37*S,.95f,Gold);
     Text(D->Stats().Name,42*S,64*S,1.32f);
     FLinearColor HealthColor=D->Health->Fraction()<.25f?Red:D->Health->Fraction()<.5f?Gold:Teal;
     Bar(42*S,99*S,350*S,12*S,D->Health->Fraction(),HealthColor);
@@ -60,7 +60,7 @@ void ADinoHUD::DrawHUD()
     if(D->Species==1)
     {
         int32 Alive=0,Close=0;
-        for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(*It!=D&&It->Species==1&&!It->bDead&&!D->IsEnemy(*It)){++Alive;if(FVector::Dist2D(D->GetActorLocation(),It->GetActorLocation())<5000)++Close;}
+        for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(*It!=D&&It->Species==1&&!It->bDead&&!D->IsEnemy(*It)&&(GetNetMode()==NM_Standalone||(It->bPackFollower&&It->PackLeaderID==D->CombatantID))){++Alive;if(FVector::Dist2D(D->GetActorLocation(),It->GetActorLocation())<5000)++Close;}
         Text(FString::Printf(TEXT("PACK LEADER   %d nearby / %d alive"),Close,Alive),42*S,268*S,.9f,Teal);
     }
     float Since=GetWorld()->GetTimeSeconds()-D->Health->LastDamageTime;
@@ -101,16 +101,16 @@ void ADinoHUD::DrawHUD()
         Panel(24*S,H-99*S,W-48*S,75*S,.82f);
         Text(TEXT("WASD Move   SHIFT Sprint   MOUSE Look   SPACE Jump   HOLD Q Brace"),42*S,H-84*S,.94f);
         Text(TEXT("LMB  Quick attack     HOLD / RELEASE RMB  Heavy attack     HOLD E  Eat"),42*S,H-60*S,.88f,Muted);
-        Text(TEXT("1 / 2 / 3  Species     M  Map     H  Help     ESC  Pause"),42*S,H-38*S,.78f,Gold);
+        Text(GetNetMode()==NM_Standalone?TEXT("1 / 2 / 3  Species     M  Map     H  Help     ESC  Pause"):TEXT("M  Map     H  Help     ESC  Multiplayer menu"),42*S,H-38*S,.78f,Gold);
     }
-    else Text(TEXT("H  Help     M  Map     ESC  Pause"),30*S,H-32*S,.8f,Muted);
+    else Text(GetNetMode()==NM_Standalone?TEXT("H  Help     M  Map     ESC  Pause"):TEXT("H  Help     M  Map     ESC  Menu"),30*S,H-32*S,.8f,Muted);
     DrawWorldMap(D,PC->bMapOpen);
 }
 void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
 {
     float W=Canvas->SizeX,H=Canvas->SizeY,S=Scale;Panel(0,0,W,H,.93f);
     Text(TEXT("DINOSAUR BATTLE"),W*.105f,H*.11f,2.7f,Gold);
-    Text(TEXT("LOST VALLEY  /  SINGLE PLAYER  /  PRE-ALPHA 0.1"),W*.108f,H*.19f,.75f,Muted);
+    Text(GetNetMode()==NM_Standalone?TEXT("LOST VALLEY  /  OFFLINE PLAY  /  PRE-ALPHA 0.2"):TEXT("MULTIPLAYER  /  LOCAL SETTINGS  /  PRE-ALPHA 0.2"),W*.108f,H*.19f,.75f,Muted);
     auto* GM=GetWorld()->GetGameState<ADinoGameState>();
     if(GM&&GM->bRoundOver&&!PC->bSettingsOpen)
     {
@@ -130,8 +130,11 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
         Text(TEXT("ENTER / ESC  Play again     1 / 2 / 3  Change dinosaur     F3  Change mode"),W*.20f,H*.85f,.78f,Gold);
         return;
     }
-    Text(TEXT("F4  MULTIPLAYER"),W*.76f,H*.245f,.82f,Gold);
-    if(GM)Text(TEXT("F3  ")+GM->MatchName(),W*.108f,H*.245f,.88f,Teal);
+    if(GetNetMode()==NM_Standalone)
+    {
+        Text(TEXT("F4  MULTIPLAYER"),W*.76f,H*.245f,.82f,Gold);
+        if(GM)Text(TEXT("F3  ")+GM->MatchName(),W*.108f,H*.245f,.88f,Teal);
+    }
     Text(PC->bSettingsOpen?TEXT("F2  BACK"):TEXT("F2  SETTINGS"),W*.76f,H*.13f,.95f,Teal);
     if(PC->bSettingsOpen)
     {
@@ -143,7 +146,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
         Text(FString::Printf(TEXT("MOUSE SENSITIVITY     %.1f"),D->MouseSensitivity),W*.22f,H*.525f,1.08f);
         Text(TEXT("[-]       [+]"),W*.65f,H*.525f,1.15f,Gold);
         Text(TEXT("Settings save automatically on this computer."),W*.22f,H*.64f,.8f,Muted);
-        Text(TEXT("ESC / F2  Back to dinosaur selection      ENTER  Resume"),W*.22f,H*.78f,.95f,Teal);
+        Text((GetNetMode()==NM_Standalone?TEXT("ESC / F2  Back to dinosaur selection      ENTER  Resume"):TEXT("ESC / F2  Back to multiplayer")),W*.22f,H*.78f,.95f,Teal);
         return;
     }
     float Top=H*.28f,CardW=W*.25f,CardH=400*S,Gap=W*.035f,Left=(W-3*CardW-2*Gap)*.5f;

@@ -1,6 +1,8 @@
-# Dinosaur Battle — Pre-Alpha 0.1
+# Dinosaur Battle — Pre-Alpha 0.2
 
-A local single-player dinosaur combat prototype in active development.
+A dinosaur combat prototype with offline play and an Epic Online Services multiplayer integration.
+EOS requires your product configuration; live EOS and different-network play remain unverified.
+See [EOS_SETUP.md](EOS_SETUP.md) for setup and [Docs/MULTIPLAYER_ACCEPTANCE.md](Docs/MULTIPLAYER_ACCEPTANCE.md) for the evidence boundary.
 
 ## Launch
 
@@ -11,7 +13,8 @@ Double-click `LaunchEditor.bat` to open the project for editing.
 The project file is `DinosaurBattle.uproject`; the startup level is `Content/Maps/LostValley.umap`.
 
 Engine: Unreal Engine **5.8.2**. Original assets: **Blender 5.2.2 LTS**.
-No commercial models, online gameplay, accounts, external services or paid APIs are used.
+Offline play needs no account. Multiplayer uses Epic account sign-in, EOS lobbies and EOS P2P relay.
+No services, subscriptions, assets or hosting were purchased.
 
 ## Controls
 
@@ -25,8 +28,9 @@ No commercial models, online gameplay, accounts, external services or paid APIs 
 | LMB | Up to three quick strikes, then species-specific recovery |
 | Hold / release RMB | Charge / execute heavy attack |
 | Hold E near suitable food | Eat; release or move to stop |
-| 1 / 2 / 3 | Select T-Rex / Velociraptor / Triceratops and start a new round |
-| Escape | Pause, release the mouse, open dinosaur selection |
+| 1 / 2 / 3 | Offline: select T-Rex / Velociraptor / Triceratops and start a new round |
+| Escape | Open menu; pauses offline, continues the world online |
+| F4 in selection | Multiplayer: Epic sign-in, Host Game or Join Game |
 | F3 in selection | Switch solo free-for-all / 5v5 team fight |
 | F2 in selection | Settings: B toggles blood; +/- changes mouse sensitivity |
 | Enter | Resume; start another round after results |
@@ -35,6 +39,15 @@ No commercial models, online gameplay, accounts, external services or paid APIs 
 | F10 in the menu | Quit |
 
 The game opens on dinosaur selection. Choose a card or press 1, 2 or 3 to begin. In solo mode the first competitor to **5 kills** wins; in team mode the first team to **10 kills** wins. The human and nine AI fill the match. Major dinosaurs respawn after **10 seconds**.
+
+Online: the host plays and chooses 2–10 main participant slots, FFA or Team Battle,
+bots ON/OFF and public/invite-only visibility. Guests select species/team in the
+lobby and mark Ready; the host starts. Team Battle allows up to five per team,
+including smaller and uneven matches. Bots fill empty slots and yield to joining
+humans. Each human or bot raptor leader owns two extra followers; these do not
+consume participant slots. Only leaders award kills. The host leaving ends the
+match for everyone. Use the in-game lobby controls to rematch or return to lobby.
+Send friends [FRIEND_QUICKSTART.md](FRIEND_QUICKSTART.md) with the complete Windows folder.
 
 At round end, the game pauses on results showing all ten competitors' kills, deaths and assists, including when an AI wins solo play. Press Enter to start again. Map pins appear as gold diamonds on both maps, survive respawns, and clear for a new round. Open M, point at a location, then press R; adding a ninth pin replaces the oldest. The world continues while you use the map; close it with M to resume movement and mouse look.
 

@@ -1,4 +1,4 @@
-import runtime_core as t,time,json
+import runtime_core as t,time,json,sys
 rows=[]
 def check(n,ok,**data):
     rows.append(dict(test=n,passed=bool(ok),**data));(t.OUT/'settings-water-blood.json').write_text(json.dumps(rows,indent=2));print(('PASS ' if ok else 'FAIL ')+n+' '+json.dumps(data),flush=True)
@@ -29,3 +29,4 @@ for i,name in enumerate(['Trex','Raptor','Trike']):
     t.command('teleport',x=0,y=0);time.sleep(.8);check(name+' exiting restores land speed',not t.state()['inWater'] and abs(t.state()['maxSpeed']/land-1)<.02)
 press('M');check('map opens',t.state()['mapOpen']);t.command('screenshot');press('M');check('map closes',not t.state()['mapOpen'])
 print('RESULT '+str(sum(x['passed'] for x in rows))+'/'+str(len(rows)),flush=True)
+sys.exit(any(not x['passed'] for x in rows))

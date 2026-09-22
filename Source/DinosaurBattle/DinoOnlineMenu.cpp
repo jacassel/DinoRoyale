@@ -81,7 +81,7 @@ void ADinoPlayerController::OnlineClick(float X,float Y)
 void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
 {
     const float W=Canvas->SizeX,H=Canvas->SizeY;
-    const FLinearColor Gold(.93f,.72f,.38f),Teal(.32f,.78f,.72f),Muted(.64f,.72f,.69f);
+    const FLinearColor MenuGold(.93f,.72f,.38f),MenuTeal(.32f,.78f,.72f),MenuMuted(.64f,.72f,.69f);
     auto* Online=PC->GetGameInstance()->GetSubsystem<UDinoOnlineSession>();
     auto* GS=GetWorld()->GetGameState<ADinoGameState>();auto* PS=PC->GetPlayerState<ADinoPlayerState>();
     DrawRect(FLinearColor(.009f,.019f,.022f,.97f),0,0,W,H);
@@ -90,13 +90,13 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
     {
         float MX=-1,MY=-1;PC->GetMousePosition(MX,MY);bool Hover=MX>W*X&&MX<W*(X+Width)&&MY>H*Y&&MY<H*(Y+Height);
         DrawRect(Enabled?(Hover?FLinearColor(.13f,.30f,.29f):FLinearColor(.07f,.17f,.18f)):FLinearColor(.07f,.09f,.09f),W*X,H*Y,W*Width,H*Height);
-        Label(S,X+.012f,Y+Height*.25f,.87f,Enabled?Teal:Muted);
+        Label(S,X+.012f,Y+Height*.25f,.87f,Enabled?MenuTeal:MenuMuted);
     };
-    Label(TEXT("DINOSAUR BATTLE / MULTIPLAYER"),.08f,.065f,1.4f,Gold);
+    Label(TEXT("DINOSAUR BATTLE / MULTIPLAYER"),.08f,.065f,1.4f,MenuGold);
     if(GetNetMode()!=NM_Standalone)
     {
         if(!GS||!PS){Label(TEXT("Connecting to match..."),.08f,.2f,1.1f);return;}
-        Label(FString::Printf(TEXT("%s  /  %d of %d players  /  bots %s"),*GS->MatchName(),GS->PlayerArray.Num(),GS->MaxParticipants,GS->bFillBots?TEXT("ON"):TEXT("OFF")),.08f,.12f,.86f,Muted);
+        Label(FString::Printf(TEXT("%s  /  %d of %d players  /  bots %s"),*GS->MatchName(),GS->PlayerArray.Num(),GS->MaxParticipants,GS->bFillBots?TEXT("ON"):TEXT("OFF")),.08f,.12f,.86f,MenuMuted);
         if(GS->bLobby)
         {
             const TCHAR* Kinds[]={TEXT("1  TYRANNOSAURUS"),TEXT("2  VELOCIRAPTOR"),TEXT("3  TRICERATOPS")};
@@ -104,11 +104,12 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
             Button(TEXT("AUTO TEAM"),.08f,.26f,.25f,.065f,GS->bTeamMatch);
             Button(GS->bTeamMatch?FString::Printf(TEXT("TEAM %d / CHANGE"),PS->TeamID+1):TEXT("FREE-FOR-ALL"),.36f,.26f,.25f,.065f,GS->bTeamMatch);
             Button(PS->bReady?TEXT("READY / UNREADY"):TEXT("MARK READY"),.65f,.26f);
-            Label(TEXT("PLAYER                          DINOSAUR                 TEAM     READY"),.08f,.35f,.78f,Gold);
+            Label(TEXT("PLAYER"),.08f,.35f,.78f,MenuGold);Label(TEXT("DINOSAUR"),.40f,.35f,.78f,MenuGold);
+            Label(TEXT("TEAM"),.69f,.35f,.78f,MenuGold);Label(TEXT("READY"),.80f,.35f,.78f,MenuGold);
             float Y=.39f;
             for(auto P:GS->PlayerArray)if(auto* Other=Cast<ADinoPlayerState>(P))
             {
-                Label((Other->bHost?TEXT("HOST  "):TEXT(""))+Other->GetPlayerName().Left(24),.08f,Y,.78f,Other==PS?Teal:Muted);
+                Label((Other->bHost?TEXT("HOST  "):TEXT(""))+Other->GetPlayerName().Left(24),.08f,Y,.78f,Other==PS?MenuTeal:MenuMuted);
                 Label(FSpeciesData::Get(Other->SelectedSpecies).Name,.40f,Y,.78f);
                 Label(GS->bTeamMatch?FString::FromInt(Other->TeamID+1):TEXT("--"),.69f,Y,.78f);
                 Label(Other->bHost?TEXT("HOST"):Other->bReady?TEXT("YES"):TEXT("WAIT"),.80f,Y,.78f);Y+=.028f;
@@ -116,34 +117,35 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
             Button(TEXT("MODE / CHANGE"),.08f,.71f,.25f,.065f,PS->bHost);
             Button(TEXT("SLOTS -"),.36f,.71f,.12f,.065f,PS->bHost);Button(TEXT("SLOTS +"),.49f,.71f,.12f,.065f,PS->bHost);
             Button(GS->bFillBots?TEXT("BOTS ON / CHANGE"):TEXT("BOTS OFF / CHANGE"),.65f,.71f,.25f,.065f,PS->bHost);
-            Label(PC->LobbyStatus.IsEmpty()?TEXT("The host starts when guests are ready."):PC->LobbyStatus,.08f,.81f,.8f,Gold);
+            Label(PC->LobbyStatus.IsEmpty()?TEXT("The host starts when guests are ready."):PC->LobbyStatus,.08f,.81f,.8f,MenuGold);
             Button(TEXT("START MATCH"),.65f,.79f,.25f,.065f,PS->bHost);
         }
         else
         {
-            Label(GS->bRoundOver?GS->WinnerName():TEXT("MATCH IN PROGRESS"),.08f,.22f,1.5f,Gold);
-            Label(TEXT("PLAYER / DINOSAUR                           KILLS   DEATHS   ASSISTS"),.08f,.31f,.8f,Muted);
+            Label(GS->bRoundOver?GS->WinnerName():TEXT("MATCH IN PROGRESS"),.08f,.22f,1.5f,MenuGold);
+            Label(TEXT("PLAYER / DINOSAUR"),.08f,.31f,.8f,MenuMuted);
+            Label(TEXT("KILLS"),.66f,.31f,.8f,MenuMuted);Label(TEXT("DEATHS"),.74f,.31f,.8f,MenuMuted);Label(TEXT("ASSISTS"),.83f,.31f,.8f,MenuMuted);
             TArray<int32> IDs;GS->Scores.GetKeys(IDs);IDs.Sort([&](int32 A,int32 B){return GS->GetScore(A).Kills>GS->GetScore(B).Kills;});
             float Y=.36f;
             for(int32 ID:IDs)
             {
                 auto* D=GS->FindCombatant(ID);if(!D||!GS->IsScoringTarget(D))continue;
                 FString Name=TEXT("BOT");for(auto P:GS->PlayerArray)if(auto* Other=Cast<ADinoPlayerState>(P))if(Other->CombatantID==ID)Name=Other->GetPlayerName();
-                auto Score=GS->GetScore(ID);Label(Name.Left(22)+TEXT(" / ")+D->Stats().Name,.08f,Y,.78f,ID==PS->CombatantID?Teal:Muted);
-                Label(FString::Printf(TEXT("%d       %d       %d"),Score.Kills,Score.Deaths,Score.Assists),.66f,Y,.85f);Y+=.032f;
+                auto Score=GS->GetScore(ID);Label(Name.Left(22)+TEXT(" / ")+D->Stats().Name,.08f,Y,.78f,ID==PS->CombatantID?MenuTeal:MenuMuted);
+                Label(FString::FromInt(Score.Kills),.66f,Y,.85f);Label(FString::FromInt(Score.Deaths),.74f,Y,.85f);Label(FString::FromInt(Score.Assists),.83f,Y,.85f);Y+=.032f;
             }
             Button(TEXT("RETURN TO LOBBY"),.08f,.76f,.25f,.065f,PS->bHost);
             Button(GS->bRoundOver?TEXT("REMATCH"):TEXT("RESUME"),.36f,.76f,.25f,.065f,!GS->bRoundOver||PS->bHost);
-            Label(PC->LobbyStatus,.08f,.84f,.78f,Gold);
+            Label(PC->LobbyStatus,.08f,.84f,.78f,MenuGold);
         }
         Button(TEXT("LEAVE MATCH"),.08f,.88f);Button(TEXT("INVITE FRIENDS"),.36f,.88f);Button(TEXT("LOCAL SETTINGS / F2"),.65f,.88f);return;
     }
     const int32 Page=PC->OnlinePage;
-    Label(Page==2?TEXT("HOST GAME"):Page==3?TEXT("JOIN GAME"):TEXT("PLAY WITH FRIENDS OVER THE INTERNET"),.08f,.17f,1.05f,Teal);
+    Label(Page==2?TEXT("HOST GAME"):Page==3?TEXT("JOIN GAME"):TEXT("PLAY WITH FRIENDS OVER THE INTERNET"),.08f,.17f,1.05f,MenuTeal);
     if(Page==1)
     {
         Button(TEXT("HOST GAME"),.25f,.32f,.5f,.09f);Button(TEXT("JOIN GAME"),.25f,.47f,.5f,.09f);
-        Label(TEXT("Sign in to Epic, then host or find a session."),.25f,.62f,.92f,Muted);
+        Label(TEXT("Sign in to Epic, then host or find a session."),.25f,.62f,.92f,MenuMuted);
     }
     else if(Page==2)
     {
@@ -158,6 +160,6 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
         for(int32 I=0;I<FMath::Min(7,Online->Results.Num());++I)Button((PC->SelectedSession==I?TEXT("> "):TEXT(""))+Online->ResultLabel(I),.08f,.26f+I*.065f,.82f,.055f);
         Button(TEXT("REFRESH"),.08f,.76f);Button(TEXT("JOIN SELECTED"),.65f,.76f,.25f,.065f,PC->SelectedSession>=0&&!Online->bBusy);
     }
-    if(Online)Label(Online->Status,.08f,.83f,.80f,Gold);
+    if(Online)Label(Online->Status,.08f,.83f,.80f,MenuGold);
     Button(TEXT("BACK"),.08f,.88f);Button(Online&&Online->IsSignedIn()?TEXT("SIGNED IN"):TEXT("SIGN IN TO EPIC"),.65f,.88f);
 }

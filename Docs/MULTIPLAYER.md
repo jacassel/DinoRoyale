@@ -149,3 +149,65 @@ bypass committed attack recovery, charge initiation/lunge/pounce, 50%/25%
 injury speed penalties, critical-health and low-stamina charge rejection, and
 weak attacks while exhausted. Network lobbies/results freeze ongoing movement.
 
+## Packaged scaling, latency and recovery checks
+
+The Development Windows package passed ten actual networked processes (listen
+host plus nine guests), with every main participant a raptor and twenty extra
+followers. Both ten-player FFA and 5v5 ran for approximately 120 seconds each.
+`scale-01` contains 18 passed checks and sampled resource/network data. No fatal
+replication warnings, ghost players or orphan packs remained after departure.
+The minimum available RAM was 13.64 GiB. Headless median simulation rate was
+about 60 FPS; host 95th-percentile sampled frame time was 21.27 ms in FFA and
+20.77 ms in teams. Host outgoing traffic was about 244/241 kB per second.
+These are bounded headless loopback measurements, not rendering or WAN results.
+The maximum independently verified filler-bot configuration is two humans plus
+eight main bots (stage-f-02); followers and prey are additional AI actors.
+
+Each packaged latency profile passed 24 assertions: 15, 38 and 75 ms outgoing
+delay on **each** peer; the last also used 2% packet loss. Settings were read back
+from both live net drivers. These add nominal 30/76/150 ms round-trip delay;
+sampled total client pings were 86.9/145.3/243.6 ms including engine scheduling
+and baseline overhead. Exact total 30/75/150 ms pings were not established.
+All retained server-authoritative combat, single-count damage/death/scoring,
+movement, ten-second respawn and disconnect cleanup. The pack suite additionally
+passed 21 checks at 75 ms per peer and 2% loss (`latency-packs-loss2-02`).
+
+`packaged-four` passed 13 checks on the rebuilt package, including full-lobby and
+version rejection, four unique controllable players, 2v2 score/assist agreement
+and host departure messages. `packaged-cosmetics` passed three checks with
+different local blood preferences and actual replicated client hits.
+`packaged-rendered` passed six checks with two rendered windows and real mapped
+movement/combat. Native inspection saw both peers and the ESC multiplayer menu;
+a Windows Firewall prompt occluded part of the windows and was not accepted.
+Inspection found stale help/version labels and score headers that did not align
+with their values; the final source corrects those and counts only one's own
+followers in the online pack HUD.
+
+Trial `latency-packs-loss2` included prey in a main-participant count; the
+participant assertion now uses the main slot range. A separate repair updates
+the replicated scoring flag even while the lobby is frozen, and the rendered
+test verifies prey remain non-scoring there.
+
+Offline trial 01 retained a collision dummy between species, obstructing one
+Triceratops movement assertion. The core fixture now removes that dummy before
+each species. Trial 02 ran while two additional rendered windows were inspected;
+several immediate animation samples failed. Both trials also exposed immediate
+score reads racing the 0.1-second GameState update. Score fixtures now wait for
+publication, and both older settings/match suites return failure exit codes when
+any assertion fails. Failed evidence is retained. Final serialized regression
+results are recorded in TEST_LOG.md and HANDOFF.md.
+
+EOS product configuration is still absent and the Epic Developer Portal is
+signed out. A user-facing choice of setup instructions or signing in was left
+pending while these tests continued. No accounts, credentials, purchases or
+firewall permissions were created/changed. Live sign-in, discovery, invites,
+relay traversal and different-network gameplay remain **NOT VERIFIED**.
+
+Final serialized packaged regression passed **183/183**. The subsequent change
+only corrected the online local-settings caption and hid offline shortcuts;
+the final UI rebuild passed another six rendered smoke checks in
+`packaged-ui-final`, and its settings/menu captions were inspected natively.
+The promoted normal launcher passed native 1/F4/F10 checks. All 54 non-Saved
+package files were hash-verified across candidate, recovery and promotion.
+Source/editor and final package builds succeeded. Final allowance: 47% remaining.
+

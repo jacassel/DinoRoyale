@@ -1,0 +1,101 @@
+[
+  {
+    "test": "FFA goal five",
+    "passed": true
+  },
+  {
+    "test": "follower death does not award kill",
+    "passed": false
+  },
+  {
+    "test": "leader death awards kill",
+    "passed": false
+  },
+  {
+    "test": "dead victim cannot award twice",
+    "passed": true
+  },
+  {
+    "test": "prey does not award match kill",
+    "passed": true
+  },
+  {
+    "test": "recent damage awards assist",
+    "passed": false
+  },
+  {
+    "test": "FFA kill 1",
+    "passed": false
+  },
+  {
+    "test": "FFA kill 2",
+    "passed": false
+  },
+  {
+    "test": "FFA kill 3",
+    "passed": false
+  },
+  {
+    "test": "FFA kill 4",
+    "passed": false
+  },
+  {
+    "test": "FFA kill 5",
+    "passed": true
+  },
+  {
+    "test": "FFA victory opens results",
+    "passed": true
+  },
+  {
+    "test": "new round resets score",
+    "passed": true
+  },
+  {
+    "test": "teams are five versus five",
+    "passed": true,
+    "team0": 5,
+    "team1": 5
+  },
+  {
+    "test": "team goal ten",
+    "passed": true
+  },
+  {
+    "test": "melee does not damage teammate",
+    "passed": true
+  },
+  {
+    "test": "enemy team follower does not score",
+    "passed": true
+  },
+  {
+    "test": "enemy team leader scores",
+    "passed": false
+  },
+  {
+    "test": "team assist and score",
+    "passed": false
+  },
+  {
+    "test": "follower kill credits human leader",
+    "passed": false
+  },
+  {
+    "test": "team victory at ten",
+    "passed": true
+  },
+  {
+    "test": "death counter and ten second delay",
+    "passed": false
+  },
+  {
+    "test": "still dead before ten seconds",
+    "passed": true
+  },
+  {
+    "test": "respawns after ten seconds",
+    "passed": true,
+    "elapsed": 10.467524100095034
+  }
+]

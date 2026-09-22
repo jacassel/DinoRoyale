@@ -10,9 +10,10 @@ parser=argparse.ArgumentParser()
 parser.add_argument('--output',default='Tests/Results/multiplayer/stage-b')
 parser.add_argument('--lag',type=int,default=0,help='One-way outgoing delay per process, milliseconds')
 parser.add_argument('--loss',type=int,default=0)
+parser.add_argument('--executable',help='Direct packaged DinosaurBattle/Binaries/Win64 executable')
 args=parser.parse_args()
 OUT=ROOT/args.output;OUT.mkdir(parents=True,exist_ok=True)
-BRIDGE=ROOT/'Saved/Automation'
+BRIDGE=(pathlib.Path(args.executable).resolve().parents[2] if args.executable else ROOT)/'Saved/Automation'
 rows=[]
 processes=[]
 
@@ -21,7 +22,7 @@ class Peer:
         self.name=name;self.path=BRIDGE/name;self.path.mkdir(parents=True,exist_ok=True)
         (self.path/'telemetry.json').unlink(missing_ok=True)
         (self.path/'command.json').write_text('{"seq":0,"cmd":"noop"}')
-        cmd=[r'C:\Unreal Engine\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe',str(ROOT/'DinosaurBattle.uproject'),url,
+        cmd=([str(args.executable)] if args.executable else [r'C:\Unreal Engine\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe',str(ROOT/'DinosaurBattle.uproject')])+[url,
              '-game','-nullrhi','-unattended','-nosplash','-nosound','-DinoDevBridge','-DinoBridge='+name,
              '-port=7787','-multihome=127.0.0.1','-abslog='+str(OUT/(name+'.log')),
              '-PktLag='+str(args.lag),'-PktLoss='+str(args.loss)]
@@ -69,10 +70,11 @@ def wait_for(predicate,seconds=8):
 def distance(a,b):return math.hypot(a['x']-b['x'],a['y']-b['y'])
 
 try:
-    host=Peer('NetHost','/Game/Maps/LostValley?listen')
+    host=Peer('NetHost','/Game/Maps/LostValley?listen?bUseIPSockets')
     host.command('ai',paused=True)
     client=Peer('NetClient','127.0.0.1:7787')
     time.sleep(2)
+    check('net emulation settings active',host.state().get('emulatedLagMs')==args.lag and client.state().get('emulatedLagMs')==args.lag and host.state().get('emulatedLossPercent')==args.loss and client.state().get('emulatedLossPercent')==args.loss,oneWayMs=args.lag,lossPercent=args.loss,measuredClientPingMs=client.state().get('pingMs'))
     check('two unique possessed players',host.state()['combatantID']==0 and client.state()['combatantID']==1,hostMode=host.state()['netMode'],clientMode=client.state()['netMode'])
     check('replicated participant count',len([a for a in client.state()['networkActors'] if a['id']<100])==2)
     check('client terrain collision',client.state()['floorActor'].startswith('LostValleyWorld'),floor=client.state()['floorActor'])

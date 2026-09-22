@@ -404,6 +404,10 @@ void ADinoPlayerController::WriteTelemetry()
         O->SetNumberField(TEXT("netInBytes"),Driver->InTotalBytes);O->SetNumberField(TEXT("netOutBytes"),Driver->OutTotalBytes);
         O->SetNumberField(TEXT("netInBytesPerSecond"),Driver->InBytesPerSecond);O->SetNumberField(TEXT("netOutBytesPerSecond"),Driver->OutBytesPerSecond);
         O->SetNumberField(TEXT("netInPacketsLost"),Driver->InTotalPacketsLost);O->SetNumberField(TEXT("netOutPacketsLost"),Driver->OutTotalPacketsLost);
+#if DO_ENABLE_NET_TEST
+        O->SetNumberField(TEXT("emulatedLagMs"),Driver->PacketSimulationSettings.PktLag);
+        O->SetNumberField(TEXT("emulatedLossPercent"),Driver->PacketSimulationSettings.PktLoss);
+#endif
     }
     if(auto* PS=GetPlayerState<ADinoPlayerState>())O->SetNumberField(TEXT("pingMs"),PS->GetPingInMilliseconds());
     TArray<TSharedPtr<FJsonValue>> Pins;for(const FVector& P:MapPins){auto Pin=MakeShared<FJsonObject>();Pin->SetNumberField(TEXT("x"),P.X);Pin->SetNumberField(TEXT("y"),P.Y);Pins.Add(MakeShared<FJsonValueObject>(Pin));}O->SetArrayField(TEXT("mapPins"),Pins);

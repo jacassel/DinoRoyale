@@ -1,0 +1,18 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 75,
+  "lossPercent": 2,
+  "tests": [
+    {
+      "test": "two human packs each have two replicated followers with bots off",
+      "status": "PASS"
+    },
+    {
+      "test": "followers do not consume participant slots",
+      "status": "FAIL"
+    }
+  ]
+}

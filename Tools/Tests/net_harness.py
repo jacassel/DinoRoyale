@@ -13,9 +13,10 @@ def wait_for(predicate,seconds=10):
 def distance(a,b):return math.hypot(a['x']-b['x'],a['y']-b['y'])
 
 class NetworkTest:
-    def __init__(self,output,lag=0,loss=0,executable=None):
+    def __init__(self,output,lag=0,loss=0,executable=None,rendered=False):
         self.out=ROOT/output;self.out.mkdir(parents=True,exist_ok=True)
         self.peers=[];self.rows=[];self.lag=lag;self.loss=loss;self.executable=executable
+        self.rendered=rendered
         self.bridge_root=(pathlib.Path(executable).resolve().parents[2] if executable else ROOT)/'Saved/Automation'
     def check(self,name,passed,**evidence):
         row=dict(test=name,status='PASS' if passed else 'FAIL',**evidence);self.rows.append(row);print(row,flush=True)
@@ -34,7 +35,8 @@ class Peer:
         (self.path/'command.json').write_text('{"seq":0,"cmd":"noop"}')
         if url is None:url=f'127.0.0.1:7788?DinoBuild={BUILD}'
         cmd=([str(test.executable)] if test.executable else [r'C:\Unreal Engine\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe',str(ROOT/'DinosaurBattle.uproject')])
-        cmd += [url,'-game','-nullrhi','-nosound','-unattended','-nosplash','-DinoDevBridge','-DinoBridge='+name,
+        render_args=['-windowed','-ResX=960','-ResY=540','-ForceRes','-WinX='+str(30+len(test.peers)*990),'-WinY=60'] if test.rendered else ['-nullrhi']
+        cmd += [url,*render_args,'-game','-nosound','-unattended','-nosplash','-DinoDevBridge','-DinoBridge='+name,
                 '-port=7788','-multihome=127.0.0.1','-abslog='+str(test.out/(name+'.log')),
                 '-PktLag='+str(test.lag),'-PktLoss='+str(test.loss)]
         self.proc=subprocess.Popen(cmd,creationflags=subprocess.CREATE_NO_WINDOW);test.peers.append(self)

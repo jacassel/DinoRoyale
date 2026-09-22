@@ -1,7 +1,8 @@
 """Stage H: four networked players, session failures, team rules and host departure."""
-import time
+import time,argparse
 from net_harness import NetworkTest,Peer,host_url,wait_for,distance
-t=NetworkTest('Tests/Results/multiplayer/stage-h-02')
+p=argparse.ArgumentParser();p.add_argument('--executable');p.add_argument('--output',default='Tests/Results/multiplayer/stage-h-02');args=p.parse_args()
+t=NetworkTest(args.output,executable=args.executable)
 try:
     host=Peer(t,'FourHost',host_url(4));peers=[host]
     for i in range(1,4):peers.append(Peer(t,'FourClient'+str(i)))

@@ -1,0 +1,1 @@
+Both native game windows inspected; firewall prompt occluded part of each. Keyboard ESC opened multiplayer menu. Score header and help labels corrected in source for next package.

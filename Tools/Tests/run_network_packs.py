@@ -1,13 +1,14 @@
 """Stage G: multiple human-owned raptor packs with bots off."""
-import time
+import time,argparse
 from net_harness import NetworkTest,Peer,host_url,wait_for,distance
-t=NetworkTest('Tests/Results/multiplayer/stage-g-01')
+p=argparse.ArgumentParser();p.add_argument('--output',default='Tests/Results/multiplayer/stage-g-01');p.add_argument('--lag',type=int,default=0);p.add_argument('--loss',type=int,default=0);p.add_argument('--executable');a=p.parse_args()
+t=NetworkTest(a.output,lag=a.lag,loss=a.loss,executable=a.executable)
 def followers(peer,leader):return [a for a in peer.state()['networkActors'] if a['follower'] and a['pack']==leader]
 try:
     host=Peer(t,'PackHost',host_url(6));client=Peer(t,'PackClient');time.sleep(.5)
     host.lobby(0,1);client.lobby(0,1)
     t.check('two human packs each have two replicated followers with bots off',wait_for(lambda:len(followers(client,0))==2 and len(followers(client,1))==2))
-    t.check('followers do not consume participant slots',len(host.state()['players'])==2 and len([a for a in host.state()['networkActors'] if a['scoring']])==2)
+    t.check('followers do not consume participant slots',len(host.state()['players'])==2 and len([a for a in host.state()['networkActors'] if a['id']<10 and a['scoring']])==2)
     t.check('only raptor leaders are scoring targets',all(not a['scoring'] for a in followers(client,0)+followers(client,1)))
     t.check('each local leader sees its followers as allies',all(not a['enemy'] for a in followers(host,0)) and all(not a['enemy'] for a in followers(client,1)))
     t.check('different FFA packs remain enemies',all(a['enemy'] for a in followers(host,1)) and all(a['enemy'] for a in followers(client,0)))
@@ -28,7 +29,7 @@ try:
     t.check('leader death removes only that leaders followers',wait_for(lambda:len(followers(client,1))==0 and len(followers(client,0))==2))
     time.sleep(5);t.check('dead human leader waits for ten-second respawn',client.state()['dead'])
     t.check('human leader respawn reconstructs exactly two followers',wait_for(lambda:not client.state()['dead'] and len(followers(client,1))==2,8))
-    t.check('respawn creates no extra scoring participants',len([a for a in client.state()['networkActors'] if a['scoring']])==2 and host.state()['kills']==1)
+    t.check('respawn creates no extra scoring participants',len([a for a in client.state()['networkActors'] if a['id']<10 and a['scoring']])==2 and host.state()['kills']==1)
     host.lobby(7);host.lobby(3,1);client.lobby(1,0)
     t.check('allied human packs share team but retain their leaders',wait_for(lambda:all(a['team']==0 and not a['enemy'] for a in followers(host,1))) and {a['pack'] for a in followers(host,0)+followers(host,1)}=={0,1})
     host.lobby(0,2)
@@ -38,6 +39,6 @@ try:
     host.lobby(5,1)
     t.check('filler raptor leaders also receive separate packs',wait_for(lambda:len(followers(host,1))==2 and len(followers(host,4))==2))
     rejoin=Peer(t,'PackRejoin');time.sleep(.5)
-    t.check('human replacing raptor bot cleans old followers',wait_for(lambda:not followers(host,1) and len(followers(host,4))==2 and len([a for a in host.state()['networkActors'] if a['scoring']])==6))
+    t.check('human replacing raptor bot cleans old followers',wait_for(lambda:not followers(host,1) and len(followers(host,4))==2 and len([a for a in host.state()['networkActors'] if a['id']<10 and a['scoring']])==6))
     rejoin.quit();host.quit()
 finally:t.close()

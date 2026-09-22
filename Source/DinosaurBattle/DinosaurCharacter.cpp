@@ -84,10 +84,10 @@ void ADinosaurCharacter::ApplySpecies(int32 ID)
 void ADinosaurCharacter::Tick(float Dt)
 {
     Super::Tick(Dt);
+    if(HasAuthority())if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())bScoringParticipant=GM->IsScoringTarget(this);
     if(GetNetMode()!=NM_Standalone&&MatchFrozen())
     {if(HasAuthority())CancelActions();GetCharacterMovement()->StopMovementImmediately();return;}
     if(HasAuthority()&&Health->IsDead()&&!bDead) Die();
-    if(HasAuthority())if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())bScoringParticipant=GM->IsScoringTarget(this);
     if(bDead){DeathTime+=Dt;if(HasAuthority()&&RespawnDelay>0&&DeathTime>(bMajor?RespawnDelay:45))ResetLife();return;}
     if(GetLocalRole()==ROLE_SimulatedProxy)return;
     auto* M=GetCharacterMovement();

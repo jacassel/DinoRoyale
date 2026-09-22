@@ -1,8 +1,11 @@
-import runtime_core as t,time,json
+import runtime_core as t,time,json,sys
 rows=[]
 def check(n,ok,**data):
     rows.append(dict(test=n,passed=bool(ok),**data));(t.OUT/'match-rules.json').write_text(json.dumps(rows,indent=2));print(('PASS ' if ok else 'FAIL ')+n+' '+json.dumps(data),flush=True)
-def hit(a,v,amount=100000):return t.command('scoreHit',attacker=a,victim=v,value=amount)
+def hit(a,v,amount=100000):
+    t.command('scoreHit',attacker=a,victim=v,value=amount)
+    time.sleep(.25) # Death resolves on Tick, followed by the 0.1s GameState publication.
+    return t.state()
 def reset(v):return t.command('resetCombatant',id=v)
 def mode(teams):
     t.command('match',teams=teams);t.command('ai',paused=True);t.command('sandbox',enabled=False);time.sleep(.3)
@@ -36,3 +39,4 @@ check('team victory at ten',t.state()['roundOver'] and t.state()['team0Kills']==
 mode(False);start=t.state()['time'];hit(1,0);s=t.state();check('death counter and ten second delay',s['dead'] and s['deaths']==1 and abs(s['respawnDelay']-10)<.01)
 time.sleep(9.3);check('still dead before ten seconds',t.state()['dead']);time.sleep(1.1);check('respawns after ten seconds',not t.state()['dead'] and t.state()['health']==t.state()['maxHealth'],elapsed=t.state()['time']-start)
 print('RESULT '+str(sum(x['passed'] for x in rows))+'/'+str(len(rows)),flush=True)
+sys.exit(any(not x['passed'] for x in rows))

@@ -1,0 +1,77 @@
+{
+  "instances": 10,
+  "durationSeconds": 119.68799999996554,
+  "minimumAvailableGB": 13.642822265625,
+  "peers": [
+    {
+      "id": 0,
+      "medianFPS": 59.99808660887127,
+      "p95FrameMs": 21.2677001953125,
+      "outgoingBytesPerSecond": 243814.09999338616,
+      "incomingBytesPerSecond": 39344.37871801146
+    },
+    {
+      "id": 1,
+      "medianFPS": 59.99843677778934,
+      "p95FrameMs": 17.001100540161133,
+      "outgoingBytesPerSecond": 4469.621014639346,
+      "incomingBytesPerSecond": 27106.259608322755
+    },
+    {
+      "id": 2,
+      "medianFPS": 59.99808660887127,
+      "p95FrameMs": 17.41130256652832,
+      "outgoingBytesPerSecond": 4435.975202193644,
+      "incomingBytesPerSecond": 27020.82080075639
+    },
+    {
+      "id": 3,
+      "medianFPS": 59.99807287684012,
+      "p95FrameMs": 17.155799865722656,
+      "outgoingBytesPerSecond": 4411.937704700154,
+      "incomingBytesPerSecond": 27071.686384607754
+    },
+    {
+      "id": 4,
+      "medianFPS": 59.99808660887127,
+      "p95FrameMs": 17.80689811706543,
+      "outgoingBytesPerSecond": 4398.14350645137,
+      "incomingBytesPerSecond": 27059.772074067012
+    },
+    {
+      "id": 5,
+      "medianFPS": 59.99807287684012,
+      "p95FrameMs": 16.94019889831543,
+      "outgoingBytesPerSecond": 4368.21569413935,
+      "incomingBytesPerSecond": 27070.073858707077
+    },
+    {
+      "id": 6,
+      "medianFPS": 59.99808660887127,
+      "p95FrameMs": 17.455398559570312,
+      "outgoingBytesPerSecond": 4346.559387742713,
+      "incomingBytesPerSecond": 27208.9516075207
+    },
+    {
+      "id": 7,
+      "medianFPS": 59.998261692819376,
+      "p95FrameMs": 17.312400817871094,
+      "outgoingBytesPerSecond": 4308.635786379156,
+      "incomingBytesPerSecond": 27135.652697020043
+    },
+    {
+      "id": 8,
+      "medianFPS": 59.99807287684012,
+      "p95FrameMs": 17.171899795532227,
+      "outgoingBytesPerSecond": 4311.635251655543,
+      "incomingBytesPerSecond": 27077.768865725327
+    },
+    {
+      "id": 9,
+      "medianFPS": 59.99843677778934,
+      "p95FrameMs": 17.000701904296875,
+      "outgoingBytesPerSecond": 4287.263551902845,
+      "incomingBytesPerSecond": 26997.267896538753
+    }
+  ]
+}

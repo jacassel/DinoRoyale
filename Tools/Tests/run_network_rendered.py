@@ -1,0 +1,28 @@
+"""Two rendered packaged peers; leaves a bounded pause for native visual inspection."""
+import argparse,json,time
+from net_harness import NetworkTest,Peer,host_url,wait_for,distance
+p=argparse.ArgumentParser();p.add_argument('--executable',required=True);p.add_argument('--output',default='Tests/Results/multiplayer/packaged-rendered');a=p.parse_args()
+t=NetworkTest(a.output,executable=a.executable,rendered=True)
+(t.out/'inspection-done.txt').unlink(missing_ok=True)
+(t.out/'inspection-ready.json').unlink(missing_ok=True)
+try:
+    host=Peer(t,'RenderHost',host_url(2));client=Peer(t,'RenderClient')
+    t.check('two rendered packaged peers in lobby',wait_for(lambda:len(client.state()['players'])==2))
+    t.check('prey remain non-scoring while lobby is frozen',wait_for(lambda:all(not d['scoring'] for d in client.state()['networkActors'] if 100<=d['id']<200)))
+    host.lobby(0,0);client.lobby(0,1);client.lobby(2,1);host.lobby(6)
+    t.check('rendered match starts',wait_for(lambda:not client.state()['lobby']))
+    host.command('ai',paused=True);host.command('teleport',x=0,y=0);host.command('face',yaw=0)
+    host.command('testAI',id=1,species=1,x=650,y=120,yaw=180,health=1,enabled=False);client.command('face',yaw=180)
+    time.sleep(1)
+    t.check('rendered peers agree on positions',distance(host.actor(1),client.state())<100)
+    before=client.state();client.hold('D',.4)
+    t.check('rendered client input replicates',distance(before,client.state())>80 and wait_for(lambda:distance(host.actor(1),client.state())<100))
+    host.command('testAI',id=1,species=1,x=450,y=0,yaw=180,health=1,enabled=False);client.command('face',yaw=180);time.sleep(.6)
+    hp=host.state()['health'];client.tap('LeftMouseButton');time.sleep(.7)
+    t.check('rendered client attack damages host',host.state()['health']<hp)
+    host.command('screenshot');client.command('screenshot')
+    (t.out/'inspection-ready.json').write_text(json.dumps(dict(hostPid=host.proc.pid,clientPid=client.proc.pid)))
+    print('READY FOR NATIVE INSPECTION: close with inspection-done.txt or five-minute timeout',flush=True)
+    wait_for(lambda:(t.out/'inspection-done.txt').exists(),300)
+    client.quit();host.quit()
+finally:t.close()

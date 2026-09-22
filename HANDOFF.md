@@ -1,4 +1,65 @@
-# Sound and terrain checkpoint — September 20, 2026
+# EOS multiplayer checkpoint — September 22, 2026
+
+Launch `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
+Playable package: `Dist/Windows`; send friends that entire Windows folder.
+Independent recovery: `Dist/Checkpoints/2026-09-22-eos-multiplayer/Windows`.
+Previous playable: `Dist/Checkpoints/2026-09-22-before-eos-promotion/Windows`.
+The pre-multiplayer baseline and earlier checkpoints remain intact.
+All 54 non-Saved files match SHA-256 across candidate, recovery and promoted
+copies. Dist is ignored by Git: the independent package is the playable backup.
+Source tag: `eos-multiplayer-local-tested-20260922` on `codex/internet-multiplayer`.
+
+The normal LaunchGame.bat opened the promoted package at 1600x900 without a
+development bridge. Native 1 selected Rex, F4 opened Multiplayer and F10 quit;
+both game processes exited. A firewall prompt covered part of the view, so
+mouse-click verification remains limited until the user handles that prompt.
+
+EOS lobbies, Epic Account Portal sign-in and EOS P2P force-relay transport are
+implemented. **Live EOS and different-network internet play are NOT VERIFIED.**
+No EOS product is configured; the developer portal was signed out. Follow
+EOS_SETUP.md and place the five-value OnlineServices.ini in
+`Dist/Windows/DinosaurBattle`. The example file is included there. Use two Epic
+accounts with access to the product, then perform the user's second-PC test.
+This goal is not fully complete until live EOS hosting/discovery/join and
+different-network gameplay pass. No port forwarding or IP entry is part of
+the intended player flow. A Windows Firewall prompt was observed and was not
+accepted; no OS security settings were changed.
+
+F4 Multiplayer opens Host Game / Join Game. Host chooses FFA or Team Battle,
+2–10 main slots, bots and visibility. Guests select species/team and Ready;
+host starts. FFA ends at five kills; teams at ten; respawn is ten seconds.
+Bots yield to human joins, teams cap at five, and each raptor leader gets two
+private followers without consuming slots. ESC does not pause online.
+Host exit ends the match; guests return to Multiplayer. No host migration.
+FRIEND_QUICKSTART.md contains the shareable instructions.
+
+Verified: ten real packaged processes over local development sockets, two
+120-second headless FFA/5v5 runs with twenty followers; up to eight main bots
+with two humans; real client combat, damage/scoring/respawn, pack cleanup,
+visibility/food/water and lobby/host-loss behavior. Headless simulation was
+about 60 FPS, with minimum 13.64 GiB free RAM; this is not rendered or WAN
+performance. Three profiles injected 15/38/75 ms outgoing delay per peer;
+the last used 2% packet loss. Total sampled pings were 86.9/145.3/243.6 ms.
+Each passed 24 checks; the worst-profile pack suite passed 21 more.
+
+Packaged offline regression: **183/183** (core 90, integration/navigation
+41, settings/water/blood 28, match rules 24). The subsequent rebuild only changes
+the local-settings caption and hides offline shortcuts while online; it receives
+a separate final UI/launch check. Final network/visual verification
+is recorded in TEST_LOG.md and Tests/Results/multiplayer. Tests are automated
+game processes, not ten human playtesters. Failed trials remain in evidence;
+fixture cleanup, GameState publication timing and old test exit codes were fixed.
+
+Preserved user input: Config/DefaultInput.ini remains byte-identical to
+Tests/Results/multiplayer-baseline/DefaultInput.before.ini and excluded from
+agent commits. Final account checkpoint: 47% remaining; no Astra-specific
+allowance is exposed. One agent; no purchases or deployment. See KNOWN_ISSUES.md for
+latency/host advantage, art/audio limitations, bounded soak coverage and Steam
+work remaining. EOS_SETUP.md describes the provider boundary for future Steam.
+
+---
+
+# Sound and terrain checkpoint â€” September 20, 2026
 
 Launch: double-click
 `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
@@ -39,7 +100,7 @@ paths, falls, stuck recoveries or immediate respawn hits. First packaged core
 attempt exposed audio-test fixture contamination; a fresh-process rerun passed
 all assertions. Failed evidence and diagnosis are retained in `SOUND_TERRAIN.md`.
 
-Warmed RTX 3060 packaged samples at 1600x900 averaged 59.49–60.00 FPS. One 169ms
+Warmed RTX 3060 packaged samples at 1600x900 averaged 59.49â€“60.00 FPS. One 169ms
 pond hitch was sampled; this is not a full trace or a hitch-free guarantee.
 Nine packaged map views reviewed. Evidence: `Tests/Results/sound-terrain`.
 
@@ -53,7 +114,7 @@ sprints; Space jumps; Q braces; LMB attacks; hold/release RMB charges; hold E ea
 M opens/closes the map; point and R adds/removes a pin. Escape pauses; F10 in
 the menu quits. See README for match/settings details.
 
-## Previous visual modernization checkpoint — September 20, 2026
+## Previous visual modernization checkpoint â€” September 20, 2026
 
 Double-click `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
 The launcher was verified on the promoted standalone at 1600x900, without a
@@ -85,7 +146,7 @@ packaged world run recorded 187 hits with no failed paths, falls, stuck recoveri
 or immediate respawn hits. Evidence and rejected iterations are retained under
 `Tests/Results/visual-modernization`; see `VISUAL_SPRINT.md` and `TEST_LOG.md`.
 
-RTX 3060 at 1600x900: warmed packaged scenes averaged 58.81–60.00 FPS at the 60 FPS
+RTX 3060 at 1600x900: warmed packaged scenes averaged 58.81â€“60.00 FPS at the 60 FPS
 cap. One 194.8ms pond hitch was sampled; a 45-second follow-up averaged 59.94 FPS
 without sampled frames above 50ms. These are bounded samples, not a full trace.
 Anatomy, fern/rock silhouettes, clip transitions/sliding and distant repetition
@@ -100,7 +161,7 @@ F10 in the menu quits. See README for match and settings details.
 Final reported account allowance: 70% remaining; no separate Astra allowance
 exposed. No purchases, delegation or gameplay rebalancing in this sprint.
 
-## Previous map and results update — September 20, 2026
+## Previous map and results update â€” September 20, 2026
 
 Latest update: all living team allies have current-position markers on both maps,
 including followers and while the human waits to respawn. Enemy/solo concealment

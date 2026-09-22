@@ -1,0 +1,124 @@
+[
+  {
+    "test": "settings open during pause",
+    "passed": true
+  },
+  {
+    "test": "world paused",
+    "passed": true
+  },
+  {
+    "test": "sensitivity setting changes",
+    "passed": true
+  },
+  {
+    "test": "escape returns to selection",
+    "passed": true
+  },
+  {
+    "test": "number selects and resumes",
+    "passed": true
+  },
+  {
+    "test": "blood off suppresses particles",
+    "passed": true
+  },
+  {
+    "test": "blood on emits on melee hit",
+    "passed": true,
+    "particles": 9
+  },
+  {
+    "test": "turning blood off clears particles",
+    "passed": true
+  },
+  {
+    "test": "Trex water slows",
+    "passed": true,
+    "ratio": 0.65
+  },
+  {
+    "test": "Trex water plus 50 percent injury",
+    "passed": true,
+    "ratio": 0.5525
+  },
+  {
+    "test": "Trex water plus critical injury",
+    "passed": true,
+    "ratio": 0.4549999709356399
+  },
+  {
+    "test": "Trex critical charge blocked in water",
+    "passed": true
+  },
+  {
+    "test": "Trex healing restores water speed",
+    "passed": true
+  },
+  {
+    "test": "Trex exiting restores land speed",
+    "passed": true
+  },
+  {
+    "test": "Raptor water slows",
+    "passed": true,
+    "ratio": 0.65
+  },
+  {
+    "test": "Raptor water plus 50 percent injury",
+    "passed": true,
+    "ratio": 0.5524999618530273
+  },
+  {
+    "test": "Raptor water plus critical injury",
+    "passed": true,
+    "ratio": 0.455
+  },
+  {
+    "test": "Raptor critical charge blocked in water",
+    "passed": true
+  },
+  {
+    "test": "Raptor healing restores water speed",
+    "passed": true
+  },
+  {
+    "test": "Raptor exiting restores land speed",
+    "passed": true
+  },
+  {
+    "test": "Trike water slows",
+    "passed": true,
+    "ratio": 0.65
+  },
+  {
+    "test": "Trike water plus 50 percent injury",
+    "passed": true,
+    "ratio": 0.5524999640969669
+  },
+  {
+    "test": "Trike water plus critical injury",
+    "passed": true,
+    "ratio": 0.455
+  },
+  {
+    "test": "Trike critical charge blocked in water",
+    "passed": true
+  },
+  {
+    "test": "Trike healing restores water speed",
+    "passed": true
+  },
+  {
+    "test": "Trike exiting restores land speed",
+    "passed": true
+  },
+  {
+    "test": "map opens",
+    "passed": true
+  },
+  {
+    "test": "map closes",
+    "passed": true
+  }
+]

@@ -1,0 +1,242 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 10,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "2 actual connected game processes",
+      "status": "PASS",
+      "availableGB": 15.700634002685547
+    },
+    {
+      "test": "3 actual connected game processes",
+      "status": "PASS",
+      "availableGB": 15.454578399658203
+    },
+    {
+      "test": "4 actual connected game processes",
+      "status": "PASS",
+      "availableGB": 15.192306518554688
+    },
+    {
+      "test": "5 actual connected game processes",
+      "status": "PASS",
+      "availableGB": 14.95656967163086
+    },
+    {
+      "test": "6 actual connected game processes",
+      "status": "PASS",
+      "availableGB": 14.686870574951172
+    },
+    {
+      "test": "7 actual connected game processes",
+      "status": "PASS",
+      "availableGB": 14.453254699707031
+    },
+    {
+      "test": "8 actual connected game processes",
+      "status": "PASS",
+      "availableGB": 14.173343658447266
+    },
+    {
+      "test": "9 actual connected game processes",
+      "status": "PASS",
+      "availableGB": 13.945625305175781
+    },
+    {
+      "test": "10 actual connected game processes",
+      "status": "PASS",
+      "availableGB": 13.699958801269531
+    },
+    {
+      "test": "all connected players have unique slots",
+      "status": "PASS"
+    },
+    {
+      "test": "all raptor leaders own two followers",
+      "status": "PASS"
+    },
+    {
+      "test": "raptor-heavy FFA starts at tested capacity",
+      "status": "PASS"
+    },
+    {
+      "test": "ffa sustained network session",
+      "status": "PASS",
+      "instances": 10,
+      "durationSeconds": 119.68799999996554,
+      "minimumAvailableGB": 13.642822265625,
+      "peers": [
+        {
+          "id": 0,
+          "medianFPS": 59.99808660887127,
+          "p95FrameMs": 21.2677001953125,
+          "outgoingBytesPerSecond": 243814.09999338616,
+          "incomingBytesPerSecond": 39344.37871801146
+        },
+        {
+          "id": 1,
+          "medianFPS": 59.99843677778934,
+          "p95FrameMs": 17.001100540161133,
+          "outgoingBytesPerSecond": 4469.621014639346,
+          "incomingBytesPerSecond": 27106.259608322755
+        },
+        {
+          "id": 2,
+          "medianFPS": 59.99808660887127,
+          "p95FrameMs": 17.41130256652832,
+          "outgoingBytesPerSecond": 4435.975202193644,
+          "incomingBytesPerSecond": 27020.82080075639
+        },
+        {
+          "id": 3,
+          "medianFPS": 59.99807287684012,
+          "p95FrameMs": 17.155799865722656,
+          "outgoingBytesPerSecond": 4411.937704700154,
+          "incomingBytesPerSecond": 27071.686384607754
+        },
+        {
+          "id": 4,
+          "medianFPS": 59.99808660887127,
+          "p95FrameMs": 17.80689811706543,
+          "outgoingBytesPerSecond": 4398.14350645137,
+          "incomingBytesPerSecond": 27059.772074067012
+        },
+        {
+          "id": 5,
+          "medianFPS": 59.99807287684012,
+          "p95FrameMs": 16.94019889831543,
+          "outgoingBytesPerSecond": 4368.21569413935,
+          "incomingBytesPerSecond": 27070.073858707077
+        },
+        {
+          "id": 6,
+          "medianFPS": 59.99808660887127,
+          "p95FrameMs": 17.455398559570312,
+          "outgoingBytesPerSecond": 4346.559387742713,
+          "incomingBytesPerSecond": 27208.9516075207
+        },
+        {
+          "id": 7,
+          "medianFPS": 59.998261692819376,
+          "p95FrameMs": 17.312400817871094,
+          "outgoingBytesPerSecond": 4308.635786379156,
+          "incomingBytesPerSecond": 27135.652697020043
+        },
+        {
+          "id": 8,
+          "medianFPS": 59.99807287684012,
+          "p95FrameMs": 17.171899795532227,
+          "outgoingBytesPerSecond": 4311.635251655543,
+          "incomingBytesPerSecond": 27077.768865725327
+        },
+        {
+          "id": 9,
+          "medianFPS": 59.99843677778934,
+          "p95FrameMs": 17.000701904296875,
+          "outgoingBytesPerSecond": 4287.263551902845,
+          "incomingBytesPerSecond": 26997.267896538753
+        }
+      ]
+    },
+    {
+      "test": "team cannot exceed five human participants",
+      "status": "PASS"
+    },
+    {
+      "test": "balanced team round starts at tested capacity",
+      "status": "PASS"
+    },
+    {
+      "test": "teams sustained network session",
+      "status": "PASS",
+      "instances": 10,
+      "durationSeconds": 119.56199999997625,
+      "minimumAvailableGB": 14.068195343017578,
+      "peers": [
+        {
+          "id": 0,
+          "medianFPS": 59.9977227121697,
+          "p95FrameMs": 20.76650047302246,
+          "outgoingBytesPerSecond": 241427.48532147115,
+          "incomingBytesPerSecond": 39362.51484586185
+        },
+        {
+          "id": 1,
+          "medianFPS": 59.99808660887127,
+          "p95FrameMs": 17.218801498413086,
+          "outgoingBytesPerSecond": 4404.626888142592,
+          "incomingBytesPerSecond": 26839.020759109393
+        },
+        {
+          "id": 2,
+          "medianFPS": 59.99808660887127,
+          "p95FrameMs": 17.818998336791992,
+          "outgoingBytesPerSecond": 4440.51621752819,
+          "incomingBytesPerSecond": 26809.780699558694
+        },
+        {
+          "id": 3,
+          "medianFPS": 59.99808660887127,
+          "p95FrameMs": 18.0476016998291,
+          "outgoingBytesPerSecond": 4440.566400696755,
+          "incomingBytesPerSecond": 26879.192385545895
+        },
+        {
+          "id": 4,
+          "medianFPS": 59.99808660887127,
+          "p95FrameMs": 17.020397186279297,
+          "outgoingBytesPerSecond": 4399.232197521826,
+          "incomingBytesPerSecond": 26707.84195647977
+        },
+        {
+          "id": 5,
+          "medianFPS": 59.99808660887127,
+          "p95FrameMs": 17.292499542236328,
+          "outgoingBytesPerSecond": 4381.350261789733,
+          "incomingBytesPerSecond": 26869.247754308544
+        },
+        {
+          "id": 6,
+          "medianFPS": 59.99807287684012,
+          "p95FrameMs": 17.278499603271484,
+          "outgoingBytesPerSecond": 4341.161907630377,
+          "incomingBytesPerSecond": 26740.82902595001
+        },
+        {
+          "id": 7,
+          "medianFPS": 59.99843677778934,
+          "p95FrameMs": 17.606298446655273,
+          "outgoingBytesPerSecond": 4319.967882772977,
+          "incomingBytesPerSecond": 26935.94118533179
+        },
+        {
+          "id": 8,
+          "medianFPS": 59.99807287684012,
+          "p95FrameMs": 17.683998107910156,
+          "outgoingBytesPerSecond": 4335.993041268153,
+          "incomingBytesPerSecond": 26828.95066995063
+        },
+        {
+          "id": 9,
+          "medianFPS": 59.99808660887127,
+          "p95FrameMs": 17.094701766967773,
+          "outgoingBytesPerSecond": 4296.348338101588,
+          "incomingBytesPerSecond": 26757.305832962273
+        }
+      ]
+    },
+    {
+      "test": "all departed clients and their packs cleaned up",
+      "status": "PASS"
+    },
+    {
+      "test": "no fatal replication or memory warnings",
+      "status": "PASS",
+      "warnings": []
+    }
+  ]
+}

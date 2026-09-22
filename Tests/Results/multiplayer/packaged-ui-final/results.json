@@ -1,0 +1,34 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "two rendered packaged peers in lobby",
+      "status": "PASS"
+    },
+    {
+      "test": "prey remain non-scoring while lobby is frozen",
+      "status": "PASS"
+    },
+    {
+      "test": "rendered match starts",
+      "status": "PASS"
+    },
+    {
+      "test": "rendered peers agree on positions",
+      "status": "PASS"
+    },
+    {
+      "test": "rendered client input replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "rendered client attack damages host",
+      "status": "PASS"
+    }
+  ]
+}

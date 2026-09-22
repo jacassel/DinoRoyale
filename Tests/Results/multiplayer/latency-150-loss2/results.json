@@ -1,0 +1,122 @@
+{
+  "transport": "loopback development transport",
+  "wan": "NOT VERIFIED",
+  "players": 2,
+  "oneWayLagMs": 75,
+  "packetLossPercent": 2,
+  "tests": [
+    {
+      "test": "net emulation settings active",
+      "status": "PASS",
+      "oneWayMs": 75,
+      "lossPercent": 2,
+      "measuredClientPingMs": 243.60000610351562
+    },
+    {
+      "test": "two unique possessed players",
+      "status": "PASS",
+      "hostMode": 2,
+      "clientMode": 3
+    },
+    {
+      "test": "replicated participant count",
+      "status": "PASS"
+    },
+    {
+      "test": "client terrain collision",
+      "status": "PASS",
+      "floor": "LostValleyWorld"
+    },
+    {
+      "test": "client movement",
+      "status": "PASS",
+      "displacement": 831.1810318528487
+    },
+    {
+      "test": "host sees client movement",
+      "status": "PASS",
+      "error": 0.47939339929673935
+    },
+    {
+      "test": "server validates client sprint",
+      "status": "PASS",
+      "speed": 1449,
+      "stamina": 89.49712371826172
+    },
+    {
+      "test": "client jump",
+      "status": "PASS",
+      "rise": 89.52511350344139
+    },
+    {
+      "test": "replicated brace stops movement",
+      "status": "PASS",
+      "distance": 0.0
+    },
+    {
+      "test": "client attack damages authoritative host",
+      "status": "PASS",
+      "damage": 187
+    },
+    {
+      "test": "damage replicated to attacking client",
+      "status": "PASS"
+    },
+    {
+      "test": "no repeated quick damage",
+      "status": "PASS"
+    },
+    {
+      "test": "charge initiation replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "charged client hit",
+      "status": "PASS",
+      "damage": 673.2000122070312
+    },
+    {
+      "test": "host attack kills client",
+      "status": "PASS"
+    },
+    {
+      "test": "death creates one replicated carcass",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "test": "server score increments once",
+      "status": "PASS",
+      "kills": 1
+    },
+    {
+      "test": "client waits through respawn delay",
+      "status": "PASS"
+    },
+    {
+      "test": "server respawns client",
+      "status": "PASS"
+    },
+    {
+      "test": "respawn health replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "respawn position replicated",
+      "status": "PASS",
+      "error": 0.0
+    },
+    {
+      "test": "death counted once",
+      "status": "PASS"
+    },
+    {
+      "test": "disconnect removes player actor",
+      "status": "PASS"
+    },
+    {
+      "test": "movement base resolves on client",
+      "status": "PASS"
+    }
+  ]
+}
