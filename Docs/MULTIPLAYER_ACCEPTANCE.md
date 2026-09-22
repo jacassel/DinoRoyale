@@ -44,8 +44,8 @@ Every status requires runtime evidence. Local loopback is not EOS or WAN evidenc
 | No persistent ghost players. | PASS (local) | scale-01: host plus nine real packaged processes; headless loopback |
 | Full lobby rejects additional players. | PASS (local) | stage-h-02 |
 | Human replaces bot. | PASS (local) | stage-c-02 / stage-f-02 |
-| Client disconnect handled. | PASS (local) | stage-c-02 / stage-f-02 |
-| Host disconnect handled. | PASS (local) | stage-h-02 |
+| Client disconnect handled. | PASS (local) | packaged-failure-edges-02: silent timeout preserves host and healthy guest; bot/pack replacement and reconnection |
+| Host disconnect handled. | PASS (local) | stage-h-02 graceful departure; packaged-failure-edges-02 silent host timeout returns both guests |
 | Rematch works. | PASS (local) | stage-de-01 |
 | Return to lobby works. | PASS (local) | stage-de-01 |
 | Repeated matches do not accumulate actors/state. | PASS (local) | stage-de-01 |
@@ -60,3 +60,9 @@ delay; game scheduling and transport add baseline latency. Exact total pings
 of 30/75/150 ms were not established. The measured pings above are recorded
 samples, not complete distributions. All three profiles passed 24 checks.
 The 75 ms per-peer + 2% loss pack suite passed another 21 checks.
+
+The timeout repair passed 13 additional packaged failure checks and 16 survival
+checks (`packaged-survival-edges-04`), including actual two-minute plant regrowth,
+starvation and replicated knockback. The rebuilt package is backed up separately
+and hash-verified. Earlier broad results were not all rerun for this handler-only
+repair. Live EOS acceptance still requires product configuration and user testing.

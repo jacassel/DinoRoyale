@@ -211,3 +211,36 @@ The promoted normal launcher passed native 1/F4/F10 checks. All 54 non-Saved
 package files were hash-verified across candidate, recovery and promotion.
 Source/editor and final package builds succeeded. Final allowance: 47% remaining.
 
+## Silent timeout repair and survival edge checks
+
+A subsequent acceptance audit tested lost traffic by suspending only the test's
+own guest process, then resuming it. The first trial revealed that the global
+network-failure callback sent the listen host back to the menu for an individual
+guest ConnectionTimeout. The handler now ignores per-guest ConnectionTimeout and
+ConnectionLost notifications on a server; Unreal's connection cleanup still
+invokes Logout, removes that human and restores any configured bot/private pack.
+Client-side and fatal server failures retain the existing menu/cleanup behavior.
+
+`packaged-failure-edges-02` passed 13 checks on the new package. Its healthy third
+process remains connected and accepts mapped movement after the guest timeout;
+another guest subsequently joins. Suspending the host separately returns both
+guests with Host disconnected. Ending-match rejection and unreachable-host
+timeout also pass. No firewall or network settings were changed.
+
+`packaged-survival-edges-04` passed 16 checks on the same package: server starvation,
+resource restoration on respawn, finite food consumption, two-way real heavy
+knockback and charge interruption, and plant regrowth after 120.203 seconds.
+The regrowth test does not shorten the timer or replace the map. Earlier survival
+trials are retained: trial 01 assumed a non-existent hunger field in the actor
+snapshot; trial 02 hit a telemetry read timeout during concurrent packaging;
+trial 03 hit a Windows command-file PermissionError after 13 passing checks.
+The harness retries the same command sequence/payload for up to five seconds on
+that transient sharing error. Final trial 04 ran alone and passed all checks.
+
+Editor and packaged builds succeeded. Promotion preserved the old package,
+created a separate recovery copy, and verified all 54 non-Saved files by SHA-256.
+The normal launcher opened the new package at 1600x900; the unchanged firewall
+prompt limits native verification. See HANDOFF.md for current paths/tag and
+TEST_LOG.md for evidence. Final allowance: 44%. EOS product configuration remains
+absent, so live EOS and different-network play remain NOT VERIFIED.
+

@@ -1,0 +1,64 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 7,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "raptor client and private followers connected",
+      "status": "PASS"
+    },
+    {
+      "test": "silent client times out while listen host remains active",
+      "status": "PASS",
+      "elapsedSeconds": 20.110000000044238
+    },
+    {
+      "test": "timed-out human replaced by exactly one bot and pack",
+      "status": "PASS"
+    },
+    {
+      "test": "timeout replacement does not award kills",
+      "status": "PASS"
+    },
+    {
+      "test": "healthy guest remains connected and controllable",
+      "status": "PASS"
+    },
+    {
+      "test": "resumed stale client returns to menu",
+      "status": "PASS"
+    },
+    {
+      "test": "new guest can replace timeout filler",
+      "status": "PASS"
+    },
+    {
+      "test": "silent host loss returns both guests with clear reason",
+      "status": "PASS",
+      "elapsedSeconds": 20.57799999997951
+    },
+    {
+      "test": "host removes timed-out guest after resuming",
+      "status": "PASS"
+    },
+    {
+      "test": "ending round visible to both players",
+      "status": "PASS"
+    },
+    {
+      "test": "ending match rejects new guest with clear reason",
+      "status": "PASS"
+    },
+    {
+      "test": "rejected ending join creates no extra participant",
+      "status": "PASS"
+    },
+    {
+      "test": "unreachable host returns clear failure and menu",
+      "status": "PASS"
+    }
+  ]
+}

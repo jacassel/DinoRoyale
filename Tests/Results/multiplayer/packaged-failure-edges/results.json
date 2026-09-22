@@ -1,0 +1,23 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "raptor client and private followers connected",
+      "status": "PASS"
+    },
+    {
+      "test": "silent client times out without a graceful close packet",
+      "status": "PASS",
+      "elapsedSeconds": 20.5
+    },
+    {
+      "test": "timed-out human replaced by exactly one bot and pack",
+      "status": "FAIL"
+    }
+  ]
+}

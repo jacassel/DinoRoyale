@@ -1,5 +1,35 @@
 # Test log
 
+## EOS timeout repair — September 22, 2026
+
+- Editor build and Win64 packaged build succeeded.
+- `packaged-failure-edges-02`: **13/13**. A guest's silent timeout after
+  20.110 seconds preserves the listen server and a healthy, controllable guest;
+  bot/pack replacement has no duplicate actors or kill credit. A replacement
+  guest joins. Silent host loss returns both guests after 20.578 seconds.
+  Ending-match and unreachable-host rejection show the expected messages.
+- `packaged-survival-edges-04`: **16/16**. Server starvation damage/hunger,
+  suppressed stamina regeneration, starvation death and respawn, finite carcass
+  consumption, real heavy interruption and knockback in both directions, and
+  unmodified plant regrowth after 120.203 seconds agree across two processes.
+- Both suites use the rebuilt packaged executable and explicit local development
+  sockets. They do not validate EOS or WAN.
+- All 54 non-Saved package files matched SHA-256 across candidate, recovery and
+  promoted copies. Evidence: `timeout-fix-package-{manifest,checkpoint}.json`.
+- Normal `LaunchGame.bat` reached the 1600x900 menu without the development
+  bridge. Screenshot: `timeout-fix-launch/menu.png`. The firewall prompt remained
+  unchanged; no native inputs were attempted behind it on this run. The game was
+  closed by process cleanup; mapped gameplay controls passed in the suites above.
+- Earlier failure evidence remains. The first timeout test found the repaired
+  game bug; survival trials exposed a missing telemetry-field assertion, a
+  telemetry timeout during concurrent packaging, and a transient Windows file
+  sharing conflict. The final serialized run passed after harness corrections.
+- User input baseline hash still matches. Account allowance: 44% remaining;
+  no Astra-specific allowance exposed. Live EOS/internet play remains unverified.
+
+The broader results below were obtained before this narrow handler repair and
+were not all repeated; the new packaged suites and normal launch cover the change.
+
 ## EOS multiplayer — September 22, 2026
 
 Final promoted LaunchGame.bat check: 1600x900 normal launch, native Rex selection

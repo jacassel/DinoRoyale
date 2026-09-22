@@ -1,0 +1,16 @@
+{
+  "normalLauncher": "LaunchGame.bat",
+  "developmentBridge": false,
+  "resolution": "1600x900",
+  "menuVisible": true,
+  "nativeInput": "NOT RETESTED: Windows Firewall prompt blocks workspace",
+  "permissionsChanged": false,
+  "cleanup": "Stopped only this smoke launch process IDs 23004 and 30432",
+  "controlEvidence": [
+    "packaged-failure-edges-02",
+    "packaged-survival-edges-04"
+  ],
+  "runtimeFilesVerified": 54,
+  "liveEOS": "NOT VERIFIED",
+  "WAN": "NOT VERIFIED"
+}

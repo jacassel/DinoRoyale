@@ -54,7 +54,16 @@ class Peer:
         raise TimeoutError(self.name+' telemetry unavailable')
     def command(self,cmd,**kwargs):
         seq=self.state()['seq']+1
-        (self.path/'command.json').write_text(json.dumps(dict(seq=seq,cmd=cmd,**kwargs)))
+        payload=json.dumps(dict(seq=seq,cmd=cmd,**kwargs))
+        deadline=time.monotonic()+5
+        while True:
+            try:
+                (self.path/'command.json').write_text(payload)
+                break
+            except PermissionError:
+                # The Windows game briefly holds this file while reading it.
+                if time.monotonic()>=deadline:raise
+                time.sleep(.013)
         if not wait_for(lambda:self.state()['seq']>=seq):raise TimeoutError(self.name+' command '+cmd)
         return self.state()
     def lobby(self,action,value=0):return self.command('lobby',action=action,value=value)

@@ -5,6 +5,7 @@
 #include "EOSSettings.h"
 #include "OnlineSubsystemEOSTypesPublic.h"
 #include "Engine/Engine.h"
+#include "Engine/NetDriver.h"
 #include "Engine/GameInstance.h"
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/PlayerController.h"
@@ -223,9 +224,13 @@ void UDinoOnlineSession::UpdateHostedSettings(bool Teams,int32 Capacity,bool Bot
     S.Set(ModeKey,Teams?FString(TEXT("Team Battle")):FString(TEXT("Free-for-All")),EOnlineDataAdvertisementType::ViaOnlineService);
     S.Set(BotsKey,Bots,EOnlineDataAdvertisementType::ViaOnlineService);Sessions->UpdateSession(NAME_GameSession,S,true);
 }
-void UDinoOnlineSession::OnNetworkFailure(UWorld* World,UNetDriver*,ENetworkFailure::Type,const FString& Error)
+void UDinoOnlineSession::OnNetworkFailure(UWorld* World,UNetDriver* Driver,ENetworkFailure::Type Failure,const FString& Error)
 {
     if((World&&World->GetGameInstance()!=GetGameInstance())||bLeaving)return;
+    // A listen server receives these notifications for individual guest connections.
+    // NetConnection cleanup invokes GameMode::Logout and replaces that participant;
+    // taking down the host session here would disconnect every healthy guest too.
+    if(Driver&&Driver->IsServer()&&(Failure==ENetworkFailure::ConnectionTimeout||Failure==ENetworkFailure::ConnectionLost))return;
     const FString Reason=Error.Contains(TEXT("Different game version"))?TEXT("Different game version."):Error.Contains(TEXT("full"),ESearchCase::IgnoreCase)?TEXT("Lobby is full."):Error.Contains(TEXT("Match is ending"))?TEXT("Match is ending."):bHosting?TEXT("Multiplayer connection failed."):bConnected?TEXT("Host disconnected."):TEXT("Could not connect to host.");
     bBusy=false;Operation=EOperation::None;Leave(Reason);
 }

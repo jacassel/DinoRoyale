@@ -1,4 +1,45 @@
-# EOS multiplayer checkpoint — September 22, 2026
+# EOS timeout repair checkpoint — September 22, 2026
+
+Launch `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
+Current package: `Dist/Windows`. Independent recovery:
+`Dist/Checkpoints/2026-09-22-eos-timeout-fix/Windows`.
+Previous package: `Dist/Checkpoints/2026-09-22-before-eos-timeout-fix/Windows`.
+Earlier EOS and standalone checkpoints remain intact. All 54 runtime files
+(excluding Saved) match SHA-256 in candidate, recovery and active copies; see
+`Tests/Results/multiplayer/timeout-fix-package-checkpoint.json` and its manifest.
+Source tag: `eos-multiplayer-timeout-fixed-20260922`.
+
+A real silent-client timeout exposed a bug: the host treated a single guest's
+connection failure as a whole-session failure. The repaired handler leaves
+per-client cleanup to Unreal, preserving the host and healthy guests. The
+replacement passed 13/13 packaged failure checks, including silent host loss,
+bot/pack replacement, reconnection, ending-match rejection and unreachable host.
+It also passed 16/16 survival checks: starvation and respawn, finite food,
+heavy-attack interruption/knockback in both directions and actual 120.203-second
+plant regrowth replicated to the guest. Editor and packaged builds succeeded.
+The test harness now retries a brief Windows command-file sharing conflict.
+
+The promoted normal launcher reached the 1600x900 menu without a development
+bridge. A Windows Firewall prompt prevented further native input verification;
+no permission was changed. This smoke launch was closed by process cleanup.
+Actual mapped gameplay inputs passed in the two new packaged suites. The
+previous broader offline, ten-process and latency results below remain relevant;
+they were not all repeated for this narrow timeout-handler change.
+
+**Live EOS authentication, discovery, invitations, relay and different-network
+gameplay remain NOT VERIFIED.** No EOS product configuration exists and the
+developer portal is signed out. Follow `EOS_SETUP.md`, add the five values in
+`Dist/Windows/DinosaurBattle/OnlineServices.ini`, then use the second PC on a
+different connection with a second authorized Epic account. Send friends the
+entire `Dist/Windows` folder. Offline play works without EOS setup.
+
+User input file remains byte-identical to the preserved baseline and excluded
+from this commit. Final account allowance: 44% remaining; no Astra-specific
+window exposed. One agent; no purchases, deployment or security changes.
+
+---
+
+# Earlier EOS multiplayer checkpoint — September 22, 2026
 
 Launch `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
 Playable package: `Dist/Windows`; send friends that entire Windows folder.

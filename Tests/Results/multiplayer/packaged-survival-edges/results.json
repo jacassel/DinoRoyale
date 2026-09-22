@@ -1,0 +1,19 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "plant fully consumed and hidden on both peers",
+      "status": "PASS"
+    },
+    {
+      "test": "starvation drains client health on the server",
+      "status": "PASS",
+      "damage": 11.25
+    }
+  ]
+}

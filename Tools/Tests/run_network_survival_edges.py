@@ -1,0 +1,52 @@
+"""Real plant regrowth, starvation, food exhaustion and knockback replication."""
+import argparse,time
+from net_harness import NetworkTest,Peer,host_url,wait_for,distance
+p=argparse.ArgumentParser();p.add_argument('--executable',required=True);p.add_argument('--output',default='Tests/Results/multiplayer/packaged-survival-edges');a=p.parse_args()
+t=NetworkTest(a.output,executable=a.executable)
+def arrange(species=0,health=1,hunger=100,stamina=100,x=450):
+    host.command('testAI',id=0,species=0,x=0,y=0,yaw=0,health=1,enabled=False)
+    host.command('testAI',id=1,species=species,x=x,y=0,yaw=180,health=health,hunger=hunger,stamina=stamina,enabled=False)
+    host.command('face',yaw=0);client.command('face',yaw=180);host.command('ai',paused=True);time.sleep(.6)
+try:
+    host=Peer(t,'SurvivalHost',host_url(2));client=Peer(t,'SurvivalClient')
+    host.lobby(0,2);client.lobby(0,2);client.lobby(2,1);host.lobby(6);host.command('ai',paused=True)
+    host.command('teleport',x=0,y=0);host.command('face',yaw=0);host.command('food')
+    host.command('testAI',id=1,species=2,x=500,y=0,yaw=0,health=.3,hunger=0,stamina=0,enabled=False)
+    plant=min(host.state()['plants'],key=lambda q:distance(q,host.state()))
+    def plant_state(peer):return next(q for q in peer.state()['plants'] if abs(q['x']-plant['x'])<1 and abs(q['y']-plant['y'])<1)
+    time.sleep(3);client.key('E')
+    t.check('plant fully consumed and hidden on both peers',wait_for(lambda:plant_state(host)['food']==0 and plant_state(client)['hidden'],12))
+    depleted=time.monotonic();client.key('E','up')
+    # Remaining checks run while the real 120-second regrowth timer elapses.
+    arrange(health=.7,hunger=5,stamina=20,x=3500)
+    before=client.state();time.sleep(3);after=client.state()
+    t.check('starvation drains client health on the server',after['health']<before['health']-5 and host.actor(1)['health']<before['health']-5,damage=before['health']-after['health'])
+    t.check('server starvation health agrees with client and hunger drain replicates',wait_for(lambda:abs(host.actor(1)['health']-client.state()['health'])<1) and after['hunger']<before['hunger']-.15)
+    t.check('severe hunger suppresses stamina regeneration',after['stamina']<=before['stamina']+.1)
+    arrange(health=.001,hunger=0,stamina=0,x=3500)
+    t.check('starvation death replicates',wait_for(lambda:client.state()['dead']))
+    t.check('starvation awards a death without a player kill',wait_for(lambda:client.state()['deaths']==1 and host.state()['kills']==0))
+    t.check('starvation death leaves exactly one carcass',wait_for(lambda:len([c for c in client.state()['corpses'] if c['source']==1])==1))
+    t.check('starvation respawn restores all survival resources',wait_for(lambda:not client.state()['dead'] and client.state()['hunger']>99 and client.state()['health']==client.state()['maxHealth'],14))
+    # A tiny prey carcass must disappear from both processes after consumption.
+    arrange(health=.3,hunger=0,stamina=0,x=500);host.command('food',species=3);time.sleep(3)
+    t.check('finite prey carcass exists on both peers before consumption',wait_for(lambda:any(c['source']==-99 for c in host.state()['corpses']) and any(c['source']==-99 for c in client.state()['corpses'])))
+    client.key('E')
+    t.check('finite prey carcass is consumed and removed on both peers',wait_for(lambda:not any(c['source']==-99 for c in host.state()['corpses']) and not any(c['source']==-99 for c in client.state()['corpses']),6))
+    client.key('E','up')
+    arrange();before=client.state();client.key('RightMouseButton');host.key('RightMouseButton');time.sleep(2.3)
+    t.check('remote charge is active before heavy interruption',client.state()['charging'])
+    host.key('RightMouseButton','up')
+    t.check('host heavy interrupts remote charge',wait_for(lambda:not client.state()['charging'] and client.state()['health']<before['health']))
+    client.key('RightMouseButton','up');time.sleep(.4)
+    t.check('host heavy knocks remote player back and replicates position',distance(before,client.state())>30 and wait_for(lambda:distance(host.actor(1),client.state())<90),travel=distance(before,client.state()))
+    # Reverse direction: an actual client heavy must affect the host.
+    arrange();before=host.state();client.key('RightMouseButton');time.sleep(2.3);client.key('RightMouseButton','up')
+    t.check('client heavy knocks authoritative host back',wait_for(lambda:host.state()['health']<before['health'] and distance(before,host.state())>30))
+    # Keep players away from the cycad; do not replace the map or shorten its timer.
+    host.command('teleport',x=-5000,y=0);host.command('testAI',id=1,species=0,x=5000,y=0,yaw=0,health=1,enabled=False)
+    t.check('plant remains depleted before regrowth deadline',time.monotonic()-depleted<115 and plant_state(host)['food']==0)
+    remaining=max(1,135-(time.monotonic()-depleted))
+    t.check('real plant regrowth restores food visibility and client state',wait_for(lambda:plant_state(host)['food']==120 and not plant_state(host)['hidden'] and plant_state(client)['food']==120 and not plant_state(client)['hidden'],remaining),secondsSinceDepletion=time.monotonic()-depleted)
+    client.quit();host.quit()
+finally:t.close()

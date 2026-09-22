@@ -1,0 +1,77 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "plant fully consumed and hidden on both peers",
+      "status": "PASS"
+    },
+    {
+      "test": "starvation drains client health on the server",
+      "status": "PASS",
+      "damage": 11.25
+    },
+    {
+      "test": "server starvation health agrees with client and hunger drain replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "severe hunger suppresses stamina regeneration",
+      "status": "PASS"
+    },
+    {
+      "test": "starvation death replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "starvation awards a death without a player kill",
+      "status": "PASS"
+    },
+    {
+      "test": "starvation death leaves exactly one carcass",
+      "status": "PASS"
+    },
+    {
+      "test": "starvation respawn restores all survival resources",
+      "status": "PASS"
+    },
+    {
+      "test": "finite prey carcass exists on both peers before consumption",
+      "status": "PASS"
+    },
+    {
+      "test": "finite prey carcass is consumed and removed on both peers",
+      "status": "PASS"
+    },
+    {
+      "test": "remote charge is active before heavy interruption",
+      "status": "PASS"
+    },
+    {
+      "test": "host heavy interrupts remote charge",
+      "status": "PASS"
+    },
+    {
+      "test": "host heavy knocks remote player back and replicates position",
+      "status": "PASS",
+      "travel": 46.3774646894359
+    },
+    {
+      "test": "client heavy knocks authoritative host back",
+      "status": "PASS"
+    },
+    {
+      "test": "plant remains depleted before regrowth deadline",
+      "status": "PASS"
+    },
+    {
+      "test": "real plant regrowth restores food visibility and client state",
+      "status": "PASS",
+      "secondsSinceDepletion": 120.20299999997951
+    }
+  ]
+}
