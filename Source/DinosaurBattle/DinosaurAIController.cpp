@@ -82,7 +82,7 @@ void ADinosaurAIController::GoTo(const FVector& Point)
 }
 void ADinosaurAIController::Tick(float Dt)
 {
-    Super::Tick(Dt);auto* D=Dino();if(!D||bPaused)return;
+    Super::Tick(Dt);auto* D=Dino();if(!D||bPaused||D->MatchFrozen())return;
     float Travel=FVector::Dist2D(D->GetActorLocation(),LastLocation);if(Travel<5000)DistanceTravelled+=Travel;LastLocation=D->GetActorLocation();
     if(D->bDead){Path.Empty();Target=nullptr;State=TEXT("Dead");return;}
     ThinkTimer-=Dt;PathTimer-=Dt;RoamTimer-=Dt;BraceTime-=Dt;

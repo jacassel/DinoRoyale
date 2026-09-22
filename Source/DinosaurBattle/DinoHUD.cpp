@@ -26,9 +26,11 @@ void ADinoHUD::Panel(float X,float Y,float W,float H,float A){DrawRect(FLinearCo
 void ADinoHUD::Bar(float X,float Y,float W,float H,float F,FLinearColor C){DrawRect(FLinearColor(.10f,.14f,.14f,.95f),X,Y,W,H);DrawRect(C,X,Y,W*FMath::Clamp(F,0.f,1.f),H);}
 void ADinoHUD::DrawHUD()
 {
-    Super::DrawHUD();if(!Canvas)return;auto* D=Cast<ADinosaurCharacter>(GetOwningPawn());auto* PC=Cast<ADinoPlayerController>(PlayerOwner);if(!D||!PC)return;
+    Super::DrawHUD();if(!Canvas)return;auto* D=Cast<ADinosaurCharacter>(GetOwningPawn());auto* PC=Cast<ADinoPlayerController>(PlayerOwner);if(!PC)return;
     Scale=FMath::Clamp(Canvas->SizeY/900.f,.45f,1.5f);float S=Scale,W=Canvas->SizeX,H=Canvas->SizeY;
     if(!bMapLoaded){WorldMap=LoadObject<UTexture2D>(nullptr,TEXT("/Game/UI/T_ValleyMap.T_ValleyMap"));bMapLoaded=true;}
+    if(PC->bSelectionOpen&&!PC->bSettingsOpen&&(PC->OnlinePage>0||GetNetMode()!=NM_Standalone)){DrawOnline(PC);return;}
+    if(!D)return;
     if(PC->bSelectionOpen){DrawMenu(D,PC);return;}
     if(auto* GM=GetWorld()->GetGameState<ADinoGameState>())
     {
@@ -128,6 +130,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
         Text(TEXT("ENTER / ESC  Play again     1 / 2 / 3  Change dinosaur     F3  Change mode"),W*.20f,H*.85f,.78f,Gold);
         return;
     }
+    Text(TEXT("F4  MULTIPLAYER"),W*.76f,H*.245f,.82f,Gold);
     if(GM)Text(TEXT("F3  ")+GM->MatchName(),W*.108f,H*.245f,.88f,Teal);
     Text(PC->bSettingsOpen?TEXT("F2  BACK"):TEXT("F2  SETTINGS"),W*.76f,H*.13f,.95f,Teal);
     if(PC->bSettingsOpen)

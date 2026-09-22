@@ -13,3 +13,4 @@ Build/Logs/
 Dist/
 __pycache__/
 *.log
+OnlineServices.ini

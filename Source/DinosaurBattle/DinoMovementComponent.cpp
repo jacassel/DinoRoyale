@@ -1,4 +1,5 @@
 #include "DinoMovementComponent.h"
+#include "DinoGameState.h"
 #include "DinosaurCharacter.h"
 #include "CombatComponent.h"
 #include "LostValleyWorld.h"
@@ -42,7 +43,7 @@ float UDinoMovementComponent::GetMaxSpeed() const
     const auto* D=Cast<ADinosaurCharacter>(CharacterOwner);
     if(D&&D->GetNetMode()!=NM_Standalone)
     {
-        if(D->bDead||D->Combat->bBracing||D->Food->bEating)return 0;
+        if(D->MatchFrozen()||D->bDead||D->Combat->bBracing||D->Food->bEating)return 0;
         if(MovementMode==MOVE_Walking||MovementMode==MOVE_Falling)
         {
             const bool Sprint=D->bSprintRequested&&!D->Stamina->bExhausted&&D->Stamina->Current>0&&!D->bInWater&&!D->Combat->bCharging&&!D->Combat->IsBusy()&&!IsFalling();

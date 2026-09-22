@@ -83,7 +83,7 @@ void UCombatComponent::DetectHits()
 void UCombatComponent::TickComponent(float Dt,ELevelTick T,FActorComponentTickFunction* F)
 {if(!GetOwner()->HasAuthority()){return;}
     Super::TickComponent(Dt,T,F);
-    auto* D=Dino();if(!D||D->bDead)return;
+    auto* D=Dino();if(!D||D->bDead||D->MatchFrozen())return;
     ComboResetLeft=FMath::Max(0.f,ComboResetLeft-Dt);
     if(bCharging){ChargeElapsed+=Dt;D->RevealNoise();}
     if(RecoveryLeft>0){RecoveryLeft=FMath::Max(0.f,RecoveryLeft-Dt);AttackElapsed+=Dt;}

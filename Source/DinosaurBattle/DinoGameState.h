@@ -32,6 +32,9 @@ public:
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
     UPROPERTY(Replicated) bool bTeamMatch=false;
     UPROPERTY(Replicated) bool bRoundOver=false;
+    UPROPERTY(Replicated) bool bLobby=false;
+    UPROPERTY(Replicated) bool bFillBots=false;
+    UPROPERTY(Replicated) int32 MaxParticipants=10;
     UPROPERTY(Replicated) int32 SoloKillGoal=5;
     UPROPERTY(Replicated) int32 TeamKillGoal=10;
     UPROPERTY(Replicated) TArray<int32> TeamKills={0,0};

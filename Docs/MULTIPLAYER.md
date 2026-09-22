@@ -80,3 +80,22 @@ also had a test teardown error (sending key-up after quitting), now corrected.
 Stage B allows only two players until lobby/capacity work is implemented.
 Account milestone: 58% remaining; no separate Astra allowance exposed.
 
+## Stage C checkpoint
+
+EOS session adapter and relay net driver compile against installed UE 5.8.2.
+Sign-in, public/invite-only hosting, compatible-build discovery, joins, invites,
+timeouts and departure paths are implemented but live EOS remains NOT VERIFIED:
+the project has no EOS product credentials. Offline launch does not require EOS.
+The loose OnlineServices.ini file is ignored by Git.
+
+20/20 synchronized lobby checks passed with separate host/client game processes:
+Tests/Results/multiplayer/stage-c-02/results.json. Tests cover human capacity,
+host identity, server-frozen lobby, own species/team selection, automatic teams,
+rejection of guest host actions, ready gating, shared start and closed menus,
+post-start movement, host return to lobby, state reset and disconnect cleanup.
+Trial 01 required the test to await PlayerState replication separately from
+GameState; the server team assignment was already correct.
+Capacity now accepts 2–10. Bot setting is synchronized; filling and packs are
+subsequent stages. No new playable package has been promoted.
+Account milestone: 56% remaining; no separate Astra allowance exposed.
+

@@ -12,6 +12,7 @@ class DINOSAURBATTLE_API ADinoGameMode : public AGameModeBase
     GENERATED_BODY()
 public:
     ADinoGameMode();
+    virtual void InitGame(const FString& Map,const FString& Options,FString& Error) override;
     virtual void PostLogin(APlayerController* PC) override;
     virtual void RestartPlayer(AController* C) override;
     virtual APawn* SpawnDefaultPawnAtTransform_Implementation(AController* C,const FTransform& Transform) override;
@@ -19,6 +20,13 @@ public:
     virtual void PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& ID,FString& Error) override;
     virtual void BeginPlay() override;
     bool bTeamMatch=false,bRoundOver=false,bIgnoreWinCondition=false,bSharePackKills=true;
+    bool bOnlineMatch=false,bLobby=false,bFillBots=false;
+    int32 MaxParticipants=10;
+    void LobbyAction(class ADinoPlayerController* PC,uint8 Action,int32 Value);
+    void StartNetworkRound();
+    void ReturnToLobby();
+    int32 ChooseTeam(int32 ExcludeID=-1) const;
+    void UpdateLobby();
     int32 SoloKillGoal=5,TeamKillGoal=10,TeamKills[2]={0,0},WinnerID=-1,WinnerTeam=-1,RoundNumber=0;
     float AssistWindow=12,RoundStartTime=0;
     TMap<int32,FDinoScore> Scores;

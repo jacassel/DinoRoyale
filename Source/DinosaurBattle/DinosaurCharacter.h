@@ -29,6 +29,8 @@ public:
     UFUNCTION(NetMulticast,Unreliable) void MulticastBlood(FVector Position,FVector Direction,float Damage);
     void PlayCombatSound(int32 Kind);
     bool AcceptsGameplayInput() const;
+    bool MatchFrozen() const;
+    void CancelActions();
     UPROPERTY(Replicated) bool bScoringParticipant=true;
     virtual void Tick(float Dt) override;
     virtual void SetupPlayerInputComponent(UInputComponent* Input) override;

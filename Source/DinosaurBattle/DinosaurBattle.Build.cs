@@ -6,7 +6,9 @@ public class DinosaurBattle : ModuleRules
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         PublicDependencyModuleNames.AddRange(new string[] {
             "Core", "CoreUObject", "Engine", "InputCore", "AIModule", "NavigationSystem", "AudioMixer",
-            "UMG", "Slate", "SlateCore", "ProceduralMeshComponent", "Json", "JsonUtilities"
+            "UMG", "Slate", "SlateCore", "ProceduralMeshComponent", "Json", "JsonUtilities",
+            "OnlineSubsystem", "OnlineSubsystemUtils", "OnlineBase"
         });
+        PrivateDependencyModuleNames.Add("OnlineSubsystemEOS");
     }
 }

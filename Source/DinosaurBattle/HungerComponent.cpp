@@ -18,7 +18,7 @@ float UHungerComponent::StaminaRegenFactor() const
 }
 void UHungerComponent::TickComponent(float Dt,ELevelTick Type,FActorComponentTickFunction* Tick)
 {if(!GetOwner()->HasAuthority()){return;}
-    Super::TickComponent(Dt,Type,Tick);auto* D=Cast<ADinosaurCharacter>(GetOwner());if(!D||D->bDead)return;
+    Super::TickComponent(Dt,Type,Tick);auto* D=Cast<ADinosaurCharacter>(GetOwner());if(!D||D->bDead||D->MatchFrozen())return;
     if(!D->Food->bEating)Current=FMath::Max(0.f,Current-Dt*(D->Stats().HungerDrain+(D->bSprinting?D->Stats().HungerSprintDrain:0)));
     // Starvation is not a combat hit: it must never block the safe-feeding window.
     if(Fraction()<=.10f&&!D->Food->bEating&&!D->Health->bInvulnerable)

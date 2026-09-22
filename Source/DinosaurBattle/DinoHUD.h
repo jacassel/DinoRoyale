@@ -22,5 +22,6 @@ private:
     void Panel(float X,float Y,float W,float H,float Alpha=.85f);
     void Bar(float X,float Y,float W,float H,float Fraction,FLinearColor Color);
     void DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC);
+    void DrawOnline(ADinoPlayerController* PC);
     void DrawWorldMap(ADinosaurCharacter* D,bool Full);
 };

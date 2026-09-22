@@ -14,6 +14,17 @@ public:
     virtual void SetupInputComponent() override;
     void SetMenuOpen(bool Open);
     void ToggleMenu();
+    void ToggleMultiplayer();
+    // Page 0: offline; 1: multiplayer; 2: host; 3: browser; 4: lobby/match.
+    int32 OnlinePage=0,HostCapacity=10,SelectedSession=-1;
+    bool bHostTeams=false,bHostBots=false,bHostPublic=true;
+    FString LobbyStatus;
+    void OnlineClick(float X,float Y);
+    UFUNCTION(Server,Reliable) void ServerLobbyAction(uint8 Action,int32 Value);
+    UFUNCTION(Client,Reliable) void ClientLobbyMessage(const FString& Message);
+    UFUNCTION(Client,Reliable) void ClientMatchStarted();
+    UFUNCTION(Server,Reliable) void ServerDisplayName(const FString& Name);
+    void ChooseSpecies(int32 Index);
     void ToggleMap();
     void PlaceMapPin();
     TArray<FVector> MapPins;
@@ -39,7 +50,7 @@ public:
     UPROPERTY() ADinosaurCharacter* TestTarget=nullptr;
     UPROPERTY() AActor* TestSightBlocker=nullptr;
 private:
-    bool bDevBridge=false;
+    bool bDevBridge=false,bWaitingForRoundStart=false;
     int32 LastSequence=0;
     double LastBridgeTime=0;
     double FrameSum=0;

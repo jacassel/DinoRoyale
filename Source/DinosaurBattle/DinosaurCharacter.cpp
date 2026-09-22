@@ -123,8 +123,8 @@ void ADinosaurCharacter::SetupPlayerInputComponent(UInputComponent* I)
     I->BindAction("Eat",IE_Released,this,&ADinosaurCharacter::StopEating);
 
 }
-void ADinosaurCharacter::MoveForward(float V){if(!AcceptsGameplayInput())return;if(!FMath::IsNearlyZero(V))Food->StopEating();if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::X),V);}
-void ADinosaurCharacter::MoveRight(float V){if(!AcceptsGameplayInput())return;if(!FMath::IsNearlyZero(V))Food->StopEating();if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::Y),V);}
+void ADinosaurCharacter::MoveForward(float V){if(!AcceptsGameplayInput())return;if(!FMath::IsNearlyZero(V)&&Food->bEating){StopEating();Food->bEating=false;}if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::X),V);}
+void ADinosaurCharacter::MoveRight(float V){if(!AcceptsGameplayInput())return;if(!FMath::IsNearlyZero(V)&&Food->bEating){StopEating();Food->bEating=false;}if(!bDead&&!Combat->bBracing&&Controller) AddMovementInput(FRotationMatrix(FRotator(0,Controller->GetControlRotation().Yaw,0)).GetUnitAxis(EAxis::Y),V);}
 void ADinosaurCharacter::Turn(float V){AddControllerYawInput(V*MouseSensitivity);}
 void ADinosaurCharacter::Look(float V){AddControllerPitchInput(V*MouseSensitivity);}
 void ADinosaurCharacter::BeginJump(){if(!AcceptsGameplayInput())return;if(!HasAuthority()){ServerAction(7);return;}if(!bDead&&!Combat->bBracing&&!Combat->bCharging&&!Combat->IsBusy()&&(bSwimming||GetCharacterMovement()->IsMovingOnGround())&&Stamina->Spend(Stats().JumpCost)){Food->StopEating();if(bSwimming){bSwimming=false;GetCharacterMovement()->SetMovementMode(MOVE_Falling);LaunchCharacter(FVector(0,0,Stats().JumpVelocity*.8f),false,true);}else if(GetNetMode()!=NM_Standalone)LaunchCharacter(FVector(0,0,Stats().JumpVelocity),false,true);else Jump();}}
@@ -250,17 +250,21 @@ void ADinosaurCharacter::OnRep_Life()
 bool ADinosaurCharacter::AcceptsGameplayInput() const
 {
     if(bDead)return false;
-    if(const auto* GS=GetWorld()->GetGameState<ADinoGameState>())if(GS->bRoundOver)return false;
+    if(const auto* GS=GetWorld()->GetGameState<ADinoGameState>())if(GS->bRoundOver||GS->bLobby)return false;
     if(const auto* PC=Cast<ADinoPlayerController>(GetController()))if(PC->IsLocalController()&&(PC->bSelectionOpen||PC->bMapOpen))return false;
     return true;
 }
 void ADinosaurCharacter::ServerAction_Implementation(uint8 Action)
 {
-    if(!AcceptsGameplayInput()&&Action!=2&&Action!=4&&Action!=6)return;
+    if(!AcceptsGameplayInput()&&Action!=2&&Action!=4&&Action!=6&&Action!=8)return;
     switch(Action){case 0:Quick();break;case 1:ChargeOn();break;case 2:ChargeOff();break;
-        case 3:BraceOn();break;case 4:BraceOff();break;case 5:Eat();break;case 6:StopEating();break;case 7:BeginJump();break;default:break;}
+        case 3:BraceOn();break;case 4:BraceOff();break;case 5:Eat();break;case 6:StopEating();break;case 7:BeginJump();break;case 8:CancelActions();break;default:break;}
     ForceNetUpdate();
 }
+bool ADinosaurCharacter::MatchFrozen() const
+{if(const auto* GS=GetWorld()->GetGameState<ADinoGameState>())return GS->bLobby||GS->bRoundOver;return false;}
+void ADinosaurCharacter::CancelActions()
+{SprintOff();if(!HasAuthority()){ServerAction(8);return;}Combat->Cancel();Food->StopEating();}
 void ADinosaurCharacter::PlayCombatSound(int32 Kind)
 {if(HasAuthority())MulticastSound(Kind);}
 void ADinosaurCharacter::MulticastSound_Implementation(int32 Kind)

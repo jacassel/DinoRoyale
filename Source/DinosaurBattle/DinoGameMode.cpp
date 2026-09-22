@@ -1,4 +1,6 @@
 #include "DinoGameMode.h"
+#include "GameFramework/GameSession.h"
+#include "DinoOnlineSession.h"
 #include "DinoGameState.h"
 #include "DinoPlayerState.h"
 #include "DinosaurCharacter.h"
@@ -30,7 +32,7 @@ ADinoGameMode::ADinoGameMode(){GameStateClass=ADinoGameState::StaticClass();Play
 void ADinoGameMode::BeginPlay()
 {
     Super::BeginPlay();
-    GConfig->GetBool(TEXT("Dino.UserSettings"),TEXT("TeamMode"),bTeamMatch,GGameIni);
+    if(GetNetMode()==NM_Standalone)GConfig->GetBool(TEXT("Dino.UserSettings"),TEXT("TeamMode"),bTeamMatch,GGameIni);
     GConfig->GetInt(TEXT("Dino.Match"),TEXT("SoloKillGoal"),SoloKillGoal,GGameIni);
     GConfig->GetInt(TEXT("Dino.Match"),TEXT("TeamKillGoal"),TeamKillGoal,GGameIni);
     GConfig->GetFloat(TEXT("Dino.Match"),TEXT("AssistWindow"),AssistWindow,GGameIni);
@@ -68,7 +70,7 @@ void ADinoGameMode::BeginPlay()
         PC->SetControlRotation(FRotator(-13,0,0));PC->PlayerCameraManager->ViewPitchMin=-65;PC->PlayerCameraManager->ViewPitchMax=25;
         if(auto* D=Cast<ADinosaurCharacter>(PC->GetPawn())){D->SetActorLocation(Valley->GroundPoint(0,0,D->Stats().HalfHeight+25));D->HomePosition=D->GetActorLocation();}
     }
-    StartRound();
+    if(bOnlineMatch)UpdateLobby();else StartRound();
 }
 
 FDinoScore ADinoGameMode::GetScore(int32 ID) const{if(const auto* S=Scores.Find(ID))return *S;return FDinoScore();}
@@ -107,6 +109,7 @@ void ADinoGameMode::SetTeamMode(bool Enabled)
 }
 void ADinoGameMode::StartRound()
 {
+    if(bOnlineMatch){StartNetworkRound();return;}
     if(auto* PC=Cast<ADinoPlayerController>(GetWorld()->GetFirstPlayerController()))PC->MapPins.Empty();
     bRoundOver=false;WinnerID=WinnerTeam=-1;TeamKills[0]=TeamKills[1]=0;Scores.Empty();++RoundNumber;RoundStartTime=GetWorld()->GetTimeSeconds();
     const FVector SoloHomes[]={FVector(0,0,0),FVector(12500,3000,0),FVector(28500,-6000,0),FVector(-23500,13500,0),FVector(4500,4000,0),FVector(5000,4400,0),FVector(4400,4800,0),FVector(-14000,-22000,0),FVector(8500,-6500,0),FVector(22000,18000,0)};
@@ -174,6 +177,7 @@ void ADinoGameMode::PostLogin(APlayerController* PC)
         for(auto It=GetWorld()->GetPlayerControllerIterator();It;++It)
             if(It->Get()!=PC)if(auto* Other=It->Get()->GetPlayerState<ADinoPlayerState>())Used.Add(Other->CombatantID);
         PS->CombatantID=0;while(Used.Contains(PS->CombatantID))++PS->CombatantID;
+        PS->bHost=PC->IsLocalController();PS->TeamID=bTeamMatch?ChooseTeam(PS->CombatantID):-1;
     }
     // UE starts/possesses the pawn inside Super::PostLogin; assign its slot first.
     Super::PostLogin(PC);
@@ -183,7 +187,7 @@ void ADinoGameMode::RestartPlayer(AController* C)
     Super::RestartPlayer(C);
     if(auto* D=Cast<ADinosaurCharacter>(C->GetPawn()))if(auto* PS=C->GetPlayerState<ADinoPlayerState>())
     {
-        D->CombatantID=FMath::Max(0,PS->CombatantID);D->ApplySpecies(PS->SelectedSpecies);
+        D->CombatantID=FMath::Max(0,PS->CombatantID);D->TeamID=PS->TeamID;D->ApplySpecies(PS->SelectedSpecies);
         D->HomePosition=FVector(D->CombatantID*2400.f,0,0);D->bDead=true;D->ResetLife();
         Scores.FindOrAdd(D->CombatantID);
     }
@@ -207,8 +211,14 @@ void ADinoGameMode::Logout(AController* C)
 }
 void ADinoGameMode::PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& ID,FString& Error)
 {
-    Super::PreLogin(Options,Address,ID,Error);
-    // Stage B is intentionally limited to two humans until the fundamentals pass.
-    if(Error.IsEmpty()&&GetNumPlayers()>=2)Error=TEXT("This two-player development match is full.");
+    if(bOnlineMatch&&!UGameplayStatics::HasOption(OptionsString,TEXT("bUseIPSockets")))
+    {
+        auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>();
+        Error=Online&&Online->ValidateIdentity(ID)?GameSession->ApproveLogin(Options):TEXT("Online identity is incompatible.");
+    }
+    else Super::PreLogin(Options,Address,ID,Error);
+    if(bOnlineMatch&&UGameplayStatics::GetIntOption(Options,TEXT("DinoBuild"),0)!=UDinoOnlineSession::BuildVersion)Error=TEXT("Different game version.");
+    if(Error.IsEmpty()&&GetNumPlayers()>=MaxParticipants)Error=TEXT("Lobby is full.");
     if(bRoundOver)Error=TEXT("Match is ending.");
+    FGameModeEvents::GameModePreLoginEvent.Broadcast(this,ID,Error);
 }

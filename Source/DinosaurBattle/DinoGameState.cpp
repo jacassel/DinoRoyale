@@ -9,7 +9,7 @@ ADinoGameState::ADinoGameState(){PrimaryActorTick.bCanEverTick=true;PrimaryActor
 void ADinoGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-    DOREPLIFETIME(ADinoGameState,bTeamMatch);DOREPLIFETIME(ADinoGameState,bRoundOver);
+    DOREPLIFETIME(ADinoGameState,bLobby);DOREPLIFETIME(ADinoGameState,MaxParticipants);DOREPLIFETIME(ADinoGameState,bFillBots);DOREPLIFETIME(ADinoGameState,bTeamMatch);DOREPLIFETIME(ADinoGameState,bRoundOver);
     DOREPLIFETIME(ADinoGameState,SoloKillGoal);DOREPLIFETIME(ADinoGameState,TeamKillGoal);
     DOREPLIFETIME(ADinoGameState,TeamKills);DOREPLIFETIME(ADinoGameState,WinnerID);
     DOREPLIFETIME(ADinoGameState,WinnerTeam);DOREPLIFETIME(ADinoGameState,RoundNumber);
@@ -19,7 +19,7 @@ void ADinoGameState::SynchronizeRules()
 {
     if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())
     {
-        bTeamMatch=GM->bTeamMatch;bRoundOver=GM->bRoundOver;SoloKillGoal=GM->SoloKillGoal;TeamKillGoal=GM->TeamKillGoal;
+        bLobby=GM->bLobby;MaxParticipants=GM->MaxParticipants;bFillBots=GM->bFillBots;bTeamMatch=GM->bTeamMatch;bRoundOver=GM->bRoundOver;SoloKillGoal=GM->SoloKillGoal;TeamKillGoal=GM->TeamKillGoal;
         TeamKills={GM->TeamKills[0],GM->TeamKills[1]};WinnerID=GM->WinnerID;WinnerTeam=GM->WinnerTeam;RoundNumber=GM->RoundNumber;
         Scores=GM->Scores;ScoreRows.Reset();
         TArray<int32> IDs;Scores.GetKeys(IDs);IDs.Sort();
@@ -29,7 +29,7 @@ void ADinoGameState::SynchronizeRules()
 void ADinoGameState::Tick(float Dt)
 {
     Super::Tick(Dt);SynchronizeRules();
-    if(bRoundOver)if(auto* PC=Cast<ADinoPlayerController>(GetWorld()->GetFirstPlayerController()))
+    if(bRoundOver||bLobby)if(auto* PC=Cast<ADinoPlayerController>(GetWorld()->GetFirstPlayerController()))
         if(PC->IsLocalController()&&!PC->bSelectionOpen)PC->SetMenuOpen(true);
 }
 void ADinoGameState::OnRep_Scores(){Scores.Reset();for(const auto& R:ScoreRows)Scores.Add(R.ID,R.Score);}
