@@ -1,0 +1,15 @@
+{
+  "transport": "loopback development transport",
+  "wan": "NOT VERIFIED",
+  "players": 2,
+  "oneWayLagMs": 0,
+  "packetLossPercent": 0,
+  "tests": [
+    {
+      "test": "two unique possessed players",
+      "status": "FAIL",
+      "hostMode": 2,
+      "clientMode": 3
+    }
+  ]
+}

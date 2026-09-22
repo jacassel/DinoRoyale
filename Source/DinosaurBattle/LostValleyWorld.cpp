@@ -1,7 +1,7 @@
+#include "LostValleyWorld.h"
 #include "DinoGameMode.h"
 #include "DinosaurCharacter.h"
 #include "DinosaurAIController.h"
-#include "LostValleyWorld.h"
 #include "FoodSystem.h"
 #include "DinoHUD.h"
 #include "DinoEffects.h"
@@ -25,7 +25,6 @@
 #include "Misc/ConfigCacheIni.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-#include "LostValleyWorld.h"
 #include "ProceduralMeshComponent.h"
 #include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Components/BoxComponent.h"
@@ -35,8 +34,13 @@
 
 ALostValleyWorld::ALostValleyWorld()
 {
+    // Every peer creates this seeded, immovable world under the same explicit
+    // actor name. CharacterMovement can resolve its floor component by path.
+    SetNetAddressable();
     RootComponent=CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+    RootComponent->SetMobility(EComponentMobility::Static);
     Terrain=CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("Terrain"));Terrain->SetupAttachment(RootComponent);
+    Terrain->SetMobility(EComponentMobility::Static);
     Terrain->bUseComplexAsSimpleCollision=true;Terrain->SetCollisionObjectType(ECC_WorldStatic);
     Water=CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("Creek"));Water->SetupAttachment(RootComponent);Water->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     Trunks=CreateDefaultSubobject<UHierarchicalInstancedStaticMeshComponent>(TEXT("TreeTrunks"));
@@ -342,7 +346,11 @@ void ALostValleyWorld::EnsureLocalScene(UWorld* World)
     for(TActorIterator<ALostValleyWorld> It(World);It;++It)return;
     ALostValleyWorld* Valley=nullptr;
     for(TActorIterator<ALostValleyWorld> It(World);It;++It){Valley=*It;break;}
-    if(!Valley)Valley=World->SpawnActor<ALostValleyWorld>();
+    if(!Valley)
+    {
+        FActorSpawnParameters P;P.Name=TEXT("LostValleyWorld");
+        Valley=World->SpawnActor<ALostValleyWorld>(P);
+    }
     World->SpawnActor<ADinoEffects>();
     auto* Sun=World->SpawnActor<ADirectionalLight>(FVector(0,0,8000),FRotator(-32,-38,0));
     auto* Light=Cast<UDirectionalLightComponent>(Sun->GetLightComponent());

@@ -108,10 +108,13 @@ try:
     time.sleep(5);check('client waits through respawn delay',client.state()['dead'])
     check('server respawns client',wait_for(lambda:not client.state()['dead'],seconds=8))
     check('respawn health replicated',abs(client.state()['health']-client.state()['maxHealth'])<.1)
+    check('respawn position replicated',wait_for(lambda:distance(host.actor(1),client.state())<90),error=distance(host.actor(1),client.state()))
     check('death counted once',host.state()['kills']==1)
-    client.command('menu',open=True);client.tap('F10');client.proc.wait(timeout=15)
+    client.command('menu',open=True);client.key('F10');client.proc.wait(timeout=15)
     check('disconnect removes player actor',wait_for(lambda:not any(a['id']==1 for a in host.state()['networkActors'])))
-    host.command('menu',open=True);host.tap('F10');host.proc.wait(timeout=15)
+    client_log=(OUT/'NetClient.log').read_text(errors='replace')
+    check('movement base resolves on client','could not resolve the new relative movement base' not in client_log)
+    host.command('menu',open=True);host.key('F10');host.proc.wait(timeout=15)
 finally:
     for proc in processes:
         if proc.poll() is None:proc.terminate();proc.wait(timeout=15)

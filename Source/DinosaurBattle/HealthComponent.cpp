@@ -1,5 +1,5 @@
-#include "Net/UnrealNetwork.h"
 #include "HealthComponent.h"
+#include "Net/UnrealNetwork.h"
 #include "DinosaurCharacter.h"
 #include "HungerComponent.h"
 #include "Engine/World.h"

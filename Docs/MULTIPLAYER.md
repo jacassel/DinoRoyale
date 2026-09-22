@@ -64,3 +64,19 @@ blood 28, match rules 24). Evidence: Tests/Results/multiplayer/stage-a-offline.
 These are offline results only; online participant/session features are not yet verified.
 Account milestone: 60% remaining. The original standalone package remains active.
 
+
+## Stage B checkpoint
+
+Two separate UE game processes (listen host plus client), loopback only:
+23/23 checks passed in Tests/Results/multiplayer/stage-b-04/results.json.
+Verified unique slots, both processes' terrain, client movement/sprint/jump/brace,
+client quick/heavy damage on server, health replication, no repeated quick damage,
+client death/carcass, score increment once, ten-second respawn with matching
+position/health, disconnect cleanup and no unresolved movement-base warnings.
+No EOS, WAN, lobby, bots, raptor packs, or packaged multiplayer verification yet.
+Initial trials exposed missing procedural spawn positions, PostLogin order, and
+unresolvable terrain base references; all were repaired and retested. Trial 03
+also had a test teardown error (sending key-up after quitting), now corrected.
+Stage B allows only two players until lobby/capacity work is implemented.
+Account milestone: 58% remaining; no separate Astra allowance exposed.
+

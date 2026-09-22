@@ -14,6 +14,7 @@ public:
     ADinoGameMode();
     virtual void PostLogin(APlayerController* PC) override;
     virtual void RestartPlayer(AController* C) override;
+    virtual APawn* SpawnDefaultPawnAtTransform_Implementation(AController* C,const FTransform& Transform) override;
     virtual void Logout(AController* C) override;
     virtual void PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& ID,FString& Error) override;
     virtual void BeginPlay() override;

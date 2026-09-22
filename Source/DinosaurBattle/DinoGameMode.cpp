@@ -1,6 +1,6 @@
+#include "DinoGameMode.h"
 #include "DinoGameState.h"
 #include "DinoPlayerState.h"
-#include "DinoGameMode.h"
 #include "DinosaurCharacter.h"
 #include "DinosaurAIController.h"
 #include "LostValleyWorld.h"
@@ -168,7 +168,6 @@ FString ADinoGameMode::WinnerName() const
 
 void ADinoGameMode::PostLogin(APlayerController* PC)
 {
-    Super::PostLogin(PC);
     if(auto* PS=PC->GetPlayerState<ADinoPlayerState>())
     {
         TSet<int32> Used;
@@ -176,6 +175,8 @@ void ADinoGameMode::PostLogin(APlayerController* PC)
             if(It->Get()!=PC)if(auto* Other=It->Get()->GetPlayerState<ADinoPlayerState>())Used.Add(Other->CombatantID);
         PS->CombatantID=0;while(Used.Contains(PS->CombatantID))++PS->CombatantID;
     }
+    // UE starts/possesses the pawn inside Super::PostLogin; assign its slot first.
+    Super::PostLogin(PC);
 }
 void ADinoGameMode::RestartPlayer(AController* C)
 {
@@ -186,6 +187,18 @@ void ADinoGameMode::RestartPlayer(AController* C)
         D->HomePosition=FVector(D->CombatantID*2400.f,0,0);D->bDead=true;D->ResetLife();
         Scores.FindOrAdd(D->CombatantID);
     }
+}
+APawn* ADinoGameMode::SpawnDefaultPawnAtTransform_Implementation(AController* C,const FTransform& Transform)
+{
+    if(GetNetMode()==NM_Standalone)return Super::SpawnDefaultPawnAtTransform_Implementation(C,Transform);
+    const auto* PS=C->GetPlayerState<ADinoPlayerState>();
+    const int32 ID=PS?FMath::Max(0,PS->CombatantID):0;
+    const int32 Species=PS?PS->SelectedSpecies:0;
+    FVector P(ID*2400.f,0,0);P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+FSpeciesData::Get(Species).HalfHeight+35;
+    FTransform Spawn(FRotator::ZeroRotator,P);
+    auto* D=GetWorld()->SpawnActorDeferred<ADinosaurCharacter>(ADinosaurCharacter::StaticClass(),Spawn,nullptr,nullptr,ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn);
+    if(D){D->Species=Species;D->CombatantID=ID;UGameplayStatics::FinishSpawningActor(D,Spawn);}
+    return D;
 }
 void ADinoGameMode::Logout(AController* C)
 {
