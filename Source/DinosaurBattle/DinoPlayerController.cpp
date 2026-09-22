@@ -387,7 +387,7 @@ void ADinoPlayerController::WriteTelemetry()
         auto A=MakeShared<FJsonObject>();A->SetNumberField(TEXT("id"),It->CombatantID);A->SetNumberField(TEXT("species"),It->Species);
         A->SetNumberField(TEXT("health"),It->Health->Current);A->SetNumberField(TEXT("stamina"),It->Stamina->Current);A->SetBoolField(TEXT("dead"),It->bDead);
         A->SetNumberField(TEXT("x"),It->GetActorLocation().X);A->SetNumberField(TEXT("y"),It->GetActorLocation().Y);A->SetNumberField(TEXT("z"),It->GetActorLocation().Z);
-        A->SetNumberField(TEXT("team"),It->TeamID);A->SetNumberField(TEXT("attackSerial"),It->Combat->AttackSerial);A->SetBoolField(TEXT("player"),It->IsPlayerControlled());NetworkActors.Add(MakeShared<FJsonValueObject>(A));
+        A->SetBoolField(TEXT("bot"),It->bFillerBot);A->SetNumberField(TEXT("team"),It->TeamID);A->SetNumberField(TEXT("attackSerial"),It->Combat->AttackSerial);A->SetBoolField(TEXT("player"),It->IsPlayerControlled());NetworkActors.Add(MakeShared<FJsonValueObject>(A));
     }
     O->SetArrayField(TEXT("networkActors"),NetworkActors);
     O->SetNumberField(TEXT("frameMs"),GetWorld()->GetDeltaSeconds()*1000.0);

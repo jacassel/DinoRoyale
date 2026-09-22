@@ -1,0 +1,78 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 3,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "six slots filled by two humans and four bots",
+      "status": "PASS"
+    },
+    {
+      "test": "all participant IDs unique",
+      "status": "PASS"
+    },
+    {
+      "test": "one controller for each server bot",
+      "status": "PASS"
+    },
+    {
+      "test": "joining human replaces one filler bot",
+      "status": "PASS"
+    },
+    {
+      "test": "replacement creates no kill or corpse",
+      "status": "PASS"
+    },
+    {
+      "test": "replacement removes old AI controller",
+      "status": "PASS"
+    },
+    {
+      "test": "mixed humans and bots can start",
+      "status": "PASS"
+    },
+    {
+      "test": "server bots use active AI",
+      "status": "PASS"
+    },
+    {
+      "test": "match disconnect fills empty human slot",
+      "status": "PASS"
+    },
+    {
+      "test": "disconnect keeps score unchanged",
+      "status": "PASS"
+    },
+    {
+      "test": "disabling bots leaves only connected humans",
+      "status": "PASS"
+    },
+    {
+      "test": "disabling bots removes their controllers",
+      "status": "PASS"
+    },
+    {
+      "test": "ten slots supports two humans and eight bots",
+      "status": "PASS"
+    },
+    {
+      "test": "team bot filling balances five versus five",
+      "status": "PASS"
+    },
+    {
+      "test": "bots rebalance around human team choices",
+      "status": "PASS"
+    },
+    {
+      "test": "reducing capacity removes excess bots",
+      "status": "PASS"
+    },
+    {
+      "test": "bots off leaves departed slot vacant",
+      "status": "PASS"
+    }
+  ]
+}

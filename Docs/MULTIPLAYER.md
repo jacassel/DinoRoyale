@@ -99,3 +99,20 @@ Capacity now accepts 2–10. Bot setting is synchronized; filling and packs are
 subsequent stages. No new playable package has been promoted.
 Account milestone: 56% remaining; no separate Astra allowance exposed.
 
+## Stages D/E/F checkpoint
+
+FFA five-kill victory and team ten-kill victory, client kills/deaths/assists,
+real host/client friendly-fire exclusion, a 2v1 team match, result movement
+freeze and three repeated lobby/rematch cycles passed in stage-de-01.
+Scoring thresholds use server-only damage fixtures; earlier Stage B covers real
+input-driven enemy damage/death/respawn.
+
+17/17 bot tests passed in stage-f-02: six slots with humans and bots, a third
+joining human removes a bot/controller without kills/carcasses, active bot AI,
+disconnect filling, bots OFF cleanup, two humans plus eight bots, balanced 5v5,
+human team changes, capacity reduction and vacant slots when bots are disabled.
+Stage-f-01 exposed a lobby pawn team value lagging its PlayerState selection;
+reconciliation now updates both and the full suite passed again.
+Three actual networked game processes are tested so far. Ten participant slots
+with eight bots is not ten networked-player evidence. EOS/WAN remain unverified.
+

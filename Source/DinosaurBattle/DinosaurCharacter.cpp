@@ -231,6 +231,7 @@ bool ADinosaurCharacter::MapPositionFor(const ADinosaurCharacter* Other,FVector&
 
 void ADinosaurCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
+    DOREPLIFETIME(ADinosaurCharacter,bFillerBot);
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     DOREPLIFETIME(ADinosaurCharacter,Species);DOREPLIFETIME(ADinosaurCharacter,bDead);
     DOREPLIFETIME(ADinosaurCharacter,bMajor);DOREPLIFETIME(ADinosaurCharacter,CombatantID);

@@ -32,6 +32,7 @@ public:
     bool MatchFrozen() const;
     void CancelActions();
     UPROPERTY(Replicated) bool bScoringParticipant=true;
+    UPROPERTY(Replicated) bool bFillerBot=false;
     virtual void Tick(float Dt) override;
     virtual void SetupPlayerInputComponent(UInputComponent* Input) override;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UHealthComponent* Health;

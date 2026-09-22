@@ -32,6 +32,7 @@ int32 ADinoGameMode::ChooseTeam(int32 ExcludeID) const
 }
 void ADinoGameMode::UpdateLobby()
 {
+    ReconcileBots();
     if(auto* GS=GetGameState<ADinoGameState>()){GS->SynchronizeRules();GS->ForceNetUpdate();}
     if(auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>())Online->UpdateHostedSettings(bTeamMatch,MaxParticipants,bFillBots);
 }
@@ -79,6 +80,7 @@ void ADinoGameMode::LobbyAction(ADinoPlayerController* PC,uint8 Action,int32 Val
 void ADinoGameMode::StartNetworkRound()
 {
     bLobby=false;bRoundOver=false;WinnerID=WinnerTeam=-1;TeamKills[0]=TeamKills[1]=0;Scores.Empty();++RoundNumber;RoundStartTime=GetWorld()->GetTimeSeconds();
+    ReconcileBots();
     for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It)It->Destroy();
     for(TActorIterator<AFoodPlant> It(GetWorld());It;++It){It->Nutrition=It->MaximumNutrition;It->OnRep_Nutrition();}
     int32 TeamSlots[2]={0,0};
@@ -94,6 +96,8 @@ void ADinoGameMode::StartNetworkRound()
         Scores.Add(D->CombatantID,FDinoScore());PS->bReady=false;PC->ClientMatchStarted();
     }
     for(TActorIterator<ADinosaurAIController> It(GetWorld());It;++It){It->ResetTactics();It->ClearTravelGoal();}
+    for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->bFillerBot)
+    {It->HomePosition=ParticipantHome(It->CombatantID,It->TeamID);It->bDead=true;It->ResetLife();Scores.Add(It->CombatantID,FDinoScore());}
     UpdateLobby();
 }
 void ADinoGameMode::ReturnToLobby()

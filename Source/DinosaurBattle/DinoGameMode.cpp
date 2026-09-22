@@ -1,5 +1,6 @@
 #include "DinoGameMode.h"
 #include "GameFramework/GameSession.h"
+#include "TimerManager.h"
 #include "DinoOnlineSession.h"
 #include "DinoGameState.h"
 #include "DinoPlayerState.h"
@@ -178,9 +179,11 @@ void ADinoGameMode::PostLogin(APlayerController* PC)
             if(It->Get()!=PC)if(auto* Other=It->Get()->GetPlayerState<ADinoPlayerState>())Used.Add(Other->CombatantID);
         PS->CombatantID=0;while(Used.Contains(PS->CombatantID))++PS->CombatantID;
         PS->bHost=PC->IsLocalController();PS->TeamID=bTeamMatch?ChooseTeam(PS->CombatantID):-1;
+        if(GetNetMode()!=NM_Standalone)if(auto* Bot=FindCombatant(PS->CombatantID))if(Bot->bFillerBot)RemoveParticipant(Bot);
     }
     // UE starts/possesses the pawn inside Super::PostLogin; assign its slot first.
     Super::PostLogin(PC);
+    if(GetNetMode()!=NM_Standalone)UpdateLobby();
 }
 void ADinoGameMode::RestartPlayer(AController* C)
 {
@@ -206,8 +209,9 @@ APawn* ADinoGameMode::SpawnDefaultPawnAtTransform_Implementation(AController* C,
 }
 void ADinoGameMode::Logout(AController* C)
 {
-    if(auto* D=Cast<ADinosaurCharacter>(C->GetPawn())){Scores.Remove(D->CombatantID);D->Destroy();}
+    if(auto* D=Cast<ADinosaurCharacter>(C->GetPawn()))RemoveParticipant(D);
     Super::Logout(C);
+    if(GetNetMode()!=NM_Standalone)GetWorldTimerManager().SetTimerForNextTick(this,&ADinoGameMode::UpdateLobby);
 }
 void ADinoGameMode::PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& ID,FString& Error)
 {
