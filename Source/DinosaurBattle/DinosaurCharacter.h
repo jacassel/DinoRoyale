@@ -33,6 +33,8 @@ public:
     void CancelActions();
     UPROPERTY(Replicated) bool bScoringParticipant=true;
     UPROPERTY(Replicated) bool bFillerBot=false;
+    UPROPERTY(Replicated) bool bPackFollower=false;
+    UPROPERTY(Replicated) int32 PackLeaderID=-1;
     virtual void Tick(float Dt) override;
     virtual void SetupPlayerInputComponent(UInputComponent* Input) override;
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly) UHealthComponent* Health;

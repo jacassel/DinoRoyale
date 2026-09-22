@@ -14,7 +14,7 @@ ADinosaurCharacter* UCombatComponent::Dino() const {return Cast<ADinosaurCharact
 void UCombatComponent::Cancel(){if(!GetOwner()->HasAuthority()){return;}bBracing=false;bCharging=false;bHitPending=false;RecoveryLeft=0;ChargeElapsed=0;ComboCount=0;ComboResetLeft=0;BufferedQuick=0;HitActors.Empty();}
 bool UCombatComponent::SetBrace(bool Active)
 {if(!GetOwner()->HasAuthority()){return false;}
-    auto* D=Dino(); if(!D||D->bDead) return false;
+    auto* D=Dino(); if(!D||D->bDead||(Active&&D->MatchFrozen())) return false;
     if(Active&&(D->GetCharacterMovement()->IsFalling()||IsBusy()||D->Stamina->bExhausted||D->Stamina->Current<=0)) return false;
     bBracing=Active;
     if(Active){bCharging=false;bHitPending=false;D->GetCharacterMovement()->StopMovementImmediately();D->ConsumeMovementInputVector();}
@@ -22,7 +22,7 @@ bool UCombatComponent::SetBrace(bool Active)
 }
 bool UCombatComponent::QuickAttack()
 {if(!GetOwner()->HasAuthority()){return false;}
-    auto* D=Dino();if(!D||D->bDead||bBracing||bCharging)return false;
+    auto* D=Dino();if(!D||D->bDead||D->MatchFrozen()||bBracing||bCharging)return false;
     if(IsBusy()){if(RecoveryLeft<=.18f)BufferedQuick=.2f;return false;}
     D->Food->StopEating();
     bWeakAttack=!D->Stamina->CanSpend(D->Stats().QuickCost);
@@ -33,7 +33,7 @@ bool UCombatComponent::QuickAttack()
 }
 bool UCombatComponent::StartCharge()
 {if(!GetOwner()->HasAuthority()){return false;}
-    auto* D=Dino();if(!D||D->bDead||bBracing||bCharging||IsBusy()||D->Health->Fraction()<.25f||!D->Stamina->CanSpend(D->Stats().HeavyCost))return false;
+    auto* D=Dino();if(!D||D->bDead||D->MatchFrozen()||bBracing||bCharging||IsBusy()||D->Health->Fraction()<.25f||!D->Stamina->CanSpend(D->Stats().HeavyCost))return false;
     D->Food->StopEating();D->RevealNoise();bCharging=true;ChargeElapsed=0;D->PlayCombatSound(5);return true;
 }
 float UCombatComponent::ChargeFraction() const {auto* D=Dino();return D?FMath::Clamp(ChargeElapsed/FMath::Max(.1f,D->Stats().ChargeTime),0.f,1.f):0;}

@@ -33,6 +33,7 @@ int32 ADinoGameMode::ChooseTeam(int32 ExcludeID) const
 void ADinoGameMode::UpdateLobby()
 {
     ReconcileBots();
+    SynchronizePacks();
     if(auto* GS=GetGameState<ADinoGameState>()){GS->SynchronizeRules();GS->ForceNetUpdate();}
     if(auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>())Online->UpdateHostedSettings(bTeamMatch,MaxParticipants,bFillBots);
 }
@@ -98,6 +99,7 @@ void ADinoGameMode::StartNetworkRound()
     for(TActorIterator<ADinosaurAIController> It(GetWorld());It;++It){It->ResetTactics();It->ClearTravelGoal();}
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->bFillerBot)
     {It->HomePosition=ParticipantHome(It->CombatantID,It->TeamID);It->bDead=true;It->ResetLife();Scores.Add(It->CombatantID,FDinoScore());}
+    RebuildPacks();
     UpdateLobby();
 }
 void ADinoGameMode::ReturnToLobby()

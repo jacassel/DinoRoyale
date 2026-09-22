@@ -29,6 +29,8 @@ void ADinoGameState::SynchronizeRules()
 void ADinoGameState::Tick(float Dt)
 {
     Super::Tick(Dt);SynchronizeRules();
+    if(HasAuthority()&&GetNetMode()!=NM_Standalone)for(auto It=GetWorld()->GetPlayerControllerIterator();It;++It)
+        if(auto* PC=Cast<ADinoPlayerController>(It->Get()))PC->UpdateMapVisibility();
     if(bRoundOver||bLobby)if(auto* PC=Cast<ADinoPlayerController>(GetWorld()->GetFirstPlayerController()))
         if(PC->IsLocalController()&&!PC->bSelectionOpen)PC->SetMenuOpen(true);
 }

@@ -3,6 +3,7 @@
 #include "Online/OnlineSessionNames.h"
 #include "Interfaces/OnlineExternalUIInterface.h"
 #include "EOSSettings.h"
+#include "OnlineSubsystemEOSTypesPublic.h"
 #include "Engine/Engine.h"
 #include "Engine/GameInstance.h"
 #include "Engine/LocalPlayer.h"
@@ -78,6 +79,8 @@ bool UDinoOnlineSession::IsSignedIn() const{return Identity&&Identity->GetLoginS
 bool UDinoOnlineSession::ValidateIdentity(const FUniqueNetIdRepl& ID) const
 {return Identity&&ID.IsValid()&&ID.GetType()==Provider;}
 FString UDinoOnlineSession::Nickname() const{return IsSignedIn()?Identity->GetPlayerNickname(0):FString();}
+void UDinoOnlineSession::EnterNetworkWorld()
+{bInSession=true;bConnected=true;bHosting=GetWorld()->GetNetMode()==NM_ListenServer;Status=bHosting?TEXT("Hosting online match."):TEXT("Connected to host.");}
 void UDinoOnlineSession::BeginOperation(EOperation Op,const FString& Message)
 {Operation=Op;bBusy=true;Deadline=FPlatformTime::Seconds()+(Op==EOperation::Login?180:45);Status=Message;}
 bool UDinoOnlineSession::Tick(float)
@@ -94,7 +97,7 @@ bool UDinoOnlineSession::Tick(float)
 void UDinoOnlineSession::SignIn()
 {
     if(bBusy||!EnsureProvider())return;
-    if(IsSignedIn()){Status=TEXT("Signed in as ")+Identity->GetPlayerNickname(0);return;}
+    if(IsSignedIn()){if(auto* Player=GetGameInstance()->GetLocalPlayerByIndex(0))Player->SetCachedUniqueNetId(FUniqueNetIdRepl(Identity->GetUniquePlayerId(0)));Status=TEXT("Signed in as ")+Identity->GetPlayerNickname(0);return;}
     bLeaving=false;BeginOperation(EOperation::Login,TEXT("Complete Epic sign-in in the browser window."));
     const bool Started=Provider==TEXT("EOS")?Identity->Login(0,FOnlineAccountCredentials(TEXT("accountportal"),TEXT(""),TEXT(""))):Identity->AutoLogin(0);
     if(!Started){bBusy=false;Operation=EOperation::None;Status=TEXT("Sign-in could not start. Check the online configuration.");}
@@ -114,6 +117,8 @@ void UDinoOnlineSession::Host(bool Teams,int32 Capacity,bool Bots,bool Public)
     FOnlineSessionSettings S;S.bIsLANMatch=false;S.bShouldAdvertise=Public;S.bUsesPresence=true;S.bUseLobbiesIfAvailable=true;
     S.bAllowJoinInProgress=true;S.bAllowInvites=true;S.bAllowJoinViaPresence=Public;S.bAllowJoinViaPresenceFriendsOnly=false;
     S.NumPublicConnections=Public?Capacity:0;S.NumPrivateConnections=Public?0:Capacity;S.BuildUniqueId=BuildVersion;
+    S.Set(SETTING_HOST_MIGRATION,false,EOnlineDataAdvertisementType::DontAdvertise);
+    if(Provider==TEXT("EOS"))S.Set(OSSEOS_BUCKET_ID_ATTRIBUTE_KEY,FString::Printf(TEXT("DinosaurBattle-%d"),BuildVersion),EOnlineDataAdvertisementType::ViaOnlineService);
     S.Set(VersionKey,BuildVersion,EOnlineDataAdvertisementType::ViaOnlineService);
     S.Set(ModeKey,Teams?FString(TEXT("Team Battle")):FString(TEXT("Free-for-All")),EOnlineDataAdvertisementType::ViaOnlineService);
     S.Set(BotsKey,Bots,EOnlineDataAdvertisementType::ViaOnlineService);
@@ -136,6 +141,7 @@ void UDinoOnlineSession::Search()
     Results.Reset();CurrentSearch=MakeShared<FOnlineSessionSearch>();CurrentSearch->bIsLanQuery=false;CurrentSearch->MaxSearchResults=50;
     CurrentSearch->QuerySettings.Set(SEARCH_LOBBIES,true,EOnlineComparisonOp::Equals);
     CurrentSearch->QuerySettings.Set(VersionKey,BuildVersion,EOnlineComparisonOp::Equals);
+    if(Provider==TEXT("EOS"))CurrentSearch->QuerySettings.Set(OSSEOS_BUCKET_ID_ATTRIBUTE_KEY,FString::Printf(TEXT("DinosaurBattle-%d"),BuildVersion),EOnlineComparisonOp::Equals);
     BeginOperation(EOperation::Search,TEXT("Searching internet lobbies..."));
     if(!Sessions->FindSessions(0,CurrentSearch.ToSharedRef())){bBusy=false;Operation=EOperation::None;Status=TEXT("Session search could not start.");}
 }
@@ -165,7 +171,10 @@ void UDinoOnlineSession::JoinResult(const FOnlineSessionSearchResult& R)
     if(Version!=BuildVersion){Status=TEXT("Different game version. Both players need the same build.");return;}
     if(Sessions->GetNamedSession(NAME_GameSession)){Status=TEXT("Leave your current match before accepting another invite.");return;}
     bLeaving=false;BeginOperation(EOperation::Join,TEXT("Joining online session..."));
-    if(!Sessions->JoinSession(0,NAME_GameSession,R)){bBusy=false;Operation=EOperation::None;Status=TEXT("Could not join this session.");}
+    FOnlineSessionSearchResult Desired=R;
+    // EOS search results deliberately omit presence; opt into its social overlay.
+    Desired.Session.SessionSettings.bUsesPresence=true;
+    if(!Sessions->JoinSession(0,NAME_GameSession,Desired)){bBusy=false;Operation=EOperation::None;Status=TEXT("Could not join this session.");}
 }
 void UDinoOnlineSession::OnJoin(FName,EOnJoinSessionCompleteResult::Type Result)
 {
@@ -179,12 +188,12 @@ void UDinoOnlineSession::OnJoin(FName,EOnJoinSessionCompleteResult::Type Result)
     FString URL;
     if(!Sessions->GetResolvedConnectString(NAME_GameSession,URL)||(Provider==TEXT("EOS")&&!URL.StartsWith(TEXT("EOS:"),ESearchCase::IgnoreCase)))
     {Status=TEXT("The session did not provide an EOS P2P address.");Sessions->DestroySession(NAME_GameSession);return;}
-    bInSession=true;bHosting=false;Status=TEXT("Connecting to host...");
+    bInSession=true;bHosting=false;bConnected=false;Status=TEXT("Connecting to host...");
     if(auto* PC=GetGameInstance()->GetFirstLocalPlayerController())PC->ClientTravel(URL+FString::Printf(TEXT("?DinoBuild=%d"),BuildVersion),TRAVEL_Absolute);
 }
 void UDinoOnlineSession::Leave(const FString& Reason)
 {
-    Status=Reason;bLeaving=true;
+    Status=Reason;bLeaving=true;bShowMenuOnReturn=true;
     if(bBusy&&Operation!=EOperation::Search)return; // In-flight creation/join callbacks perform cleanup.
     if(Sessions&&Sessions->GetNamedSession(NAME_GameSession))
     {BeginOperation(EOperation::Destroy,Reason);if(Sessions->DestroySession(NAME_GameSession))return;}
@@ -197,7 +206,7 @@ void UDinoOnlineSession::OnDestroy(FName,bool)
 void UDinoOnlineSession::ReturnToMenu()
 {
     const bool WasNetworked=GetWorld()&&GetWorld()->GetNetMode()!=NM_Standalone;
-    bInSession=false;bHosting=false;
+    bInSession=false;bHosting=false;bConnected=false;
     if(WasNetworked)UGameplayStatics::OpenLevel(GetGameInstance(),TEXT("/Game/Maps/LostValley"));
 }
 void UDinoOnlineSession::InviteFriends()
@@ -216,8 +225,8 @@ void UDinoOnlineSession::UpdateHostedSettings(bool Teams,int32 Capacity,bool Bot
 }
 void UDinoOnlineSession::OnNetworkFailure(UWorld* World,UNetDriver*,ENetworkFailure::Type,const FString& Error)
 {
-    if(World&&World->GetGameInstance()!=GetGameInstance())return;if(!bInSession)return;
-    const FString Reason=Error.Contains(TEXT("Different game version"))?TEXT("Different game version."):bHosting?TEXT("Multiplayer connection failed."):TEXT("Host disconnected.");
+    if((World&&World->GetGameInstance()!=GetGameInstance())||bLeaving)return;
+    const FString Reason=Error.Contains(TEXT("Different game version"))?TEXT("Different game version."):Error.Contains(TEXT("Lobby is full"))?TEXT("Lobby is full."):Error.Contains(TEXT("Match is ending"))?TEXT("Match is ending."):bHosting?TEXT("Multiplayer connection failed."):bConnected?TEXT("Host disconnected."):TEXT("Could not connect to host.");
     bBusy=false;Operation=EOperation::None;Leave(Reason);
 }
 void UDinoOnlineSession::OnTravelFailure(UWorld* World,ETravelFailure::Type,const FString&)

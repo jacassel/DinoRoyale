@@ -30,6 +30,9 @@ public:
     void ReconcileBots();
     void RemoveParticipant(ADinosaurCharacter* Dino);
     FVector ParticipantHome(int32 ID,int32 Team) const;
+    void SynchronizePacks();
+    void RebuildPacks();
+    bool bSynchronizingPacks=false;
     int32 SoloKillGoal=5,TeamKillGoal=10,TeamKills[2]={0,0},WinnerID=-1,WinnerTeam=-1,RoundNumber=0;
     float AssistWindow=12,RoundStartTime=0;
     TMap<int32,FDinoScore> Scores;

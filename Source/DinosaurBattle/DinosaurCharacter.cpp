@@ -84,6 +84,8 @@ void ADinosaurCharacter::ApplySpecies(int32 ID)
 void ADinosaurCharacter::Tick(float Dt)
 {
     Super::Tick(Dt);
+    if(GetNetMode()!=NM_Standalone&&MatchFrozen())
+    {if(HasAuthority())CancelActions();GetCharacterMovement()->StopMovementImmediately();return;}
     if(HasAuthority()&&Health->IsDead()&&!bDead) Die();
     if(HasAuthority())if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())bScoringParticipant=GM->IsScoringTarget(this);
     if(bDead){DeathTime+=Dt;if(HasAuthority()&&RespawnDelay>0&&DeathTime>(bMajor?RespawnDelay:45))ResetLife();return;}
@@ -139,14 +141,14 @@ bool ADinosaurCharacter::IsEnemy(const ADinosaurCharacter* O) const
 {
     if(!O||O==this||O->bDead) return false;
     if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())return GM->AreEnemies(this,O);
-    if(GetNetMode()!=NM_Standalone){auto* GS=GetWorld()->GetGameState<ADinoGameState>();return !(GS&&GS->bTeamMatch&&TeamID>=0&&TeamID==O->TeamID);}
+    if(GetNetMode()!=NM_Standalone){if(PackLeaderID>=0&&PackLeaderID==O->PackLeaderID)return false;auto* GS=GetWorld()->GetGameState<ADinoGameState>();return !(GS&&GS->bTeamMatch&&TeamID>=0&&TeamID==O->TeamID);}
     if(Species==1&&O->Species==1)return false;
     return true;
 }
 void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
 {
     if(!HasAuthority())return;
-    if(bDead) return;
+    if(bDead||(GetNetMode()!=NM_Standalone&&(MatchFrozen()||(Attacker&&!IsEnemy(Attacker))))) return;
     Food->StopEating();LastAttacker=Attacker;
     if(auto* AI=Cast<ADinosaurAIController>(GetController()))AI->Alert(Attacker);
     if(Combat->bBracing&&Attacker)
@@ -157,7 +159,7 @@ void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
     float Applied=Health->Receive(Damage);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDamage(this,Attacker,Applied);
     if(Health->IsDead())Die();else if(Applied>0)PlayCombatSound(6);
 }
-void ADinosaurCharacter::Die(){if(!HasAuthority())return;if(bDead)return;if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDeath(this);bDead=true;DeathTime=0;PlayCombatSound(4);if(auto* Corpse=GetWorld()->SpawnActor<ADinosaurCarcass>())Corpse->Initialize(this);GetMesh()->SetHiddenInGame(true);Placeholder->SetHiddenInGame(true);Combat->Cancel();Food->StopEating();GetCharacterMovement()->StopMovementImmediately();GetCharacterMovement()->DisableMovement();GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);Placeholder->SetRelativeRotation(FRotator(0,0,75));}
+void ADinosaurCharacter::Die(){if(!HasAuthority())return;if(bDead)return;if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDeath(this);bDead=true;DeathTime=0;PlayCombatSound(4);if(auto* Corpse=GetWorld()->SpawnActor<ADinosaurCarcass>())Corpse->Initialize(this);GetMesh()->SetHiddenInGame(true);Placeholder->SetHiddenInGame(true);Combat->Cancel();Food->StopEating();GetCharacterMovement()->StopMovementImmediately();GetCharacterMovement()->DisableMovement();GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);Placeholder->SetRelativeRotation(FRotator(0,0,75));if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->SynchronizePacks();}
 void ADinosaurCharacter::ResetLife()
 {
     if(!HasAuthority())return;
@@ -169,6 +171,7 @@ void ADinosaurCharacter::ResetLife()
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);Placeholder->SetHiddenInGame(false);
     if(WasDead)
     {
+        if(bPackFollower)if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(auto* Leader=GM->FindCombatant(PackLeaderID))HomePosition=Leader->GetActorLocation()+FVector(-650,(CombatantID%2?550:-550),0);
         const FVector Home=HomePosition;
         ALostValleyWorld* Valley=nullptr;for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
         FVector P=Valley?Valley->NearestWalkable(Home):Home;
@@ -195,6 +198,7 @@ void ADinosaurCharacter::ResetLife()
         P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+Stats().HalfHeight+30;
         SetActorLocation(P,false,nullptr,ETeleportType::TeleportPhysics);
     }
+    if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->SynchronizePacks();
 }
 void ADinosaurCharacter::ChooseRex(){ApplySpecies(0);ResetLife();}
 void ADinosaurCharacter::ChooseRaptor(){ApplySpecies(1);ResetLife();}
@@ -222,6 +226,12 @@ bool ADinosaurCharacter::CanSeeDinosaur(const ADinosaurCharacter* Other) const
 bool ADinosaurCharacter::MapPositionFor(const ADinosaurCharacter* Other,FVector& Position) const
 {
     if(!Other||Other->bDead)return false;
+    if(GetNetMode()==NM_Client)
+    {
+        if(const auto* PC=Cast<ADinoPlayerController>(GetController()))for(const auto& Marker:PC->VisibleMapMarkers)
+            if(Marker.ID==Other->CombatantID){Position=Marker.Position;return true;}
+        return false;
+    }
     if(const auto* GM=GetWorld()->GetGameState<ADinoGameState>())
         if(GM->bTeamMatch&&TeamID>=0&&Other->TeamID==TeamID){Position=Other->GetActorLocation();return true;}
     if(Other==this||CanSeeDinosaur(Other)){Position=Other->GetActorLocation();return true;}
@@ -231,7 +241,7 @@ bool ADinosaurCharacter::MapPositionFor(const ADinosaurCharacter* Other,FVector&
 
 void ADinosaurCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-    DOREPLIFETIME(ADinosaurCharacter,bFillerBot);
+    DOREPLIFETIME(ADinosaurCharacter,bFillerBot);DOREPLIFETIME(ADinosaurCharacter,bPackFollower);DOREPLIFETIME(ADinosaurCharacter,PackLeaderID);
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     DOREPLIFETIME(ADinosaurCharacter,Species);DOREPLIFETIME(ADinosaurCharacter,bDead);
     DOREPLIFETIME(ADinosaurCharacter,bMajor);DOREPLIFETIME(ADinosaurCharacter,CombatantID);
@@ -265,7 +275,13 @@ void ADinosaurCharacter::ServerAction_Implementation(uint8 Action)
 bool ADinosaurCharacter::MatchFrozen() const
 {if(const auto* GS=GetWorld()->GetGameState<ADinoGameState>())return GS->bLobby||GS->bRoundOver;return false;}
 void ADinosaurCharacter::CancelActions()
-{SprintOff();if(!HasAuthority()){ServerAction(8);return;}Combat->Cancel();Food->StopEating();}
+{
+    SprintOff();if(!HasAuthority()){ServerAction(8);return;}
+    // Opening a menu cancels held inputs, never the cooldown of a committed hit.
+    if(GetNetMode()==NM_Standalone||MatchFrozen())Combat->Cancel();
+    else{Combat->bCharging=false;Combat->bBracing=false;Combat->BufferedQuick=0;}
+    Food->StopEating();
+}
 void ADinosaurCharacter::PlayCombatSound(int32 Kind)
 {if(HasAuthority())MulticastSound(Kind);}
 void ADinosaurCharacter::MulticastSound_Implementation(int32 Kind)

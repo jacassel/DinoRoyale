@@ -84,13 +84,17 @@ bool ADinoGameMode::AreEnemies(const ADinosaurCharacter* A,const ADinosaurCharac
 {
     if(!A||!B||A==B)return false;
     if(A->Species==3||B->Species==3)return A->Species!=B->Species;
-    if(GetNetMode()!=NM_Standalone)return bTeamMatch&&A->TeamID>=0&&B->TeamID>=0?A->TeamID!=B->TeamID:true;
+    if(GetNetMode()!=NM_Standalone)
+    {
+        if(A->PackLeaderID>=0&&A->PackLeaderID==B->PackLeaderID)return false;
+        return bTeamMatch&&A->TeamID>=0&&B->TeamID>=0?A->TeamID!=B->TeamID:true;
+    }
     if(bTeamMatch&&A->TeamID>=0&&B->TeamID>=0)return A->TeamID!=B->TeamID;
     return !(A->Species==1&&B->Species==1);
 }
 ADinosaurCharacter* ADinoGameMode::GetPackLeader(const ADinosaurCharacter* Member) const
 {
-    if(GetNetMode()!=NM_Standalone)return const_cast<ADinosaurCharacter*>(Member);
+    if(GetNetMode()!=NM_Standalone)return Member?(Member->bPackFollower?FindCombatant(Member->PackLeaderID):const_cast<ADinosaurCharacter*>(Member)):nullptr;
     if(!Member||Member->Species!=1)return nullptr;ADinosaurCharacter* Leader=nullptr;
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
     {
@@ -141,7 +145,7 @@ void ADinoGameMode::RegisterDamage(ADinosaurCharacter* Victim,ADinosaurCharacter
 }
 void ADinoGameMode::RegisterDeath(ADinosaurCharacter* Victim)
 {
-    if(!HasAuthority()||!Victim||!Victim->bMajor||bRoundOver)return;Scores.FindOrAdd(Victim->CombatantID).Deaths++;
+    if(!HasAuthority()||!Victim||!Victim->bMajor||bRoundOver||(GetNetMode()!=NM_Standalone&&Victim->bPackFollower))return;Scores.FindOrAdd(Victim->CombatantID).Deaths++;
     if(!IsScoringTarget(Victim))return;
     auto* ActualKiller=Victim->LastAttacker.Get();auto* Killer=ScoringOwner(ActualKiller);
     const float* LastHit=ActualKiller?Victim->DamageContributors.Find(ActualKiller->CombatantID):nullptr;

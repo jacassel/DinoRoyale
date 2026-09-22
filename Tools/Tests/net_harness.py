@@ -16,6 +16,7 @@ class NetworkTest:
     def __init__(self,output,lag=0,loss=0,executable=None):
         self.out=ROOT/output;self.out.mkdir(parents=True,exist_ok=True)
         self.peers=[];self.rows=[];self.lag=lag;self.loss=loss;self.executable=executable
+        self.bridge_root=(pathlib.Path(executable).resolve().parents[2] if executable else ROOT)/'Saved/Automation'
     def check(self,name,passed,**evidence):
         row=dict(test=name,status='PASS' if passed else 'FAIL',**evidence);self.rows.append(row);print(row,flush=True)
         (self.out/'results.json').write_text(json.dumps(dict(transport='loopback development sockets',eos='NOT VERIFIED',wan='NOT VERIFIED',instances=len(self.peers),oneWayLagMs=self.lag,lossPercent=self.loss,tests=self.rows),indent=2))
@@ -28,7 +29,7 @@ class NetworkTest:
 
 class Peer:
     def __init__(self,test,name,url=None):
-        self.test=test;self.name=name;self.path=ROOT/'Saved/Automation'/name;self.path.mkdir(parents=True,exist_ok=True)
+        self.test=test;self.name=name;self.path=test.bridge_root/name;self.path.mkdir(parents=True,exist_ok=True)
         (self.path/'telemetry.json').unlink(missing_ok=True)
         (self.path/'command.json').write_text('{"seq":0,"cmd":"noop"}')
         if url is None:url=f'127.0.0.1:7788?DinoBuild={BUILD}'

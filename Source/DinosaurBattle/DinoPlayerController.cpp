@@ -1,4 +1,5 @@
 #include "DinoPlayerController.h"
+#include "Net/UnrealNetwork.h"
 #include "DinoOnlineSession.h"
 #include "DinoPlayerState.h"
 #include "DinoAudioComponent.h"
@@ -24,6 +25,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Engine/World.h"
 #include "Engine/Engine.h"
+#include "Engine/NetDriver.h"
 #include "Engine/GameViewportClient.h"
 #include "InputKeyEventArgs.h"
 #include "Misc/CommandLine.h"
@@ -44,7 +46,7 @@ void ADinoPlayerController::BeginPlay()
     if(!IsLocalController())return;
     ALostValleyWorld::EnsureLocalScene(GetWorld());
     if(GetNetMode()!=NM_Standalone)
-    {OnlinePage=4;if(auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>())ServerDisplayName(Online->Nickname());}
+    {OnlinePage=4;if(auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>()){Online->EnterNetworkWorld();ServerDisplayName(Online->Nickname());}}
     bDevBridge=FParse::Param(FCommandLine::Get(),TEXT("DinoDevBridge"));
     BridgeRoot=FPaths::ProjectSavedDir()/TEXT("Automation");
     FString BridgeName;if(FParse::Value(FCommandLine::Get(),TEXT("DinoBridge="),BridgeName))BridgeRoot=FPaths::ProjectSavedDir()/TEXT("Automation")/FPaths::MakeValidFileName(BridgeName);
@@ -64,6 +66,8 @@ void ADinoPlayerController::PlayerTick(float Dt)
 {
     Super::PlayerTick(Dt);
     if(!IsLocalController())return;
+    if(GetNetMode()==NM_Standalone)if(auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>())if(Online->bShowMenuOnReturn)
+    {Online->bShowMenuOnReturn=false;OnlinePage=1;SetMenuOpen(true);}
     if(bWaitingForRoundStart)if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())if(!GS->bLobby&&!GS->bRoundOver){bWaitingForRoundStart=false;SetMenuOpen(false);}
     if(!bDevBridge)return;
     if(Dt>0){FrameSum+=Dt;FrameCount++;}
@@ -335,6 +339,7 @@ void ADinoPlayerController::ReadBridge()
             Other->ApplySpecies(O->GetIntegerField(TEXT("species")));Other->ResetLife();
             float X=O->GetNumberField(TEXT("x")),Y=O->GetNumberField(TEXT("y"));Other->SetActorLocation(FVector(X,Y,ALostValleyWorld::HeightAt(X,Y)+Other->Stats().HalfHeight+12));Other->SetActorRotation(FRotator(0,O->GetNumberField(TEXT("yaw")),0));Other->GetCharacterMovement()->StopMovementImmediately();
             Other->Health->Current=Other->Health->Maximum*O->GetNumberField(TEXT("health"));Other->Health->LastDamageTime=GetWorld()->GetTimeSeconds();
+            double HungerValue,StaminaValue;if(O->TryGetNumberField(TEXT("hunger"),HungerValue))Other->Hunger->Current=HungerValue;if(O->TryGetNumberField(TEXT("stamina"),StaminaValue))Other->Stamina->Current=StaminaValue;
             if(auto* AI=Cast<ADinosaurAIController>(Other->GetController())){AI->ClearTravelGoal();AI->ResetTactics();double Profile;if(O->TryGetNumberField(TEXT("personality"),Profile))AI->Personality=FMath::Clamp(int32(Profile),0,3);AI->bPaused=!O->GetBoolField(TEXT("enabled"));}
         }
     }
@@ -387,10 +392,20 @@ void ADinoPlayerController::WriteTelemetry()
         auto A=MakeShared<FJsonObject>();A->SetNumberField(TEXT("id"),It->CombatantID);A->SetNumberField(TEXT("species"),It->Species);
         A->SetNumberField(TEXT("health"),It->Health->Current);A->SetNumberField(TEXT("stamina"),It->Stamina->Current);A->SetBoolField(TEXT("dead"),It->bDead);
         A->SetNumberField(TEXT("x"),It->GetActorLocation().X);A->SetNumberField(TEXT("y"),It->GetActorLocation().Y);A->SetNumberField(TEXT("z"),It->GetActorLocation().Z);
-        A->SetBoolField(TEXT("bot"),It->bFillerBot);A->SetNumberField(TEXT("team"),It->TeamID);A->SetNumberField(TEXT("attackSerial"),It->Combat->AttackSerial);A->SetBoolField(TEXT("player"),It->IsPlayerControlled());NetworkActors.Add(MakeShared<FJsonValueObject>(A));
+        FVector MP;A->SetBoolField(TEXT("mapVisible"),D->MapPositionFor(*It,MP));A->SetNumberField(TEXT("markerX"),MP.X);A->SetNumberField(TEXT("markerY"),MP.Y);A->SetBoolField(TEXT("follower"),It->bPackFollower);A->SetNumberField(TEXT("pack"),It->PackLeaderID);A->SetBoolField(TEXT("scoring"),It->bScoringParticipant);A->SetBoolField(TEXT("enemy"),D->IsEnemy(*It));A->SetBoolField(TEXT("bot"),It->bFillerBot);A->SetNumberField(TEXT("team"),It->TeamID);A->SetNumberField(TEXT("attackSerial"),It->Combat->AttackSerial);A->SetBoolField(TEXT("player"),It->IsPlayerControlled());NetworkActors.Add(MakeShared<FJsonValueObject>(A));
     }
     O->SetArrayField(TEXT("networkActors"),NetworkActors);
+    if(auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>())O->SetStringField(TEXT("onlineStatus"),Online->Status);
+    O->SetNumberField(TEXT("onlinePage"),OnlinePage);
     O->SetNumberField(TEXT("frameMs"),GetWorld()->GetDeltaSeconds()*1000.0);
+    if(auto* Driver=GetWorld()->GetNetDriver())
+    {
+        Driver->bCollectNetStats=true;
+        O->SetNumberField(TEXT("netInBytes"),Driver->InTotalBytes);O->SetNumberField(TEXT("netOutBytes"),Driver->OutTotalBytes);
+        O->SetNumberField(TEXT("netInBytesPerSecond"),Driver->InBytesPerSecond);O->SetNumberField(TEXT("netOutBytesPerSecond"),Driver->OutBytesPerSecond);
+        O->SetNumberField(TEXT("netInPacketsLost"),Driver->InTotalPacketsLost);O->SetNumberField(TEXT("netOutPacketsLost"),Driver->OutTotalPacketsLost);
+    }
+    if(auto* PS=GetPlayerState<ADinoPlayerState>())O->SetNumberField(TEXT("pingMs"),PS->GetPingInMilliseconds());
     TArray<TSharedPtr<FJsonValue>> Pins;for(const FVector& P:MapPins){auto Pin=MakeShared<FJsonObject>();Pin->SetNumberField(TEXT("x"),P.X);Pin->SetNumberField(TEXT("y"),P.Y);Pins.Add(MakeShared<FJsonValueObject>(Pin));}O->SetArrayField(TEXT("mapPins"),Pins);
     O->SetNumberField(TEXT("audioSteps"),D->Audio->Steps);O->SetNumberField(TEXT("audioQuick"),D->Audio->QuickSounds);O->SetNumberField(TEXT("audioHeavy"),D->Audio->HeavySounds);O->SetNumberField(TEXT("audioImpacts"),D->Audio->Impacts);O->SetNumberField(TEXT("audioDeaths"),D->Audio->Deaths);O->SetNumberField(TEXT("audioVoices"),D->Audio->ActiveVoices());
     O->SetNumberField(TEXT("audioCharges"),D->Audio->Charges);O->SetNumberField(TEXT("audioHurts"),D->Audio->Hurts);

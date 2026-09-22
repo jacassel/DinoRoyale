@@ -1,0 +1,190 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "species 0 combo hit 1 server damage",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 hit 1 health agrees",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 combo hit 2 server damage",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 hit 2 health agrees",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 combo hit 3 server damage",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 hit 3 health agrees",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 menu does not bypass committed combo cooldown",
+      "status": "PASS",
+      "serial": 3
+    },
+    {
+      "test": "species 0 client charge reaches server",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 charged lunge or pounce moves",
+      "status": "PASS",
+      "distance": 356.45338279637144,
+      "rise": 46.816190327285994
+    },
+    {
+      "test": "species 0 injury penalties replicate",
+      "status": "PASS",
+      "speeds": [
+        1050,
+        892.5,
+        735
+      ]
+    },
+    {
+      "test": "species 0 critical health blocks charge",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 insufficient stamina blocks charge",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 exhausted quick attack remains weak",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 combo hit 1 server damage",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 hit 1 health agrees",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 combo hit 2 server damage",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 hit 2 health agrees",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 combo hit 3 server damage",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 hit 3 health agrees",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 menu does not bypass committed combo cooldown",
+      "status": "PASS",
+      "serial": 8
+    },
+    {
+      "test": "species 1 client charge reaches server",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 charged lunge or pounce moves",
+      "status": "PASS",
+      "distance": 424.701193633382,
+      "rise": 56.01788739954219
+    },
+    {
+      "test": "species 1 injury penalties replicate",
+      "status": "PASS",
+      "speeds": [
+        1600,
+        1360,
+        1120
+      ]
+    },
+    {
+      "test": "species 1 critical health blocks charge",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 insufficient stamina blocks charge",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 exhausted quick attack remains weak",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 combo hit 1 server damage",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 hit 1 health agrees",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 combo hit 2 server damage",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 hit 2 health agrees",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 combo hit 3 server damage",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 hit 3 health agrees",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 menu does not bypass committed combo cooldown",
+      "status": "PASS",
+      "serial": 13
+    },
+    {
+      "test": "species 2 client charge reaches server",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 charged lunge or pounce moves",
+      "status": "PASS",
+      "distance": 382.0794931743876,
+      "rise": 50.40645633124717
+    },
+    {
+      "test": "species 2 injury penalties replicate",
+      "status": "PASS",
+      "speeds": [
+        850,
+        722.5,
+        595
+      ]
+    },
+    {
+      "test": "species 2 critical health blocks charge",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 insufficient stamina blocks charge",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 exhausted quick attack remains weak",
+      "status": "PASS"
+    }
+  ]
+}

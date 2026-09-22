@@ -1,0 +1,36 @@
+"""Stage H: four networked players, session failures, team rules and host departure."""
+import time
+from net_harness import NetworkTest,Peer,host_url,wait_for,distance
+t=NetworkTest('Tests/Results/multiplayer/stage-h-02')
+try:
+    host=Peer(t,'FourHost',host_url(4));peers=[host]
+    for i in range(1,4):peers.append(Peer(t,'FourClient'+str(i)))
+    t.check('four real networked players connected',wait_for(lambda:all(len(p.state()['players'])==4 for p in peers)))
+    t.check('four distinct controlled participants',all(p.state()['combatantID']==i for i,p in enumerate(peers)))
+    extra=Peer(t,'FourFull')
+    t.check('full lobby rejects additional client with clear reason',wait_for(lambda:extra.state()['netMode']==0 and extra.state()['onlineStatus']=='Lobby is full.'),connected=len(host.state()['players']))
+    extra.quit()
+    wrong=Peer(t,'FourWrong','127.0.0.1:7788?DinoBuild=1')
+    t.check('incompatible build rejected with clear reason',wait_for(lambda:wrong.state()['netMode']==0 and wrong.state()['onlineStatus']=='Different game version.'))
+    wrong.quit()
+    for i,p in enumerate(peers):p.lobby(0,1 if i<2 else i%3)
+    for p in peers[1:]:p.lobby(2,1)
+    host.lobby(6)
+    t.check('four-player FFA starts with two separate raptor packs',wait_for(lambda:all(not p.state()['lobby'] for p in peers)) and len([a for a in host.state()['networkActors'] if a['follower']])==4)
+    host.command('ai',paused=True)
+    for i,p in enumerate(peers):
+        a=p.state();b=p.hold('W',.5)
+        t.check(f'player {i} movement reaches all peers',distance(a,b)>100 and wait_for(lambda:all(distance(other.actor(i),p.state())<150 for other in peers)),distance=distance(a,b))
+    host.lobby(7);host.lobby(3,1)
+    for i,p in enumerate(peers):p.lobby(1,i%2)
+    for p in peers[1:]:p.lobby(2,1)
+    host.lobby(6)
+    t.check('2v2 team match starts on all four peers',wait_for(lambda:all(p.state()['teamMode'] and not p.state()['lobby'] for p in peers)) and sum(p['team']==0 for p in host.state()['players'])==2)
+    host.command('ai',paused=True)
+    host.command('scoreHit',attacker=2,victim=1,value=1);host.command('scoreHit',attacker=0,victim=1,value=100000)
+    t.check('team score and assist agree across four peers',wait_for(lambda:all(p.state()['team0Kills']==1 for p in peers) and peers[2].state()['assists']==1))
+    host.quit()
+    t.check('host departure returns all guests to multiplayer menu',wait_for(lambda:all(p.state()['netMode']==0 and p.state()['onlinePage']==1 and p.state()['menuOpen'] for p in peers[1:]),40))
+    t.check('all guests see Host disconnected',all(p.state()['onlineStatus']=='Host disconnected.' for p in peers[1:]))
+    for p in peers[1:]:p.quit()
+finally:t.close()

@@ -4,12 +4,23 @@
 #include "DinoPlayerController.generated.h"
 class ADinosaurCharacter;
 
+USTRUCT()
+struct FDinoMapMarker
+{
+    GENERATED_BODY()
+    UPROPERTY() int32 ID=-1;
+    UPROPERTY() FVector Position=FVector::ZeroVector;
+};
+
 UCLASS()
 class DINOSAURBATTLE_API ADinoPlayerController : public APlayerController
 {
     GENERATED_BODY()
 public:
     virtual void BeginPlay() override;
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    UPROPERTY(Replicated) TArray<FDinoMapMarker> VisibleMapMarkers;
+    void UpdateMapVisibility();
     virtual void PlayerTick(float Dt) override;
     virtual void SetupInputComponent() override;
     void SetMenuOpen(bool Open);

@@ -28,6 +28,8 @@ public:
     bool IsSignedIn() const;
     bool ValidateIdentity(const FUniqueNetIdRepl& ID) const;
     FString Nickname() const;
+    void EnterNetworkWorld();
+    bool bShowMenuOnReturn=false;
     bool bBusy=false,bInSession=false,bHosting=false;
     FString Status=TEXT("Sign in to Epic to play online.");
     FName Provider=TEXT("EOS");
@@ -43,7 +45,7 @@ private:
     enum class EOperation:uint8 {None,Login,Create,Search,Join,Destroy};
     EOperation Operation=EOperation::None;
     double Deadline=0;
-    bool bLeaving=false,bTimedOut=false,bPublic=true;
+    bool bLeaving=false,bTimedOut=false,bPublic=true,bConnected=false;
     FString PendingOptions;
     bool EnsureProvider();
     void BeginOperation(EOperation Op,const FString& Message);

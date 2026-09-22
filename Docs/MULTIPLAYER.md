@@ -116,3 +116,36 @@ reconciliation now updates both and the full suite passed again.
 Three actual networked game processes are tested so far. Ten participant slots
 with eight bots is not ten networked-player evidence. EOS/WAN remain unverified.
 
+## Stages G/H checkpoint
+
+21/21 pack checks passed in stage-g-01. Two human raptors with bots OFF each own
+two followers. Distinct pack IDs, replicated movement, FFA allegiance,
+leader-only scoring, follower kill credit, ten-second leader respawn, own-pack
+cleanup, team allegiance, species changes, and replacing a raptor filler bot
+were verified. Followers use separate actor IDs and consume no participant slots.
+
+13/13 four-player checks passed in stage-h-02: four real processes control unique
+participants, all peers observe movement, two concurrent packs, four-human FFA,
+2v2, shared score/assist, full-capacity and incompatible-version rejection, and
+host exit returns every guest to Multiplayer with "Host disconnected."
+Stage-h-01 exposed two UE network failure callbacks overwriting the departure
+reason; the cleanup path now preserves the first actionable failure.
+
+25/25 ecology checks passed in ecology-01. A server-only sight blocker removes a
+remote client's map marker; attack noise reveals the last position and expires
+on the server clock. Client feeding changes server food/health/hunger/stamina,
+movement cancels feeding, plants deplete on both peers, and all three species
+swim, brace and jump from water using client input. Map markers are replicated
+only to their owning player's controller, after server visibility filtering.
+
+The EOS adapter explicitly disables lobby host migration, supplies matching
+version buckets for create/search, and enables presence when joining EOS search
+results. These are source/API checks, not live EOS service verification.
+Account milestone: 54% remaining, reported account allowance (no Astra window).
+
+39/39 additional combat checks passed in combat-01 using real client input for
+all three species: three-hit combos, replicated damage, menu opening cannot
+bypass committed attack recovery, charge initiation/lunge/pounce, 50%/25%
+injury speed penalties, critical-health and low-stamina charge rejection, and
+weak attacks while exhausted. Network lobbies/results freeze ongoing movement.
+
