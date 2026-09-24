@@ -6,6 +6,7 @@
 #include "OnlineSessionSettings.h"
 #include "Containers/Ticker.h"
 #include "Engine/EngineBaseTypes.h"
+#include "DinoCompatibility.h"
 #include "DinoOnlineSession.generated.h"
 class IOnlineSubsystem;
 
@@ -15,7 +16,7 @@ class DINOSAURBATTLE_API UDinoOnlineSession : public UGameInstanceSubsystem
 {
     GENERATED_BODY()
 public:
-    static constexpr int32 BuildVersion=2026092201;
+    static constexpr int32 BuildVersion=DinoCompatibility::Build;
     virtual void Initialize(FSubsystemCollectionBase& Collection) override;
     virtual void Deinitialize() override;
     void SignIn();

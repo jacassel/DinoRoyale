@@ -1,0 +1,57 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "NEW_COMPUTER",
+			"instance": "3AC1C1BD42ABC34CE2A03A840B0443D2",
+			"instanceName": "NEW_COMPUTER-6240",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (25H2) [10.0.26200.9445] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 750",
+			"cPUModel": "11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz",
+			"rAMInGB": 32,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.09.24-03.19.14",
+	"succeeded": 1,
+	"succeededWithWarnings": 0,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.0081356987357139587,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "Compatibility",
+			"fullTestPath": "DinoRoyale.Online.Compatibility",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"3AC1C1BD42ABC34CE2A03A840B0443D2"
+			],
+			"duration": 0.0081356987357139587,
+			"dateTime": "2026.09.24-03.19.14",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Reproduction: host wire=2026092201; old guest read=0; corrected guest read=2026092201",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.24-03.19.14"
+				}
+			],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

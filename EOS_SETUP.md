@@ -3,14 +3,16 @@
 The game uses EOS lobbies and EOS P2P relay with an Unreal listen server. The host
 also plays. Gameplay replication is independent of the online provider.
 
-**Live EOS authentication, lobby discovery and internet connectivity are not yet
-verified. This project did not have an EOS developer product when integration
-started. Local multi-process tests do not prove EOS or different-network play.**
+**The owner's physical QA confirmed Epic sign-in, lobby hosting, social presence
+and invitation delivery. The false join-version rejection is addressed in the
+September 24 QA release. Two-PC joining and internet gameplay still need visual
+confirmation. Local multi-process tests do not prove different-network play.**
 
 ## Configure your product once
 
 1. Sign in to the [Epic Developer Portal](https://dev.epicgames.com/portal/).
-   Create/select your organization and an EOS product for Dinosaur Battle. Use
+   Select the existing organization and EOS product used by Dino Royale. Do not
+   rename either during QA. Use
    the free EOS offering; no Epic Games Store distribution or paid hosting is
    required for this implementation.
 2. In Product Settings, record the Product ID, Sandbox ID and Deployment ID for
@@ -90,7 +92,21 @@ Different-network connectivity must remain NOT VERIFIED until this test passes.
   to Multiplayer and join a newly hosted session.
 - **Online request timed out:** return to offline play or restart before retrying.
 
-## Future Steam integration
+## Gate for the college playtest
+
+Keep testing limited to the already authorized accounts until the owner has
+visually verified a two-PC lobby, dinosaur selection, ready state and match start
+through both invitations and the public browser. Record the two machines, release
+label, network arrangement and results in `Docs/MULTIPLAYER_ACCEPTANCE.md`.
+
+After that gate and Epic branding approval, verify account/sandbox access for
+each intended tester using the current portal requirements. Distribute the same
+whole release folder, with its BUILD_INFO and checksum manifest, to each tester.
+First run a small FFA, then teams/bots, leaving/rejoining and a different-network
+relay test. Preserve host and guest logs for failures. Do not treat brand approval
+as proof of connectivity or broaden access before the owner approves that phase.
+
+## Future Steam integration (provider boundary)
 
 `UDinoOnlineSession` owns authentication, session discovery, invites and joins.
 It calls Unreal Online Subsystem interfaces. A legitimate Steamworks App ID,

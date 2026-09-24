@@ -225,8 +225,10 @@ void ADinoGameMode::PreLogin(const FString& Options,const FString& Address,const
         Error=Online&&Online->ValidateIdentity(ID)?GameSession->ApproveLogin(Options):TEXT("Online identity is incompatible.");
     }
     else Super::PreLogin(Options,Address,ID,Error);
-    if(bOnlineMatch&&UGameplayStatics::GetIntOption(Options,TEXT("DinoBuild"),0)!=UDinoOnlineSession::BuildVersion)Error=TEXT("Different game version.");
+    const int32 RemoteBuild=UGameplayStatics::GetIntOption(Options,TEXT("DinoBuild"),0);
+    if(bOnlineMatch&&RemoteBuild!=UDinoOnlineSession::BuildVersion)Error=TEXT("Different game version.");
     if(Error.IsEmpty()&&GetNumPlayers()>=MaxParticipants)Error=TEXT("Lobby is full.");
     if(bRoundOver)Error=TEXT("Match is ending.");
+    if(bOnlineMatch)UE_LOG(LogTemp,Display,TEXT("Dino prelogin local=%d remote=%d source=DinoBuild travel option decision=%s reason=%s"),UDinoOnlineSession::BuildVersion,RemoteBuild,Error.IsEmpty()?TEXT("ACCEPT"):TEXT("REJECT"),Error.IsEmpty()?TEXT("compatible"):*Error);
     FGameModeEvents::GameModePreLoginEvent.Broadcast(this,ID,Error);
 }

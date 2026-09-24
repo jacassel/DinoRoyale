@@ -1,14 +1,23 @@
-# Multiplayer acceptance record
+# Dino Royale multiplayer acceptance record
+
+September 24 QA1: compatibility defect reproduced and repaired; see
+`MULTIPLAYER_QA_REPORT.md` and `Tests/Results/eos-qa-20260924`.
+The owner's screenshots confirm sign-in, hosting, social presence and invitation
+delivery on the previous package, followed by a false version rejection.
+QA1 passes packaged compatibility and loopback lobby tests. Replacement-package
+live EOS checks await manual Epic sign-in. Both physical join paths and the
+owner's visual **2 of 2 players / Ready / Start Match** acceptance remain pending.
+Do not advance to the college playtest until those and branding/access gates pass.
 
 Every status requires runtime evidence. Local loopback is not EOS or WAN evidence.
 
 | Requirement | Status | Evidence / limitation |
 |---|---|---|
-| Host can create an internet session. | NOT VERIFIED | EOS product/account configuration and user’s second-PC test pending |
-| Remote player can discover it. | NOT VERIFIED | EOS product/account configuration and user’s second-PC test pending |
-| Remote player can join it. | NOT VERIFIED | EOS product/account configuration and user’s second-PC test pending |
-| Players can be on different networks. | NOT VERIFIED | EOS product/account configuration and user’s second-PC test pending |
-| No manual port forwarding required. | NOT VERIFIED | EOS product/account configuration and user’s second-PC test pending |
+| Host can create an internet session. | PASS (previous release, physical QA) | User image 2 shows 1 of 2 lobby; repeat on QA1 after manual sign-in |
+| Remote player can discover it. | NOT VERIFIED | QA1 manual sign-in and physical two-PC retest pending |
+| Remote player can join it. | NOT VERIFIED | QA1 manual sign-in and physical two-PC retest pending |
+| Players can be on different networks. | NOT VERIFIED | QA1 manual sign-in and physical two-PC retest pending |
+| No manual port forwarding required. | NOT VERIFIED | QA1 manual sign-in and physical two-PC retest pending |
 | Host also plays normally. | PASS (local) | stage-b-04; latency-30 / latency-76 / latency-150-loss2 |
 | Client movement works. | PASS (local) | stage-b-04; latency-30 / latency-76 / latency-150-loss2 |
 | Client combat works. | PASS (local) | stage-b-04; latency-30 / latency-76 / latency-150-loss2 |
@@ -51,7 +60,7 @@ Every status requires runtime evidence. Local loopback is not EOS or WAN evidenc
 | Repeated matches do not accumulate actors/state. | PASS (local) | stage-de-01 |
 | Packaged host works. | PASS (local) | scale-01: host plus nine real packaged processes; headless loopback |
 | Packaged client works. | PASS (local) | scale-01: host plus nine real packaged processes; headless loopback |
-| External network test completed if physically possible. | NOT VERIFIED | EOS product/account configuration and user’s second-PC test pending |
+| External network test completed if physically possible. | NOT VERIFIED | QA1 manual sign-in and physical two-PC retest pending |
 
 PASS (local) means separate live game processes controlled by the test harness,
 not multiple people or a live EOS service test. Evidence paths are under
@@ -65,4 +74,4 @@ The timeout repair passed 13 additional packaged failure checks and 16 survival
 checks (`packaged-survival-edges-04`), including actual two-minute plant regrowth,
 starvation and replicated knockback. The rebuilt package is backed up separately
 and hash-verified. Earlier broad results were not all rerun for this handler-only
-repair. Live EOS acceptance still requires product configuration and user testing.
+repair. Live QA1 acceptance still requires manual sign-in and physical two-PC testing.

@@ -1,0 +1,5 @@
+{
+  "checks": 74,
+  "passed": false,
+  "fixture": "Existing run_final_package isolation: paused AI, ignored win condition, no invulnerability"
+}

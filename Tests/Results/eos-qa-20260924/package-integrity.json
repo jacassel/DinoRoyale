@@ -1,0 +1,11 @@
+{
+  "executableMatchesBuilt": true,
+  "pakFilesMatchSameStage": 5,
+  "onlineConfigCopied": true,
+  "engineBuildOverride": 2026092201,
+  "networkChecksum": 1589990096,
+  "engineCompatibleChangelist": 55116800,
+  "projectVersion": "0.2.0",
+  "EOSNetDriverConfig": true,
+  "forceRelayConfig": true
+}

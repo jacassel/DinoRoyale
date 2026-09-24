@@ -1,4 +1,4 @@
-# Dinosaur Battle architecture and design
+# Dino Royale architecture and design
 
 ## Gameplay ownership
 

@@ -92,7 +92,7 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
         DrawRect(Enabled?(Hover?FLinearColor(.13f,.30f,.29f):FLinearColor(.07f,.17f,.18f)):FLinearColor(.07f,.09f,.09f),W*X,H*Y,W*Width,H*Height);
         Label(S,X+.012f,Y+Height*.25f,.87f,Enabled?MenuTeal:MenuMuted);
     };
-    Label(TEXT("DINOSAUR BATTLE / MULTIPLAYER"),.08f,.065f,1.4f,MenuGold);
+    Label(TEXT("DINO ROYALE / MULTIPLAYER"),.08f,.065f,1.4f,MenuGold);
     if(GetNetMode()!=NM_Standalone)
     {
         if(!GS||!PS){Label(TEXT("Connecting to match..."),.08f,.2f,1.1f);return;}
@@ -138,6 +138,7 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
             Button(GS->bRoundOver?TEXT("REMATCH"):TEXT("RESUME"),.36f,.76f,.25f,.065f,!GS->bRoundOver||PS->bHost);
             Label(PC->LobbyStatus,.08f,.84f,.78f,MenuGold);
         }
+        if(Online)Label(Online->Status,.08f,.96f,.65f,MenuMuted);
         Button(TEXT("LEAVE MATCH"),.08f,.88f);Button(TEXT("INVITE FRIENDS"),.36f,.88f);Button(TEXT("LOCAL SETTINGS / F2"),.65f,.88f);return;
     }
     const int32 Page=PC->OnlinePage;

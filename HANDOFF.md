@@ -1,3 +1,59 @@
+# Dino Royale QA1 handoff - September 24, 2026
+
+The false version rejection is repaired and the replacement is locally tested.
+**The goal is still open until the owner visually verifies both two-PC join paths.**
+No further gameplay scope should be added before that test.
+
+Launch `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
+It prefers the fresh QA1 release. Send the WHOLE folder:
+`C:\Users\joel1\Documents\DinosaurBattle Prototype\Dist\Releases\DinoRoyale-20260924-QA1\Windows`
+Or send `Dist/Releases/DinoRoyale-20260924-QA1.zip` and extract it on both PCs.
+Do not merge into old installs. Launch `Play Dino Royale.bat` in the release.
+
+Compatibility remains **2026092201**; release label **QA1** distinguishes it from
+old packages displaying the same number. EOS returns custom integers as Int64;
+the previous Int32 getter turned the correct value into zero. Shared typed
+reading now fixes both invite and browser gates; missing/different IDs remain
+rejected. OSS BuildUniqueId is explicitly aligned; engine network checks remain.
+Invite Friends uses the implemented EOS ShowFriendsUI instead of the stub.
+No Epic organization/product names or settings changed. Current UI/docs use Dino
+Royale; internal executable/project/EOS artifact paths remain DinosaurBattle.
+
+Verified: full editor/package build, 17 compatibility assertions in editor and
+package, 14/14 packaged loopback lobby tests, 90/90 rendered offline core checks.
+Normal 1600x900 launch, native selection/map/menu/multiplayer navigation and F10
+exit passed without a development bridge. Original interrupted/incorrect-fixture
+runs are retained and explained in TEST_LOG.md and MULTIPLAYER_QA_REPORT.md.
+
+Live replacement-package EOS checks are pending manual Epic sign-in. The sign-in
+screen appeared; it timed out awaiting user input. The Computer Use skill forbids
+agent interaction with authentication dialogs. Previous physical screenshots
+confirm the earlier build's sign-in/hosting/invite delivery, not successful joining.
+The original public Refresh timeout has no guest log and remains unresolved;
+new diagnostics distinguish timeout, callback and metadata rejection.
+
+Retest: both accounts sign in; host FFA / 2 slots / bots OFF / Public. Test an
+Epic invite, verify **2 of 2** on both screens, guest dinosaur/Ready and Start Match.
+Recreate and repeat through Refresh -> select -> Join Selected. Preserve BOTH
+`Windows/DinosaurBattle/Saved/Logs` folders on failure; Collect QA Logs.bat helps.
+Then test different internet connections. Broader college playtesting waits for
+the owner's visual acceptance plus Epic branding and account-access approval.
+
+Previous playable stays at `Dist/Windows`. Independent prior backup:
+`Dist/Checkpoints/2026-09-24-before-eos-qa/Windows` (71 hashes verified).
+New recovery: `Dist/Checkpoints/2026-09-24-eos-qa-fixed/Windows`.
+Manifest/checkpoint evidence: `Tests/Results/eos-qa-20260924/checkpoint.json` and
+`release-manifest.json`; the checkpoint script verifies every listed file in
+both the recovery copy and ZIP. Saved data, logs and authentication caches are
+moved to ignored Dist/TestRuns, not shipped. The EOS client configuration remains
+in its required packaged location; no credentials were put in source control.
+Source tag: `eos-qa-ready-for-two-pc-20260924`.
+
+Preexisting staged Config/DefaultInput.ini is byte-identical and excluded from
+agent commits. Final account allowance: 38%; no Astra-specific allowance exposed.
+One agent, no delegation, no purchases or usage-reset redemption.
+
+---
 # EOS timeout repair checkpoint — September 22, 2026
 
 Launch `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.

@@ -374,3 +374,38 @@ was changed.
 - Source tag: `visual-modernization-stable-20260920`. Preexisting staged input
   configuration remains byte-identical and excluded from the visual commit.
   Final account allowance 70%; no separate Astra allowance exposed.
+
+## Dino Royale EOS defect sprint - September 24, 2026
+
+- Reviewed all six supplied physical-QA photos and the pasted QA brief. Host lobby,
+  social presence, invitation delivery and identical BUILD_INFO were observed;
+  the exact verbose rejection maps to the game custom pre-join version gate.
+- Reproduced UE EOS Int64 metadata read through the former Int32 getter returning
+  zero. Shared typed reader repairs browser/invite checks. Meaningful version
+  protection remains. Explicit OSS override aligns EOS-created BuildUniqueId.
+- Invite Friends now uses implemented ShowFriendsUI. Previous host log explicitly
+  reported ShowInviteUI unimplemented. No portal settings or product names changed.
+- Editor build and full Windows Development BuildCookRun passed. Unreal engine
+  automation passed in editor and actual package, 17 assertions each. Packaged
+  loopback lobby/protocol regression passed 14/14, including deliberate mismatches.
+- Final rendered packaged offline core regression passed 90/90. First invocation
+  omitted standard AI-isolation fixture (84/90); next attempt was interrupted when
+  process cleanup mistakenly ended that test instead of the sign-in process. Both
+  are preserved. Final correctly isolated run passed with no gameplay code edits.
+- Normal LaunchGame.bat: 1600x900, no development bridge; native 1 selection, M map,
+  Escape, F4 and F10 passed. Both processes exited. No firewall prompt observed.
+- QA1 EOS sign-in opened Epic authentication and timed out awaiting manual input.
+  New-package live hosting, discovery, overlay button and invite/connect callbacks
+  remain unverified. Two physical PCs and different networks are NOT proven by
+  the local tests. Original Refresh timeout needs the guest log; reader fix alone
+  cannot explain a missing search callback.
+- Fresh release: Dist/Releases/DinoRoyale-20260924-QA1/Windows. Existing EOS config
+  copied byte-for-byte. Executable matches built binary; all five pak/iostore files
+  match the same completed staging run. Distribution excludes Saved/login caches.
+- Previous Dist/Windows untouched; all 71 files independently backed up and hashed
+  in Dist/Checkpoints/2026-09-24-before-eos-qa/Windows. New recovery and ZIP are
+  validated by Tools/Tests/CheckpointEOSQARelease.ps1; evidence under
+  Tests/Results/eos-qa-20260924, including initial failures and native captures.
+- User Config/DefaultInput.ini is byte-identical and remains excluded from commits.
+  One agent; no purchases. Final checkpoint allowance 38%; no Astra-specific
+  allowance exposed. Source tag: eos-qa-ready-for-two-pc-20260924.

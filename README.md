@@ -1,16 +1,23 @@
-# Dinosaur Battle — Pre-Alpha 0.2
+# Dino Royale — Pre-Alpha 0.2
 
 A dinosaur combat prototype with offline play and an Epic Online Services multiplayer integration.
-EOS requires your product configuration; live EOS and different-network play remain unverified.
+Physical QA has confirmed Epic sign-in, hosting and invitation delivery. The
+September 24 repair addresses the false version rejection; successful two-PC
+joining and different-network play still require the user's visual verification.
 See [EOS_SETUP.md](EOS_SETUP.md) for setup and [Docs/MULTIPLAYER_ACCEPTANCE.md](Docs/MULTIPLAYER_ACCEPTANCE.md) for the evidence boundary.
 
 ## Launch
 
 Open `C:\Users\joel1\Documents\DinosaurBattle Prototype` in File Explorer and double-click **LaunchGame.bat**.
-It starts the standalone build in `Dist\Windows`; keep that entire folder together. If the packaged build is absent, the launcher falls back to the installed Unreal Engine 5.8.2.
+The corrected QA release is `Dist\Releases\DinoRoyale-20260924-QA1\Windows`;
+keep that entire folder together. `Dist\Windows` is the preserved previous build.
+See `MULTIPLAYER_QA_REPORT.md` for the current verification and recovery status.
 Choose a dinosaur with **1 / 2 / 3**. **Escape** pauses; **F10** from the menu exits.
 Double-click `LaunchEditor.bat` to open the project for editing.
 The project file is `DinosaurBattle.uproject`; the startup level is `Content/Maps/LostValley.umap`.
+The Unreal module, executable, internal paths and EOS artifact remain
+`DinosaurBattle` to preserve existing cooked assets and service identity.
+Player-facing branding is Dino Royale. Epic organization/product names are unchanged.
 
 Engine: Unreal Engine **5.8.2**. Original assets: **Blender 5.2.2 LTS**.
 Offline play needs no account. Multiplayer uses Epic account sign-in, EOS lobbies and EOS P2P relay.

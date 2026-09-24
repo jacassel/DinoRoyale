@@ -377,6 +377,20 @@ void ADinoPlayerController::ReadBridge()
         SetControlRotation(R);
     }
     else if(Cmd==TEXT("lobby"))ServerLobbyAction(uint8(O->GetIntegerField(TEXT("action"))),O->GetIntegerField(TEXT("value")));
+    else if(Cmd==TEXT("online"))
+    {
+        // This path only runs behind the existing opt-in DinoDevBridge.
+        if(auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>())
+        {
+            const FString Action=O->GetStringField(TEXT("action"));
+            if(Action==TEXT("signin"))Online->SignIn();
+            else if(Action==TEXT("host"))Online->Host(O->GetBoolField(TEXT("teams")),O->GetIntegerField(TEXT("capacity")),O->GetBoolField(TEXT("bots")),O->GetBoolField(TEXT("public")));
+            else if(Action==TEXT("search"))Online->Search();
+            else if(Action==TEXT("join"))Online->Join(O->GetIntegerField(TEXT("index")));
+            else if(Action==TEXT("invite"))Online->InviteFriends();
+            else if(Action==TEXT("leave"))Online->Leave();
+        }
+    }
     else if(Cmd==TEXT("menu"))SetMenuOpen(O->GetBoolField(TEXT("open")));
     else if(Cmd==TEXT("screenshot"))DinoSnapshot();
     else if(Cmd==TEXT("quit"))ConsoleCommand(TEXT("quit"));
@@ -395,7 +409,12 @@ void ADinoPlayerController::WriteTelemetry()
         FVector MP;A->SetBoolField(TEXT("mapVisible"),D->MapPositionFor(*It,MP));A->SetNumberField(TEXT("markerX"),MP.X);A->SetNumberField(TEXT("markerY"),MP.Y);A->SetBoolField(TEXT("follower"),It->bPackFollower);A->SetNumberField(TEXT("pack"),It->PackLeaderID);A->SetBoolField(TEXT("scoring"),It->bScoringParticipant);A->SetBoolField(TEXT("enemy"),D->IsEnemy(*It));A->SetBoolField(TEXT("bot"),It->bFillerBot);A->SetNumberField(TEXT("team"),It->TeamID);A->SetNumberField(TEXT("attackSerial"),It->Combat->AttackSerial);A->SetBoolField(TEXT("player"),It->IsPlayerControlled());NetworkActors.Add(MakeShared<FJsonValueObject>(A));
     }
     O->SetArrayField(TEXT("networkActors"),NetworkActors);
-    if(auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>())O->SetStringField(TEXT("onlineStatus"),Online->Status);
+    if(auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>())
+    {
+        O->SetStringField(TEXT("onlineStatus"),Online->Status);
+        O->SetBoolField(TEXT("onlineSignedIn"),Online->IsSignedIn());O->SetBoolField(TEXT("onlineBusy"),Online->bBusy);
+        O->SetNumberField(TEXT("compatibilityBuild"),Online->BuildVersion);O->SetNumberField(TEXT("onlineResults"),Online->Results.Num());
+    }
     O->SetNumberField(TEXT("onlinePage"),OnlinePage);
     O->SetNumberField(TEXT("frameMs"),GetWorld()->GetDeltaSeconds()*1000.0);
     if(auto* Driver=GetWorld()->GetNetDriver())

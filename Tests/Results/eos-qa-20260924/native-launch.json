@@ -1,0 +1,14 @@
+{
+  "launcher": "LaunchGame.bat",
+  "resolution": "1600x900",
+  "developmentBridge": false,
+  "menuBranding": "Dino Royale",
+  "nativeSpeciesSelection": true,
+  "nativeMap": true,
+  "nativeEscape": true,
+  "nativeF4": true,
+  "nativeF10Exit": true,
+  "processesExited": true,
+  "firewallPromptObserved": false,
+  "liveEOS": "Pending manual sign-in and physical two-PC test"
+}

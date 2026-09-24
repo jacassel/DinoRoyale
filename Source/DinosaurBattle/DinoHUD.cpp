@@ -42,7 +42,7 @@ void ADinoHUD::DrawHUD()
         Text(Goal,W*.5f-160*S,79*S,.73f,Teal);
     }
     Panel(24*S,24*S,386*S,230*S);
-    Text(TEXT("DINOSAUR BATTLE  /  0.2"),42*S,37*S,.95f,Gold);
+    Text(TEXT("DINO ROYALE  /  0.2"),42*S,37*S,.95f,Gold);
     Text(D->Stats().Name,42*S,64*S,1.32f);
     FLinearColor HealthColor=D->Health->Fraction()<.25f?Red:D->Health->Fraction()<.5f?Gold:Teal;
     Bar(42*S,99*S,350*S,12*S,D->Health->Fraction(),HealthColor);
@@ -109,7 +109,7 @@ void ADinoHUD::DrawHUD()
 void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
 {
     float W=Canvas->SizeX,H=Canvas->SizeY,S=Scale;Panel(0,0,W,H,.93f);
-    Text(TEXT("DINOSAUR BATTLE"),W*.105f,H*.11f,2.7f,Gold);
+    Text(TEXT("DINO ROYALE"),W*.105f,H*.11f,2.7f,Gold);
     Text(GetNetMode()==NM_Standalone?TEXT("LOST VALLEY  /  OFFLINE PLAY  /  PRE-ALPHA 0.2"):TEXT("MULTIPLAYER  /  LOCAL SETTINGS  /  PRE-ALPHA 0.2"),W*.108f,H*.19f,.75f,Muted);
     auto* GM=GetWorld()->GetGameState<ADinoGameState>();
     if(GM&&GM->bRoundOver&&!PC->bSettingsOpen)
