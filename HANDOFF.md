@@ -1,4 +1,59 @@
-# Dino Royale QA1 handoff - September 24, 2026
+# Dino Royale QA2 handoff - September 26, 2026
+
+**Live goal pursuit stopped at the owner's request. Do not resume live QA without
+a new request.** Both Epic accounts signed in. Earlier in the same session, real
+EOS discovery, JoinSession, ClientTravel, remote PostLogin and a shared match were
+observed on one PC. Physical two-PC/WAN gameplay acceptance is still pending.
+
+Send the whole `Dist/Releases/DinoRoyale-20260926-QA2.zip` to the brother's PC and
+extract it into a fresh folder on BOTH computers. Launch `Windows/Play Dino Royale.bat`.
+The workspace `LaunchGame.bat` now prefers QA2. The ZIP deliberately excludes the
+configured `OnlineServices.ini`: copy each computer's existing file into the new
+`Windows/DinosaurBattle/OnlineServices.ini`, without changing its values.
+On this PC the original remains at
+`Dist/Releases/DinoRoyale-20260924-QA1/Windows/DinosaurBattle/OnlineServices.ini`.
+The temporary QA2 test copy is archived in `Dist/TestRuns/QA2-local-test-config`.
+Do not copy Saved, authentication caches, the repository or a loose executable.
+
+Read `FRIEND_QUICKSTART.md` for the exact physical test; `MULTIPLAYER_QA_REPORT.md`
+for root causes, evidence and limitations; and `RELEASE_READINESS.md` for the
+remaining college Epic test and optional Steam plan, with official references.
+Both reports are included in the package. No purchases or Epic portal/name changes
+were made. Player-facing branding is Dino Royale; stable internal paths remain
+DinosaurBattle.
+
+QA1 fixed EOS Int64 compatibility metadata being misread as Int32/zero. QA2 fixes
+the separate raw EOS prefix guard rejecting Unreal 5.8's bracketed `[EOS:PUID]`
+travel URL. It uses FURL/FInternetAddrEOS and the successfully joined named session.
+Compatibility stays **2026092201**; all existing version checks remain. Different
+release labels and hashes distinguish QA1 and QA2 despite their shared number.
+
+Verification: full editor/package rebuild; **32 assertions / two suites PASS**
+on the final package; **128/128 packaged loopback** multiplayer checks and
+**90/90 rendered offline** checks before the final diagnostic-only adjustment.
+Live EOS logs show host PreLogin acceptance and remote PostLogin players=2,
+plus guest NetMode=3. EOS combat/rehost/invite acceptance was not completed.
+The final normal launch reached the game world according to logs; Computer Use
+was stopped with Escape, so no new visual/input pass is claimed for that launch.
+Tracked smoke processes were cleaned up without further UI input.
+
+Source checkpoint: `eos-qa2-ready-for-two-pc-20260926`.
+Pre-change source: `eos-qa2-before-20260926` at 0acde06.
+Independent playable recovery: `Dist/Checkpoints/DinoRoyale-20260926-QA2/Windows`.
+Final evidence: `Tests/Results/eos-qa-20260926/checkpoint.json`,
+`release-manifest.json`, `package-integrity.json`, `live-eos-summary.json`.
+The checkpoint verifies files in both the ZIP and recovery copy; Saved data is
+archived under ignored Dist/TestRuns. Keep the package backups: Dist is not in Git.
+QA1, its ZIP, its independent recovery and original Dist/Windows remain preserved.
+
+Preexisting staged `Config/DefaultInput.ini` remains byte-identical and outside
+the agent commit. Single agent; no delegation or usage-reset redemption.
+Final checkpoint allowance: **94% remaining**. No Astra-specific allowance is
+exposed; the reported account allowance is used.
+
+---
+
+# Historical QA1 handoff - September 24, 2026
 
 The false version rejection is repaired and the replacement is locally tested.
 **The goal is still open until the owner visually verifies both two-PC join paths.**

@@ -1,0 +1,20 @@
+[
+  {
+    "status": "Left multiplayer.",
+    "playerCount": 1,
+    "netMode": 0,
+    "signedIn": true,
+    "peer": "live-handle.json",
+    "lobby": false,
+    "running": false
+  },
+  {
+    "status": "Host disconnected.",
+    "playerCount": 1,
+    "netMode": 0,
+    "signedIn": true,
+    "peer": "live-guest-handle.json",
+    "lobby": false,
+    "running": false
+  }
+]

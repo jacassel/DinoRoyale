@@ -1,0 +1,93 @@
+{
+  "transport": "loopback development transport",
+  "wan": "NOT VERIFIED",
+  "players": 2,
+  "oneWayLagMs": 0,
+  "packetLossPercent": 0,
+  "tests": [
+    {
+      "test": "net emulation settings active",
+      "status": "PASS",
+      "oneWayMs": 0,
+      "lossPercent": 0,
+      "measuredClientPingMs": 14.642857551574707
+    },
+    {
+      "test": "two unique possessed players",
+      "status": "PASS",
+      "hostMode": 2,
+      "clientMode": 3
+    },
+    {
+      "test": "replicated participant count",
+      "status": "PASS"
+    },
+    {
+      "test": "client terrain collision",
+      "status": "PASS",
+      "floor": "LostValleyWorld"
+    },
+    {
+      "test": "client movement",
+      "status": "PASS",
+      "displacement": 883.6359350253911
+    },
+    {
+      "test": "host sees client movement",
+      "status": "PASS",
+      "error": 0.03566838781353886
+    },
+    {
+      "test": "server validates client sprint",
+      "status": "PASS",
+      "speed": 1449,
+      "stamina": 84.99159240722656
+    },
+    {
+      "test": "client jump",
+      "status": "PASS",
+      "rise": 115.61625013260812
+    },
+    {
+      "test": "replicated brace stops movement",
+      "status": "PASS",
+      "distance": 0.0
+    },
+    {
+      "test": "client attack damages authoritative host",
+      "status": "PASS",
+      "damage": 187
+    },
+    {
+      "test": "damage replicated to attacking client",
+      "status": "PASS"
+    },
+    {
+      "test": "no repeated quick damage",
+      "status": "PASS"
+    },
+    {
+      "test": "charge initiation replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "charged client hit",
+      "status": "PASS",
+      "damage": 673.2000122070312
+    },
+    {
+      "test": "host attack kills client",
+      "status": "PASS"
+    },
+    {
+      "test": "death creates one replicated carcass",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "test": "server score increments once",
+      "status": "FAIL",
+      "kills": 0
+    }
+  ]
+}

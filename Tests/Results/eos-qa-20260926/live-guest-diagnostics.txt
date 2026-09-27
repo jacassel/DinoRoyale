@@ -1,0 +1,27 @@
+[2026.09.27-02.14.40:744][  0]LogDinoOnline: Display: [DINO_EOS] config provider=EOS driver=/Script/SocketSubsystemEOS.NetDriverEOS fallback=/Script/SocketSubsystemEOS.NetDriverEOS
+[2026.09.27-02.14.40:745][  0]LogDinoOnline: Display: [DINO_EOS] config forceRelays=1 StartSessionUsed=0 lobbySession=1
+[2026.09.27-02.15.15:481][322]LogDinoOnline: Display: [DINO_EOS] initialize provider=EOS initialized=1 actualSubsystem=EOS
+[2026.09.27-02.15.15:481][322]LogDinoOnline: Display: [DINO_EOS] interfaces sessions=1 identity=1 lobbyViaSessionInterface=1 externalUI=1
+[2026.09.27-02.16.23:869][221]LogTemp: Display: [DINO_EOS] identity stage=Login-complete interface=1 loginStatus=2 idValid=1 productUserValid=1
+[2026.09.27-02.17.10:041][656]LogDinoOnline: Display: [DINO_EOS] FindSessions request lan=0 lobbies=1 maxResults=50
+[2026.09.27-02.17.10:291][671]LogDinoOnline: Display: [DINO_EOS] FindSessions complete success=1 resultCount=1
+[2026.09.27-02.17.19:240][208]LogDinoOnline: Display: [DINO_EOS] FindSessions request lan=0 lobbies=1 maxResults=50
+[2026.09.27-02.17.19:396][217]LogDinoOnline: Display: [DINO_EOS] FindSessions complete success=1 resultCount=1
+[2026.09.27-02.17.21:479][342]LogDinoOnline: Display: [DINO_EOS] selectedResult valid=1
+[2026.09.27-02.17.21:479][342]LogTemp: Display: [DINO_EOS] session stage=selected-result exists=1 ownerValid=1 infoPresent=1 infoValid=1 infoIdType=EOS_LOBBY_ID lan=0 lobby=1 presence=0 advertise=0 invites=1 joinInProgress=0 public=2 private=0 openPublic=1 openPrivate=0 build=2026092201
+[2026.09.27-02.17.21:479][342]LogDinoOnline: Display: [DINO_EOS] JoinSession request name=GameSession
+[2026.09.27-02.17.21:882][359]LogDinoOnline: Display: [DINO_EOS] JoinSession complete result=Success value=0
+[2026.09.27-02.17.21:882][359]LogTemp: Display: [DINO_EOS] namedSession stage=JoinSession-complete name=GameSession interface=1 state=Pending
+[2026.09.27-02.17.21:882][359]LogTemp: Display: [DINO_EOS] session stage=JoinSession-complete exists=1 ownerValid=1 infoPresent=1 infoValid=1 infoIdType=EOS_LOBBY_ID lan=0 lobby=1 presence=1 advertise=0 invites=1 joinInProgress=0 public=2 private=0 openPublic=0 openPrivate=0 build=2026092201
+[2026.09.27-02.17.21:882][359]LogTemp: Display: [DINO_EOS] resolve stage=guest-joined session=GameSession port=GamePort returned=1 shape=[EOS:<redacted>] urlValid=1 eosAddressValid=1 legacyPrefixAccepted=0
+[2026.09.27-02.17.21:882][359]LogDinoOnline: Display: [DINO_EOS] ClientTravel requested controllerValid=1 type=Absolute urlShape=[EOS:<redacted>] compatibility=2026092201
+[2026.09.27-02.17.21:897][360]LogTemp: Display: [DINO_EOS] world stage=ClientTravel-pending-driver netMode=3 listen=0 map=/Game/Maps/LostValley urlListen=0 urlLAN=0 urlIPSockets=0 gameNetDriver=0 driver=/Script/SocketSubsystemEOS.NetDriverEOS eos=1 passthrough=0 socket=1 boundEOSAddressValid=0 clients=0 serverConnection=1
+[2026.09.27-02.17.23:955][484]LogTemp: Display: [DINO_EOS] Logout controller=DinoPlayerController playersBeforeCleanup=1
+[2026.09.27-02.17.24:816][490]LogTemp: Display: [DINO_EOS] world stage=network-world-entered netMode=3 listen=0 map=/Game/Maps/LostValley urlListen=0 urlLAN=0 urlIPSockets=0 gameNetDriver=1 driver=/Script/SocketSubsystemEOS.NetDriverEOS eos=1 passthrough=0 socket=1 boundEOSAddressValid=0 clients=0 serverConnection=1
+[2026.09.27-02.17.24:816][490]LogTemp: Display: [DINO_EOS] namedSession stage=network-world-entered name=GameSession interface=1 state=Pending
+[2026.09.27-02.17.24:816][490]LogTemp: Display: [DINO_EOS] session stage=network-world-entered exists=1 ownerValid=1 infoPresent=1 infoValid=1 infoIdType=EOS_LOBBY_ID lan=0 lobby=1 presence=1 advertise=0 invites=1 joinInProgress=0 public=2 private=0 openPublic=0 openPrivate=0 build=2026092201
+[2026.09.27-02.18.06:542][922]LogDinoOnline: Display: [DINO_EOS] DestroySession complete success=0
+[2026.09.27-02.18.06:545][923]LogDinoOnline: Warning: [DINO_EOS] NetworkFailure type=FailureReceived detailPresent=1 (engine detail kept in local log)
+[2026.09.27-02.18.06:545][923]LogTemp: Display: [DINO_EOS] world stage=network-failure netMode=3 listen=0 map=/Game/Maps/LostValley urlListen=0 urlLAN=0 urlIPSockets=0 gameNetDriver=1 driver=/Script/SocketSubsystemEOS.NetDriverEOS eos=1 passthrough=0 socket=1 boundEOSAddressValid=0 clients=0 serverConnection=1
+[2026.09.27-02.18.06:545][923]LogDinoOnline: Warning: [DINO_EOS] NetworkFailure type=ConnectionLost detailPresent=1 (engine detail kept in local log)
+[2026.09.27-02.18.06:545][923]LogTemp: Display: [DINO_EOS] world stage=network-failure netMode=3 listen=0 map=/Game/Maps/LostValley urlListen=0 urlLAN=0 urlIPSockets=0 gameNetDriver=1 driver=/Script/SocketSubsystemEOS.NetDriverEOS eos=1 passthrough=0 socket=1 boundEOSAddressValid=0 clients=0 serverConnection=1

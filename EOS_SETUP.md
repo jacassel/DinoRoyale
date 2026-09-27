@@ -3,10 +3,15 @@
 The game uses EOS lobbies and EOS P2P relay with an Unreal listen server. The host
 also plays. Gameplay replication is independent of the online provider.
 
-**The owner's physical QA confirmed Epic sign-in, lobby hosting, social presence
-and invitation delivery. The false join-version rejection is addressed in the
-September 24 QA release. Two-PC joining and internet gameplay still need visual
-confirmation. Local multi-process tests do not prove different-network play.**
+**September 26 physical QA of QA1 confirmed Epic sign-in, lobby hosting, social
+overlay, public discovery, JoinSession success and resolved connection information.
+QA2 fixes the custom check that rejected UE 5.8's bracketed EOS travel URL.
+Two-PC ClientTravel/PostLogin and gameplay still need visual confirmation.
+Local multi-process tests do not prove different-network play.**
+
+QA2's ZIP intentionally omits configured credentials. Copy the existing
+`OnlineServices.ini` into `Windows/DinosaurBattle/OnlineServices.ini` on both PCs.
+The same existing configuration is used; this repair needs no portal changes.
 
 ## Configure your product once
 
@@ -108,13 +113,15 @@ as proof of connectivity or broaden access before the owner approves that phase.
 
 ## Future Steam integration (provider boundary)
 
-`UDinoOnlineSession` owns authentication, session discovery, invites and joins.
-It calls Unreal Online Subsystem interfaces. A legitimate Steamworks App ID,
-Steam authentication/configuration, Steam lobby settings and SteamSockets net
-driver can be integrated there without replacing dinosaur replication. Steam
-packaging, account/ownership testing and release requirements remain future work.
-No Spacewar App ID is included. This prototype has no host migration, anti-cheat,
-dedicated service or production release certification.
+Steam distribution can retain EOS multiplayer. Do not replace the working EOS
+transport as a prerequisite for a Steam release. Initially the game could retain
+its explicit Epic sign-in, with that account requirement clearly disclosed.
+Optional Steam identity, EOS Connect/account linking, Steam invitations and
+EOS Plus integration need a real Steamworks App ID and their own acceptance
+tests. None is implemented or certified here. See `RELEASE_READINESS.md` for
+the staged plan, Steam onboarding costs/timing and remaining release work.
+No Spacewar App ID is included. There is no host migration, production anti-cheat
+or dedicated hosting.
 
 ## Primary references
 

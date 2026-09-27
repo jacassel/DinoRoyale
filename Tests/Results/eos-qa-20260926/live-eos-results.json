@@ -1,0 +1,12 @@
+{
+  "transport": "LIVE EOS lobby and NetDriverEOS P2P; ForceRelays configured",
+  "accounts": 2,
+  "physicalPCs": 1,
+  "differentNetworkVerified": false,
+  "tests": [
+    {
+      "test": "live EOS host and guest reached replicated world",
+      "status": "FAIL"
+    }
+  ]
+}

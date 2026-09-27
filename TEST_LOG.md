@@ -1,5 +1,55 @@
 # Test log
 
+## EOS resolved URL repair / QA2 - September 26, 2026
+
+- QA1 evidence: physical screenshots and local logs show successful authentication,
+  hosting, discovery, compatibility and JoinSession/address resolution. The game
+  rejects the resolved `[EOS:PUID]` URL before ClientTravel because it checks a raw
+  `EOS:` prefix. Installed UE 5.8.2 source confirms the bracketed representation.
+- Fixed the guard using FURL and FInternetAddrEOS, retaining the original resolved
+  URL, named GameSession/GamePort source and compatibility option. Added redacted
+  lifecycle/session/driver/PostLogin diagnostics; no portal or gameplay changes.
+- Editor build and full Windows BuildCookRun succeeded. Final diagnostic-only
+  rebuild/package also succeeded. Runtime EXE and cooked files match staging;
+  preserved QA1 and the preexisting user input file match their baseline hashes.
+- Editor and initial package automation: two passing suites (17 compatibility +
+  15 EOS URL assertions). Final package: `automation-final-pass/index.json`, two
+  passing suites, zero failures. Negative fixtures retain meaningful version and
+  EOS transport checks.
+- Packaged loopback: lobby 14/14, fundamentals 24/24, bots 17/17, matches 48/48,
+  ecology 25/25: **128/128**. Rendered offline core: **90/90**. These are separate
+  from the real EOS account test and do not establish WAN gameplay.
+- Live EOS with two owner-authenticated accounts on one PC: bracketed resolution
+  accepted, NetDriverEOS passthrough=0, guest ClientTravel, host accepted PreLogin
+  2026092201==2026092201, remote PostLogin slot=1 players=2, guest NetMode=3.
+  Both telemetry snapshots and game windows showed the same two-player match.
+- The attached EOS combat/rehost test began after the instances left. Its failed
+  initial precondition is preserved in live-eos-results.json; see
+  live-eos-summary.json for the earlier successful connection evidence. Live EOS
+  combat, invitation joining, repeated sessions, physical two-PC and different
+  networks remain unverified. Owner requested stop; live pursuit ended.
+- The first live bound-address diagnostic used FSocketEOS::GetAddress through a
+  base reference and printed an invalid derived EOS ID despite working travel.
+  Final code reads the driver's LocalAddr. Only logging changed after the broad
+  regressions; the full gameplay suites were not repeated for this adjustment.
+- Retained unsuccessful runs: initial parser assertions assumed SDK FromString
+  validated arbitrary string identity; SDK documentation corrected that test
+  assumption. First fundamentals score assertion sampled stale host telemetry;
+  waiting for published host score fixed the fixture. Final automation invoked
+  with -NoEOS crashed because the address fixture needs the EOS SDK DLL loaded;
+  rerunning the established command without -NoEOS passed. Initial compile/API
+  corrections remain in ignored build logs.
+- Final normal packaged launch without configured EOS or development bridge:
+  engine initialized and LostValley entered according to log. Computer Use was
+  stopped with Escape; no new visual/input smoke pass is claimed. Only tracked
+  smoke-launch processes were stopped. See final-smoke.json.
+- Fresh distribution is DinoRoyale-20260926-QA2. OnlineServices.ini is excluded;
+  copy the existing per-install file as described in FRIEND_QUICKSTART.md. Final
+  manifest, ZIP/recovery verification and checksum are in checkpoint.json and
+  release-manifest.json under Tests/Results/eos-qa-20260926.
+- Detailed results and Steam/Epic remaining work: MULTIPLAYER_QA_REPORT.md and
+  RELEASE_READINESS.md. No purchase, account/security change or service rename.
+
 ## EOS timeout repair — September 22, 2026
 
 - Editor build and Win64 packaged build succeeded.

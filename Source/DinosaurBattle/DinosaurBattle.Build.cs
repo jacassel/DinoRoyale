@@ -9,6 +9,6 @@ public class DinosaurBattle : ModuleRules
             "UMG", "Slate", "SlateCore", "ProceduralMeshComponent", "Json", "JsonUtilities",
             "OnlineSubsystem", "OnlineSubsystemUtils", "OnlineBase"
         });
-        PrivateDependencyModuleNames.Add("OnlineSubsystemEOS");
+        PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystemEOS", "SocketSubsystemEOS", "Sockets" });
     }
 }

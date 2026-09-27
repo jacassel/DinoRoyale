@@ -1,17 +1,22 @@
 # Dino Royale — Pre-Alpha 0.2
 
 A dinosaur combat prototype with offline play and an Epic Online Services multiplayer integration.
-Physical QA has confirmed Epic sign-in, hosting and invitation delivery. The
-September 24 repair addresses the false version rejection; successful two-PC
-joining and different-network play still require the user's visual verification.
+Physical QA of QA1 confirmed Epic sign-in, EOS hosting, discovery, overlay and
+successful JoinSession/address resolution. A custom URL-prefix check then blocked
+ClientTravel. QA2 repairs that check for UE 5.8's bracketed EOS URL. Two distinct
+Epic accounts subsequently joined the same match through real EOS on this PC.
+Physical two-PC joining and different-network play still require visual verification.
 See [EOS_SETUP.md](EOS_SETUP.md) for setup and [Docs/MULTIPLAYER_ACCEPTANCE.md](Docs/MULTIPLAYER_ACCEPTANCE.md) for the evidence boundary.
 
 ## Launch
 
 Open `C:\Users\joel1\Documents\DinosaurBattle Prototype` in File Explorer and double-click **LaunchGame.bat**.
-The corrected QA release is `Dist\Releases\DinoRoyale-20260924-QA1\Windows`;
-keep that entire folder together. `Dist\Windows` is the preserved previous build.
+The corrected QA release is `Dist\Releases\DinoRoyale-20260926-QA2\Windows`;
+keep that entire folder together. Copy your existing configured `OnlineServices.ini`
+to its `DinosaurBattle` subfolder before online play; credentials are not shipped
+in the QA2 ZIP. QA1 and `Dist\Windows` remain preserved.
 See `MULTIPLAYER_QA_REPORT.md` for the current verification and recovery status.
+See `RELEASE_READINESS.md` for the remaining college playtest and optional Steam launch work.
 Choose a dinosaur with **1 / 2 / 3**. **Escape** pauses; **F10** from the menu exits.
 Double-click `LaunchEditor.bat` to open the project for editing.
 The project file is `DinosaurBattle.uproject`; the startup level is `Content/Maps/LostValley.umap`.

@@ -1,0 +1,85 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "NEW_COMPUTER",
+			"instance": "4546965849BC41FC28F7318344FAB9BF",
+			"instanceName": "NEW_COMPUTER-18484",
+			"platform": "Windows",
+			"oSVersion": "Windows 11 (25H2) [10.0.26200.9445] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 750",
+			"cPUModel": "11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz",
+			"rAMInGB": 32,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.09.27-02.08.48",
+	"succeeded": 2,
+	"succeededWithWarnings": 0,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.033118601888418198,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "Compatibility",
+			"fullTestPath": "DinoRoyale.Online.Compatibility",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"4546965849BC41FC28F7318344FAB9BF"
+			],
+			"duration": 0.016669001430273056,
+			"dateTime": "2026.09.27-02.08.47",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Reproduction: host wire=2026092201; old guest read=0; corrected guest read=2026092201",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.27-02.08.47"
+				}
+			],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "EOSResolvedURL",
+			"fullTestPath": "DinoRoyale.Online.EOSResolvedURL",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"4546965849BC41FC28F7318344FAB9BF"
+			],
+			"duration": 0.016449600458145142,
+			"dateTime": "2026.09.27-02.08.47",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Reproduced: resolved shape=[EOS:<redacted>], QA1 prefix=reject, FURL+FInternetAddrEOS=accept. No live network connection was attempted by this test.",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.27-02.08.48"
+				}
+			],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

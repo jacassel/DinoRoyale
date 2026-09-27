@@ -2,6 +2,7 @@
 #include "GameFramework/GameSession.h"
 #include "TimerManager.h"
 #include "DinoOnlineSession.h"
+#include "DinoOnlineDiagnostics.h"
 #include "DinoGameState.h"
 #include "DinoPlayerState.h"
 #include "DinosaurCharacter.h"
@@ -187,6 +188,13 @@ void ADinoGameMode::PostLogin(APlayerController* PC)
     }
     // UE starts/possesses the pawn inside Super::PostLogin; assign its slot first.
     Super::PostLogin(PC);
+    if(GetNetMode()!=NM_Standalone)
+    {
+        const auto* PS=PC->GetPlayerState<ADinoPlayerState>();
+        UE_LOG(LogTemp,Display,TEXT("[DINO_EOS] PostLogin controller=%s local=%d playerState=%s replicatedState=%d slot=%d players=%d pawn=%d"),
+            *PC->GetClass()->GetName(),PC->IsLocalController(),PS?*PS->GetClass()->GetName():TEXT("none"),PS&&PS->GetIsReplicated(),PS?PS->CombatantID:-1,GetNumPlayers(),PC->GetPawn()!=nullptr);
+        DinoOnlineDiagnostics::World(GetWorld(),TEXT("PostLogin"));
+    }
     if(GetNetMode()!=NM_Standalone)UpdateLobby();
 }
 void ADinoGameMode::RestartPlayer(AController* C)
@@ -213,12 +221,14 @@ APawn* ADinoGameMode::SpawnDefaultPawnAtTransform_Implementation(AController* C,
 }
 void ADinoGameMode::Logout(AController* C)
 {
+    if(GetNetMode()!=NM_Standalone)UE_LOG(LogTemp,Display,TEXT("[DINO_EOS] Logout controller=%s playersBeforeCleanup=%d"),C?*C->GetClass()->GetName():TEXT("none"),GetNumPlayers());
     if(auto* D=Cast<ADinosaurCharacter>(C->GetPawn()))RemoveParticipant(D);
     Super::Logout(C);
     if(GetNetMode()!=NM_Standalone)GetWorldTimerManager().SetTimerForNextTick(this,&ADinoGameMode::UpdateLobby);
 }
 void ADinoGameMode::PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& ID,FString& Error)
 {
+    if(bOnlineMatch)UE_LOG(LogTemp,Display,TEXT("[DINO_EOS] PreLogin incoming=1 addressPresent=%d identityValid=%d currentPlayers=%d capacity=%d"),!Address.IsEmpty(),ID.IsValid(),GetNumPlayers(),MaxParticipants);
     if(bOnlineMatch&&!UGameplayStatics::HasOption(OptionsString,TEXT("bUseIPSockets")))
     {
         auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>();
@@ -231,4 +241,10 @@ void ADinoGameMode::PreLogin(const FString& Options,const FString& Address,const
     if(bRoundOver)Error=TEXT("Match is ending.");
     if(bOnlineMatch)UE_LOG(LogTemp,Display,TEXT("Dino prelogin local=%d remote=%d source=DinoBuild travel option decision=%s reason=%s"),UDinoOnlineSession::BuildVersion,RemoteBuild,Error.IsEmpty()?TEXT("ACCEPT"):TEXT("REJECT"),Error.IsEmpty()?TEXT("compatible"):*Error);
     FGameModeEvents::GameModePreLoginEvent.Broadcast(this,ID,Error);
+}
+APlayerController* ADinoGameMode::Login(UPlayer* NewPlayer,ENetRole InRemoteRole,const FString& Portal,const FString& Options,const FUniqueNetIdRepl& ID,FString& Error)
+{
+    auto* PC=Super::Login(NewPlayer,InRemoteRole,Portal,Options,ID,Error);
+    if(bOnlineMatch)UE_LOG(LogTemp,Display,TEXT("[DINO_EOS] Login controllerCreated=%d playerStateCreated=%d accepted=%d"),PC!=nullptr,PC&&PC->GetPlayerState<ADinoPlayerState>()!=nullptr,Error.IsEmpty());
+    return PC;
 }

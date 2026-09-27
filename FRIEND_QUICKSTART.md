@@ -1,38 +1,33 @@
-# Dino Royale multiplayer playtest - QA1
+# Dino Royale QA2 two-PC quickstart
 
-Copy the **whole Windows folder** from release **DinoRoyale-20260924-QA1** into a
-new location on both PCs. Do not merge it into an old installation. Run
-**Play Dino Royale.bat** (or **DinosaurBattle.exe**). Unreal Editor is not needed.
-BUILD_INFO must show release **QA1** and compatibility **2026092201** on both PCs.
-The old faulty package also displayed that compatibility number: use the release
-label and manifest to distinguish it. Keep `DinosaurBattle/OnlineServices.ini`.
-Each player needs a separate Epic account already authorized for this product.
+Use **DinoRoyale-20260926-QA2** on BOTH PCs. Compatibility stays **2026092201**;
+that number alone does not distinguish the old broken packages.
 
-1. On both PCs, open **F4 Multiplayer** and **Sign in to Epic**.
-2. Host: **Host Game -> FFA -> 2 slots -> bots OFF -> Public -> Create Lobby**.
-3. Invite path: host clicks **Invite Friends** (or **Shift+F3**), selects the
-   other account and **Invite to game**. Guest accepts in the Epic overlay.
-4. Visually confirm **2 of 2 players on both PCs**. Guest chooses a dinosaur and
-   **Mark Ready**. Host clicks **Start Match**. Confirm both can move and fight.
-5. Leave the session, recreate the public lobby, and test the second path:
-   guest **Join Game -> Refresh -> select the host -> Join Selected**. Repeat step 4.
+1. Extract the whole QA2 ZIP into a NEW folder. Keep QA1 as a backup.
+2. Copy your existing configured `OnlineServices.ini` into
+   `Windows/DinosaurBattle/OnlineServices.ini` on each PC. Do not edit its values.
+   Configured credentials are deliberately absent from the QA2 ZIP;
+   `OnlineServices.example.ini` remains available as a reference.
+3. Run `Windows/Play Dino Royale.bat` (or `DinosaurBattle.exe`). Press **F4**,
+   then sign in with different authorized Epic accounts on the two PCs.
+4. PC A: Host Game -> PUBLIC -> Free-for-All -> 2 slots -> bots OFF -> Create Lobby.
+5. PC B: Join Game -> Refresh -> select PC A's lobby -> Join Selected.
+6. Verify **both names / 2 of 2 players**. Guest chooses a dinosaur and Mark Ready;
+   host starts. Both players should spawn and see each other move.
+7. Verify attacks, damage, death, approximately ten-second respawn and score on
+   both screens. Return to the lobby, leave, and recreate/rejoin it once.
+8. Recreate a lobby and test an Epic invite separately: Invite Friends or Shift+F3
+   -> Invite to game -> guest accepts. Repeat the roster/Ready/Start check.
+9. Once the above works, connect the second PC through a hotspot/different internet
+   connection and repeat. Do not change router, firewall or security settings.
 
-Report each path separately. Stop if a join fails and preserve logs on BOTH PCs:
-`Windows/DinosaurBattle/Saved/Logs/DinosaurBattle.log` and timestamped backups.
-Use **Collect QA Logs.bat** to copy these into a timestamped folder beside the
-launcher and open it. Keep logs private; engine logs may include account IDs.
-If Refresh times out, restart both games before the next attempt.
+If joining fails, run `Collect QA Logs.bat` on BOTH PCs immediately after the
+failure. Logs are in `Windows/DinosaurBattle/Saved/Logs`. Keep the timestamped
+collections private: existing engine logs may include account identifiers.
+The new `[DINO_EOS]` lines report API results, redacted URL shape, actual driver,
+listen/socket state, ClientTravel, PreLogin, Login, PostLogin and cleanup.
 
-WASD moves; mouse looks; Shift sprints; Space jumps; hold Q braces; left click
-quick-attacks; hold/release right click charges; hold E near suitable food eats.
-M opens the map. ESC opens the menu without pausing an online match.
-FFA ends at five kills; teams at ten. Respawn is ten seconds. Raptors have two
-followers without consuming player slots. Host exit ends the match.
-
-Offline: select a dinosaur with 1, 2 or 3. F10 in the menu quits.
-
-The corrected package's physical two-PC result is **pending your verification**.
-After both join paths pass locally, repeat on different internet connections
-(for example one PC on a hotspot). No IP entry or router port forwarding is part
-of the game flow. Broader friend testing waits for the owner's visual two-PC
-acceptance and Epic branding/access approval.
+The QA1 defect was a custom check rejecting UE 5.8's `[EOS:...]` resolved URL.
+QA2 keeps EOS P2P relay and version checks; no direct-IP workaround was added.
+Real internet gameplay is not verified by local loopback tests. Broader college
+playtesting waits for the owner's visual two-PC acceptance and branding/access approval.

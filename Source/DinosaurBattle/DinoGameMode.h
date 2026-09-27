@@ -18,6 +18,7 @@ public:
     virtual APawn* SpawnDefaultPawnAtTransform_Implementation(AController* C,const FTransform& Transform) override;
     virtual void Logout(AController* C) override;
     virtual void PreLogin(const FString& Options,const FString& Address,const FUniqueNetIdRepl& ID,FString& Error) override;
+    virtual APlayerController* Login(UPlayer* NewPlayer,ENetRole InRemoteRole,const FString& Portal,const FString& Options,const FUniqueNetIdRepl& ID,FString& Error) override;
     virtual void BeginPlay() override;
     bool bTeamMatch=false,bRoundOver=false,bIgnoreWinCondition=false,bSharePackKills=true;
     bool bOnlineMatch=false,bLobby=false,bFillBots=false;

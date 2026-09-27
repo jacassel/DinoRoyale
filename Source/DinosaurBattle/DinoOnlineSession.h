@@ -48,6 +48,7 @@ private:
     double Deadline=0;
     bool bLeaving=false,bTimedOut=false,bPublic=true,bConnected=false;
     FString PendingOptions;
+    TWeakObjectPtr<class UNetDriver> LastPendingDriver;
     bool EnsureProvider();
     void BeginOperation(EOperation Op,const FString& Message);
     bool Tick(float Dt);

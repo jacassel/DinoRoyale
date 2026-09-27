@@ -1,0 +1,40 @@
+{
+  "NetClient": {
+    "scoreboard": [
+      {
+        "id": 0,
+        "kills": 1,
+        "deaths": 0,
+        "assists": 0
+      },
+      {
+        "id": 1,
+        "kills": 0,
+        "deaths": 1,
+        "assists": 0
+      }
+    ],
+    "dead": true,
+    "time": 18.598143305745907,
+    "kills": 0
+  },
+  "NetHost": {
+    "scoreboard": [
+      {
+        "id": 0,
+        "kills": 0,
+        "deaths": 0,
+        "assists": 0
+      },
+      {
+        "id": 1,
+        "kills": 0,
+        "deaths": 0,
+        "assists": 0
+      }
+    ],
+    "dead": false,
+    "time": 20.306073300540447,
+    "kills": 0
+  }
+}

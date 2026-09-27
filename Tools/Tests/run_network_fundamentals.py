@@ -106,7 +106,9 @@ try:
     host.tap('LeftMouseButton')
     check('host attack kills client',wait_for(lambda:client.state()['dead']))
     check('death creates one replicated carcass',wait_for(lambda:len(client.state()['corpses'])==len(host.state()['corpses']) and len(client.state()['corpses'])>0),count=len(client.state()['corpses']))
-    check('server score increments once',host.state()['kills']==1,kills=host.state()['kills'])
+    # Peer telemetry files update independently. Seeing death on the client
+    # does not imply the host's next score snapshot has been written yet.
+    check('server score increments once',wait_for(lambda:host.state()['kills']==1),kills=host.state()['kills'])
     time.sleep(5);check('client waits through respawn delay',client.state()['dead'])
     check('server respawns client',wait_for(lambda:not client.state()['dead'],seconds=8))
     check('respawn health replicated',abs(client.state()['health']-client.state()['maxHealth'])<.1)

@@ -1,0 +1,109 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "NEW_COMPUTER",
+			"instance": "AEE491934DEE03AA652E3AA680E80F32",
+			"instanceName": "NEW_COMPUTER-34416",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (25H2) [10.0.26200.9445] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 750",
+			"cPUModel": "11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz",
+			"rAMInGB": 32,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.09.27-02.02.54",
+	"succeeded": 1,
+	"succeededWithWarnings": 0,
+	"failed": 1,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.08072429895401001,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "Compatibility",
+			"fullTestPath": "DinoRoyale.Online.Compatibility",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"AEE491934DEE03AA652E3AA680E80F32"
+			],
+			"duration": 0.0075171999633312225,
+			"dateTime": "2026.09.27-02.02.54",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Reproduction: host wire=2026092201; old guest read=0; corrected guest read=2026092201",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.27-02.02.54"
+				}
+			],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "EOSResolvedURL",
+			"fullTestPath": "DinoRoyale.Online.EOSResolvedURL",
+			"tags": [],
+			"state": "Fail",
+			"deviceInstance": [
+				"AEE491934DEE03AA652E3AA680E80F32"
+			],
+			"duration": 0.073207095265388489,
+			"dateTime": "2026.09.27-02.02.54",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Error",
+						"message": "Expected 'Missing EOS identifier rejected' to be false.",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Source\\DinosaurBattle\\Tests\\DinoEOSAddressTests.cpp",
+					"lineNumber": 29,
+					"timestamp": "2026.09.27-02.02.54"
+				},
+				{
+					"event":
+					{
+						"type": "Error",
+						"message": "Expected 'Malformed identifier rejected' to be false.",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Source\\DinosaurBattle\\Tests\\DinoEOSAddressTests.cpp",
+					"lineNumber": 30,
+					"timestamp": "2026.09.27-02.02.54"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Reproduced: resolved shape=[EOS:<redacted>], QA1 prefix=reject, FURL+FInternetAddrEOS=accept. No live network connection was attempted by this test.",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.27-02.02.54"
+				}
+			],
+			"warnings": 0,
+			"errors": 2,
+			"artifacts": []
+		}
+	]
+}

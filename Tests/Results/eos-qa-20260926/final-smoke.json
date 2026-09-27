@@ -1,0 +1,17 @@
+{
+  "release": "DinoRoyale-20260926-QA2",
+  "configuredEOSFilePresent": false,
+  "devBridgeRequested": false,
+  "log": "DinosaurBattle.log",
+  "startupLines": [
+    "LogInit: Command Line: -windowed -ResX=1600 -ResY=900",
+    "[2026.09.27-02.26.34:596][  0]LogInit: Display: Game Engine Initialized.",
+    "[2026.09.27-02.26.34:665][  0]LogWorld: Bringing World /Game/Maps/LostValley.LostValley up for play (max tick rate 0) at 2026.09.26-22.26.34"
+  ],
+  "visualInputStatus": "NOT VERIFIED: Computer Use stopped by user with Escape",
+  "cleanup": "Only tracked smoke-launch processes stopped",
+  "processIds": [
+    26440,
+    16360
+  ]
+}

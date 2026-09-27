@@ -1,5 +1,9 @@
 @echo off
 cd /d "%~dp0"
+if exist "%~dp0Dist\Releases\DinoRoyale-20260926-QA2\Windows\DinosaurBattle.exe" (
+    start "Dino Royale" "%~dp0Dist\Releases\DinoRoyale-20260926-QA2\Windows\DinosaurBattle.exe" -windowed -ResX=1600 -ResY=900
+    exit /b
+)
 if exist "%~dp0Dist\Releases\DinoRoyale-20260924-QA1\Windows\DinosaurBattle.exe" (
     start "Dino Royale" "%~dp0Dist\Releases\DinoRoyale-20260924-QA1\Windows\DinosaurBattle.exe" -windowed -ResX=1600 -ResY=900
     exit /b

@@ -1,0 +1,55 @@
+DinosaurBattle-backup-2026.09.27-01.34.15.log:883: [2026.09.27-01.19.18:815][  0]LogDinoOnline: Display: Local compatibility ID=2026092201 source=DinoCompatibility::Build OSSBuildUniqueId=2026092201 networkChecksum=1589990096 engineCompatibleChangelist=55116800 projectVersion=0.2.0
+DinosaurBattle-backup-2026.09.27-01.34.15.log:893: [2026.09.27-01.19.18:853][  0]LogLoad: LoadMap: /Game/Maps/LostValley?Name=Player
+DinosaurBattle-backup-2026.09.27-01.34.15.log:999: [2026.09.27-01.19.24:063][245]LogDinoOnline: Display: Operation started kind=1 timeoutSeconds=180
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1128: [2026.09.27-01.21.19:809][189]LogDinoOnline: Display: Login callback success=1
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1150: [2026.09.27-01.26.03:941][236]LogDinoOnline: Display: Compatibility path=host advertise local=2026092201 remote=2026092201 source=DINO_BUILD/Int64 (EOS wire) remoteBuildUniqueId=2026092201 decision=ACCEPT reason=equal
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1151: [2026.09.27-01.26.03:941][236]LogDinoOnline: Display: Host create bucket=DinosaurBattle-2026092201 capacity=2 public=1 lobbies=1 presence=1
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1155: [2026.09.27-01.26.03:941][236]LogDinoOnline: Display: Operation started kind=2 timeoutSeconds=45
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1178: [2026.09.27-01.26.04:483][264]LogDinoOnline: Display: Create callback success=1
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1179: [2026.09.27-01.26.04:483][264]LogDinoOnline: Display: Compatibility path=host provider settings local=2026092201 remote=2026092201 source=DINO_BUILD/Int64 (EOS wire) remoteBuildUniqueId=2026092201 decision=ACCEPT reason=equal
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1180: [2026.09.27-01.26.04:483][264]LogDinoOnline: Display: Host connect string resolved=1 eosP2P=0 (address redacted)
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1184: [2026.09.27-01.26.04:499][265]LogLoad: LoadMap: /Game/Maps/LostValley?listen?OnlineLobby=1?Capacity=2?Teams=0?Bots=0?DinoBuild=2026092201
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1206: [2026.09.27-01.26.04:960][265]LogDinoOnline: Display: Network world entered hosting=1 netDriver=NetDriverEOS compatibility=2026092201
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1335: [2026.09.27-01.34.12:405][507]LogDinoOnline: Display: Operation started kind=5 timeoutSeconds=45
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1345: [2026.09.27-01.34.12:504][513]LogLoad: LoadMap: /Game/Maps/LostValley
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1347: [2026.09.27-01.34.12:505][513]LogNet: World NetDriver shutdown NetDriverEOS_2147481949 [GameNetDriver]
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1348: [2026.09.27-01.34.12:505][513]LogNet: DestroyNamedNetDriver: Name:GameNetDriver Def:GameNetDriver NetDriverEOS_2147481949
+DinosaurBattle-backup-2026.09.27-01.34.15.log:1357: [2026.09.27-01.34.12:505][513]LogExit: Name:GameNetDriver Def:GameNetDriver NetDriverEOS_2147481949 shut down
+DinosaurBattle-backup-2026.09.27-01.39.55.log:884: [2026.09.27-01.38.36:333][  0]LogDinoOnline: Display: Local compatibility ID=2026092201 source=DinoCompatibility::Build OSSBuildUniqueId=2026092201 networkChecksum=1589990096 engineCompatibleChangelist=55116800 projectVersion=0.2.0
+DinosaurBattle-backup-2026.09.27-01.39.55.log:894: [2026.09.27-01.38.36:361][  0]LogLoad: LoadMap: /Game/Maps/LostValley?Name=Player
+DinosaurBattle.log:884: [2026.09.27-01.42.13:353][  0]LogDinoOnline: Display: Local compatibility ID=2026092201 source=DinoCompatibility::Build OSSBuildUniqueId=2026092201 networkChecksum=1589990096 engineCompatibleChangelist=55116800 projectVersion=0.2.0
+DinosaurBattle.log:894: [2026.09.27-01.42.13:380][  0]LogLoad: LoadMap: /Game/Maps/LostValley?Name=Player
+DinosaurBattle.log:997: [2026.09.27-01.42.20:390][375]LogDinoOnline: Display: Operation started kind=1 timeoutSeconds=180
+DinosaurBattle.log:1095: [2026.09.27-01.43.23:524][162]LogDinoOnline: Display: Login callback success=1
+DinosaurBattle.log:1111: [2026.09.27-01.43.31:974][669]LogDinoOnline: Display: Compatibility path=host advertise local=2026092201 remote=2026092201 source=DINO_BUILD/Int64 (EOS wire) remoteBuildUniqueId=2026092201 decision=ACCEPT reason=equal
+DinosaurBattle.log:1112: [2026.09.27-01.43.31:974][669]LogDinoOnline: Display: Host create bucket=DinosaurBattle-2026092201 capacity=2 public=1 lobbies=1 presence=1
+DinosaurBattle.log:1116: [2026.09.27-01.43.31:974][669]LogDinoOnline: Display: Operation started kind=2 timeoutSeconds=45
+DinosaurBattle.log:1139: [2026.09.27-01.43.32:517][698]LogDinoOnline: Display: Create callback success=1
+DinosaurBattle.log:1140: [2026.09.27-01.43.32:517][698]LogDinoOnline: Display: Compatibility path=host provider settings local=2026092201 remote=2026092201 source=DINO_BUILD/Int64 (EOS wire) remoteBuildUniqueId=2026092201 decision=ACCEPT reason=equal
+DinosaurBattle.log:1141: [2026.09.27-01.43.32:517][698]LogDinoOnline: Display: Host connect string resolved=1 eosP2P=0 (address redacted)
+DinosaurBattle.log:1145: [2026.09.27-01.43.32:531][699]LogLoad: LoadMap: /Game/Maps/LostValley?listen?OnlineLobby=1?Capacity=2?Teams=0?Bots=0?DinoBuild=2026092201
+DinosaurBattle.log:1167: [2026.09.27-01.43.33:043][699]LogDinoOnline: Display: Network world entered hosting=1 netDriver=NetDriverEOS compatibility=2026092201
+DinosaurBattle.log:1213: [2026.09.27-01.44.01:550][407]LogDinoOnline: Display: Operation started kind=5 timeoutSeconds=45
+DinosaurBattle.log:1222: [2026.09.27-01.44.01:647][413]LogLoad: LoadMap: /Game/Maps/LostValley
+DinosaurBattle.log:1224: [2026.09.27-01.44.01:648][413]LogNet: World NetDriver shutdown NetDriverEOS_2147481949 [GameNetDriver]
+DinosaurBattle.log:1225: [2026.09.27-01.44.01:648][413]LogNet: DestroyNamedNetDriver: Name:GameNetDriver Def:GameNetDriver NetDriverEOS_2147481949
+DinosaurBattle.log:1234: [2026.09.27-01.44.01:648][413]LogExit: Name:GameNetDriver Def:GameNetDriver NetDriverEOS_2147481949 shut down
+DinosaurBattle.log:1259: [2026.09.27-01.44.16:221][256]LogDinoOnline: Display: Search requested bucket=DinosaurBattle-2026092201 DINO_BUILD=2026092201 lobbies=1
+DinosaurBattle.log:1260: [2026.09.27-01.44.16:221][256]LogDinoOnline: Display: Operation started kind=3 timeoutSeconds=45
+DinosaurBattle.log:1265: [2026.09.27-01.44.16:406][267]LogDinoOnline: Display: Search callback success=1 activeOperation=3 rawResults=1
+DinosaurBattle.log:1266: [2026.09.27-01.44.16:406][267]LogDinoOnline: Display: Compatibility path=browser result local=2026092201 remote=2026092201 source=DINO_BUILD/Int64 (EOS wire) remoteBuildUniqueId=2026092201 decision=ACCEPT reason=equal
+DinosaurBattle.log:1267: [2026.09.27-01.44.19:489][452]LogDinoOnline: Display: Compatibility path=join gate local=2026092201 remote=2026092201 source=DINO_BUILD/Int64 (EOS wire) remoteBuildUniqueId=2026092201 decision=ACCEPT reason=equal
+DinosaurBattle.log:1268: [2026.09.27-01.44.19:489][452]LogDinoOnline: Display: Operation started kind=4 timeoutSeconds=45
+DinosaurBattle.log:1269: [2026.09.27-01.44.19:489][452]LogDinoOnline: Display: Join submitted lobbies=1 presence=1 localBuild=2026092201
+DinosaurBattle.log:1280: [2026.09.27-01.44.19:790][470]LogDinoOnline: Display: Join callback result=0 activeOperation=4
+DinosaurBattle.log:1281: [2026.09.27-01.44.19:790][470]LogDinoOnline: Display: Connect string resolved=1 eosP2P=0 travelBuild=2026092201 (address redacted)
+DinosaurBattle.log:1294: [2026.09.27-01.44.20:339][503]LogDinoOnline: Display: Compatibility path=join gate local=2026092201 remote=2026092201 source=DINO_BUILD/Int64 (EOS wire) remoteBuildUniqueId=2026092201 decision=ACCEPT reason=equal
+DinosaurBattle.log:1295: [2026.09.27-01.44.20:339][503]LogDinoOnline: Display: Operation started kind=4 timeoutSeconds=45
+DinosaurBattle.log:1296: [2026.09.27-01.44.20:339][503]LogDinoOnline: Display: Join submitted lobbies=1 presence=1 localBuild=2026092201
+DinosaurBattle.log:1307: [2026.09.27-01.44.20:623][520]LogDinoOnline: Display: Join callback result=0 activeOperation=4
+DinosaurBattle.log:1308: [2026.09.27-01.44.20:623][520]LogDinoOnline: Display: Connect string resolved=1 eosP2P=0 travelBuild=2026092201 (address redacted)
+DinosaurBattle.log:1317: [2026.09.27-01.44.21:122][550]LogDinoOnline: Display: Compatibility path=join gate local=2026092201 remote=2026092201 source=DINO_BUILD/Int64 (EOS wire) remoteBuildUniqueId=2026092201 decision=ACCEPT reason=equal
+DinosaurBattle.log:1318: [2026.09.27-01.44.21:122][550]LogDinoOnline: Display: Operation started kind=4 timeoutSeconds=45
+DinosaurBattle.log:1319: [2026.09.27-01.44.21:122][550]LogDinoOnline: Display: Join submitted lobbies=1 presence=1 localBuild=2026092201
+DinosaurBattle.log:1330: [2026.09.27-01.44.21:424][568]LogDinoOnline: Display: Join callback result=0 activeOperation=4
+DinosaurBattle.log:1331: [2026.09.27-01.44.21:424][568]LogDinoOnline: Display: Connect string resolved=1 eosP2P=0 travelBuild=2026092201 (address redacted)

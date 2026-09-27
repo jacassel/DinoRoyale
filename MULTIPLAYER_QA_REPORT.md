@@ -1,113 +1,172 @@
-# Dino Royale multiplayer QA report - September 24, 2026
+# Dino Royale EOS join QA report - September 26, 2026
 
-Release: **DinoRoyale-20260924-QA1**. Authoritative compatibility: **2026092201**.
-Physical two-PC acceptance is **PENDING**; do not open the broader playtest yet.
+Release: **DinoRoyale-20260926-QA2**. Compatibility: **2026092201**.
+**Live testing stopped at the owner's request. Physical EOS gameplay acceptance remains pending.**
 
-## Root cause
+## What was fixed across QA1 and QA2
 
-The rejection in the photos is the custom pre-join guard in
-`Source/DinosaurBattle/DinoOnlineSession.cpp`, before JoinSession or Unreal's
-network handshake. It read the advertised `DINO_BUILD` into `int32`.
-The host advertised numeric **2026092201**. OSS EOS serializes that number as
-Int64; `FOnlineSessionEOS::CopyLobbyAttributes` returns an Int64 variant.
-Unreal's `FVariantData::GetValue(int32&)` only accepts an Int32 variant and
-returns **0** otherwise. The key lookup can report success even when this typed
-read returns zero. Thus the old comparison was **0 != 2026092201**.
-The browser's result filter repeated the same faulty read.
+The original false version rejection was a typed-metadata bug: EOS returned the
+custom `DINO_BUILD` integer as Int64, while the game read Int32 and compared zero
+with 2026092201. QA1 added a shared typed reader, aligned Unreal OSS BuildUniqueId
+with 2026092201, and wired Invite Friends to the implemented ShowFriendsUI.
+Missing or genuinely different versions remain rejected; Unreal's network
+checksum checks remain enabled. The owner's subsequent physical QA1 test reached
+discovery and successful JoinSession, exposing the separate travel-URL defect below.
 
-The engine automation test reproduces this with the actual Unreal variants and
-getter: **host wire=2026092201; old guest read=0; corrected read=2026092201**.
-The original guest log/raw lobby payload was not supplied; the original remote
-number cannot be recovered from BUILD_INFO alone. The screenshots identify the
-failing branch; the installed engine source and executed regression establish
-the defect. New diagnostics will capture the actual remote type/value on retest.
+## Root cause and first failing stage
 
-Secondary finding: OSS EOS CreateSession overwrites the supplied BuildUniqueId
-with GetBuildUniqueId. The previous configuration did not override its engine
-changelist-derived value. That is a separate compatibility field, not the source
-of this exact error message. The corrected package logs OSSBuildUniqueId
-**2026092201**, network checksum **1589990096**, engine-compatible changelist
-**55116800**, project version **0.2.0**. No network-check bypass was introduced.
+QA1's `UDinoOnlineSession::OnJoin` used
+`URL.StartsWith("EOS:")` on the raw resolved travel string. Installed Unreal
+5.8.2 `FOnlineSessionEOS::GetConnectStringFromSessionInfo` returns `[EOS:PUID]`,
+including brackets. `FURL` removes those brackets when extracting `Host`;
+`UNetDriverEOS::InitConnect` tests that parsed host. The game incorrectly rejected
+a valid resolved URL before calling ClientTravel. No failing EOS API precedes
+this rejection in the supplied/local reproduction evidence.
 
-## Changes
+The preserved QA1 log `DinosaurBattle.log` (September 27 UTC / September 26 local):
+- 01:43:32: CreateSession callback success=1, address resolution=true.
+- 01:43:33: network world hosting=1, actual class NetDriverEOS.
+- 01:44:16: FindSessions success=1, one compatible result.
+- 01:44:19: JoinSession result=0 (Success), GetResolvedConnectString=true,
+  custom prefix check=false. Repeated twice with the same result.
+- No guest ClientTravel/PostLogin followed those rejected attempts.
 
-- `DinoCompatibility.h`: one typed, range-checked compatibility reader shared by
-  discovery and invites; advertise Int64 explicitly. Local Int32 is also accepted.
-  Missing, malformed, overflowing and different values remain rejected.
-- `DefaultEngine.ini`: supported OSS build-ID override set to 2026092201 so EOS's
-  overwrite agrees with the explicit game protocol. Unreal's engine network
-  checksum and server PreLogin version gate remain active.
-- `DinoOnlineSession.cpp`: sanitized compatibility, operation/callback, invite,
-  connect-string scheme and net-driver diagnostics; no credentials in new logs.
-- Invite Friends calls **ShowFriendsUI**, which opens EOS's existing social panel.
-  The old **ShowInviteUI** function is an unimplemented stub in this engine; the
-  preserved host logs contain that explicit warning. Feedback now appears in lobby.
-- Menus, project display name, current documentation and release launcher use
-  **Dino Royale**. Internal Unreal/EOS artifact names and paths stay DinosaurBattle.
-  No Epic organization/product rename, portal setting change or purchase was made.
-- Added opt-in development-bridge online actions/telemetry and reproducible tests.
+See `Tests/Results/eos-qa-20260926/qa1-diagnostics-redacted.txt` for safe excerpts.
+Screenshots additionally show the real remote lobby, both accounts and the exact
+error. The log does not print the full original URL; its bracketed representation
+is established by the installed resolver source, executed engine regression and
+the subsequent live QA2 resolution diagnostics.
 
-## Tests
+Installed engine sources:
+- `OnlineSubsystemEOS/Private/OnlineSessionEOS.cpp`: resolver at lines 3253-3310;
+  lobby host address created from owner ProductUserId, and copied on successful join.
+- `SocketSubsystemEOS/Private/InternetAddrEOS.cpp`: current socket shape is
+  `EOS:PUID`, without the obsolete socket/channel suffix.
+- `SocketSubsystemEOS/Private/NetDriverEOS.cpp`: InitConnect uses FURL.Host;
+  InitListen selects EOS unless unavailable or explicit development IP/LAN options.
+- EOS SDK `eos_common.h` explicitly says FromString/IsValid do not authenticate
+  arbitrary ID strings. URL validation therefore verifies transport shape only;
+  the source remains the successfully joined named EOS session.
 
-- Editor build and full Windows BuildCookRun: PASS.
-- Actual Unreal compatibility regression: PASS in editor AND packaged executable;
-  checks same Int32/Int64, older/newer versions, absent/invalid metadata, overflow,
-  advertised flags and the configured OSS override (17 assertions per run).
-- Fresh packaged lobby regression: **14/14 PASS**. Older/missing travel IDs rejected;
-  same-build two-player roster, selection, ready/start, movement, raptor followers,
-  return to lobby and departure cleanup pass over explicit loopback test transport.
-- Offline controls/combat regression: **90/90 PASS** on the fresh rendered package, using the existing isolated AI fixture.
-- Normal LaunchGame.bat at 1600x900, without the development bridge: PASS. Native dinosaur selection, M map, Escape, F4 multiplayer and F10 quit passed; both launch processes exited. Branded views were saved.
-- Live replacement-package EOS sign-in/hosting/search/overlay: awaiting manual
-  Epic sign-in. The overlay sign-in screen rendered. Earlier physical screenshots
-  establish these services for the previous package, not the new package.
-- New-package two-PC invitation join, public-browser join, relay gameplay and
-  different-network gameplay: NOT VERIFIED. Local processes are not that evidence.
+## Repair and diagnostics
 
-Evidence: `Tests/Results/eos-qa-20260924`. Build/raw logs remain local and ignored
-by Git under `Build/Logs` and the package's Saved/Logs. Initial compile failures
-(test include path and a UE 5.8 automation flag rename) were corrected before the
-successful build. The first offline invocation omitted AI isolation (84/90); the next was accidentally interrupted during process cleanup. Both are preserved; the final isolated run passes 90/90 with no gameplay changes.
+- `DinoEOSAddress.h` uses Unreal FURL and FInternetAddrEOS to check a nonempty EOS
+  host; IP fallback, missing endpoint and obsolete address forms remain rejected.
+- OnJoin still waits for Success, resolves **GameSession / GamePort**, then passes
+  the original resolved URL to ClientTravel, appending the existing DinoBuild option.
+  No peer address is manually built, reformatted, logged or hard-coded.
+- `[DINO_EOS]` diagnostics cover provider/identity validity, session info/settings,
+  creation/search/join callbacks, named-session state, URL resolution/shape,
+  actual NetDriver, passthrough state, bound EOS socket, travel and network failures,
+  PreLogin, Login, PostLogin, PlayerState and departure.
+- Existing lobby/presence/private/capacity settings, CreateSession -> OpenLevel
+  `?listen` flow and relay policy remain. OSS StartSession is not used by this
+  lobby architecture. Logs distinguish advertisement completion from listen readiness.
+- No engine source patch, architecture change, portal modification, IP workaround,
+  gameplay change, version bypass, credential change or purchase.
 
-## Fresh package and exact physical retest
+## Verification
 
-Send this entire folder, and use it on BOTH PCs:
-`C:\Users\joel1\Documents\DinosaurBattle Prototype\Dist\Releases\DinoRoyale-20260924-QA1\Windows`
+Editor compatibility and resolved-URL regression: **2 suites PASS** (17 + 15
+assertions). The new test reproduces QA1's false rejection with real FURL and EOS
+address classes and verifies the preserved compatibility travel option. It does
+not contact another account or establish an EOS connection.
 
-1. Extract/copy into NEW folders. Check BUILD_INFO release QA1 and compatibility
-   2026092201 on both. The old faulty build had the same compatibility number.
-2. Run `Play Dino Royale.bat`; F4 Multiplayer; sign in with the two authorized
-   Epic accounts. Keep `DinosaurBattle/OnlineServices.ini` in place.
-3. Host FFA, 2 slots, bots OFF, Public. Create Lobby. Click Invite Friends or
-   Shift+F3, select the second account and Invite to game. Guest accepts.
-4. Visually verify **2 of 2 players on both PCs**, guest dinosaur selection,
-   Mark Ready, then host Start Match. Move/fight on both PCs.
-5. Leave and create another public lobby. Guest uses Join Game -> Refresh ->
-   select host -> Join Selected. Repeat step 4. Record both paths separately.
-6. If successful, repeat on separate internet connections. Broader college
-   testing waits for the owner's visual acceptance and Epic branding/access approval.
+The editor and Windows Development package rebuilt successfully. The final
+package passed both automation suites again: **32 assertions, 2 suites, 0 failures**
+(`automation-final-pass/index.json`).
 
-If either path fails, preserve BOTH PCs' `Windows/DinosaurBattle/Saved/Logs`
-folders (`DinosaurBattle.log` plus backups). `Collect QA Logs.bat` creates a
-private timestamped copy beside the launcher, without copying OnlineServices.ini
-or login caches. New log lines show local/remote ID, type/source, rejection
-reason, callback progress and transport selection; engine logs may contain IDs.
+Packaged regression results before the final diagnostic-only adjustment:
 
-## Remaining issues and recovery
+| Test | Result | Transport / scope |
+|---|---:|---|
+| Lobby | 14/14 | Development loopback |
+| Movement, combat, damage, respawn, score fundamentals | 24/24 | Development loopback |
+| Bots | 17/17 | Development loopback |
+| Matches and teams | 48/48 | Development loopback |
+| Ecology and packs | 25/25 | Development loopback |
+| Offline core | 90/90 | Rendered packaged offline |
 
-The previous public Refresh **timeout is not explained by the typed read alone**:
-the bad reader would filter returned results, not prevent a completion callback.
-No guest timeout log was supplied. Operation/search-state diagnostics now separate
-provider timeout, callback failure and compatibility filtering. A timed-out
-operation still requires restart; no speculative backend/session redesign was made.
+The multiplayer total is **128/128**, separate from the 90 offline checks. These
+do not establish EOS/WAN gameplay. Evidence is under `Tests/Results/eos-qa-20260926`.
 
-There is no host migration; host departure ends the match. Seven browser rows are
-visible at once. Existing latency/host-advantage and long-session limits remain
-in KNOWN_ISSUES.md. Live EOS verification remains gated by manual sign-in and the
-physical retest. The desktop window/executable and Epic overlay product label may
-still say DinosaurBattle; the Epic product name was deliberately not changed.
+After the owner manually completed both Epic sign-ins, real EOS logs established:
 
-The previous playable `Dist/Windows` is untouched. Independent pre-sprint backup:
-`Dist/Checkpoints/2026-09-24-before-eos-qa/Windows` (all 71 files SHA-256 verified).
-The pre-sprint source tag is `eos-qa-before-20260924`.
-Replacement recovery: `Dist/Checkpoints/2026-09-24-eos-qa-fixed/Windows`. Release and recovery are checked against PACKAGE_SHA256.json; the sibling DinoRoyale-20260924-QA1.zip contains the whole Windows folder. Source tag: `eos-qa-ready-for-two-pc-20260924`.
+- Host CreateSession succeeded and resolved `[EOS:<redacted>]`; the old prefix
+  check would still reject it. NetDriverEOS entered listen mode, passthrough=0.
+- Guest discovered the lobby, joined successfully, and requested ClientTravel
+  at 02:17:21 UTC on September 27 (September 26 local).
+- Host accepted matching compatibility IDs in PreLogin at 02:17:23, then logged
+  a remote PostLogin at 02:17:24: valid controller/PlayerState, slot=1, players=2.
+- Guest entered NetMode=3 with NetDriverEOS at 02:17:24. Host/guest telemetry
+  showed the same two-player match, bots OFF; two gameplay windows were visible.
+- This was **two Epic accounts on one PC through EOS**, with no IP fallback.
+  It is not a completed physical two-PC or different-network test.
+
+The attached live movement/combat/rehost script started after the game instances
+had left the session. Its retained `live-eos-results.json` has a failed initial
+precondition; it does not overturn the earlier successful connection logs and
+does not prove EOS gameplay. Both instances were stopped when wrap-up was requested.
+Do not count live EOS attacks, damage, respawn, scoring, invite joining or rehosting
+as passed. Host departure returned the guest to the menu; no host migration exists.
+
+The first live diagnostics incorrectly printed `boundEOSAddressValid=0` because
+FSocketEOS::GetAddress copied through the FInternetAddr base type. The final
+build reads the driver's actual LocalAddr and labels it `localEOSAddressValid`.
+This final change only corrects logging; it does not alter transport or gameplay.
+The full 128+90 gameplay set was not rerun for that diagnostic-only change.
+The final normal offline launch reached engine startup without a development
+bridge; Computer Use was stopped with Escape, so no final visual/input pass is
+claimed for that launch. The earlier rendered offline checks remain the gameplay evidence.
+
+The original diagnostic run's two failed negative assertions are retained: SDK
+handle validity is not string authentication. The test and guard were corrected
+using the SDK documentation. Initial compile/API-name corrections are retained in
+local build logs. The first fundamentals score check read stale host telemetry;
+waiting for score replication fixed that test race, and all 24 checks then passed.
+One final automation invocation incorrectly used `-NoEOS`, preventing the SDK DLL
+from loading for the EOS address fixture. It crashed in the fixture; repeating
+the previously passing command without that flag passed both suites. No sign-in
+or live session is needed for the parser test. No failures are hidden as successful
+gameplay evidence.
+
+## Fresh build and manual retest
+
+Fresh package:
+`C:\Users\joel1\Documents\DinosaurBattle Prototype\Dist\Releases\DinoRoyale-20260926-QA2\Windows`
+
+Sibling ZIP: `DinoRoyale-20260926-QA2.zip`. Copy the WHOLE new package to each PC.
+Configured credentials are not included. Copy the existing OnlineServices.ini to
+`Windows/DinosaurBattle/OnlineServices.ini` on both PCs; do not change its values.
+On this PC the unchanged configured original remains in
+`Dist/Releases/DinoRoyale-20260924-QA1/Windows/DinosaurBattle/OnlineServices.ini`.
+The temporary QA2 test copy was moved to ignored `Dist/TestRuns/QA2-local-test-config`.
+Each PC needs only its existing configuration file, not the other player's login
+cache. Do not copy Saved, logs, auth caches, source, Unreal Engine, or a loose EXE.
+
+Follow FRIEND_QUICKSTART.md: separate Epic accounts; PUBLIC FFA / 2 slots / bots
+OFF; guest Refresh -> select -> Join. Verify 2/2, Ready, Start, mutual movement,
+attacks, damage, death, ten-second respawn and score. Test re-host/rejoin and Epic
+invite joining separately, then a different network/hotspot.
+
+On failure use Collect QA Logs.bat on BOTH PCs. Raw logs are in
+`Windows/DinosaurBattle/Saved/Logs`; share privately. No configured ini or auth
+cache is included by the log collector. A `[DINO_EOS] ClientTravel requested`
+line alone is NOT successful network travel; guest network-world entry plus
+server PostLogin/roster/gameplay are the next required evidence.
+
+QA1, its ZIP and independent recovery stay untouched. Pre-change source tag:
+`eos-qa2-before-20260926`. Broader playtesting remains gated by physical acceptance
+and branding/access approval. Different-network EOS relay is **NOT VERIFIED**.
+
+Final source checkpoint tag: `eos-qa2-ready-for-two-pc-20260926`.
+Independent playable recovery: `Dist/Checkpoints/DinoRoyale-20260926-QA2/Windows`.
+`checkpoint.json` records the ZIP checksum and verification; `release-manifest.json`
+lists individual files. `package-integrity.json` verifies runtime/cooked files
+against final staging, the compiled EXE, preserved QA1 and the unchanged user input
+file. Dist is ignored by Git, so keep the ZIP/recovery as well as the source tag.
+The preexisting staged `Config/DefaultInput.ini` is excluded from the agent commit.
+
+For the staged Epic college test and optional Steam launch, read
+`RELEASE_READINESS.md`. No purchases, account changes, portal edits or organization/
+product renames were made. Live testing is stopped, not declared fully accepted.

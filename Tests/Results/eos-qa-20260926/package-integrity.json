@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "file": "DinosaurBattle/Binaries/Win64/DinosaurBattle.exe",
+      "sha256": "76D74F5A0B8C30774E6B1F9ADD76C07988B3405304AC93BDE647B33764D3CDE2",
+      "stageMatches": true
+    },
+    {
+      "file": "DinosaurBattle/Content/Paks/DinosaurBattle-Windows.pak",
+      "sha256": "20E96E5A9A23C0F4914F635156340EA64D1F3F16637FFEF3C9847C18575EC3D8",
+      "stageMatches": true
+    },
+    {
+      "file": "DinosaurBattle/Content/Paks/DinosaurBattle-Windows.ucas",
+      "sha256": "D33D5D67E61740C5744B1E328481B98CF81EC2378547C6D22A09F68AD988ADB0",
+      "stageMatches": true
+    },
+    {
+      "file": "DinosaurBattle/Content/Paks/DinosaurBattle-Windows.utoc",
+      "sha256": "C7DB5F60B64D8BE02FB2D1A02143A899CD622D1B2CE7709A5100B2E40F1CBDAF",
+      "stageMatches": true
+    },
+    {
+      "file": "DinosaurBattle/Content/Paks/global.ucas",
+      "sha256": "5A809DB8310BBF72FB199EE71CF21C47D3290714BAB6C00A1588C3F307EC386D",
+      "stageMatches": true
+    },
+    {
+      "file": "DinosaurBattle/Content/Paks/global.utoc",
+      "sha256": "2B3FE3D326471EA6C29DE104FBF10BB1DA3F6DFE1F54988BA5EEDBF4B87B305C",
+      "stageMatches": true
+    }
+  ],
+  "compiledExeMatches": true,
+  "eosSDKPresent": true,
+  "localConfigUnchanged": true,
+  "qa1ZipUnchanged": true,
+  "qa1ExeUnchanged": true,
+  "inputPreserved": true
+}

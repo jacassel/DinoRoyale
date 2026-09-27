@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-26 America/New_York",
+  "accounts": 2,
+  "physicalPCs": 1,
+  "transport": "EOS NetDriverEOS passthrough=0; ForceRelays configured",
+  "login": "PASS (owner completed both sign-ins)",
+  "join": "PASS: ClientTravel, remote PostLogin players=2, guest network-world-entered NetMode=3",
+  "sharedMatch": "Observed in earlier telemetry and two game windows",
+  "combat": "NOT VERIFIED over EOS; attached test began after session was left",
+  "physicalTwoPC": "NOT VERIFIED",
+  "differentNetwork": "NOT VERIFIED",
+  "pursuit": "STOPPED at owner request",
+  "sources": [
+    "live-host-diagnostics.txt",
+    "live-guest-diagnostics.txt",
+    "live-wrap-state.json"
+  ],
+  "rawAttachedRun": "live-eos-results.json records failed start precondition after leave, not failure of earlier successful join"
+}
