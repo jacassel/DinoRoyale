@@ -24,10 +24,13 @@ void UDinoAnimationComponent::LoadSpecies()
     for(int32 I=0;I<D->GetMesh()->GetNumMaterials();++I)if(auto* MI=D->GetMesh()->CreateAndSetMaterialInstanceDynamic(I))MI->SetVectorParameterValue(TEXT("BaseTint"),D->Stats().Color);
     D->GetMesh()->SetRelativeLocation(FVector(0,0,-D->Stats().HalfHeight));
     D->GetMesh()->SetRelativeRotation(FRotator::ZeroRotator);
+    // Species setup happens after PostInitializeComponents. Smoothing must use
+    // this anatomical mesh origin, rather than the constructor's zero offset.
+    D->CacheInitialMeshOffset(D->GetMesh()->GetRelativeLocation(),D->GetMesh()->GetRelativeRotation());
     D->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     D->GetMesh()->SetAnimationMode(EAnimationMode::AnimationSingleNode);
     Clips.Empty();
-    for(const TCHAR* N:{TEXT("Idle"),TEXT("Walk"),TEXT("Run"),TEXT("Swim"),TEXT("Quick"),TEXT("Charge"),TEXT("Heavy"),TEXT("Jump"),TEXT("Brace"),TEXT("Death"),TEXT("Eat")})
+    for(const TCHAR* N:{TEXT("Idle"),TEXT("PivotLeft"),TEXT("PivotRight"),TEXT("Walk"),TEXT("Run"),TEXT("Swim"),TEXT("Quick"),TEXT("Charge"),TEXT("Heavy"),TEXT("Jump"),TEXT("Brace"),TEXT("Death"),TEXT("Eat")})
     {
         FString A=Name+TEXT("_")+N;
         if(auto* Clip=LoadObject<UAnimSequence>(nullptr,*(TEXT("/Game/Dinosaurs/")+Name+TEXT("/")+A+TEXT(".")+A))) Clips.Add(N,Clip);
@@ -57,6 +60,7 @@ void UDinoAnimationComponent::TickComponent(float Dt,ELevelTick T,FActorComponen
     }
     if(D->bSwimming){Play(TEXT("Swim"),true,.75f+.5f*D->GetVelocity().Size2D()/FMath::Max(1.f,D->GetCharacterMovement()->MaxSwimSpeed));return;}
     if(D->GetCharacterMovement()->IsFalling()){Play(TEXT("Jump"),false);return;}
+    if(D->PivotVisual!=0){Play(D->PivotVisual<0?TEXT("PivotLeft"):TEXT("PivotRight"),true);return;}
     float Speed=D->GetVelocity().Size2D();
     if(Speed<35){Play(TEXT("Idle"),true);return;}
     const float GaitSpeed=D->Species==1?1000:D->Species==2?540:D->Species==3?800:680;

@@ -11,12 +11,12 @@ for i,name in enumerate(['Trex','Raptor','Trike']):
     start=s;time.sleep(1);end=t.state();check(name+' floats at surface',abs(end['z']-start['z'])<5 and -10<end['waterSurface']-end['z']<100,height=end['z'],surface=end['waterSurface'])
     a=t.state();b=t.hold('W',1);check(name+' swims forward',b['x']-a['x']>200 and b['swimming'],metres=(b['x']-a['x'])/100)
     check(name+' swimming is slower',s['swimSpeed']<s['maxSpeed'],swimSpeed=s['swimSpeed'],wadingSpeed=s['maxSpeed'])
-    t.key('Q')
+    t.key('LeftControl')
     # Bridge acknowledgement precedes Unreal's next input-processing tick.
     # Measure immobilization only after the real brace state becomes active.
     deadline=time.monotonic()+2
     while not t.state()['brace'] and time.monotonic()<deadline:time.sleep(.025)
-    a=t.state();t.key('W');time.sleep(.65);b=t.state();t.key('W','up');check(name+' brace holds position in water',a['brace'] and b['brace'] and t.dist(a,b)<2,distance=t.dist(a,b));t.key('Q','up')
+    a=t.state();t.key('W');time.sleep(.65);b=t.state();t.key('W','up');check(name+' brace holds position in water',a['brace'] and b['brace'] and t.dist(a,b)<2,distance=t.dist(a,b));t.key('LeftControl','up')
     t.command('damage',value=t.state()['maxHealth']*.6);time.sleep(.15);check(name+' injured swim slowdown',abs(t.state()['swimSpeed']/s['swimSpeed']-.85)<.01)
     t.command('damage',value=t.state()['maxHealth']*.22);time.sleep(.15);check(name+' critical swim slowdown',abs(t.state()['swimSpeed']/s['swimSpeed']-.7)<.01)
     t.key('RightMouseButton');time.sleep(.2);check(name+' critical charge blocked in water',not t.state()['charging']);t.key('RightMouseButton','up');t.command('heal')

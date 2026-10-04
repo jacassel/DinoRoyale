@@ -21,11 +21,11 @@ def plant():
 
 try:
     assert plant()['outline'], 'Triceratops edible plant has no outline'
-    t.key('E')
+    t.key('F')
     deadline = time.monotonic() + 15
     while plant()['food'] > 0 and time.monotonic() < deadline:
         time.sleep(.05)
-    t.key('E', 'up')
+    t.key('F', 'up')
     depleted = t.state()['time']
     initial = plant()
     assert initial['hidden'] and initial['food'] == 0 and not initial['outline'], initial
@@ -47,7 +47,7 @@ try:
     (t.OUT / 'plant-regrowth.json').write_text(json.dumps(result, indent=2))
     print(json.dumps(result), flush=True)
 finally:
-    t.key('E', 'up')
+    t.key('F', 'up')
     t.command('sandbox', enabled=False)
     t.command('menu', open=True)
 sys.exit(not passed)

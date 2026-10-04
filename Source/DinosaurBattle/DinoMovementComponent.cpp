@@ -14,14 +14,15 @@ class FSavedDinoMove : public FSavedMove_Character
 public:
     using Super=FSavedMove_Character;
     bool Sprint=false;
-    virtual void Clear() override {Super::Clear();Sprint=false;}
-    virtual uint8 GetCompressedFlags() const override {return Super::GetCompressedFlags()|(Sprint?FLAG_Custom_0:0);}
+    int8 Pivot=0;
+    virtual void Clear() override {Super::Clear();Sprint=false;Pivot=0;}
+    virtual uint8 GetCompressedFlags() const override {return Super::GetCompressedFlags()|(Sprint?FLAG_Custom_0:0)|(Pivot<0?FLAG_Custom_1:0)|(Pivot>0?FLAG_Custom_2:0);}
     virtual bool CanCombineWith(const FSavedMovePtr& Other,ACharacter* C,float MaxDelta) const override
-    {return Sprint==static_cast<const FSavedDinoMove*>(Other.Get())->Sprint&&Super::CanCombineWith(Other,C,MaxDelta);}
+    {const auto* Move=static_cast<const FSavedDinoMove*>(Other.Get());return Sprint==Move->Sprint&&Pivot==Move->Pivot&&Super::CanCombineWith(Other,C,MaxDelta);}
     virtual void SetMoveFor(ACharacter* C,float Dt,const FVector& A,FNetworkPredictionData_Client_Character& Data) override
-    {Super::SetMoveFor(C,Dt,A,Data);Sprint=CastChecked<ADinosaurCharacter>(C)->bSprintRequested;}
+    {Super::SetMoveFor(C,Dt,A,Data);const auto* D=CastChecked<ADinosaurCharacter>(C);Sprint=D->bSprintRequested;Pivot=D->PivotInput;}
     virtual void PrepMoveFor(ACharacter* C) override
-    {Super::PrepMoveFor(C);CastChecked<ADinosaurCharacter>(C)->bSprintRequested=Sprint;}
+    {Super::PrepMoveFor(C);auto* D=CastChecked<ADinosaurCharacter>(C);D->bSprintRequested=Sprint;D->PivotInput=Pivot;}
 };
 class FDinoPredictionData : public FNetworkPredictionData_Client_Character
 {
@@ -31,7 +32,7 @@ public:
 };
 }
 void UDinoMovementComponent::UpdateFromCompressedFlags(uint8 Flags)
-{Super::UpdateFromCompressedFlags(Flags);if(auto* D=Cast<ADinosaurCharacter>(CharacterOwner))D->bSprintRequested=(Flags&FSavedMove_Character::FLAG_Custom_0)!=0;}
+{Super::UpdateFromCompressedFlags(Flags);if(auto* D=Cast<ADinosaurCharacter>(CharacterOwner)){D->bSprintRequested=(Flags&FSavedMove_Character::FLAG_Custom_0)!=0;D->PivotInput=((Flags&FSavedMove_Character::FLAG_Custom_2)?1:0)-((Flags&FSavedMove_Character::FLAG_Custom_1)?1:0);}}
 FNetworkPredictionData_Client* UDinoMovementComponent::GetPredictionData_Client() const
 {
     if(!ClientPredictionData)const_cast<UDinoMovementComponent*>(this)->ClientPredictionData=new FDinoPredictionData(*this);
@@ -52,6 +53,24 @@ float UDinoMovementComponent::GetMaxSpeed() const
         }
     }
     return MovementMode==MOVE_Custom?MaxSwimSpeed:Super::GetMaxSpeed();
+}
+void UDinoMovementComponent::PhysicsRotation(float Dt)
+{
+    auto* D=Cast<ADinosaurCharacter>(CharacterOwner);
+    if(!D){Super::PhysicsRotation(Dt);return;}
+    const bool Pivoting=D->PivotInput!=0&&D->CanPivot()&&Acceleration.IsNearlyZero();
+    D->PivotVisual=Pivoting?D->PivotInput:0;
+    if(Pivoting)
+    {
+        // PhysicsRotation runs inside predicted movement on the owning client and server.
+        // The saved input is replayed after corrections; control rotation remains untouched.
+        const float Commitment=D->Combat->IsBusy()?(D->Combat->bChargedAttack?D->Stats().HeavyTurnFactor:.55f):D->Combat->bCharging?.45f:1.f;
+        const float Step=D->PivotInput*D->Stats().PivotRate*D->Health->MovementFactor()*Commitment*Dt;
+        FRotator Rotation=UpdatedComponent->GetComponentRotation();Rotation.Yaw+=Step;
+        MoveUpdatedComponent(FVector::ZeroVector,Rotation,true);
+        return;
+    }
+    Super::PhysicsRotation(Dt);
 }
 void UDinoMovementComponent::PhysCustom(float Dt,int32 Iterations)
 {

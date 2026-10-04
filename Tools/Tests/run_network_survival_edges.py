@@ -14,9 +14,9 @@ try:
     host.command('testAI',id=1,species=2,x=500,y=0,yaw=0,health=.3,hunger=0,stamina=0,enabled=False)
     plant=min(host.state()['plants'],key=lambda q:distance(q,host.state()))
     def plant_state(peer):return next(q for q in peer.state()['plants'] if abs(q['x']-plant['x'])<1 and abs(q['y']-plant['y'])<1)
-    time.sleep(3);client.key('E')
+    time.sleep(3);client.key('F')
     t.check('plant fully consumed and hidden on both peers',wait_for(lambda:plant_state(host)['food']==0 and plant_state(client)['hidden'],12))
-    depleted=time.monotonic();client.key('E','up')
+    depleted=time.monotonic();client.key('F','up')
     # Remaining checks run while the real 120-second regrowth timer elapses.
     arrange(health=.7,hunger=5,stamina=20,x=3500)
     before=client.state();time.sleep(3);after=client.state()
@@ -31,9 +31,9 @@ try:
     # A tiny prey carcass must disappear from both processes after consumption.
     arrange(health=.3,hunger=0,stamina=0,x=500);host.command('food',species=3);time.sleep(3)
     t.check('finite prey carcass exists on both peers before consumption',wait_for(lambda:any(c['source']==-99 for c in host.state()['corpses']) and any(c['source']==-99 for c in client.state()['corpses'])))
-    client.key('E')
+    client.key('F')
     t.check('finite prey carcass is consumed and removed on both peers',wait_for(lambda:not any(c['source']==-99 for c in host.state()['corpses']) and not any(c['source']==-99 for c in client.state()['corpses']),6))
-    client.key('E','up')
+    client.key('F','up')
     arrange();before=client.state();client.key('RightMouseButton');host.key('RightMouseButton');time.sleep(2.3)
     t.check('remote charge is active before heavy interruption',client.state()['charging'])
     host.key('RightMouseButton','up')

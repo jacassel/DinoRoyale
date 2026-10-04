@@ -1,0 +1,178 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "0 Q turns in place",
+      "status": "PASS",
+      "turn": -49.08432316780102,
+      "travel": 0.0
+    },
+    {
+      "test": "0 Q leaves camera independent",
+      "status": "PASS"
+    },
+    {
+      "test": "0 Q retains released facing",
+      "status": "PASS"
+    },
+    {
+      "test": "0 Q uses replicated stepping clip",
+      "status": "PASS",
+      "animation": "PivotLeft"
+    },
+    {
+      "test": "0 Q server agrees with client yaw",
+      "status": "PASS",
+      "host": -61.75131142139434,
+      "client": -61.75130903720867
+    },
+    {
+      "test": "0 E turns in place",
+      "status": "PASS",
+      "turn": 50.667689204216,
+      "travel": 0.0
+    },
+    {
+      "test": "0 E leaves camera independent",
+      "status": "PASS"
+    },
+    {
+      "test": "0 E retains released facing",
+      "status": "PASS"
+    },
+    {
+      "test": "0 E uses replicated stepping clip",
+      "status": "PASS",
+      "animation": "PivotRight"
+    },
+    {
+      "test": "0 E server agrees with client yaw",
+      "status": "PASS",
+      "host": -4.750142693519593,
+      "client": -4.750136852264519
+    },
+    {
+      "test": "0 W exits held pivot",
+      "status": "PASS"
+    },
+    {
+      "test": "0 Ctrl brace blocks movement and pivot",
+      "status": "PASS"
+    },
+    {
+      "test": "0 heavy pivot remains committed",
+      "status": "PASS",
+      "turn": 7.125141859054594
+    },
+    {
+      "test": "0 host observes grounded actor 1",
+      "status": "PASS",
+      "base": -195,
+      "relative": -195,
+      "half": 195
+    },
+    {
+      "test": "0 host observes grounded actor 2",
+      "status": "PASS",
+      "base": -195,
+      "relative": -195,
+      "half": 195
+    },
+    {
+      "test": "0 client observes grounded actor 0",
+      "status": "PASS",
+      "base": -195,
+      "relative": -195,
+      "half": 194.99000549316406
+    },
+    {
+      "test": "0 client observes grounded actor 2",
+      "status": "PASS",
+      "base": -195,
+      "relative": -195,
+      "half": 195
+    },
+    {
+      "test": "0 host corpse uses anatomical offset",
+      "status": "PASS",
+      "corpse": {
+        "name": "DinosaurCarcass_0",
+        "species": 0,
+        "source": 1,
+        "z": 270.0388241102653,
+        "bodyZ": 75.18145817333408,
+        "bodyRelativeZ": -195,
+        "ground": 74.88539123535156,
+        "spineZ": 174.18270420564085,
+        "food": 360,
+        "maxFood": 360,
+        "frozen": true,
+        "x": 1906.3673071131766,
+        "y": -3.6915433026658984
+      }
+    },
+    {
+      "test": "0 client corpse uses anatomical offset",
+      "status": "PASS",
+      "corpse": {
+        "name": "DinosaurCarcass_0",
+        "species": 0,
+        "source": 1,
+        "z": 270,
+        "bodyZ": 75.11744301999573,
+        "bodyRelativeZ": -194.99999999999997,
+        "ground": 74.86743927001953,
+        "spineZ": 178.021526423832,
+        "food": 360,
+        "maxFood": 360,
+        "frozen": true,
+        "x": 1906,
+        "y": -4
+      }
+    },
+    {
+      "test": "0 ten-second respawn returns",
+      "status": "PASS"
+    },
+    {
+      "test": "0 carcass survives respawn",
+      "status": "PASS"
+    },
+    {
+      "test": "1 Q turns in place",
+      "status": "PASS",
+      "turn": -91.87203764915469,
+      "travel": 0.0
+    },
+    {
+      "test": "1 Q leaves camera independent",
+      "status": "PASS"
+    },
+    {
+      "test": "1 Q retains released facing",
+      "status": "PASS"
+    },
+    {
+      "test": "1 Q uses replicated stepping clip",
+      "status": "PASS",
+      "animation": "PivotLeft"
+    },
+    {
+      "test": "1 Q server agrees with client yaw",
+      "status": "PASS",
+      "host": -107.70488739013679,
+      "client": -107.70518398284928
+    },
+    {
+      "test": "1 E turns in place",
+      "status": "FAIL",
+      "turn": 83.98063516616804,
+      "travel": 19.50282836890133
+    }
+  ]
+}

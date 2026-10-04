@@ -2,6 +2,8 @@
 #include "DinosaurCharacter.h"
 #include "DinoPlayerController.h"
 #include "DinoGameState.h"
+#include "DinoPlayerState.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "LostValleyWorld.h"
 #include "HealthComponent.h"
 #include "StaminaComponent.h"
@@ -39,10 +41,11 @@ void ADinoHUD::DrawHUD()
         Text(TEXT("KILLS     DEATHS     ASSISTS"),40*S,H-176*S,.69f,Muted);
         Text(FString::Printf(TEXT("%d          %d          %d"),Score.Kills,Score.Deaths,Score.Assists),43*S,H-151*S,1.35f,Gold);
         FString Goal=GM->bTeamMatch?FString::Printf(TEXT("TEAM BATTLE   YOUR TEAM %d - %d RIVALS   /   GOAL %d"),GM->TeamKills[FMath::Clamp(D->TeamID,0,1)],GM->TeamKills[1-FMath::Clamp(D->TeamID,0,1)],GM->TeamKillGoal):FString::Printf(TEXT("FREE-FOR-ALL   %d / %d KILLS"),Score.Kills,GM->SoloKillGoal);
-        Text(Goal,W*.5f-160*S,79*S,.73f,Teal);
+        Text(Goal,W*.5f-160*S+S,79*S+S,.73f,FLinearColor::White);
+        Text(Goal,W*.5f-160*S,79*S,.73f,FLinearColor::Black);
     }
     Panel(24*S,24*S,386*S,230*S);
-    Text(TEXT("DINO ROYALE  /  0.2"),42*S,37*S,.95f,Gold);
+    Text(TEXT("DINO ROYALE / 0.3 ALPHA TEST"),42*S,37*S,.95f,Gold);
     Text(D->Stats().Name,42*S,64*S,1.32f);
     FLinearColor HealthColor=D->Health->Fraction()<.25f?Red:D->Health->Fraction()<.5f?Gold:Teal;
     Bar(42*S,99*S,350*S,12*S,D->Health->Fraction(),HealthColor);
@@ -55,8 +58,9 @@ void ADinoHUD::DrawHUD()
     const float Hunger=D->Hunger->Fraction();const auto HungerColor=Hunger<=.2f?Red:Hunger<.7f?Gold:Teal;
     Bar(42*S,213*S,350*S,9*S,Hunger,HungerColor);
     Text(FString::Printf(TEXT("HUNGER %.0f%%   %s"),Hunger*100,Hunger<=.1f?TEXT("STARVING - EAT"):Hunger<=.2f?TEXT("NO STAMINA REGEN"):Hunger<.4f?TEXT("NO HEALTH REGEN"):Hunger<.7f?TEXT("HUNGRY"):TEXT("WELL FED")),42*S,230*S,.71f,HungerColor);
-    Text(ALostValleyWorld::RegionName(D->GetActorLocation()),W*.5f-150*S,30*S,.98f,Gold);
-    Text(D->bSwimming?TEXT("SWIMMING - SPACE TO SURGE"):D->bInWater?TEXT("WADING - MOVEMENT SLOWED"):TEXT("LOST VALLEY"),W*.5f-80*S,51*S,.70f,D->bInWater?Teal:Muted);
+    Text(ALostValleyWorld::RegionName(D->GetActorLocation()),W*.5f-150*S+S,30*S+S,.98f,FLinearColor::White);
+    Text(ALostValleyWorld::RegionName(D->GetActorLocation()),W*.5f-150*S,30*S,.98f,FLinearColor::Black);
+    Text(D->bSwimming?TEXT("SWIMMING - SPACE TO SURGE"):D->bInWater?TEXT("WADING - MOVEMENT SLOWED"):TEXT("LOST VALLEY"),W*.5f-80*S,51*S,.70f,FLinearColor::Black);
     if(D->Species==1)
     {
         int32 Alive=0,Close=0;
@@ -74,12 +78,15 @@ void ADinoHUD::DrawHUD()
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
     {
         auto* O=*It;if(O==D||O->bDead||!D->CanSeeDinosaur(O)||FVector::DistSquared(D->GetActorLocation(),O->GetActorLocation())>FMath::Square(6000.f))continue;
-        FVector2D P;if(PlayerOwner->ProjectWorldLocationToScreen(O->GetActorLocation()+FVector(0,0,O->Stats().HalfHeight+80),P)&&P.X>0&&P.X<W&&P.Y>0&&P.Y<H)
+        const FVector Anchor=O->GetMesh()->DoesSocketExist(TEXT("head"))?O->GetMesh()->GetSocketLocation(TEXT("head"))+FVector(0,0,110):O->GetActorLocation()+FVector(0,0,O->Stats().HalfHeight+80);
+        FVector2D P;if(PlayerOwner->ProjectWorldLocationToScreen(Anchor,P)&&P.X>0&&P.X<W&&P.Y>0&&P.Y<H)
         {
             FLinearColor C=D->IsEnemy(O)?Red:Teal;Bar(P.X-45*S,P.Y,90*S,5*S,O->Health->Fraction(),C);
             FString Name=O->Stats().Name;
             if(O->Species==1)if(auto* GM=GetWorld()->GetGameState<ADinoGameState>())Name=GM->IsScoringTarget(O)?TEXT("RAPTOR LEADER"):TEXT("Pack follower");
-            Text(Name,P.X-45*S,P.Y-19*S,.58f,C);
+            if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())for(auto Player:GS->PlayerArray)
+                if(auto* PS=Cast<ADinoPlayerState>(Player))if(PS->CombatantID==O->CombatantID){Name=PS->GetPlayerName();break;}
+            if(PC->bShowNameTags&&O->bMajor){Text(Name,P.X-45*S+S,P.Y-19*S+S,.64f,FLinearColor::Black);Text(Name,P.X-45*S,P.Y-19*S,.64f,C);}
         }
     }
     if(D->Combat->bCharging)
@@ -91,7 +98,7 @@ void ADinoHUD::DrawHUD()
     else if(!D->bDead&&D->Food->FindFood(D->Stats().AttackRange+260))
     {
         Panel(W*.5f-205*S,H-176*S,410*S,66*S);
-        Text(D->Food->bEating?TEXT("FEEDING  +HEALTH / STAMINA / HUNGER"):D->Species==2?TEXT("HOLD E - EAT VEGETATION"):TEXT("HOLD E - FEED ON CARCASS"),W*.5f-185*S,H-164*S,.76f,Teal);
+        Text(D->Food->bEating?TEXT("FEEDING  +HEALTH / STAMINA / HUNGER"):D->Species==2?TEXT("HOLD F - EAT VEGETATION"):TEXT("HOLD F - FEED ON CARCASS"),W*.5f-185*S,H-164*S,.76f,Teal);
         AActor* Meal=D->Food->FindFood(D->Stats().AttackRange+260);float Remaining=0;
         if(auto* Plant=Cast<AFoodPlant>(Meal))Remaining=Plant->Nutrition;else if(auto* Corpse=Cast<ADinosaurCarcass>(Meal))Remaining=Corpse->Nutrition;
         Text(FString::Printf(TEXT("%.0f food remaining"),Remaining),W*.5f-185*S,H-138*S,.7f,Muted);
@@ -99,8 +106,8 @@ void ADinoHUD::DrawHUD()
     if(PC->bShowHelp)
     {
         Panel(24*S,H-99*S,W-48*S,75*S,.82f);
-        Text(TEXT("WASD Move   SHIFT Sprint   MOUSE Look   SPACE Jump   HOLD Q Brace"),42*S,H-84*S,.94f);
-        Text(TEXT("LMB  Quick attack     HOLD / RELEASE RMB  Heavy attack     HOLD E  Eat"),42*S,H-60*S,.88f,Muted);
+        Text(TEXT("WASD Move   SHIFT Sprint   MOUSE Look   SPACE Jump   Q / E Pivot   CTRL Brace"),42*S,H-84*S,.94f);
+        Text(TEXT("LMB  Quick attack     HOLD / RELEASE RMB  Heavy attack     HOLD F  Eat"),42*S,H-60*S,.88f,Muted);
         Text(GetNetMode()==NM_Standalone?TEXT("1 / 2 / 3  Species     M  Map     H  Help     ESC  Pause"):TEXT("M  Map     H  Help     ESC  Multiplayer menu"),42*S,H-38*S,.78f,Gold);
     }
     else Text(GetNetMode()==NM_Standalone?TEXT("H  Help     M  Map     ESC  Pause"):TEXT("H  Help     M  Map     ESC  Menu"),30*S,H-32*S,.8f,Muted);
@@ -110,7 +117,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
 {
     float W=Canvas->SizeX,H=Canvas->SizeY,S=Scale;Panel(0,0,W,H,.93f);
     Text(TEXT("DINO ROYALE"),W*.105f,H*.11f,2.7f,Gold);
-    Text(GetNetMode()==NM_Standalone?TEXT("LOST VALLEY  /  OFFLINE PLAY  /  PRE-ALPHA 0.2"):TEXT("MULTIPLAYER  /  LOCAL SETTINGS  /  PRE-ALPHA 0.2"),W*.108f,H*.19f,.75f,Muted);
+    Text(GetNetMode()==NM_Standalone?TEXT("LOST VALLEY  /  OFFLINE PLAY  /  0.3 ALPHA TEST"):TEXT("MULTIPLAYER  /  LOCAL SETTINGS  /  0.3 ALPHA TEST"),W*.108f,H*.19f,.75f,Muted);
     auto* GM=GetWorld()->GetGameState<ADinoGameState>();
     if(GM&&GM->bRoundOver&&!PC->bSettingsOpen)
     {
@@ -138,14 +145,16 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
     Text(PC->bSettingsOpen?TEXT("F2  BACK"):TEXT("F2  SETTINGS"),W*.76f,H*.13f,.95f,Teal);
     if(PC->bSettingsOpen)
     {
-        Panel(W*.18f,H*.28f,W*.64f,H*.43f,1);
+        Panel(W*.18f,H*.28f,W*.64f,H*.46f,1);
         Text(TEXT("SETTINGS"),W*.22f,H*.30f,1.4f,Gold);
         Text(TEXT("BLOOD EFFECTS"),W*.22f,H*.37f,1.15f);
         Text(PC->bBloodEnabled?TEXT("[ B ]   ON"):TEXT("[ B ]   OFF"),W*.64f,H*.37f,1.15f,PC->bBloodEnabled?Red:Teal);
         Text(TEXT("Optional blood particles when a dinosaur or prey is hit."),W*.22f,H*.425f,.84f,Muted);
         Text(FString::Printf(TEXT("MOUSE SENSITIVITY     %.1f"),D->MouseSensitivity),W*.22f,H*.525f,1.08f);
         Text(TEXT("[-]       [+]"),W*.65f,H*.525f,1.15f,Gold);
-        Text(TEXT("Settings save automatically on this computer."),W*.22f,H*.64f,.8f,Muted);
+        Text(TEXT("SHOW NAME TAGS"),W*.22f,H*.61f,1.08f);
+        Text(PC->bShowNameTags?TEXT("[ N ]   ON"):TEXT("[ N ]   OFF"),W*.64f,H*.61f,1.08f,Teal);
+        Text(TEXT("Settings save automatically on this computer."),W*.22f,H*.69f,.8f,Muted);
         Text((GetNetMode()==NM_Standalone?TEXT("ESC / F2  Back to dinosaur selection      ENTER  Resume"):TEXT("ESC / F2  Back to multiplayer")),W*.22f,H*.78f,.95f,Teal);
         return;
     }
@@ -175,7 +184,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
     Text(TEXT("ENTER / ESC   RESUME EXPLORATION"),W*.22f,H*.852f,.97f,Teal);
     DrawRect(FLinearColor(.18f,.09f,.065f),W*.62f,H*.83f,W*.20f,H*.08f);
     Text(TEXT("F10   QUIT"),W*.67f,H*.852f,.97f,Gold);
-    Text(TEXT("WASD move   |   Space jump   |   Q brace   |   LMB quick   |   RMB charge   |   E eat"),Left,H*.945f,.76f,Muted);
+    Text(TEXT("WASD move   |   Space jump   |   Q / E pivot  |  Ctrl brace   |   LMB quick   |   RMB charge   |   F eat"),Left,H*.945f,.76f,Muted);
 }
 void ADinoHUD::DrawWorldMap(ADinosaurCharacter* D,bool Full)
 {
@@ -203,7 +212,15 @@ void ADinoHUD::DrawWorldMap(ADinosaurCharacter* D,bool Full)
         DrawLine(P.X,P.Y-R,P.X+R,P.Y,Gold,2*S);DrawLine(P.X+R,P.Y,P.X,P.Y+R,Gold,2*S);
         DrawLine(P.X,P.Y+R,P.X-R,P.Y,Gold,2*S);DrawLine(P.X-R,P.Y,P.X,P.Y-R,Gold,2*S);
     }
-    auto Q=Point(D->GetActorLocation());float A=FMath::DegreesToRadians(D->GetActorRotation().Yaw);FVector2D F(FMath::Cos(A),-FMath::Sin(A)),R(-F.Y,F.X);
-    FVector2D Tip=Q+F*9*S,L=Q-F*5*S+R*5*S,B=Q-F*5*S-R*5*S;
-    DrawLine(Tip.X,Tip.Y,L.X,L.Y,FLinearColor::White,2*S);DrawLine(L.X,L.Y,B.X,B.Y,FLinearColor::White,2*S);DrawLine(B.X,B.Y,Tip.X,Tip.Y,FLinearColor::White,2*S);
+    const auto Q=Point(D->GetActorLocation());
+    const FVector Direction=D->GetVelocity().SizeSquared2D()>FMath::Square(35.f)?D->GetVelocity().GetSafeNormal2D():D->GetActorForwardVector();
+    const FVector2D F(Direction.X,-Direction.Y),R(-F.Y,F.X),Tip=Q+F*20*S;
+    // Black position disc plus a separate directional arrow, with a thin light rim.
+    auto Arrow=[&](FLinearColor Color,float Width){
+        DrawLine(Q.X,Q.Y,Tip.X,Tip.Y,Color,Width*S);
+        const auto Left=Tip-F*7*S+R*5*S,Right=Tip-F*7*S-R*5*S;
+        DrawLine(Tip.X,Tip.Y,Left.X,Left.Y,Color,Width*S);DrawLine(Tip.X,Tip.Y,Right.X,Right.Y,Color,Width*S);
+    };
+    Arrow(FLinearColor::White,5);Arrow(FLinearColor::Black,2.5f);
+    for(int32 Layer=0;Layer<2;++Layer){const float Radius=(Layer==0?7.f:5.5f)*S;for(float Row=-Radius;Row<=Radius;Row+=1){const float HalfWidth=FMath::Sqrt(FMath::Max(0.f,Radius*Radius-Row*Row));DrawLine(Q.X-HalfWidth,Q.Y+Row,Q.X+HalfWidth,Q.Y+Row,Layer==0?FLinearColor::White:FLinearColor::Black,1.5f);}}
 }

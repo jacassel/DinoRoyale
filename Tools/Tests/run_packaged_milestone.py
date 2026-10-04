@@ -49,7 +49,7 @@ def valid(row):
 try:
     for script, result_file, expected in suites[start_at:]:
         t.command('menu', open=False)
-        for key in ['W', 'A', 'S', 'D', 'Q', 'E', 'LeftShift', 'SpaceBar',
+        for key in ['W', 'A', 'S', 'D', 'LeftControl', 'F', 'LeftShift', 'SpaceBar',
                     'RightMouseButton', 'LeftMouseButton']:
             t.key(key, 'up')
         t.command('match', teams=False)
@@ -75,7 +75,7 @@ try:
         if not passed:
             break
 finally:
-    for key in ['W', 'A', 'S', 'D', 'Q', 'E', 'LeftShift', 'SpaceBar',
+    for key in ['W', 'A', 'S', 'D', 'LeftControl', 'F', 'LeftShift', 'SpaceBar',
                 'RightMouseButton', 'LeftMouseButton']:
         try:
             t.key(key, 'up')

@@ -32,6 +32,7 @@ class DINOSAURBATTLE_API ADinosaurCarcass : public AActor
     GENERATED_BODY()
 public:
     ADinosaurCarcass();
+    virtual void BeginPlay() override;
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
     UFUNCTION() void OnRep_Carcass();
     UPROPERTY(ReplicatedUsing=OnRep_Carcass) FTransform BodyTransform;

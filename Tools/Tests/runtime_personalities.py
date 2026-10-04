@@ -7,7 +7,7 @@ def wait(sec):
 def place(id,species,x,y=0,profile=3):
  return t.command('testAI',id=id,species=species,x=x,y=y,health=1,enabled=False,yaw=180,personality=profile)
 def release():
- for k in ['W','S','A','D','LeftShift','Q','RightMouseButton','LeftMouseButton','SpaceBar']:t.key(k,'up')
+ for k in ['W','S','A','D','LeftShift','LeftControl','RightMouseButton','LeftMouseButton','SpaceBar']:t.key(k,'up')
 def foe():return next(a for a in t.state()['ai'] if a['id']==1)
 t.command('menu',open=False);t.command('sandbox',enabled=True);t.command('match',teams=False);t.command('invulnerable',value=False)
 for species in range(3):
@@ -26,9 +26,9 @@ for species in range(3):
     if s['charge']>=.95:t.key('RightMouseButton','up')
    elif s['recovery']<=0:
     if e['charging'] and distance<900 and s['stamina']>20:
-     t.key('W','up');t.key('LeftShift','up');t.key('Q');last_action='guard'
+     t.key('W','up');t.key('LeftShift','up');t.key('LeftControl');last_action='guard'
     else:
-     t.key('Q','up')
+     t.key('LeftControl','up')
      if distance>reach*.72:
       t.key('W');t.key('LeftShift','down' if distance>1400 and s['stamina']>60 else 'up')
      else:

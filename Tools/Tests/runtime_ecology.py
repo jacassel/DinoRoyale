@@ -10,7 +10,7 @@ def check(n,ok,**v):
 def ai(i=1):return next(a for a in t.state()['ai'] if a['id']==i)
 def place(i,sp,x,y=0,enabled=False):t.command('testAI',id=i,species=sp,x=x,y=y,health=1,enabled=enabled,yaw=180,personality=3)
 def setup(i):
- for k in ['W','Q','E','LeftShift','RightMouseButton']:t.key(k,'up')
+ for k in ['W','LeftControl','F','LeftShift','RightMouseButton']:t.key(k,'up')
  t.command('menu',open=False);t.command('ai',paused=True);t.command('clearTestFood');t.command('species',value=i);t.command('face',yaw=0);wait(.7)
 t.command('menu',open=False);t.command('sandbox',enabled=True);t.command('match',teams=False);t.command('invulnerable',value=False)
 for i,n in enumerate(['Trex','Raptor','Trike']):
@@ -20,7 +20,7 @@ for i,n in enumerate(['Trex','Raptor','Trike']):
   t.command('hunger',value=hunger);t.command('stamina',value=30);a=t.state();wait(1.1);b=t.state();dt=b['time']-a['time'];hp=(b['health']-a['health'])/b['maxHealth']/dt;st=(b['stamina']-a['stamina'])/dt
   check(n+f' hunger {hunger} regen thresholds',abs(b['healthRegenFactor']-hfactor)<.01 and abs(b['staminaRegenFactor']-sfactor)<.01 and (abs(hp-.02*hfactor)<.003 if hunger>10 else hp<-.002) and abs(st-22*sfactor)<1.5,hpRate=hp,staminaRate=st)
  # Finite small food can still rescue an exhausted starving animal.
- t.command('hunger',value=9);t.command('stamina',value=0);t.command('food');a=t.state();t.key('E');wait(1.8);b=t.state();t.key('E','up')
+ t.command('hunger',value=9);t.command('stamina',value=0);t.command('food');a=t.state();t.key('F');wait(1.8);b=t.state();t.key('F','up')
  check(n+' eating rescues hunger health stamina',b['hunger']>a['hunger']+10 and b['health']>a['health'] and b['stamina']>20,hunger=b['hunger'],healthGain=b['health']-a['health'],stamina=b['stamina'])
  check(n+' starvation does not block feeding',b['hunger']>20)
 # Independent carcass size and lifetime.
@@ -30,9 +30,9 @@ food={c['species']:c['maxFood'] for c in t.state()['corpses']};check('carcass fo
 place(1,0,3000);t.command('scoreHit',attacker=0,victim=1,value=99999);wait(1.9)
 c=next(c for c in t.state()['corpses'] if c['source']==1);check('carcass settles to frozen pose',c['frozen']);wait(9)
 check('corpse survives its dinosaur respawn',not ai()['dead'] and any(x['name']==c['name'] and x['food']==360 for x in t.state()['corpses']))
-setup(0);t.command('food',species=3);c=t.state()['corpses'][0];t.command('hunger',value=0);t.command('stamina',value=0);t.command('damage',value=t.state()['maxHealth']*.6);wait(2.7);t.key('E');wait(1.6);t.key('E','up')
+setup(0);t.command('food',species=3);c=t.state()['corpses'][0];t.command('hunger',value=0);t.command('stamina',value=0);t.command('damage',value=t.state()['maxHealth']*.6);wait(2.7);t.key('F');wait(1.6);t.key('F','up')
 check('tiny carcass consumed exactly and removed',not any(x['name']==c['name'] for x in t.state()['corpses']) and t.state()['hunger']<18,hunger=t.state()['hunger'])
-setup(2);t.command('food');plant=min(t.state()['plants'],key=lambda x:t.dist(x,t.state()));t.command('hunger',value=0);t.command('stamina',value=0);t.command('damage',value=t.state()['maxHealth']*.75);wait(2.7);t.key('E');wait(5.6);t.key('E','up');p=next(x for x in t.state()['plants'] if x['name']==plant['name']);check('eaten plant disappears and cannot supply more food',p['hidden'] and p['food']==0,food=p['food']);t.command('screenshot')
+setup(2);t.command('food');plant=min(t.state()['plants'],key=lambda x:t.dist(x,t.state()));t.command('hunger',value=0);t.command('stamina',value=0);t.command('damage',value=t.state()['maxHealth']*.75);wait(2.7);t.key('F');wait(5.6);t.key('F','up');p=next(x for x in t.state()['plants'] if x['name']==plant['name']);check('eaten plant disappears and cannot supply more food',p['hidden'] and p['food']==0,food=p['food']);t.command('screenshot')
 # Deterministic map visibility tests with real visibility-channel occlusion.
 setup(0)
 for i in range(2,10):place(i,(i-1)//3,-24000+i*400,-23000)

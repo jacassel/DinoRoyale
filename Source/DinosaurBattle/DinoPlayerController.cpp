@@ -57,6 +57,7 @@ void ADinoPlayerController::BeginPlay()
         if(FFileHelper::LoadFileToString(Existing,*(BridgeRoot/TEXT("command.json")))&&FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(Existing),Old)&&Old.IsValid())LastSequence=Old->GetIntegerField(TEXT("seq"));
     }
     GConfig->GetBool(TEXT("Dino.UserSettings"),TEXT("BloodEnabled"),bBloodEnabled,GGameIni);
+    GConfig->GetBool(TEXT("Dino.UserSettings"),TEXT("ShowNameTags"),bShowNameTags,GGameIni);
     ConsoleCommand(TEXT("t.MaxFPS 60"),false);
     SetInputMode(FInputModeGameOnly()); bShowMouseCursor=false;
     PrimaryActorTick.bTickEvenWhenPaused=true;bShouldPerformFullTickWhenPaused=true;
@@ -77,6 +78,7 @@ void ADinoPlayerController::PlayerTick(float Dt)
 void ADinoPlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
+    InputComponent->BindKey(EKeys::N,IE_Pressed,this,&ADinoPlayerController::ToggleNameTags).bExecuteWhenPaused=true;
     InputComponent->BindKey(EKeys::F4,IE_Pressed,this,&ADinoPlayerController::ToggleMultiplayer).bExecuteWhenPaused=true;
     InputComponent->BindAction("Menu",IE_Pressed,this,&ADinoPlayerController::ToggleMenu).bExecuteWhenPaused=true;
     InputComponent->BindAction("SelectRex",IE_Pressed,this,&ADinoPlayerController::SelectRex).bExecuteWhenPaused=true;
@@ -109,6 +111,7 @@ void ADinoPlayerController::SetMenuOpen(bool Open)
 void ADinoPlayerController::ToggleMenu(){if(OnlinePage>0&&GetNetMode()==NM_Standalone){OnlinePage=OnlinePage==1?0:1;return;}if(GetNetMode()!=NM_Standalone){if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())if(GS->bLobby||GS->bRoundOver)return;SetMenuOpen(!bSelectionOpen);return;}if(bSettingsOpen){bSettingsOpen=false;return;}if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bRoundOver){ResumeGame();return;}SetMenuOpen(!bSelectionOpen);}
 void ADinoPlayerController::ToggleMatchMode(){if(bSelectionOpen&&!bSettingsOpen)if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->SetTeamMode(!GM->bTeamMatch);}
 void ADinoPlayerController::ToggleSettings(){if(bSelectionOpen)bSettingsOpen=!bSettingsOpen;}
+void ADinoPlayerController::ToggleNameTags(){if(bSelectionOpen&&bSettingsOpen){bShowNameTags=!bShowNameTags;GConfig->SetBool(TEXT("Dino.UserSettings"),TEXT("ShowNameTags"),bShowNameTags,GGameIni);GConfig->Flush(false,GGameIni);}}
 void ADinoPlayerController::ToggleBlood(){if(bSelectionOpen&&bSettingsOpen){bBloodEnabled=!bBloodEnabled;if(!bBloodEnabled)ADinoEffects::ClearBlood(GetWorld());GConfig->SetBool(TEXT("Dino.UserSettings"),TEXT("BloodEnabled"),bBloodEnabled,GGameIni);GConfig->Flush(false,GGameIni);}}
 void ADinoPlayerController::ToggleMap()
 {
@@ -150,7 +153,7 @@ void ADinoPlayerController::MenuClick()
     if(X>W*.72f&&Y>H*.215f&&Y<H*.28f){ToggleMultiplayer();return;}
     if(const auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bRoundOver&&!bSettingsOpen)return;
     if(X>W*.73f&&Y>H*.1f&&Y<H*.21f){ToggleSettings();return;}
-    if(bSettingsOpen){if(Y>H*.33f&&Y<H*.45f)ToggleBlood();else if(Y>H*.50f&&Y<H*.59f){if(X>W*.6f)SensitivityUp();else SensitivityDown();}return;}
+    if(bSettingsOpen){if(Y>H*.60f&&Y<H*.67f){ToggleNameTags();return;}if(Y>H*.33f&&Y<H*.45f)ToggleBlood();else if(Y>H*.50f&&Y<H*.59f){if(X>W*.6f)SensitivityUp();else SensitivityDown();}return;}
     float S=FMath::Clamp(H/900.f,.45f,1.5f),Top=H*.28f,CardW=W*.25f,CardH=400*S,Gap=W*.035f,Left=(W-3*CardW-2*Gap)*.5f;
     if(Y>H*.215f&&Y<H*.285f){ToggleMatchMode();return;}
     if(Y>=Top&&Y<=Top+CardH)for(int32 I=0;I<3;++I)if(X>=Left+I*(CardW+Gap)&&X<=Left+I*(CardW+Gap)+CardW){DinoSpecies(I);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GetNetMode()==NM_Standalone)GM->StartRound();SetMenuOpen(false);return;}
@@ -406,7 +409,17 @@ void ADinoPlayerController::WriteTelemetry()
         auto A=MakeShared<FJsonObject>();A->SetNumberField(TEXT("id"),It->CombatantID);A->SetNumberField(TEXT("species"),It->Species);
         A->SetNumberField(TEXT("health"),It->Health->Current);A->SetNumberField(TEXT("stamina"),It->Stamina->Current);A->SetBoolField(TEXT("dead"),It->bDead);
         A->SetNumberField(TEXT("x"),It->GetActorLocation().X);A->SetNumberField(TEXT("y"),It->GetActorLocation().Y);A->SetNumberField(TEXT("z"),It->GetActorLocation().Z);
-        FVector MP;A->SetBoolField(TEXT("mapVisible"),D->MapPositionFor(*It,MP));A->SetNumberField(TEXT("markerX"),MP.X);A->SetNumberField(TEXT("markerY"),MP.Y);A->SetBoolField(TEXT("follower"),It->bPackFollower);A->SetNumberField(TEXT("pack"),It->PackLeaderID);A->SetBoolField(TEXT("scoring"),It->bScoringParticipant);A->SetBoolField(TEXT("enemy"),D->IsEnemy(*It));A->SetBoolField(TEXT("bot"),It->bFillerBot);A->SetNumberField(TEXT("team"),It->TeamID);A->SetNumberField(TEXT("attackSerial"),It->Combat->AttackSerial);A->SetBoolField(TEXT("player"),It->IsPlayerControlled());NetworkActors.Add(MakeShared<FJsonValueObject>(A));
+        A->SetNumberField(TEXT("yaw"),It->GetActorRotation().Yaw);A->SetNumberField(TEXT("pivot"),It->PivotVisual);
+        A->SetNumberField(TEXT("halfHeight"),It->GetCapsuleComponent()->GetScaledCapsuleHalfHeight());
+        A->SetNumberField(TEXT("meshRelativeZ"),It->GetMesh()->GetRelativeLocation().Z);
+        A->SetNumberField(TEXT("meshBaseZ"),It->GetBaseTranslationOffset().Z);
+        A->SetNumberField(TEXT("meshWorldZ"),It->GetMesh()->GetComponentLocation().Z);
+        A->SetNumberField(TEXT("ground"),ALostValleyWorld::HeightAt(It->GetActorLocation().X,It->GetActorLocation().Y));
+        A->SetNumberField(TEXT("speed"),It->GetVelocity().Size2D());
+        A->SetBoolField(TEXT("swimming"),It->bSwimming);
+        A->SetBoolField(TEXT("brace"),It->Combat->bBracing);
+        A->SetStringField(TEXT("animation"),It->Animation->State);
+        FVector MP=FVector::ZeroVector;A->SetBoolField(TEXT("mapVisible"),D->MapPositionFor(*It,MP));A->SetNumberField(TEXT("markerX"),MP.X);A->SetNumberField(TEXT("markerY"),MP.Y);A->SetBoolField(TEXT("follower"),It->bPackFollower);A->SetNumberField(TEXT("pack"),It->PackLeaderID);A->SetBoolField(TEXT("scoring"),It->bScoringParticipant);A->SetBoolField(TEXT("enemy"),D->IsEnemy(*It));A->SetBoolField(TEXT("bot"),It->bFillerBot);A->SetNumberField(TEXT("team"),It->TeamID);A->SetNumberField(TEXT("attackSerial"),It->Combat->AttackSerial);A->SetBoolField(TEXT("player"),It->IsPlayerControlled());NetworkActors.Add(MakeShared<FJsonValueObject>(A));
     }
     O->SetArrayField(TEXT("networkActors"),NetworkActors);
     if(auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>())
@@ -417,6 +430,16 @@ void ADinoPlayerController::WriteTelemetry()
     }
     O->SetNumberField(TEXT("onlinePage"),OnlinePage);
     O->SetNumberField(TEXT("frameMs"),GetWorld()->GetDeltaSeconds()*1000.0);
+    int32 ActorCount=0;for(TActorIterator<AActor> It(GetWorld());It;++It)++ActorCount;
+    O->SetNumberField(TEXT("actorCount"),ActorCount);
+    for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It)
+    {
+        O->SetNumberField(TEXT("treeInstances"),It->Trunks->GetInstanceCount());
+        O->SetNumberField(TEXT("grassInstances"),It->Grass->GetInstanceCount());
+        O->SetNumberField(TEXT("fernInstances"),It->Ferns->GetInstanceCount());
+        O->SetNumberField(TEXT("navObstacles"),It->Obstacles.Num());
+        break;
+    }
     if(auto* Driver=GetWorld()->GetNetDriver())
     {
         Driver->bCollectNetStats=true;
@@ -436,7 +459,7 @@ void ADinoPlayerController::WriteTelemetry()
     int32 AudioTotal=0;for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->Audio)AudioTotal+=It->Audio->ActiveVoices();O->SetNumberField(TEXT("audioTotalVoices"),AudioTotal);
     O->SetNumberField(TEXT("species"),D->Species);O->SetNumberField(TEXT("health"),D->Health->Current);O->SetNumberField(TEXT("maxHealth"),D->Health->Maximum);
     FVector L=D->GetActorLocation();O->SetNumberField(TEXT("x"),L.X);O->SetNumberField(TEXT("y"),L.Y);O->SetNumberField(TEXT("z"),L.Z);
-    O->SetNumberField(TEXT("speed"),D->GetVelocity().Size2D());O->SetNumberField(TEXT("maxSpeed"),D->GetCharacterMovement()->MaxWalkSpeed);
+    O->SetNumberField(TEXT("pivot"),D->PivotVisual);O->SetNumberField(TEXT("pivotInput"),D->PivotInput);O->SetNumberField(TEXT("speed"),D->GetVelocity().Size2D());O->SetNumberField(TEXT("maxSpeed"),D->GetCharacterMovement()->MaxWalkSpeed);
     O->SetBoolField(TEXT("keyW"),IsInputKeyDown(EKeys::W));O->SetBoolField(TEXT("ignoreMove"),IsMoveInputIgnored());
     O->SetBoolField(TEXT("swimming"),D->bSwimming);O->SetNumberField(TEXT("waterSurface"),D->WaterSurface);O->SetNumberField(TEXT("swimSpeed"),D->GetCharacterMovement()->MaxSwimSpeed);
     O->SetNumberField(TEXT("acceleration"),D->GetCharacterMovement()->GetCurrentAcceleration().Size2D());
@@ -465,7 +488,7 @@ void ADinoPlayerController::WriteTelemetry()
         TArray<TSharedPtr<FJsonValue>> Board;for(auto Pair:GM->Scores){auto Row=MakeShared<FJsonObject>();Row->SetNumberField(TEXT("id"),Pair.Key);Row->SetNumberField(TEXT("kills"),Pair.Value.Kills);Row->SetNumberField(TEXT("deaths"),Pair.Value.Deaths);Row->SetNumberField(TEXT("assists"),Pair.Value.Assists);Board.Add(MakeShared<FJsonValueObject>(Row));}O->SetArrayField(TEXT("scoreboard"),Board);
     }
     for(TActorIterator<ADinoEffects> It(GetWorld());It;++It){O->SetNumberField(TEXT("bloodParticles"),It->ActiveCount());O->SetNumberField(TEXT("bloodEmitted"),It->TotalEmitted);}
-    O->SetBoolField(TEXT("settingsOpen"),bSettingsOpen);O->SetBoolField(TEXT("bloodEnabled"),bBloodEnabled);O->SetBoolField(TEXT("inWater"),D->bInWater);O->SetBoolField(TEXT("menuOpen"),bSelectionOpen);O->SetBoolField(TEXT("mapOpen"),bMapOpen);O->SetNumberField(TEXT("sensitivity"),D->MouseSensitivity);O->SetStringField(TEXT("animation"),D->Animation->State);O->SetBoolField(TEXT("eating"),D->Food->bEating);O->SetNumberField(TEXT("foodConsumed"),D->Food->FoodConsumed);
+    O->SetBoolField(TEXT("showNameTags"),bShowNameTags);O->SetBoolField(TEXT("settingsOpen"),bSettingsOpen);O->SetBoolField(TEXT("bloodEnabled"),bBloodEnabled);O->SetBoolField(TEXT("inWater"),D->bInWater);O->SetBoolField(TEXT("menuOpen"),bSelectionOpen);O->SetBoolField(TEXT("mapOpen"),bMapOpen);O->SetNumberField(TEXT("sensitivity"),D->MouseSensitivity);O->SetStringField(TEXT("animation"),D->Animation->State);O->SetBoolField(TEXT("eating"),D->Food->bEating);O->SetNumberField(TEXT("foodConsumed"),D->Food->FoodConsumed);
     TArray<TSharedPtr<FJsonValue>> Materials;
     for(int32 I=0;I<D->GetMesh()->GetNumMaterials();++I)if(auto* M=D->GetMesh()->GetMaterial(I))Materials.Add(MakeShared<FJsonValueString>(GetNameSafe(M->GetMaterial())));
     O->SetArrayField(TEXT("materials"),Materials);
@@ -489,7 +512,7 @@ void ADinoPlayerController::WriteTelemetry()
     }
     O->SetArrayField(TEXT("ai"),AIs);
     TArray<TSharedPtr<FJsonValue>> Corpses,Plants;
-    for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("species"),It->Species);R->SetNumberField(TEXT("source"),It->SourceID);R->SetNumberField(TEXT("food"),It->Nutrition);R->SetNumberField(TEXT("maxFood"),It->MaximumNutrition);R->SetBoolField(TEXT("frozen"),!It->Body->IsComponentTickEnabled());R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Corpses.Add(MakeShared<FJsonValueObject>(R));}
+    for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("species"),It->Species);R->SetNumberField(TEXT("source"),It->SourceID);R->SetNumberField(TEXT("z"),It->GetActorLocation().Z);R->SetNumberField(TEXT("bodyZ"),It->Body->GetComponentLocation().Z);R->SetNumberField(TEXT("bodyRelativeZ"),It->Body->GetRelativeLocation().Z);R->SetNumberField(TEXT("ground"),ALostValleyWorld::HeightAt(It->GetActorLocation().X,It->GetActorLocation().Y));R->SetNumberField(TEXT("spineZ"),It->Body->GetSocketLocation(TEXT("spine")).Z);R->SetNumberField(TEXT("food"),It->Nutrition);R->SetNumberField(TEXT("maxFood"),It->MaximumNutrition);R->SetBoolField(TEXT("frozen"),!It->Body->IsComponentTickEnabled());R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Corpses.Add(MakeShared<FJsonValueObject>(R));}
     for(TActorIterator<AFoodPlant> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("food"),It->Nutrition);R->SetBoolField(TEXT("hidden"),It->IsHidden());R->SetBoolField(TEXT("outline"),It->Visual->bRenderCustomDepth);R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Plants.Add(MakeShared<FJsonValueObject>(R));}
     O->SetArrayField(TEXT("corpses"),Corpses);O->SetArrayField(TEXT("plants"),Plants);
     FString Out;auto W=TJsonWriterFactory<>::Create(&Out);FJsonSerializer::Serialize(O,W);

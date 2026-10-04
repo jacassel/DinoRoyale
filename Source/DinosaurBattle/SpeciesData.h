@@ -22,6 +22,7 @@ struct FSpeciesData
     float FedHealthRegen=1.5f,FedStaminaRegen=1.25f,HungryHealthRegen=.5f,HungryStaminaRegen=.65f,VeryHungryStaminaRegen=.4f;
     float FoodUnits=360,EatUnitsPerSecond=30,EatHungerRate=18;
     float SightRange=10000,NoiseRevealDuration=6;
+    float PivotRate=95;
     FLinearColor Color=FLinearColor(.27f,.35f,.19f);
     static const FSpeciesData& Get(int32 Species);
 };

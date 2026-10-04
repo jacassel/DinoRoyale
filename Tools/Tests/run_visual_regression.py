@@ -26,7 +26,7 @@ if '--resume' in sys.argv:
 expected_total=len(summary)+len(suites)
 for script,result,count in suites:
     t.command('menu',open=False)
-    for k in ['W','A','S','D','Q','E','LeftShift','SpaceBar','LeftMouseButton','RightMouseButton']:t.key(k,'up')
+    for k in ['W','A','S','D','LeftControl','F','LeftShift','SpaceBar','LeftMouseButton','RightMouseButton']:t.key(k,'up')
     t.command('species',value=0);t.command('match',teams=False);t.command('ai',paused=True);t.command('sandbox',enabled=True)
     t.command('invulnerable',value=False);t.command('removeTarget');t.command('clearTestFood')
     begun=time.time();print('START',script,flush=True)

@@ -47,6 +47,16 @@ public:
     bool CanSeeDinosaur(const ADinosaurCharacter* Other) const;
     bool MapPositionFor(const ADinosaurCharacter* Other,FVector& Position) const;
     bool bSprintRequested=false;
+    // Included in CharacterMovement saved moves; never drives the camera rotation.
+    int8 PivotInput=0;
+    UPROPERTY(Replicated) int8 PivotVisual=0;
+    bool bPivotLeftHeld=false,bPivotRightHeld=false;
+    void PivotLeftOn();
+    void PivotLeftOff();
+    void PivotRightOn();
+    void PivotRightOff();
+    void CancelPivot();
+    bool CanPivot() const;
     UPROPERTY(Replicated) bool bSprinting=false;
     void SprintOn(){bSprintRequested=true;}
     void SprintOff(){bSprintRequested=false;bSprinting=false;}

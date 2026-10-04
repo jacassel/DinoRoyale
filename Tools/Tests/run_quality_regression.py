@@ -19,7 +19,7 @@ if len(sys.argv)>1:
     if len(summary)!=start or not all(r['passed'] for r in summary):raise SystemExit('Earlier suites must pass before resuming')
 for script,result,count in suites[start:]:
     t.command('menu',open=False)
-    for k in ['W','A','S','D','Q','E','LeftShift','SpaceBar','LeftMouseButton','RightMouseButton']:t.key(k,'up')
+    for k in ['W','A','S','D','LeftControl','F','LeftShift','SpaceBar','LeftMouseButton','RightMouseButton']:t.key(k,'up')
     t.command('species',value=0);t.command('match',teams=False);t.command('ai',paused=True);t.command('sandbox',enabled=True);t.command('invulnerable',value=False);t.command('removeTarget');t.command('clearTestFood')
     begun=time.time();print('START',script,flush=True)
     with (OUT/(script+'.log')).open('w') as log:

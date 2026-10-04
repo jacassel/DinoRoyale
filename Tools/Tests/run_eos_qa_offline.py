@@ -3,7 +3,7 @@ import json, subprocess, sys
 import runtime_core as t
 
 t.command('menu',open=False)
-for key in ['W','A','S','D','Q','E','LeftShift','SpaceBar','LeftMouseButton','RightMouseButton']:
+for key in ['W','A','S','D','LeftControl','F','LeftShift','SpaceBar','LeftMouseButton','RightMouseButton']:
     t.key(key,'up')
 t.command('species',value=0)
 t.command('match',teams=False)

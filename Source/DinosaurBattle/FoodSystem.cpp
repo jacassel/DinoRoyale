@@ -59,7 +59,22 @@ void ADinosaurCarcass::Initialize(ADinosaurCharacter* Source)
     if(!HasAuthority())return;
     if(!Source){Destroy();return;}
     Species=Source->Species;SourceID=Source->CombatantID;Nutrition=MaximumNutrition=Source->Stats().FoodUnits;
-    SetActorTransform(Source->GetActorTransform());FVector P=GetActorLocation();P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+Source->Stats().HalfHeight;SetActorLocation(P);Body->SetCullDistance(14000);Body->SetForcedLOD(3);BodyTransform=Source->GetMesh()->GetRelativeTransform();Body->SetRelativeTransform(BodyTransform);
+    FVector Ground=Source->GetActorLocation();Ground.Z=ALostValleyWorld::HeightAt(Ground.X,Ground.Y);
+    FVector Normal=FVector::UpVector;float Surface=0;
+    const bool InWater=ALostValleyWorld::WaterAt(Ground.X,Ground.Y,Surface)&&Surface-Ground.Z>Source->Stats().HalfHeight*.5f;
+    if(InWater)Ground.Z=Surface-Source->Stats().HalfHeight*.35f;
+    else
+    {
+        // Use the real collision surface (including rocks), not just the analytic height field.
+        FHitResult Hit;FCollisionQueryParams Query(SCENE_QUERY_STAT(CarcassGround),false,Source);Query.AddIgnoredActor(this);
+        if(GetWorld()->LineTraceSingleByObjectType(Hit,Source->GetActorLocation()+FVector(0,0,100),Ground-FVector(0,0,1500),FCollisionObjectQueryParams(ECC_WorldStatic),Query))
+        {Ground=Hit.ImpactPoint;if(Hit.ImpactNormal.Z>.55f)Normal=Hit.ImpactNormal;}
+    }
+    const FRotator Rotation=FRotationMatrix::MakeFromZX(Normal,Source->GetActorForwardVector()).Rotator();
+    SetActorLocationAndRotation(Ground+Normal*Source->Stats().HalfHeight,Rotation);
+    // Never inherit a listen-server network-smoothing translation or rotation.
+    BodyTransform=FTransform(FRotator::ZeroRotator,FVector(0,0,-Source->Stats().HalfHeight));
+    Body->SetRelativeTransform(BodyTransform);Body->SetCullDistance(14000);Body->SetForcedLOD(3);
     Body->SetSkeletalMesh(Cast<USkeletalMesh>(Source->GetMesh()->GetSkinnedAsset()));
     for(int32 I=0;I<Source->GetMesh()->GetNumMaterials();++I)Body->SetMaterial(I,Source->GetMesh()->GetMaterial(I));
     const FString Name=Source->Stats().AssetName,A=Name+TEXT("_Death");
@@ -127,13 +142,19 @@ void AFoodPlant::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifeti
 void AFoodPlant::OnRep_Nutrition(){SetActorHiddenInGame(Nutrition<=0);if(Nutrition<=0)Visual->SetRenderCustomDepth(false);}
 void ADinosaurCarcass::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {Super::GetLifetimeReplicatedProps(OutLifetimeProps);DOREPLIFETIME(ADinosaurCarcass,Nutrition);DOREPLIFETIME(ADinosaurCarcass,MaximumNutrition);DOREPLIFETIME(ADinosaurCarcass,Species);DOREPLIFETIME(ADinosaurCarcass,SourceID);DOREPLIFETIME(ADinosaurCarcass,BodyTransform);}
+void ADinosaurCarcass::BeginPlay()
+{
+    Super::BeginPlay();
+    // RepNotify can run before component BeginPlay enables ticking.
+    if(!HasAuthority())OnRep_Carcass();
+}
 void ADinosaurCarcass::OnRep_Carcass()
 {
     const FString Name=FSpeciesData::Get(Species).AssetName,A=Name+TEXT("_Death");
     Body->SetRelativeTransform(BodyTransform);Body->SetCullDistance(14000);Body->SetForcedLOD(3);
     Body->SetSkeletalMesh(LoadObject<USkeletalMesh>(nullptr,*(TEXT("/Game/Dinosaurs/")+Name+TEXT("/")+Name+TEXT(".")+Name)));
     auto* Clip=LoadObject<UAnimSequence>(nullptr,*(TEXT("/Game/Dinosaurs/")+Name+TEXT("/")+A+TEXT(".")+A));
-    Body->SetAnimationMode(EAnimationMode::AnimationSingleNode);if(Clip){Body->PlayAnimation(Clip,false);Body->SetPosition(Clip->GetPlayLength(),false);}
+    Body->SetAnimationMode(EAnimationMode::AnimationSingleNode);if(Clip){Body->PlayAnimation(Clip,false);Body->SetPosition(Clip->GetPlayLength(),false);Body->TickAnimation(0,false);Body->RefreshBoneTransforms();}
     Body->SetComponentTickEnabled(false);
 }
 void UFoodInteractionComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

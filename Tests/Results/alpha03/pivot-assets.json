@@ -1,0 +1,50 @@
+[
+  {
+    "species": "Trex",
+    "clip": "Trex_PivotLeft",
+    "frames": 34,
+    "bones": 19,
+    "rootMotion": false,
+    "originalActionsRetained": true
+  },
+  {
+    "species": "Trex",
+    "clip": "Trex_PivotRight",
+    "frames": 34,
+    "bones": 19,
+    "rootMotion": false,
+    "originalActionsRetained": true
+  },
+  {
+    "species": "Raptor",
+    "clip": "Raptor_PivotLeft",
+    "frames": 22,
+    "bones": 19,
+    "rootMotion": false,
+    "originalActionsRetained": true
+  },
+  {
+    "species": "Raptor",
+    "clip": "Raptor_PivotRight",
+    "frames": 22,
+    "bones": 19,
+    "rootMotion": false,
+    "originalActionsRetained": true
+  },
+  {
+    "species": "Trike",
+    "clip": "Trike_PivotLeft",
+    "frames": 30,
+    "bones": 21,
+    "rootMotion": false,
+    "originalActionsRetained": true
+  },
+  {
+    "species": "Trike",
+    "clip": "Trike_PivotRight",
+    "frames": 30,
+    "bones": 21,
+    "rootMotion": false,
+    "originalActionsRetained": true
+  }
+]

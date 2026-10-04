@@ -29,6 +29,7 @@ const FSpeciesData& FSpeciesData::Get(int32 Species)
             READ(MaxHunger); READ(HungerDrain); READ(HungerSprintDrain); READ(StarvationRate);
             READ(FedHealthRegen); READ(FedStaminaRegen); READ(HungryHealthRegen); READ(HungryStaminaRegen); READ(VeryHungryStaminaRegen);
             READ(FoodUnits); READ(EatUnitsPerSecond); READ(EatHungerRate); READ(SightRange); READ(NoiseRevealDuration);
+            READ(PivotRate);
             #undef READ
             if(I==1) D.Color=FLinearColor(.15f,.32f,.34f);
             if(I==2) D.Color=FLinearColor(.40f,.22f,.13f);

@@ -85,8 +85,8 @@ try:
     check('server validates client sprint',sprint['sprinting'] and sprint['stamina']<before['stamina'],speed=sprint['speed'],stamina=sprint['stamina'])
     time.sleep(.8);a=client.state();client.key('SpaceBar');time.sleep(.3+args.lag/1000);b=client.state();client.key('SpaceBar','up')
     check('client jump',b['z']>a['z']+25,rise=b['z']-a['z'])
-    time.sleep(1.5);client.key('Q');time.sleep(.35+args.lag/500);a=client.state();b=client.hold('W',.5)
-    check('replicated brace stops movement',b['brace'] and distance(a,b)<15,distance=distance(a,b));client.key('Q','up')
+    time.sleep(1.5);client.key('LeftControl');time.sleep(.35+args.lag/500);a=client.state();b=client.hold('W',.5)
+    check('replicated brace stops movement',b['brace'] and distance(a,b)<15,distance=distance(a,b));client.key('LeftControl','up')
     # Host-authoritative fixture: two Rexes 450 cm apart, facing each other.
     host.command('teleport',x=0,y=0);host.command('face',yaw=0)
     host.command('testAI',id=1,species=0,x=450,y=0,yaw=180,health=1,enabled=False)

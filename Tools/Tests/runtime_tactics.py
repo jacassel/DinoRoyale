@@ -6,7 +6,7 @@ def check(n,ok,**data):
 def ai(i=1):return next(a for a in t.state()['ai'] if a['id']==i)
 def place(i,species,x,y=0,health=1,enabled=False,yaw=180):return t.command('testAI',id=i,species=species,x=x,y=y,health=health,enabled=enabled,yaw=yaw)
 def reset(player,foe,x,health=1):
-    for k in ['W','Q','RightMouseButton','LeftMouseButton']:t.key(k,'up')
+    for k in ['W','LeftControl','RightMouseButton','LeftMouseButton']:t.key(k,'up')
     t.command('species',value=player);t.command('match',teams=False);t.command('sandbox',enabled=True);t.command('ai',paused=True);t.command('invulnerable',value=False);t.command('teleport',x=0,y=0);t.command('face',yaw=0)
     for i in range(2,10):place(i,(i-1)//3,-24000+i*450,-23000)
     place(1,foe,x,health=health);time.sleep(.5)
@@ -41,7 +41,7 @@ samples=observe(3);check('AI releases guard and counterattacks',any(s['state'] i
 # a lone raptor. Six percent sets up the intended desperate, poor-escape condition.
 reset(1,2,300,health=.06);enable();samples=observe(1.2);b=ai();check('slow injured trike guards when escape is poor',any(s['state']=='Bracing' and s['fightConfidence']<.35 and s['escapeConfidence']<.38 for s in samples) and all(s['state']!='Retreating' for s in samples),fight=b['fightConfidence'],escape=b['escapeConfidence'])
 
-reset(2,1,500);place(4,1,1000,550);place(5,1,1000,-550);t.key('Q');enable();samples=observe(1.5);b=ai()
-check('supported raptor flanks a frontal guard',any(s['state']=='Flanking' for s in samples) and abs(b['y'])>100,y=b['y'],states=sorted({s['state'] for s in samples}));t.key('Q','up')
+reset(2,1,500);place(4,1,1000,550);place(5,1,1000,-550);t.key('LeftControl');enable();samples=observe(1.5);b=ai()
+check('supported raptor flanks a frontal guard',any(s['state']=='Flanking' for s in samples) and abs(b['y'])>100,y=b['y'],states=sorted({s['state'] for s in samples}));t.key('LeftControl','up')
 t.command('ai',paused=True);t.command('invulnerable',value=False);t.command('sandbox',enabled=False);t.command('match',teams=False)
 print('RESULT '+str(sum(r['passed'] for r in rows))+'/'+str(len(rows)),flush=True);sys.exit(any(not r['passed'] for r in rows))

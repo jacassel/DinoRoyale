@@ -19,10 +19,10 @@ try:
     # Empty finite carcass placed on server next to the remote Rex.
     host.command('testAI',id=1,species=0,x=500,y=0,yaw=0,health=.4,hunger=0,stamina=0,enabled=False)
     host.command('food',species=0);time.sleep(3.5)
-    before=client.state();food=next(c for c in host.state()['corpses'] if c['source']==-99);client.key('E');time.sleep(2);after=client.state()
+    before=client.state();food=next(c for c in host.state()['corpses'] if c['source']==-99);client.key('F');time.sleep(2);after=client.state()
     t.check('client eating restores authoritative health hunger stamina',after['eating'] and after['health']>before['health'] and after['hunger']>before['hunger']+10 and after['stamina']>before['stamina'])
     t.check('carcass quantity decreases and replicates',wait_for(lambda:next(c for c in client.state()['corpses'] if c['source']==-99)['food']<food['food']-10))
-    before=client.state();client.hold('W',.5);client.key('E','up')
+    before=client.state();client.hold('W',.5);client.key('F','up')
     t.check('movement cancels server feeding',wait_for(lambda:not client.state()['eating']) and distance(before,client.state())>80)
     # Network swimming uses server fixture positions, normal client controls.
     for species in (0,1,2):
@@ -30,8 +30,8 @@ try:
         t.check(f'species {species} swimming reaches client',client.state()['swimming'] and host.actor(1)['species']==species)
         before=client.state();after=client.hold('W',.7)
         t.check(f'species {species} client swim movement',after['swimming'] and distance(before,after)>100 and wait_for(lambda:distance(host.actor(1),client.state())<150))
-        client.key('Q');t.check(f'species {species} brace replicates in water',wait_for(lambda:client.state()['brace']))
-        before=client.state();after=client.hold('W',.4);client.key('Q','up')
+        client.key('LeftControl');t.check(f'species {species} brace replicates in water',wait_for(lambda:client.state()['brace']))
+        before=client.state();after=client.hold('W',.4);client.key('LeftControl','up')
         t.check(f'species {species} brace stops swimming',distance(before,after)<5)
         time.sleep(.2);before=client.state();client.key('SpaceBar');time.sleep(.25);after=client.state();client.key('SpaceBar','up')
         t.check(f'species {species} client surface jump',after['z']>before['z']+20,rise=after['z']-before['z'])
@@ -39,7 +39,7 @@ try:
     host.command('teleport',x=0,y=0);host.command('face',yaw=0);host.command('food')
     host.command('testAI',id=1,species=2,x=500,y=0,yaw=0,health=.3,hunger=0,stamina=0,enabled=False);time.sleep(3.5)
     plant=min(host.state()['plants'],key=lambda p:distance(p,host.state()))
-    client.key('E');time.sleep(6);client.key('E','up')
+    client.key('F');time.sleep(6);client.key('F','up')
     t.check('client depletes plant on server and both hide it',wait_for(lambda:any(p['food']==0 and p['hidden'] and abs(p['x']-plant['x'])<1 and abs(p['y']-plant['y'])<1 for p in client.state()['plants'])))
     client.quit();host.quit()
 finally:t.close()

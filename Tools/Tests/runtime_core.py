@@ -59,11 +59,11 @@ def run_species(i,name):
     a=state();key('SpaceBar');time.sleep(.22);b=state();key('SpaceBar','up')
     check(name+' jump',b['falling'] and b['z']>a['z']+25,rise=round(b['z']-a['z'],1))
     time.sleep(1.3)
-    key('Q');a=state();key('W');time.sleep(.7);b=state();key('W','up')
+    key('LeftControl');a=state();key('W');time.sleep(.7);b=state();key('W','up')
     check(name+' brace blocks movement',b['brace'] and dist(a,b)<2,distance=round(dist(a,b),3))
     key('LeftMouseButton');key('LeftMouseButton','up');time.sleep(.2)
     check(name+' brace blocks attack',state()['recovery']==0)
-    key('Q','up');a=state();b=hold('W',.5)
+    key('LeftControl','up');a=state();b=hold('W',.5)
     check(name+' release restores movement',not b['brace'] and dist(a,b)>80)
     command('face',yaw=0);command('target');time.sleep(.6)
     a=state();key('LeftMouseButton');key('LeftMouseButton','up');time.sleep(.35);b=state()
@@ -107,7 +107,7 @@ if __name__=='__main__':
     try:
         for i,n in enumerate(['Trex','Raptor','Trike']):run_species(i,n)
     finally:
-        for k in ['W','A','S','D','Q','SpaceBar','RightMouseButton','LeftMouseButton']:
+        for k in ['W','A','S','D','LeftControl','SpaceBar','RightMouseButton','LeftMouseButton']:
             try:key(k,'up')
             except Exception:pass
     failed=sum(not r['passed'] for r in results)

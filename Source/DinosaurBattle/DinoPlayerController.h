@@ -50,6 +50,8 @@ public:
     void SensitivityDown();
     void ToggleSettings();
     void ToggleBlood();
+    void ToggleNameTags();
+    bool bShowNameTags=true;
     void ToggleMatchMode();
     bool bSettingsOpen=false,bBloodEnabled=false;
     UFUNCTION(Exec) void DinoSpecies(int32 Index);
