@@ -91,17 +91,6 @@ void ADinosaurCharacter::Tick(float Dt)
     if(bDead){DeathTime+=Dt;if(HasAuthority()&&RespawnDelay>0&&DeathTime>(bMajor?RespawnDelay:45))ResetLife();return;}
     if(GetLocalRole()==ROLE_SimulatedProxy)return;
     auto* M=GetCharacterMovement();
-    FVector Feet=GetActorLocation()-FVector(0,0,Stats().HalfHeight);
-    const bool OverWater=ALostValleyWorld::WaterAt(Feet.X,Feet.Y,WaterSurface);
-    const float Depth=OverWater?WaterSurface-ALostValleyWorld::HeightAt(Feet.X,Feet.Y):0;
-    bInWater=OverWater&&Feet.Z<WaterSurface+15;
-    // Leave swimming before the buoyant capsule's lower/front surface grounds on a bank.
-    // Wider animals need extra shore clearance; retain hysteresis to avoid mode oscillation.
-    const float ShoreDepth=Stats().HalfHeight*1.30f+Stats().Radius*.25f;
-    const bool ShouldSwim=bInWater&&Depth>(bSwimming?ShoreDepth:ShoreDepth+Stats().HalfHeight*.15f)&&GetActorLocation().Z<WaterSurface+Stats().HalfHeight*.50f&&M->Velocity.Z<100;
-    if(ShouldSwim&&!bSwimming){bSwimming=true;M->SetMovementMode(MOVE_Custom);}
-    else if(bSwimming&&(!OverWater||Depth<ShoreDepth)){bSwimming=false;M->SetMovementMode(MOVE_Falling);}
-    M->MaxSwimSpeed=Stats().Speed*SwimSpeedMultiplier*Health->MovementFactor()*(Combat->bCharging?.7f:1.f);
     bSprinting=bSprintRequested&&!Stamina->bExhausted&&Stamina->Current>0&&!bInWater&&!Combat->bBracing&&!Combat->bCharging&&!Combat->IsBusy()&&!Food->bEating&&!M->IsFalling()&&GetVelocity().Size2D()>50;
     if(HasAuthority()&&bSprinting)RevealNoise();
     const float Commit=Combat->IsBusy()&&Combat->bChargedAttack?Stats().HeavyMoveFactor:1.f;

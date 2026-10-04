@@ -1,0 +1,42 @@
+[
+  {
+    "mesh": "SM_ConiferCanopy",
+    "lods": 1,
+    "vertices": [
+      97200
+    ],
+    "materials": 2
+  },
+  {
+    "mesh": "SM_ConiferTrunk",
+    "lods": 1,
+    "vertices": [
+      1790
+    ],
+    "materials": 1
+  },
+  {
+    "mesh": "SM_Grass",
+    "lods": 1,
+    "vertices": [
+      620
+    ],
+    "materials": 2
+  },
+  {
+    "mesh": "SM_Fern",
+    "lods": 1,
+    "vertices": [
+      4471
+    ],
+    "materials": 1
+  },
+  {
+    "mesh": "SM_Boulder",
+    "lods": 1,
+    "vertices": [
+      364
+    ],
+    "materials": 1
+  }
+]

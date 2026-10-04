@@ -147,7 +147,7 @@ void UDinoOnlineSession::OnLogin(int32,bool Success,const FUniqueNetId&,const FS
     if(Success)if(auto* Player=GetGameInstance()->GetLocalPlayerByIndex(0))Player->SetCachedUniqueNetId(FUniqueNetIdRepl(Identity->GetUniquePlayerId(0)));
     Status=Success?TEXT("Signed in as ")+Identity->GetPlayerNickname(0):TEXT("Epic sign-in failed or was cancelled. Check access to this EOS product.");
 }
-void UDinoOnlineSession::Host(bool Teams,int32 Capacity,bool Bots,bool Public)
+void UDinoOnlineSession::Host(bool Teams,int32 Capacity,bool Bots,bool Public,bool PerformanceMap)
 {
     if(bBusy||!EnsureProvider())return;
     if(!IsSignedIn()){Status=TEXT("Sign in before hosting.");return;}
@@ -165,6 +165,7 @@ void UDinoOnlineSession::Host(bool Teams,int32 Capacity,bool Bots,bool Public)
     S.Set(BotsKey,Bots,EOnlineDataAdvertisementType::ViaOnlineService);
     S.Set(NameKey,Identity->GetPlayerNickname(0).Left(48)+TEXT("'s match"),EOnlineDataAdvertisementType::ViaOnlineService);
     PendingOptions=FString::Printf(TEXT("listen?OnlineLobby=1?Capacity=%d?Teams=%d?Bots=%d?DinoBuild=%d"),Capacity,Teams?1:0,Bots?1:0,BuildVersion);
+    PendingOptions+=FString::Printf(TEXT("?PerformanceMap=%d"),PerformanceMap?1:0);
     BeginOperation(EOperation::Create,TEXT("Creating EOS lobby..."));
     UE_LOG(LogDinoOnline,Display,TEXT("[DINO_EOS] CreateSession request name=GameSession lan=%d presence=%d lobby=%d advertise=%d public=%d private=%d joinInProgress=%d invites=%d listenOption=1"),S.bIsLANMatch,S.bUsesPresence,S.bUseLobbiesIfAvailable,S.bShouldAdvertise,S.NumPublicConnections,S.NumPrivateConnections,S.bAllowJoinInProgress,S.bAllowInvites);
     DinoOnlineDiagnostics::Identity(Identity,TEXT("CreateSession-request"));

@@ -45,7 +45,14 @@ void ADinoPlayerController::OnlineClick(float X,float Y)
             if(At(.36f,.71f,.12f,.065f)){ServerLobbyAction(4,GS->MaxParticipants-1);return;}
             if(At(.49f,.71f,.12f,.065f)){ServerLobbyAction(4,GS->MaxParticipants+1);return;}
             if(At(.65f,.71f,.25f,.065f)){ServerLobbyAction(5,!GS->bFillBots);return;}
+            if(At(.08f,.79f,.25f,.065f)){ServerLobbyAction(9,!GS->bPerformanceMap);return;}
+            if(At(.36f,.79f,.25f,.065f)){ServerLobbyAction(12,0);return;}
             if(At(.65f,.79f,.25f,.065f)){ServerLobbyAction(6,0);return;}
+            for(int32 ID=0;ID<GS->MaxParticipants;++ID)
+            {
+                if(At(.66f,.39f+ID*.028f,.12f,.027f)){ServerLobbyAction(11,ID);return;}
+                if(At(.80f,.39f+ID*.028f,.10f,.027f)){ServerLobbyAction(10,ID);return;}
+            }
         }
         else
         {
@@ -67,8 +74,9 @@ void ADinoPlayerController::OnlineClick(float X,float Y)
         if(At(.2f,.39f,.28f,.07f))HostCapacity=FMath::Max(2,HostCapacity-1);
         if(At(.52f,.39f,.28f,.07f))HostCapacity=FMath::Min(10,HostCapacity+1);
         if(At(.2f,.50f,.6f,.07f))bHostBots=!bHostBots;
-        if(At(.2f,.61f,.6f,.07f))bHostPublic=!bHostPublic;
-        if(At(.2f,.73f,.6f,.07f))Online->Host(bHostTeams,HostCapacity,bHostBots,bHostPublic);
+        if(At(.2f,.59f,.6f,.055f))bHostPublic=!bHostPublic;
+        if(At(.2f,.655f,.6f,.055f))bHostPerformance=!bHostPerformance;
+        if(At(.2f,.73f,.6f,.07f))Online->Host(bHostTeams,HostCapacity,bHostBots,bHostPublic,bHostPerformance);
     }
     else if(OnlinePage==3)
     {
@@ -106,18 +114,32 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
             Button(PS->bReady?TEXT("READY / UNREADY"):TEXT("MARK READY"),.65f,.26f);
             Label(TEXT("PLAYER"),.08f,.35f,.78f,MenuGold);Label(TEXT("DINOSAUR"),.40f,.35f,.78f,MenuGold);
             Label(TEXT("TEAM"),.69f,.35f,.78f,MenuGold);Label(TEXT("READY"),.80f,.35f,.78f,MenuGold);
-            float Y=.39f;
-            for(auto P:GS->PlayerArray)if(auto* Other=Cast<ADinoPlayerState>(P))
+            for(int32 ID=0;ID<GS->MaxParticipants;++ID)
             {
-                Label((Other->bHost?TEXT("HOST  "):TEXT(""))+Other->GetPlayerName().Left(24),.08f,Y,.78f,Other==PS?MenuTeal:MenuMuted);
-                Label(FSpeciesData::Get(Other->SelectedSpecies).Name,.40f,Y,.78f);
-                Label(GS->bTeamMatch?FString::FromInt(Other->TeamID+1):TEXT("--"),.69f,Y,.78f);
-                Label(Other->bHost?TEXT("HOST"):Other->bReady?TEXT("YES"):TEXT("WAIT"),.80f,Y,.78f);Y+=.028f;
+                const float RowY=.39f+ID*.028f;
+                ADinoPlayerState* Human=nullptr;for(auto P:GS->PlayerArray)if(auto* Other=Cast<ADinoPlayerState>(P))if(Other->CombatantID==ID){Human=Other;break;}
+                if(Human)
+                {
+                    Label((Human->bHost?TEXT("HOST  "):TEXT(""))+Human->GetPlayerName().Left(24),.08f,RowY,.75f,Human==PS?MenuTeal:MenuMuted);
+                    Label(FSpeciesData::Get(Human->SelectedSpecies).Name,.40f,RowY,.75f);
+                    Label(GS->bTeamMatch?(Human->TeamID==0?TEXT("A"):TEXT("B")):TEXT("--"),.69f,RowY,.75f);
+                    Label(Human->bHost?TEXT("HOST"):Human->bReady?TEXT("YES"):TEXT("WAIT"),.80f,RowY,.75f);
+                }
+                else
+                {
+                    const int32 Team=GS->BotSlotTeams.IsValidIndex(ID)?GS->BotSlotTeams[ID]:-1;
+                    const bool Enabled=GS->bFillBots&&Team>=0;
+                    Label((Enabled?FString::Printf(TEXT("AI SLOT %d"),ID+1):FString::Printf(TEXT("SLOT %d / EMPTY"),ID+1)),.08f,RowY,.75f,Enabled?MenuTeal:MenuMuted);
+                    Label(Enabled?FSpeciesData::Get(ID%3).Name:TEXT("--"),.40f,RowY,.75f);
+                    Label(GS->bTeamMatch?(Team==1?TEXT("[ B ]"):TEXT("[ A ]")):TEXT("--"),.69f,RowY,.75f,PS->bHost?MenuTeal:MenuMuted);
+                    Label(Enabled?TEXT("[ ON ]"):TEXT("[ OFF ]"),.80f,RowY,.75f,PS->bHost?MenuTeal:MenuMuted);
+                }
             }
             Button(TEXT("MODE / CHANGE"),.08f,.71f,.25f,.065f,PS->bHost);
             Button(TEXT("SLOTS -"),.36f,.71f,.12f,.065f,PS->bHost);Button(TEXT("SLOTS +"),.49f,.71f,.12f,.065f,PS->bHost);
             Button(GS->bFillBots?TEXT("BOTS ON / CHANGE"):TEXT("BOTS OFF / CHANGE"),.65f,.71f,.25f,.065f,PS->bHost);
-            Label(PC->LobbyStatus.IsEmpty()?TEXT("The host starts when guests are ready."):PC->LobbyStatus,.08f,.81f,.8f,MenuGold);
+            Button(GS->bPerformanceMap?TEXT("MAP: PERFORMANCE"):TEXT("MAP: STANDARD"),.08f,.79f,.25f,.065f,PS->bHost);
+            Button(TEXT("5v5 BOT PRESET"),.36f,.79f,.25f,.065f,PS->bHost);
             Button(TEXT("START MATCH"),.65f,.79f,.25f,.065f,PS->bHost);
         }
         else
@@ -138,7 +160,7 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
             Button(GS->bRoundOver?TEXT("REMATCH"):TEXT("RESUME"),.36f,.76f,.25f,.065f,!GS->bRoundOver||PS->bHost);
             Label(PC->LobbyStatus,.08f,.84f,.78f,MenuGold);
         }
-        if(Online)Label(Online->Status,.08f,.96f,.65f,MenuMuted);
+        if(Online)Label(PC->LobbyStatus.IsEmpty()?Online->Status:PC->LobbyStatus,.08f,.96f,.65f,MenuMuted);
         Button(TEXT("LEAVE MATCH"),.08f,.88f);Button(TEXT("INVITE FRIENDS"),.36f,.88f);Button(TEXT("LOCAL SETTINGS / F2"),.65f,.88f);return;
     }
     const int32 Page=PC->OnlinePage;
@@ -153,7 +175,8 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
         Button(PC->bHostTeams?TEXT("MODE: TEAM BATTLE"):TEXT("MODE: FREE-FOR-ALL"),.2f,.28f,.6f,.07f);
         Button(FString::Printf(TEXT("PARTICIPANTS: %d    -"),PC->HostCapacity),.2f,.39f,.28f,.07f);Button(TEXT("+    PARTICIPANTS"),.52f,.39f,.28f,.07f);
         Button(PC->bHostBots?TEXT("FILL EMPTY SLOTS WITH BOTS: ON"):TEXT("FILL EMPTY SLOTS WITH BOTS: OFF"),.2f,.50f,.6f,.07f);
-        Button(PC->bHostPublic?TEXT("VISIBILITY: PUBLIC / SEARCHABLE"):TEXT("VISIBILITY: INVITE ONLY"),.2f,.61f,.6f,.07f);
+        Button(PC->bHostPublic?TEXT("VISIBILITY: PUBLIC / SEARCHABLE"):TEXT("VISIBILITY: INVITE ONLY"),.2f,.59f,.6f,.055f);
+        Button(PC->bHostPerformance?TEXT("MAP: SUNGRASS PLAINS - PERFORMANCE"):TEXT("MAP: SUNGRASS PLAINS - STANDARD"),.2f,.655f,.6f,.055f);
         Button(TEXT("CREATE LOBBY"),.2f,.73f,.6f,.07f,Online&&!Online->bBusy);
     }
     else if(Page==3&&Online)

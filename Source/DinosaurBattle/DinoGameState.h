@@ -35,6 +35,10 @@ public:
     UPROPERTY(Replicated) bool bLobby=false;
     UPROPERTY(Replicated) bool bFillBots=false;
     UPROPERTY(Replicated) int32 MaxParticipants=10;
+    UPROPERTY(ReplicatedUsing=OnRep_MapVariant) bool bPerformanceMap=false;
+    UPROPERTY(Replicated) bool bCustomBotSlots=false;
+    UPROPERTY(Replicated) TArray<int32> BotSlotTeams;
+    UFUNCTION() void OnRep_MapVariant();
     UPROPERTY(Replicated) int32 SoloKillGoal=5;
     UPROPERTY(Replicated) int32 TeamKillGoal=10;
     UPROPERTY(Replicated) TArray<int32> TeamKills={0,0};

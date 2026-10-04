@@ -40,6 +40,8 @@ void ADinoGameMode::BeginPlay()
     GConfig->GetFloat(TEXT("Dino.Match"),TEXT("AssistWindow"),AssistWindow,GGameIni);
     GConfig->GetBool(TEXT("Dino.Match"),TEXT("SharePackKills"),bSharePackKills,GGameIni);
     ALostValleyWorld::EnsureLocalScene(GetWorld());
+    if(GetNetMode()==NM_Standalone)GConfig->GetBool(TEXT("Dino.UserSettings"),TEXT("PerformanceMap"),bPerformanceMap,GGameIni);
+    SetMapVariant(bPerformanceMap);
     ALostValleyWorld* Valley=nullptr;for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
     auto SpawnDino=[&](int32 Species,FVector P,int32 ID,bool Major)
     {
@@ -62,9 +64,8 @@ void ADinoGameMode::BeginPlay()
         if(P.Size2D()<2700)P.X+=4000;
         SpawnDino(3,P,100+I,false);
     }
-    for(const FVector& P:Valley->FeedingSpots)for(int32 I=0;I<4;++I)
+    for(const FVector& Spot:Valley->FoodSpawnPoints)
     {
-        FVector Spot=Valley->NearestWalkable(P+FVector(I%2*750,I/2*750,0));
         GetWorld()->SpawnActor<AFoodPlant>(Spot,FRotator(0,Random.FRandRange(0,360),0));
     }
     auto* PC=GetWorld()->GetFirstPlayerController();if(PC)

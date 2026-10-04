@@ -55,9 +55,11 @@ ALostValleyWorld::ALostValleyWorld()
     {
         C->SetupAttachment(RootComponent);C->SetCanEverAffectNavigation(false);C->SetCollisionObjectType(ECC_WorldStatic);
         C->SetCollisionEnabled((C==Trunks||C==Rocks)?ECollisionEnabled::QueryAndPhysics:ECollisionEnabled::NoCollision);
-        C->SetCullDistances(0,(C==Grass)?8000:(C==Ferns)?14000:140000);
+        C->SetCullDistances(0,(C==Grass)?4500:(C==Ferns)?8000:(C==Canopies||C==Trunks)?32000:60000);
+        C->SetMobility(EComponentMobility::Static);C->SetComponentTickEnabled(false);
     }
     Grass->SetCastShadow(false);Ferns->SetCastShadow(false);
+    Canopies->bAffectDistanceFieldLighting=false;
     for(int32 I=0;I<4;++I)
     {
         auto* Wall=CreateDefaultSubobject<UBoxComponent>(*FString::Printf(TEXT("Boundary%d"),I));Wall->SetupAttachment(RootComponent);
@@ -118,6 +120,11 @@ FString ALostValleyWorld::RegionName(const FVector& P)
 TArray<FVector> ALostValleyWorld::Landmarks(){return {FVector(0,0,0),FVector(-12500,8500,0),FVector(11500,9500,0),FVector(2500,-5750,0),FVector(-7500,-11500,0),FVector(13500,-2500,0),FVector(3000,4500,0)};}
 void ALostValleyWorld::OnConstruction(const FTransform& T){Super::OnConstruction(T);Generate();}
 void ALostValleyWorld::BeginPlay(){Super::BeginPlay();if(Obstacles.IsEmpty())Generate();BuildGrid();}
+void ALostValleyWorld::SetPerformanceMap(bool Enabled)
+{
+    if(bPerformanceMap==Enabled)return;
+    bPerformanceMap=Enabled;Generate();BuildGrid();
+}
 void ALostValleyWorld::Generate()
 {
     Obstacles.Empty();FeedingSpots.Empty();for(auto* C:{Trunks,Canopies,Rocks,Ferns,Grass,BankStones})C->ClearInstances();
@@ -180,7 +187,7 @@ void ALostValleyWorld::Generate()
         float Scale=R.FRandRange(.8f,1.55f),Yaw=R.FRandRange(0,360);
         FVector P=GroundPoint(X,Y,-10);Trunks->AddInstance(FTransform(FRotator(0,Yaw,0),P,FVector(Scale)));
         Canopies->AddInstance(FTransform(FRotator(0,Yaw,0),P,FVector(Scale)));
-        Obstacles.Add({FVector2D(X,Y),90*Scale});
+        Obstacles.Add({FVector2D(X,Y),90*Scale,true});
     }
     for(int32 K=0;K<65;++K)
     {
@@ -210,7 +217,7 @@ void ALostValleyWorld::Generate()
         const FVector S(Scale,Scale,Scale*Woodland.FRandRange(.86f,1.18f));
         Trunks->AddInstance(FTransform(FRotator(0,Yaw,0),P,S));
         Canopies->AddInstance(FTransform(FRotator(0,Yaw,0),P,S));
-        Obstacles.Add({FVector2D(X,Y),90*Scale});
+        Obstacles.Add({FVector2D(X,Y),90*Scale,true});
     }
     for(int32 K=0;K<1100;++K)
     {
@@ -222,7 +229,7 @@ void ALostValleyWorld::Generate()
     }
     // Visual-only dressing has an independent stream: gameplay obstacles/food stay identical.
     FRandomStream Dressing(20260920);
-    for(int32 K=0;K<160000;++K)
+    for(int32 K=0;K<(bPerformanceMap?0:80000);++K)
     {
         const float X=Dressing.FRandRange(-27750,27750),Y=Dressing.FRandRange(-27750,27750);
         if(PondRadius(X,Y)<1.035f||FMath::Abs(Y-CreekY(X))<430||!IsWalkable(FVector(X,Y,0),90))continue;
@@ -242,6 +249,14 @@ void ALostValleyWorld::Generate()
     }
     for(FVector P:{FVector(-7500,-11500,0),FVector(-9500,-10500,0),FVector(-6000,-13000,0),FVector(4000,-3500,0),FVector(6000,-3000,0),FVector(-1750,1250,0),FVector(2000,2250,0),FVector(-13500,7000,0),FVector(13500,8000,0)})
         FeedingSpots.Add(NearestWalkable(P));
+    FoodSpawnPoints.Reset();for(const FVector& P:FeedingSpots)for(int32 PlantIndex=0;PlantIndex<4;++PlantIndex)FoodSpawnPoints.Add(NearestWalkable(P+FVector(PlantIndex%2*750,PlantIndex/2*750,0)));
+    if(bPerformanceMap)
+    {
+        // The exact seeded terrain, rocks, water and feeding locations are retained.
+        // Remove tree collision and matching navigation obstacles together.
+        for(auto* Foliage:{Trunks,Canopies,Ferns,Grass})Foliage->ClearInstances();
+        Obstacles.RemoveAll([](const FValleyObstacle& O){return O.bTree;});
+    }
 }
 bool ALostValleyWorld::IsWalkable(const FVector& P,float Radius) const
 {
@@ -355,7 +370,7 @@ void ALostValleyWorld::EnsureLocalScene(UWorld* World)
     auto* Sun=World->SpawnActor<ADirectionalLight>(FVector(0,0,8000),FRotator(-32,-38,0));
     auto* Light=Cast<UDirectionalLightComponent>(Sun->GetLightComponent());
     Light->SetMobility(EComponentMobility::Movable);Light->SetIntensity(3.6f);Light->SetLightColor(FLinearColor(1,.94f,.84f));
-    Light->SetAtmosphereSunLight(true);Light->DynamicShadowDistanceMovableLight=26000;Light->DynamicShadowCascades=4;
+    Light->SetAtmosphereSunLight(true);Light->DynamicShadowDistanceMovableLight=18000;Light->DynamicShadowCascades=3;
     Light->SetLightSourceAngle(1.25f);Light->ContactShadowLength=.035f;Light->ShadowSharpen=0;
     World->SpawnActor<ASkyAtmosphere>();
     auto* Sky=World->SpawnActor<ASkyLight>();Sky->GetLightComponent()->SetMobility(EComponentMobility::Movable);

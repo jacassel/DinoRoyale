@@ -23,6 +23,9 @@ public:
     bool bTeamMatch=false,bRoundOver=false,bIgnoreWinCondition=false,bSharePackKills=true;
     bool bOnlineMatch=false,bLobby=false,bFillBots=false;
     int32 MaxParticipants=10;
+    bool bPerformanceMap=false,bCustomBotSlots=false;
+    TArray<int32> BotSlotTeams={0,0,0,0,0,1,1,1,1,1}; // -1 empty, 0 Team A, 1 Team B
+    void SetMapVariant(bool Performance);
     void LobbyAction(class ADinoPlayerController* PC,uint8 Action,int32 Value);
     void StartNetworkRound();
     void ReturnToLobby();

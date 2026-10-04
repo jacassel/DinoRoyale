@@ -7,7 +7,7 @@ def delta(a,b):return (b-a+180)%360-180
 def settle():time.sleep(.6+a.lag/500)
 try:
     h=Peer(t,'PivotHost',host_url(3,bots=True));c=Peer(t,'PivotClient')
-    c.lobby(2,1);h.lobby(6);h.command('ai',paused=True);h.command('sandbox',enabled=True)
+    c.lobby(2,1);assert wait_for(lambda:h.player(1)['ready']);h.lobby(6);assert wait_for(lambda:not c.state()['lobby']);h.command('ai',paused=True);h.command('sandbox',enabled=True)
     for sp in range(3):
         h.command('testAI',id=1,species=sp,x=1000,y=0,yaw=0,health=1,enabled=False)
         h.command('testAI',id=2,species=sp,x=3500,y=0,yaw=180,health=1,enabled=False)

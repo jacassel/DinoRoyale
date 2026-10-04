@@ -4,7 +4,7 @@ from net_harness import NetworkTest,Peer,host_url,wait_for,distance
 p=argparse.ArgumentParser();p.add_argument('--output',default='Tests/Results/alpha03/water');p.add_argument('--executable');p.add_argument('--lag',type=int,default=0);a=p.parse_args()
 t=NetworkTest(a.output,executable=a.executable,lag=a.lag);samples=[]
 try:
-    h=Peer(t,'WaterHost',host_url(2));c=Peer(t,'WaterClient');c.lobby(2,1);h.lobby(6);h.command('ai',paused=True);h.command('sandbox',enabled=True)
+    h=Peer(t,'WaterHost',host_url(2));c=Peer(t,'WaterClient');c.lobby(2,1);assert wait_for(lambda:h.player(1)['ready']);h.lobby(6);assert wait_for(lambda:not c.state()['lobby']);h.command('ai',paused=True);h.command('sandbox',enabled=True)
     for sp in range(3):
         for angle in range(0,360,45):
             rad=math.radians(angle);dx,dy=math.cos(rad),math.sin(rad)

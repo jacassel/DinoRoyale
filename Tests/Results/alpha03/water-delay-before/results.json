@@ -1,0 +1,14 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 75,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "0 pond center swimming 0",
+      "status": "FAIL"
+    }
+  ]
+}

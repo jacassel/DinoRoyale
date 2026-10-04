@@ -54,6 +54,25 @@ float UDinoMovementComponent::GetMaxSpeed() const
     }
     return MovementMode==MOVE_Custom?MaxSwimSpeed:Super::GetMaxSpeed();
 }
+void UDinoMovementComponent::UpdateCharacterStateBeforeMovement(float Dt)
+{
+    Super::UpdateCharacterStateBeforeMovement(Dt);
+    auto* D=Cast<ADinosaurCharacter>(CharacterOwner);
+    if(!D||D->bDead||MovementMode==MOVE_None)return;
+    // Recompute inside each predicted/server move, including correction replays.
+    // A replicated presentation flag cannot be the source of truth for movement mode.
+    const FVector Feet=D->GetActorLocation()-FVector(0,0,D->Stats().HalfHeight);
+    const bool OverWater=ALostValleyWorld::WaterAt(Feet.X,Feet.Y,D->WaterSurface);
+    const float Depth=OverWater?D->WaterSurface-ALostValleyWorld::HeightAt(Feet.X,Feet.Y):0;
+    D->bInWater=OverWater&&Feet.Z<D->WaterSurface+15;
+    const float ShoreDepth=D->Stats().HalfHeight*1.30f+D->Stats().Radius*.25f;
+    const bool WasSwimming=MovementMode==MOVE_Custom;
+    const bool Enter=D->bInWater&&Depth>ShoreDepth+D->Stats().HalfHeight*.15f&&D->GetActorLocation().Z<D->WaterSurface+D->Stats().HalfHeight*.50f&&Velocity.Z<100;
+    if(WasSwimming&&(!OverWater||Depth<ShoreDepth))SetMovementMode(MOVE_Falling);
+    else if(!WasSwimming&&Enter)SetMovementMode(MOVE_Custom);
+    D->bSwimming=MovementMode==MOVE_Custom;
+    MaxSwimSpeed=D->Stats().Speed*D->SwimSpeedMultiplier*D->Health->MovementFactor()*(D->Combat->bCharging?.7f:1.f);
+}
 void UDinoMovementComponent::PhysicsRotation(float Dt)
 {
     auto* D=Cast<ADinosaurCharacter>(CharacterOwner);
@@ -75,7 +94,7 @@ void UDinoMovementComponent::PhysicsRotation(float Dt)
 void UDinoMovementComponent::PhysCustom(float Dt,int32 Iterations)
 {
     auto* D=Cast<ADinosaurCharacter>(CharacterOwner);
-    if(!D||!D->bSwimming||Dt<MIN_TICK_TIME){Super::PhysCustom(Dt,Iterations);return;}
+    if(!D||D->bDead||Dt<MIN_TICK_TIME){Super::PhysCustom(Dt,Iterations);return;}
     if(D->Combat->bBracing){Velocity=FVector::ZeroVector;return;}
     Acceleration.Z=0;Velocity.Z=0;
     CalcVelocity(Dt,2.5f,false,1200.f);

@@ -8,6 +8,7 @@
 #include "LostValleyWorld.h"
 #include "EngineUtils.h"
 #include "Kismet/GameplayStatics.h"
+#include "Misc/ConfigCacheIni.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/GameSession.h"
 
@@ -16,6 +17,7 @@ void ADinoGameMode::InitGame(const FString& Map,const FString& Options,FString& 
     Super::InitGame(Map,Options,Error);
     bOnlineMatch=UGameplayStatics::HasOption(Options,TEXT("OnlineLobby"));
     bLobby=bOnlineMatch;
+    bPerformanceMap=UGameplayStatics::GetIntOption(Options,TEXT("PerformanceMap"),0)!=0;
     MaxParticipants=FMath::Clamp(UGameplayStatics::GetIntOption(Options,TEXT("Capacity"),10),2,10);
     if(GameSession){GameSession->MaxPlayers=MaxParticipants;GameSession->MaxSpectators=0;}
     if(bOnlineMatch)
@@ -73,6 +75,20 @@ void ADinoGameMode::LobbyAction(ADinoPlayerController* PC,uint8 Action,int32 Val
         if(Value<2||Value>10||Value<GetNumPlayers()){PC->ClientLobbyMessage(TEXT("Capacity must fit connected players (2 to 10)."));return;}
         MaxParticipants=Value;break;
     case 5:bFillBots=Value!=0;break;
+    case 9:SetMapVariant(Value!=0);break;
+    case 10:
+    case 11:
+        if(Value<0||Value>=MaxParticipants)return;
+        for(auto P:GetGameState<ADinoGameState>()->PlayerArray)if(auto* Human=Cast<ADinoPlayerState>(P))if(Human->CombatantID==Value)return;
+        if(!bFillBots)for(int32& Team:BotSlotTeams)Team=-1;
+        bCustomBotSlots=true;bFillBots=true;
+        if(Action==10)BotSlotTeams[Value]=BotSlotTeams[Value]<0?0:-1;
+        else if(bTeamMatch)BotSlotTeams[Value]=BotSlotTeams[Value]==0?1:0;
+        break;
+    case 12:
+        bCustomBotSlots=false;bFillBots=true;MaxParticipants=10;bTeamMatch=true;
+        for(auto P:GetGameState<ADinoGameState>()->PlayerArray)if(auto* Human=Cast<ADinoPlayerState>(P))if(Human->TeamID<0)Human->TeamID=ChooseTeam(Human->CombatantID);
+        break;
     case 6:
         for(auto P:GetGameState<ADinoGameState>()->PlayerArray)
             if(auto* Other=Cast<ADinoPlayerState>(P))if(!Other->bHost&&!Other->bReady){PC->ClientLobbyMessage(TEXT("Wait for each guest to mark Ready."));return;}
@@ -111,4 +127,12 @@ void ADinoGameMode::ReturnToLobby()
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It){It->CancelActions();It->GetCharacterMovement()->StopMovementImmediately();}
     for(auto P:GetGameState<ADinoGameState>()->PlayerArray)if(auto* PS=Cast<ADinoPlayerState>(P))PS->bReady=false;
     UpdateLobby();
+}
+
+void ADinoGameMode::SetMapVariant(bool Performance)
+{
+    bPerformanceMap=Performance;
+    for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){It->SetPerformanceMap(Performance);break;}
+    if(GetNetMode()==NM_Standalone){GConfig->SetBool(TEXT("Dino.UserSettings"),TEXT("PerformanceMap"),Performance,GGameIni);GConfig->Flush(false,GGameIni);}
+    if(auto* GS=GetGameState<ADinoGameState>()){GS->SynchronizeRules();GS->ForceNetUpdate();}
 }

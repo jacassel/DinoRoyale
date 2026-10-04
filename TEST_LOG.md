@@ -1,5 +1,18 @@
 # Test log
 
+## Dino Royale 0.3 Alpha Test - in progress, October 4, 2026
+
+- Preserved the prior QA2 standalone release and independent recovery; matching runtime SHA256 starts `76D74F5A0B8C3077`. Baseline source checkpoint: `alpha03-baseline-tested` (`05053ca`).
+- Baseline rendered package: core 90/90; ecology 42/42. Uncapped 1600x900, live AI, isolated GPU: plains 65.584 FPS, forest 105.435 FPS, pond 80.170 FPS. The concurrent-editor measurement is retained and excluded from comparison.
+- Grounding diagnostics found remote mesh smoothing cached zero offsets instead of species capsule offsets; remote carcasses inherited the smoothed zero. Corrected caching and authoritative carcass transforms. Controls/grounding checkpoint: `b45177d`.
+- Pivot/grounding network checks: 64/64 after correcting the fixture to pause newly created raptor followers. Six new left/right clips preserve the existing rigs and actions in separate Blender copies.
+- Pond eight-direction crossings for all three species: 96/96 before movement changes, 96/96 with 75ms per-peer delay after fixing a lobby-readiness race in the test.
+- Forced movement-mode correction reproduced a stale swimming flag: Rex walking on pond bottom at Z=-266.6 while swimming=true. Movement-step synchronization recovers all three species (3/3) to surface swimming. This is a reproduced state inconsistency, not proof of the exact network event in the owner's earlier playtest.
+- Custom team/map network checks: 13/13 on the current build. Two humans versus five bots, empty slots, host authority, replicated map variant, identical 36 edible plants, scores, follower exclusions, return to Standard, normal 5v5 and replacement bots on departure passed.
+- Foliage audit: existing HISM components already avoided per-tree actors. Added real mesh LODs (canopy 97,200 to 1,267 vertices), tighter culling, reduced grass density and distant shadows. Performance measurements pending; no improvement percentage claimed yet.
+- Post-fix delayed pond crossings: 96/96. Hunger/prey/threat/chase tests: 28/28 across all four personalities. Broad source regression is running; no package or performance claim yet.
+- Current editor build passes. Broader regression, visual playtesting, packaged release, final performance comparison and GitHub push remain unfinished.
+
 ## EOS resolved URL repair / QA2 - September 26, 2026
 
 - QA1 evidence: physical screenshots and local logs show successful authentication,

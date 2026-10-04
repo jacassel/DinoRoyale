@@ -179,7 +179,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
         Text(Abilities[I],X+20*S,Top+362*S,.72f);Text(Foods[I],X+20*S,Top+383*S,.68f,Muted);
     }
     Text(TEXT("Choose a card or press 1, 2, 3 to start a new round. Only raptor leaders award kills."),Left,H*.75f,.70f,Muted);
-    Text(FString::Printf(TEXT("Mouse sensitivity  %.1f    [- / +] adjust"),D->MouseSensitivity),Left,H*.775f,.88f,Gold);
+    Text(GM&&GM->bPerformanceMap?TEXT("MAP: SUNGRASS PLAINS - PERFORMANCE  /  CLICK TO CHANGE"):TEXT("MAP: SUNGRASS PLAINS - STANDARD  /  CLICK TO CHANGE"),Left,H*.775f,.88f,Gold);
     DrawRect(FLinearColor(.11f,.23f,.22f),W*.18f,H*.83f,W*.40f,H*.08f);
     Text(TEXT("ENTER / ESC   RESUME EXPLORATION"),W*.22f,H*.852f,.97f,Teal);
     DrawRect(FLinearColor(.18f,.09f,.065f),W*.62f,H*.83f,W*.20f,H*.08f);

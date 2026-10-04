@@ -5,7 +5,7 @@
 class UProceduralMeshComponent;
 class UHierarchicalInstancedStaticMeshComponent;
 
-struct FValleyObstacle { FVector2D Center; float Radius; };
+struct FValleyObstacle { FVector2D Center; float Radius; bool bTree=false; };
 
 /** Seeded terrain and a clearance-aware A* grid share the same obstacle definitions. */
 UCLASS()
@@ -14,6 +14,8 @@ class DINOSAURBATTLE_API ALostValleyWorld : public AActor
     GENERATED_BODY()
 public:
     ALostValleyWorld();
+    bool bPerformanceMap=false;
+    void SetPerformanceMap(bool Enabled);
     static void EnsureLocalScene(UWorld* World);
     virtual void OnConstruction(const FTransform& Transform) override;
     virtual void BeginPlay() override;
@@ -39,6 +41,7 @@ public:
     FVector AvoidObstacles(const FVector& Position,const FVector& Desired,float Radius) const;
     TArray<FValleyObstacle> Obstacles;
     TArray<FVector> FeedingSpots;
+    TArray<FVector> FoodSpawnPoints;
     int32 PathRequests=0,PathFailures=0;
 private:
     void Generate();

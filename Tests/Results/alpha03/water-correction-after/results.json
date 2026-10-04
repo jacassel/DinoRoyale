@@ -1,0 +1,31 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "0 swim mode recovers after correction",
+      "status": "PASS",
+      "swimming": true,
+      "mode": 6,
+      "z": 131.2454963341335
+    },
+    {
+      "test": "1 swim mode recovers after correction",
+      "status": "PASS",
+      "swimming": true,
+      "mode": 6,
+      "z": 158.74556979780678
+    },
+    {
+      "test": "2 swim mode recovers after correction",
+      "status": "PASS",
+      "swimming": true,
+      "mode": 6,
+      "z": 142.4952839566895
+    }
+  ]
+}

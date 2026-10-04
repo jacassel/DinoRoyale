@@ -1,3 +1,19 @@
+# Dino Royale 0.3 Alpha Test - development checkpoint, October 4, 2026
+
+The owner has authorized this major update and resumed development. The historical stop note below applies only to the September QA2 session.
+
+Current branch: `codex/dino-royale-alpha-0.3`. Current subsystem checkpoint: `alpha03-systems-tested` (controls, pivot clips, grounding, map variants, AI slots, foliage LODs, swim correction and prey priorities). Broad regression and release work continue from this checkpoint; preserve subsequent working changes. See the newest TEST_LOG entry and `Tests/Results/alpha03`.
+
+Keep the working prior package at `Dist/Releases/DinoRoyale-20260926-QA2-ForCairnFriends/Windows` and its independent QA2 recovery. The old launcher still points to a missing unsuffixed QA2 folder and must be updated only after the 0.3 package passes. No 0.3 package or GitHub push exists yet.
+
+Build: `powershell -ExecutionPolicy Bypass -File Tools/Build.ps1`.
+Development runtime: `powershell -ExecutionPolicy Bypass -File Tools/Tests/StartTestGame.ps1`.
+New compatibility identifier: `2026100303`; both peers must use 0.3. EOS transport and service identity remain unchanged. The owner reports prior real multiplayer works; this update's loopback tests do not establish a fresh WAN result.
+
+Pending: full regression, prey priorities, broader grounding/carcass cases, measured Standard/Performance comparisons, visual native playtest, final package/recovery/ZIP, final docs/launcher, and private `DinoRoyale` GitHub push. Computer Use's Chrome URL policy stopped that browser attempt; do not bypass it. Native game QA is separate. Account remaining 94%; no Astra-specific allowance exposed. One agent; no purchases.
+
+---
+
 # Dino Royale QA2 handoff - September 26, 2026
 
 **Live goal pursuit stopped at the owner's request. Do not resume live QA without
@@ -262,7 +278,7 @@ commits. Final package checkpoint allowance: 63% remaining; no separate Astra
 allowance exposed. No purchases, delegation or gameplay rebalancing.
 
 Controls: 1/2/3 select Rex/raptor/Triceratops; WASD moves; mouse looks; Shift
-sprints; Space jumps; Q braces; LMB attacks; hold/release RMB charges; hold E eats.
+sprints; Space jumps; Q/E pivot; Ctrl braces; LMB attacks; hold/release RMB charges; hold F eats.
 M opens/closes the map; point and R adds/removes a pin. Escape pauses; F10 in
 the menu quits. See README for match/settings details.
 
@@ -306,7 +322,7 @@ remain procedural. Menu portraits retain the prior artwork. Water reflections
 have screen-edge limitations. This is an improvement, not reference-level realism.
 
 Controls: 1/2/3 select Rex/raptor/Triceratops; WASD moves; mouse looks; Shift
-sprints; Space jumps; Q braces; LMB attacks; hold/release RMB charges; hold E eats.
+sprints; Space jumps; Q/E pivot; Ctrl braces; LMB attacks; hold/release RMB charges; hold F eats.
 M toggles the map; point and R adds/removes a pin. Escape pauses/releases mouse;
 F10 in the menu quits. See README for match and settings details.
 
@@ -340,8 +356,8 @@ markers; AI teammates do not follow pins. Account allowance at final checkpoint:
 Double-click `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
 It starts the verified standalone package in `Dist\Windows` at 1600x900.
 Choose 1 / 2 / 3 for Rex / raptor / Triceratops. WASD moves; mouse looks;
-Shift sprints; Space jumps; Q braces; LMB attacks; hold/release RMB charges;
-hold E eats. Escape pauses and releases the mouse; F10 in the menu quits.
+Shift sprints; Space jumps; Q/E pivot; Ctrl braces; LMB attacks; hold/release RMB charges;
+hold F eats. Escape pauses and releases the mouse; F10 in the menu quits.
 
 Triceratops edible plants now have a subtle green-gold silhouette glow.
 Decorative plants and carnivore views are unmarked; depleted plants lose the

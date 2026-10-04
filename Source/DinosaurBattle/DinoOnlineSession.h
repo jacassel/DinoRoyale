@@ -20,7 +20,7 @@ public:
     virtual void Initialize(FSubsystemCollectionBase& Collection) override;
     virtual void Deinitialize() override;
     void SignIn();
-    void Host(bool Teams,int32 Capacity,bool Bots,bool Public);
+    void Host(bool Teams,int32 Capacity,bool Bots,bool Public,bool PerformanceMap=false);
     void Search();
     void Join(int32 Index);
     void Leave(const FString& Reason=TEXT("Left multiplayer."));

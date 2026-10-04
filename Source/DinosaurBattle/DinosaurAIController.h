@@ -27,6 +27,7 @@ public:
     float DistanceTravelled=0;
     float FightConfidence=.5f,EscapeConfidence=.5f;
     int32 GuardsUsed=0,RetreatDecisions=0,Retaliations=0;
+    int32 AbandonedPreyChases=0;
     FString Decision=TEXT("Explore");
     TWeakObjectPtr<ADinosaurCharacter> Target;
     TWeakObjectPtr<ADinosaurCharacter> Leader;
@@ -41,6 +42,8 @@ private:
     FRandomStream Random;
     TWeakObjectPtr<ADinosaurCharacter> RecentAttacker;
     float RetaliationUntil=0,RetreatUntil=0,NextGuardTime=0,NextTargetReview=0;
+    float PreyChaseStarted=-1,PreyCooldownUntil=0;
+    FVector PreyChaseOrigin=FVector::ZeroVector;
     void ChooseRetreat(const ADinosaurCharacter* Threat);
     void Think(float Dt);
     void Steer(float Dt);

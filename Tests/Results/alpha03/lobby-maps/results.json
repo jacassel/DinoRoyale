@@ -1,0 +1,18 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "5v5 preset with both humans on Team A",
+      "status": "PASS"
+    },
+    {
+      "test": "two humans vs five AI with three empty slots",
+      "status": "FAIL"
+    }
+  ]
+}

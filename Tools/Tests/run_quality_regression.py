@@ -1,8 +1,8 @@
 """Sequential sprint regression; fail closed on stale/incomplete output."""
 import os,sys,pathlib,subprocess,time,json
 ROOT=pathlib.Path(__file__).resolve().parents[2]
-OUT=ROOT/'Tests/Results/quality-sprint'
-OUT.mkdir(exist_ok=True)
+OUT=pathlib.Path(os.environ.get('DINO_RESULTS_DIR',str(ROOT/'Tests/Results/quality-sprint')))
+OUT.mkdir(parents=True,exist_ok=True)
 os.environ['DINO_RESULTS_DIR']=str(OUT)
 import runtime_core as t
 suites=[('runtime_sprint_rules.py','sprint-rules.json',36),('runtime_audio.py','audio.json',36),

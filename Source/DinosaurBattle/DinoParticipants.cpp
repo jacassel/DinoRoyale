@@ -84,14 +84,15 @@ void ADinoGameMode::ReconcileBots()
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->bFillerBot)
     {
         const int32 ID=It->CombatantID;
-        if(!bFillBots||ID<0||ID>=MaxParticipants||HumanIDs.Contains(ID)||Bots.Contains(ID))RemoveParticipant(*It);
+        if(!bFillBots||ID<0||ID>=MaxParticipants||HumanIDs.Contains(ID)||Bots.Contains(ID)||(bCustomBotSlots&&BotSlotTeams[ID]<0))RemoveParticipant(*It);
         else Bots.Add(ID,*It);
     }
     if(!bFillBots)return;
     for(int32 ID=0;ID<MaxParticipants;++ID)
     {
-        if(HumanIDs.Contains(ID))continue;
-        const int32 Team=bTeamMatch?(TeamCounts[0]<=TeamCounts[1]?0:1):-1;
+        if(HumanIDs.Contains(ID)||(bCustomBotSlots&&BotSlotTeams[ID]<0))continue;
+        if(!bCustomBotSlots)BotSlotTeams[ID]=TeamCounts[0]<=TeamCounts[1]?0:1;
+        const int32 Team=bTeamMatch?BotSlotTeams[ID]:-1;
         if(Team>=0)++TeamCounts[Team];
         auto* D=Bots.FindRef(ID);
         if(!D)

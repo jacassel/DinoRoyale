@@ -13,6 +13,7 @@ public:
     virtual void UpdateFromCompressedFlags(uint8 Flags) override;
     virtual FNetworkPredictionData_Client* GetPredictionData_Client() const override;
 protected:
+    virtual void UpdateCharacterStateBeforeMovement(float DeltaSeconds) override;
     virtual void PhysicsRotation(float DeltaTime) override;
     virtual void PhysCustom(float DeltaTime,int32 Iterations) override;
 };

@@ -41,7 +41,7 @@ try:
     t.check('ending match rejects new guest with clear reason',wait_for(lambda:rejected.state()['netMode']==0 and rejected.state()['onlineStatus']=='Match is ending.'))
     t.check('rejected ending join creates no extra participant',len(host.state()['players'])==2)
     rejected.quit();late.quit();host.quit()
-    missing=Peer(t,'MissingHost','127.0.0.1:7799?DinoBuild=2026092201')
+    missing=Peer(t,'MissingHost','127.0.0.1:7799?DinoBuild=2026100303')
     t.check('unreachable host returns clear failure and menu',wait_for(lambda:missing.state()['netMode']==0 and missing.state()['onlineStatus']=='Could not connect to host.' and missing.state()['menuOpen'],45))
     missing.quit()
 finally:
