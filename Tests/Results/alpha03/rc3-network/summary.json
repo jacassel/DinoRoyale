@@ -1,0 +1,121 @@
+[
+  {
+    "suite": "bots",
+    "passed": 17,
+    "total": 17,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "combat",
+    "passed": 39,
+    "total": 39,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "cosmetics",
+    "passed": 3,
+    "total": 3,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "ecology",
+    "passed": 25,
+    "total": 25,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "four",
+    "passed": 13,
+    "total": 13,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "fundamentals-delay",
+    "passed": 24,
+    "total": 24,
+    "oneWayLagMs": 75,
+    "lossPercent": 2
+  },
+  {
+    "suite": "grounding_matrix",
+    "passed": 66,
+    "total": 66,
+    "oneWayLagMs": 75,
+    "lossPercent": 0
+  },
+  {
+    "suite": "lobby",
+    "passed": 20,
+    "total": 20,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "lobby_maps",
+    "passed": 13,
+    "total": 13,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "matches",
+    "passed": 48,
+    "total": 48,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "packs",
+    "passed": 21,
+    "total": 21,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "packs-delay",
+    "passed": 21,
+    "total": 21,
+    "oneWayLagMs": 75,
+    "lossPercent": 2
+  },
+  {
+    "suite": "performance-matches",
+    "passed": 48,
+    "total": 48,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "pivot",
+    "passed": 82,
+    "total": 82,
+    "oneWayLagMs": 75,
+    "lossPercent": 0
+  },
+  {
+    "suite": "survival_edges",
+    "passed": 16,
+    "total": 16,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "team_configs",
+    "passed": 25,
+    "total": 25,
+    "oneWayLagMs": 0,
+    "lossPercent": 0
+  },
+  {
+    "suite": "water",
+    "passed": 96,
+    "total": 96,
+    "oneWayLagMs": 75,
+    "lossPercent": 0
+  }
+]

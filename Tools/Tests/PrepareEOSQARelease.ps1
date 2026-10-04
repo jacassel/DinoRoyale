@@ -1,4 +1,4 @@
-param([string]$ReleaseDirectory='Dist/Releases/DinoRoyale-20260926-QA2/Windows')
+param([string]$ReleaseDirectory='Dist/Releases/DinoRoyale-0.3-Alpha-Test/Windows')
 $ErrorActionPreference='Stop'
 $projectRoot=(Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $release=(Resolve-Path (Join-Path $projectRoot $ReleaseDirectory)).Path
@@ -12,7 +12,7 @@ if($engine -notmatch "(?m)^BuildIdOverride=$compat\s*$"){throw 'OSS build overri
 foreach($name in @('DinosaurBattle.exe','DinosaurBattle/Binaries/Win64/DinosaurBattle.exe','Engine/Binaries/Win64/EOSSDK-Win64-Shipping.dll')){
     if(!(Test-Path -LiteralPath (Join-Path $release $name))){throw "Missing required package file: $name"}
 }
-foreach($name in @('README.md','FRIEND_QUICKSTART.md','EOS_SETUP.md','MULTIPLAYER_QA_REPORT.md','RELEASE_READINESS.md','KNOWN_ISSUES.md')){
+foreach($name in @('README.md','FRIEND_QUICKSTART.md','EOS_SETUP.md','MULTIPLAYER_QA_REPORT.md','RELEASE_READINESS.md','KNOWN_ISSUES.md','ALPHA03_RELEASE_NOTES.md','PERFORMANCE_REPORT.md')){
     Copy-Item -LiteralPath (Join-Path $projectRoot $name) -Destination $release
 }
 Copy-Item -LiteralPath (Join-Path $projectRoot 'OnlineServices.example.ini') -Destination (Join-Path $release 'DinosaurBattle/OnlineServices.example.ini')

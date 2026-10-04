@@ -1,0 +1,111 @@
+{
+  "matchedBaseline": [
+    {
+      "scene": "plains",
+      "beforeFPS": 65.58433452415024,
+      "afterFPS": 185.03256073263088,
+      "fpsIncreasePercent": 182.12920368124804,
+      "beforeP95Ms": 16.107696533203125,
+      "afterP95Ms": 6.461001873016357
+    },
+    {
+      "scene": "forest",
+      "beforeFPS": 105.4352558416397,
+      "afterFPS": 176.88673445074946,
+      "fpsIncreasePercent": 67.76810853138872,
+      "beforeP95Ms": 10.844301223754883,
+      "afterP95Ms": 6.298299789428711
+    },
+    {
+      "scene": "pond",
+      "beforeFPS": 80.1700731084739,
+      "afterFPS": 187.46270465020748,
+      "fpsIncreasePercent": 133.8312756638772,
+      "beforeP95Ms": 13.767898559570312,
+      "afterP95Ms": 6.229702472686768
+    }
+  ],
+  "mapComparison": [
+    {
+      "mode": "ffa",
+      "scene": "plains",
+      "standardFPS": 169.90114899097463,
+      "performanceFPS": 177.00313491079473,
+      "fpsIncreasePercent": 4.180069388581575
+    },
+    {
+      "mode": "ffa",
+      "scene": "forest",
+      "standardFPS": 165.2316655039241,
+      "performanceFPS": 186.23376459590705,
+      "fpsIncreasePercent": 12.710698659322151
+    },
+    {
+      "mode": "ffa",
+      "scene": "pond",
+      "standardFPS": 178.2189372244346,
+      "performanceFPS": 187.91220558172404,
+      "fpsIncreasePercent": 5.43896653646998
+    },
+    {
+      "mode": "ffa",
+      "scene": "close-combat",
+      "standardFPS": 162.11133565993651,
+      "performanceFPS": 164.61296722998932,
+      "fpsIncreasePercent": 1.5431564732157455
+    },
+    {
+      "mode": "ffa",
+      "scene": "traversal",
+      "standardFPS": 166.0375138414563,
+      "performanceFPS": 182.9419961861929,
+      "fpsIncreasePercent": 10.18112229798751
+    },
+    {
+      "mode": "teams",
+      "scene": "plains",
+      "standardFPS": 161.05987039577892,
+      "performanceFPS": 167.1808146206499,
+      "fpsIncreasePercent": 3.8004154665154832
+    },
+    {
+      "mode": "teams",
+      "scene": "forest",
+      "standardFPS": 164.49663533805648,
+      "performanceFPS": 185.91601716569826,
+      "fpsIncreasePercent": 13.02116714036301
+    },
+    {
+      "mode": "teams",
+      "scene": "pond",
+      "standardFPS": 172.75573389964066,
+      "performanceFPS": 185.59941549096192,
+      "fpsIncreasePercent": 7.434590621913917
+    },
+    {
+      "mode": "teams",
+      "scene": "close-combat",
+      "standardFPS": 152.92162271425454,
+      "performanceFPS": 160.29461302909712,
+      "fpsIncreasePercent": 4.8214177851222395
+    },
+    {
+      "mode": "teams",
+      "scene": "traversal",
+      "standardFPS": 162.7037589011889,
+      "performanceFPS": 180.5286522841218,
+      "fpsIncreasePercent": 10.955428137193834
+    }
+  ],
+  "averageFPSByVariant": {
+    "Standard": 165.54382224696457,
+    "Performance": 177.82235810951371
+  },
+  "sampledFrames": 7523,
+  "sampledHitchesOver33ms": 2,
+  "sampledHitchesOver50ms": 2,
+  "memoryRangeMB": [
+    1100.625,
+    1188.109375
+  ]
+}

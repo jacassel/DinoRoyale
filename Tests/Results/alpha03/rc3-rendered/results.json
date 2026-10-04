@@ -1,0 +1,38 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "rendered unequal roster has two humans versus five bots",
+      "status": "PASS"
+    },
+    {
+      "test": "Standard rendered map matches both peers",
+      "status": "PASS"
+    },
+    {
+      "test": "Standard rendered pivot keeps camera fixed",
+      "status": "PASS"
+    },
+    {
+      "test": "Standard rendered client death leaves replicated food",
+      "status": "PASS"
+    },
+    {
+      "test": "Performance rendered map matches both peers",
+      "status": "PASS"
+    },
+    {
+      "test": "Performance rendered pivot keeps camera fixed",
+      "status": "PASS"
+    },
+    {
+      "test": "Performance rendered client death leaves replicated food",
+      "status": "PASS"
+    }
+  ]
+}

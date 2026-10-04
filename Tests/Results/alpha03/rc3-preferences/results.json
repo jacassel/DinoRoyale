@@ -1,0 +1,32 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "settings inputs change name tags, blood and sensitivity",
+      "status": "PASS"
+    },
+    {
+      "test": "showNameTags survives a new packaged process",
+      "status": "PASS",
+      "saved": false,
+      "loaded": false
+    },
+    {
+      "test": "bloodEnabled survives a new packaged process",
+      "status": "PASS",
+      "saved": true,
+      "loaded": true
+    },
+    {
+      "test": "sensitivity survives a new packaged process",
+      "status": "FAIL",
+      "saved": 1.100000023841858,
+      "loaded": 1
+    }
+  ]
+}

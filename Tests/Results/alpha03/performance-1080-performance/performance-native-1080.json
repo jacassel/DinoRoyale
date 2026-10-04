@@ -1,0 +1,47 @@
+[
+  {
+    "variant": "Performance",
+    "scene": "plains",
+    "fps": 169.27585622404501,
+    "medianMs": {
+      "frameMs": 5.4465012550354,
+      "gameThreadMs": 4.588200092315674,
+      "renderThreadMs": 5.210899829864502,
+      "gpuMs": 4.839300155639648
+    },
+    "p95FrameMs": 6.500899791717529,
+    "actors": 119,
+    "combatants": 10,
+    "plants": 36
+  },
+  {
+    "variant": "Performance",
+    "scene": "forest",
+    "fps": 184.1935356583207,
+    "medianMs": {
+      "frameMs": 4.886999607086182,
+      "gameThreadMs": 4.522299766540527,
+      "renderThreadMs": 4.327499866485596,
+      "gpuMs": 4.23360013961792
+    },
+    "p95FrameMs": 6.505001544952393,
+    "actors": 122,
+    "combatants": 10,
+    "plants": 36
+  },
+  {
+    "variant": "Performance",
+    "scene": "pond",
+    "fps": 177.2429233108374,
+    "medianMs": {
+      "frameMs": 5.106350421905518,
+      "gameThreadMs": 4.710349798202515,
+      "renderThreadMs": 4.681600093841553,
+      "gpuMs": 4.467849969863892
+    },
+    "p95FrameMs": 6.879798889160156,
+    "actors": 122,
+    "combatants": 10,
+    "plants": 36
+  }
+]

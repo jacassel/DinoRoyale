@@ -1,0 +1,22 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "players keep different local blood preferences",
+      "status": "PASS"
+    },
+    {
+      "test": "replicated hit renders blood only for opted-in host",
+      "status": "PASS"
+    },
+    {
+      "test": "replicated hit renders blood only for opted-in client",
+      "status": "PASS"
+    }
+  ]
+}

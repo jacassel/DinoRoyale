@@ -1,0 +1,35 @@
+{
+  "method": "Consecutive one-second samples with live major AI targeting prey IDs 100-199; duration is observed span, not exact chase time.",
+  "runs": [
+    {
+      "variant": "Standard",
+      "preyEpisodes": 2,
+      "longestObservedPreyTargetSeconds": 4.000050500035286,
+      "abandonedChases": 2,
+      "maxMajorAbsoluteCoordinate": 27724.048252181034,
+      "episodes": [
+        {
+          "id": 2,
+          "observedSeconds": 2.0166927985846996
+        },
+        {
+          "id": 3,
+          "observedSeconds": 4.000050500035286
+        }
+      ]
+    },
+    {
+      "variant": "Performance",
+      "preyEpisodes": 1,
+      "longestObservedPreyTargetSeconds": 2.0249353982508183,
+      "abandonedChases": 1,
+      "maxMajorAbsoluteCoordinate": 27698.60737778071,
+      "episodes": [
+        {
+          "id": 2,
+          "observedSeconds": 2.0249353982508183
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-param([string]$ReleaseName='DinoRoyale-20260926-QA2',[string]$EvidenceDirectory='Tests/Results/eos-qa-20260926')
+param([string]$ReleaseName='DinoRoyale-0.3-Alpha-Test',[string]$EvidenceDirectory='Tests/Results/alpha03/release')
 $ErrorActionPreference='Stop'
 $projectRoot=(Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $release=(Resolve-Path (Join-Path $projectRoot ('Dist/Releases/'+$ReleaseName+'/Windows'))).Path

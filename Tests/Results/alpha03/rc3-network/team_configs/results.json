@@ -1,0 +1,150 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 3,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "Standard normal 5 vs 5 roster agrees on both peers",
+      "status": "PASS",
+      "expected": [
+        5,
+        5
+      ]
+    },
+    {
+      "test": "Standard normal 5 vs 5 starts with correct counts and ten-kill goal",
+      "status": "PASS"
+    },
+    {
+      "test": "Standard one vs one roster agrees on both peers",
+      "status": "PASS",
+      "expected": [
+        1,
+        1
+      ]
+    },
+    {
+      "test": "Standard one vs one starts with correct counts and ten-kill goal",
+      "status": "PASS"
+    },
+    {
+      "test": "Standard three vs three roster agrees on both peers",
+      "status": "PASS",
+      "expected": [
+        3,
+        3
+      ]
+    },
+    {
+      "test": "Standard three vs three starts with correct counts and ten-kill goal",
+      "status": "PASS"
+    },
+    {
+      "test": "Standard two humans plus three AI vs five AI roster agrees on both peers",
+      "status": "PASS",
+      "expected": [
+        5,
+        5
+      ]
+    },
+    {
+      "test": "Standard two humans plus three AI vs five AI starts with correct counts and ten-kill goal",
+      "status": "PASS"
+    },
+    {
+      "test": "Standard two humans vs five AI roster agrees on both peers",
+      "status": "PASS",
+      "expected": [
+        2,
+        5
+      ]
+    },
+    {
+      "test": "Standard two humans vs five AI starts with correct counts and ten-kill goal",
+      "status": "PASS"
+    },
+    {
+      "test": "Standard explicit AI team selection survives reconciliation",
+      "status": "PASS"
+    },
+    {
+      "test": "Performance normal 5 vs 5 roster agrees on both peers",
+      "status": "PASS",
+      "expected": [
+        5,
+        5
+      ]
+    },
+    {
+      "test": "Performance normal 5 vs 5 starts with correct counts and ten-kill goal",
+      "status": "PASS"
+    },
+    {
+      "test": "Performance one vs one roster agrees on both peers",
+      "status": "PASS",
+      "expected": [
+        1,
+        1
+      ]
+    },
+    {
+      "test": "Performance one vs one starts with correct counts and ten-kill goal",
+      "status": "PASS"
+    },
+    {
+      "test": "Performance three vs three roster agrees on both peers",
+      "status": "PASS",
+      "expected": [
+        3,
+        3
+      ]
+    },
+    {
+      "test": "Performance three vs three starts with correct counts and ten-kill goal",
+      "status": "PASS"
+    },
+    {
+      "test": "Performance two humans plus three AI vs five AI roster agrees on both peers",
+      "status": "PASS",
+      "expected": [
+        5,
+        5
+      ]
+    },
+    {
+      "test": "Performance two humans plus three AI vs five AI starts with correct counts and ten-kill goal",
+      "status": "PASS"
+    },
+    {
+      "test": "Performance two humans vs five AI roster agrees on both peers",
+      "status": "PASS",
+      "expected": [
+        2,
+        5
+      ]
+    },
+    {
+      "test": "Performance two humans vs five AI starts with correct counts and ten-kill goal",
+      "status": "PASS"
+    },
+    {
+      "test": "Performance explicit AI team selection survives reconciliation",
+      "status": "PASS"
+    },
+    {
+      "test": "one human plus four AI vs five AI",
+      "status": "PASS"
+    },
+    {
+      "test": "late join receives Performance variant and matching food",
+      "status": "PASS"
+    },
+    {
+      "test": "late human replaces exactly one bot",
+      "status": "PASS"
+    }
+  ]
+}

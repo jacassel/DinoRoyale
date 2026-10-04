@@ -1,0 +1,22 @@
+[
+  {
+    "test": "depleted remote plant hidden",
+    "passed": true
+  },
+  {
+    "test": "starvation causes real death",
+    "passed": true
+  },
+  {
+    "test": "starvation leaves edible carcass",
+    "passed": true
+  },
+  {
+    "test": "starvation respawn restores resources and control",
+    "passed": true
+  },
+  {
+    "test": "held charge keeps its unseen map reveal active",
+    "passed": true
+  }
+]

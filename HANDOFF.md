@@ -1,25 +1,76 @@
-# Dino Royale 0.3 Alpha Test - development checkpoint, October 4, 2026
+# Dino Royale 0.3 Alpha Test — local release checkpoint, October 4, 2026
 
-The owner has authorized this major update and resumed development. The historical stop note below applies only to the September QA2 session.
+The update is built, locally tested and packaged. **The goal remains open:** native
+close-combat acceptance and the requested GitHub push still need owner input.
+Do not add gameplay scope while those acceptance steps are pending.
 
-Current branch: `codex/dino-royale-alpha-0.3`. Current subsystem checkpoint: `alpha03-systems-tested` (controls, pivot clips, grounding, map variants, AI slots, foliage LODs, swim correction and prey priorities). Broad regression and release work continue from this checkpoint; preserve subsequent working changes. See the newest TEST_LOG entry and `Tests/Results/alpha03`.
+## Launch and recovery
 
-Latest verified source checkpoint: `alpha03-navigation-settings-tested`, following
-`alpha03-regression-tested` (`5710de5`, full source 478/478). First package also passes
-478/478 plus broad multiplayer checks. Subsequent stress/UI testing fixed unreachable
-retreat choices, eight disconnected navigation-grid cells, and custom settings saving.
-Targeted routes (including all 42 landmark pairs per map) and six UI checks pass.
-RC2 lacks the last navigation/settings changes; RC3 is the next candidate. Preserve
-all candidates and the prior known-good QA2. Native play is blocked by a Windows
-firewall dialog requiring user action; no security setting has been changed.
+Double-click `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
+It now prefers `Dist/Releases/DinoRoyale-0.3-Alpha-Test/Windows`; the actual QA2 friends
+folder is its first fallback. The final normal launch reached LostValley with no
+development bridge enabled. The game is left open for the owner. The existing local
+EOS configuration was copied unchanged from QA1 after sealing the distribution.
 
-Keep the working prior package at `Dist/Releases/DinoRoyale-20260926-QA2-ForCairnFriends/Windows` and its independent QA2 recovery. The old launcher still points to a missing unsuffixed QA2 folder and must be updated only after the 0.3 package passes. The first 0.3 package exists at `Dist/Releases/DinoRoyale-0.3-Alpha-Test/Windows`; release verification is ongoing. No GitHub push exists yet.
+- Distributable: `Dist/Releases/DinoRoyale-0.3-Alpha-Test.zip` (461,520,853 bytes).
+- Independent playable recovery: `Dist/Checkpoints/DinoRoyale-0.3-Alpha-Test/Windows`.
+- Source recovery bundle: `Dist/Checkpoints/DinoRoyale-0.3-Alpha-Test/source.bundle`.
+- Git branch: `codex/dino-royale-alpha-0.3`; final local tag: `alpha03-local-release-tested`.
+- Manifest/checkpoint: `Tests/Results/alpha03/release` and `PACKAGE_SHA256.json` inside the package.
+- Runtime SHA256: `AB8ACF532F92A9E58785776690EC024B841F44D35043356EA89A08D28E8F1596`.
+- ZIP SHA256: `28F72D4F0A13455CE98C0B37D302DF0CCAB511F6FB21C8F0173B7A68D02FF844`.
 
-Build: `powershell -ExecutionPolicy Bypass -File Tools/Build.ps1`.
-Development runtime: `powershell -ExecutionPolicy Bypass -File Tools/Tests/StartTestGame.ps1`.
-New compatibility identifier: `2026100303`; both peers must use 0.3. EOS transport and service identity remain unchanged. The owner reports prior real multiplayer works; this update's loopback tests do not establish a fresh WAN result.
+All 64 release files were hash-verified in the recovery and ZIP. Saved/authentication
+caches and configured OnlineServices.ini are absent from the distribution. Keep the
+whole Windows folder together. Both PCs need 0.3, compatibility **2026100303**; copy
+each PC's existing OnlineServices.ini into Windows/DinosaurBattle before online play.
 
-Source regression 478/478, prey priorities 28/28, requested team configurations 25/25 and source multiplayer suites pass. Delayed stationary pivot replay and an offline pause cooldown bypass are fixed. Pending: package regression, broader grounding/carcass cases, measured Standard/Performance comparisons, visual native playtest, final recovery/ZIP, final docs/launcher, and private `DinoRoyale` GitHub push. Computer Use's Chrome URL policy stopped that browser attempt; do not bypass it. Native game QA is separate. Account remaining 90%; no Astra-specific allowance exposed. One agent; no purchases.
+The prior QA2 friends package and independent QA2 recovery remain byte-identical at
+the runtime level (SHA256 `76D74F5A0B8C30774E6B1F9ADD76C07988B3405304AC93BDE647B33764D3CDE2`).
+QA1, Dist/Windows, RC2 and RC3 remain preserved. The first 0.3 candidate is retained as
+`Dist/Releases/DinoRoyale-0.3-Alpha-Test-Candidate1`; RC4 was promoted to the canonical path.
+Dist is ignored by Git, so preserve the separate playable package backups.
+
+## Verified boundary
+
+Final gameplay executable: 478/478 offline checks, 577/577 separate-process network
+checks, 32 compatibility/EOS-URL assertions, 7/7 rendered network checks. RC4 changes
+only the mouse-sensitivity save allowlist; it has the same executable as RC3 and passes
+124 additional UI/settings/core checks plus 5 fresh-process preference checks. Both
+maps pass four-minute AI runs with zero failed routes or stuck recoveries. Targeted
+prey, retreat and navigation tests pass, including 42 directed landmark routes/map.
+
+Measured matched Standard scenes: 66/105/80 → 185/177/187 FPS at 1600×900 output/default
+render quality. Twenty-scenario averages: Standard 166, Performance 178 FPS. Native
+1080p fresh-process comparisons add 12–25% FPS for Performance over Standard. See
+PERFORMANCE_REPORT.md for settings, frame spikes, thread/GPU/memory limits and evidence.
+Source/editor and package builds succeeded. EOS architecture/service identity remain
+unchanged; the owner reports prior real multiplayer works. Loopback does not establish
+a fresh 0.3 physical/WAN session. No firewall/security/portal setting was changed.
+
+## Remaining owner-dependent steps
+
+1. The Windows firewall prompt blocked native Computer Use. Ask the owner to handle
+   it themselves; Computer Use guidance explicitly says: "Do not act on security or
+   privacy permission requests." Do not automate that dialog. After it is handled,
+   do the requested native shoulder-to-shoulder fights: Rex/Rex, Rex/Trike, Trike/Rex,
+   Raptor/Rex and Raptor pack/Trike. Verify Q/E camera independence, W recovery and
+   committed heavy turns. Automated engine captures are not native acceptance.
+2. Push the committed project to **DinoRoyale** after GitHub access is connected.
+   The GitHub plugin was suggested and connection requested; it is not available
+   yet. No Git remote or CLI credential exists. Chrome automation previously stopped
+   because it could not verify the URL; do not bypass that barrier. Private repository
+   is the stated default. Never push configured credentials or Dist test caches.
+
+Useful recovery commands: `Tools/Build.ps1` for the editor, `Tools/Build.ps1 -Target
+DinosaurBattle` for runtime. Package via `Tools/Package.ps1 -Destination Dist/Releases/
+<new-candidate>`. Package tests using net_harness require the actual runtime executable
+`Windows/DinosaurBattle/Binaries/Win64/DinosaurBattle.exe`, not the bootstrap executable.
+Do not overwrite an existing recovery/ZIP; the checkpoint helper deliberately refuses.
+
+One agent; no purchases or reset-credit redemption. Final checkpoint account allowance:
+**82% remaining**. No Astra-specific allowance is exposed; reported account allowance
+is used. Earlier pending notes below are historical and superseded by this checkpoint.
 
 ---
 

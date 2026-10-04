@@ -1,0 +1,15 @@
+{
+  "launcher": "LaunchGame.bat",
+  "package": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Releases\\DinoRoyale-0.3-Alpha-Test\\Windows",
+  "normalLaunch": true,
+  "processCount": 2,
+  "arguments": [
+    "\"C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Releases\\DinoRoyale-0.3-Alpha-Test\\Windows\\DinosaurBattle.exe\"  -windowed -ResX=1600 -ResY=900",
+    "\"C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Releases\\DinoRoyale-0.3-Alpha-Test\\Windows\\DinosaurBattle\\Binaries\\Win64\\DinosaurBattle.exe\" DinosaurBattle -windowed -ResX=1600 -ResY=900"
+  ],
+  "worldLoaded": true,
+  "devBridgePresent": false,
+  "localEOSConfigCopiedUnchanged": true,
+  "nativePlayAcceptance": "PENDING owner handling Windows firewall prompt",
+  "internetEOS": "NOT newly verified"
+}

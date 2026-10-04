@@ -1,4 +1,4 @@
-# Dino Royale — Version 0.3 Alpha Test (in development)
+# Dino Royale — Version 0.3 Alpha Test
 
 A dinosaur combat prototype with offline play and an Epic Online Services multiplayer integration.
 The owner reports successful real multiplayer play with the prior release. Version 0.3
@@ -6,17 +6,23 @@ adds close-combat pivoting, optimized foliage, a Performance map, custom AI team
 name tags, grounded replicated dinosaurs/carcasses, and more reliable swimming.
 Multiplayer retains the existing EOS architecture and service identity. Both players
 must update together: 0.3 uses compatibility ID **2026100303**.
-Current verification and remaining release work are recorded in TEST_LOG.md.
+Local release verification and remaining acceptance steps are recorded in TEST_LOG.md.
+See [ALPHA03_RELEASE_NOTES.md](ALPHA03_RELEASE_NOTES.md) for the update and
+[PERFORMANCE_REPORT.md](PERFORMANCE_REPORT.md) for measured before/after results.
 See [EOS_SETUP.md](EOS_SETUP.md) for setup and [Docs/MULTIPLAYER_ACCEPTANCE.md](Docs/MULTIPLAYER_ACCEPTANCE.md) for the evidence boundary.
 
 ## Launch
 
 Open `C:\Users\joel1\Documents\DinosaurBattle Prototype` in File Explorer and double-click **LaunchGame.bat**.
-While 0.3 is in development, the preserved working release is
-`Dist\Releases\DinoRoyale-20260926-QA2-ForCairnFriends\Windows`;
-keep that entire folder together. Copy your existing configured `OnlineServices.ini`
-to its `DinosaurBattle` subfolder before online play; credentials are not shipped
-in the QA2 ZIP. QA1 and `Dist\Windows` remain preserved.
+The launcher prefers the locally tested **0.3 Alpha Test** package at
+`Dist\Releases\DinoRoyale-0.3-Alpha-Test\Windows`.
+For another computer, extract `Dist\Releases\DinoRoyale-0.3-Alpha-Test.zip` into a fresh
+folder and run **Windows\Play Dino Royale.bat**. Keep the entire folder together.
+Copy each computer's existing configured `OnlineServices.ini` to its new
+`Windows\DinosaurBattle` subfolder before online play; credentials are excluded
+from the ZIP. Both players must use 0.3. The prior QA2 friends package, its independent
+recovery, QA1 and `Dist\Windows` remain preserved. Native close-combat acceptance
+and a fresh physical/WAN session remain pending; automated local multiplayer passes.
 See `MULTIPLAYER_QA_REPORT.md` for the current verification and recovery status.
 See `RELEASE_READINESS.md` for the remaining college playtest and optional Steam launch work.
 Choose a dinosaur with **1 / 2 / 3**. **Escape** pauses; **F10** from the menu exits.

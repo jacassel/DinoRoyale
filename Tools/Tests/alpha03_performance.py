@@ -1,10 +1,19 @@
 """Uncapped rendered Standard/Performance comparison with live combatants."""
-import argparse,json,statistics,time,math
+import argparse,json,statistics,time,math,shutil
 import runtime_core as t
 p=argparse.ArgumentParser();p.add_argument('--seconds',type=int,default=20);a=p.parse_args();rows=[]
 def distribution(values):
     values=sorted(values)
     return dict(median=statistics.median(values),p95=values[int((len(values)-1)*.95)],p99=values[int((len(values)-1)*.99)],maximum=max(values))
+
+def capture(name):
+    folder=t.BRIDGE.parent/'Screenshots/Windows';old=set(folder.glob('*.png'));t.command('screenshot');end=time.monotonic()+10
+    while time.monotonic()<end:
+        files=set(folder.glob('*.png'))-old
+        if files:
+            time.sleep(.2);shutil.copyfile(max(files,key=lambda p:p.stat().st_mtime),t.OUT/(name+'.png'));return
+        time.sleep(.1)
+    raise RuntimeError('No performance screenshot: '+name)
 t.command('console',value='t.MaxFPS 0');t.command('console',value='stat unit');t.command('menu',open=False)
 for performance in [False,True]:
     t.command('mapVariant',performance=performance)
@@ -29,8 +38,10 @@ for performance in [False,True]:
                 seconds=after['frameSeconds']-before['frameSeconds'],fps=(after['frameCount']-before['frameCount'])/(after['frameSeconds']-before['frameSeconds']),
                 sampledFrames=len(samples),timings={k:distribution([s[k] for s in samples]) for k in ['frameMs','gameThreadMs','renderThreadMs','gpuMs'] if k in after},
                 hitchesOver33ms=sum(s['frameMs']>33.3 for s in samples),hitchesOver50ms=sum(s['frameMs']>50 for s in samples),
-                counts={k:after.get(k) for k in ['actorCount','majorCount','treeInstances','grassInstances','fernInstances','navObstacles']},
+                counts={k:after.get(k) for k in ['actorCount','majorCount','treeInstances','grassInstances','fernInstances','navObstacles','disconnectedNavCells']},
                 plants=len(after['plants']),memoryStartMB=before.get('memoryUsedMB'),memoryEndMB=after.get('memoryUsedMB'),
                 movement=math.hypot(after['x']-before['x'],after['y']-before['y']),endHealth=after['health'])
             rows.append(row);(t.OUT/'performance-matrix.json').write_text(json.dumps(rows,indent=2));print(json.dumps(row),flush=True)
+            # Captures occur after measurement, excluding screenshot capture hitches.
+            if not teams and scene in ['forest','close-combat']:capture(row['variant']+'-'+scene)
 t.command('ai',paused=True);t.command('console',value='stat unit');t.command('console',value='t.MaxFPS 60');t.command('menu',open=True)

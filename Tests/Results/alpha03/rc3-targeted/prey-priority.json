@@ -1,0 +1,122 @@
+[
+  {
+    "test": "0 well-fed predator ignores small prey",
+    "passed": true
+  },
+  {
+    "test": "0 hungry predator chooses nearby prey",
+    "passed": true
+  },
+  {
+    "test": "0 nearby major threat interrupts hunt",
+    "passed": true
+  },
+  {
+    "test": "0 attack overrides small prey",
+    "passed": true
+  },
+  {
+    "test": "0 unsuccessful prey chase is bounded",
+    "passed": true,
+    "seconds": 3.25,
+    "travel": 50755.359375
+  },
+  {
+    "test": "0 hunt cooldown prevents immediate reacquisition",
+    "passed": true
+  },
+  {
+    "test": "0 rejects prey beyond safe map interior",
+    "passed": true
+  },
+  {
+    "test": "1 well-fed predator ignores small prey",
+    "passed": true
+  },
+  {
+    "test": "1 hungry predator chooses nearby prey",
+    "passed": true
+  },
+  {
+    "test": "1 nearby major threat interrupts hunt",
+    "passed": true
+  },
+  {
+    "test": "1 attack overrides small prey",
+    "passed": true
+  },
+  {
+    "test": "1 unsuccessful prey chase is bounded",
+    "passed": true,
+    "seconds": 3.12,
+    "travel": 67193.4765625
+  },
+  {
+    "test": "1 hunt cooldown prevents immediate reacquisition",
+    "passed": true
+  },
+  {
+    "test": "1 rejects prey beyond safe map interior",
+    "passed": true
+  },
+  {
+    "test": "2 well-fed predator ignores small prey",
+    "passed": true
+  },
+  {
+    "test": "2 hungry predator chooses nearby prey",
+    "passed": true
+  },
+  {
+    "test": "2 nearby major threat interrupts hunt",
+    "passed": true
+  },
+  {
+    "test": "2 attack overrides small prey",
+    "passed": true
+  },
+  {
+    "test": "2 unsuccessful prey chase is bounded",
+    "passed": true,
+    "seconds": 3.31,
+    "travel": 82753.796875
+  },
+  {
+    "test": "2 hunt cooldown prevents immediate reacquisition",
+    "passed": true
+  },
+  {
+    "test": "2 rejects prey beyond safe map interior",
+    "passed": true
+  },
+  {
+    "test": "3 well-fed predator ignores small prey",
+    "passed": true
+  },
+  {
+    "test": "3 hungry predator chooses nearby prey",
+    "passed": true
+  },
+  {
+    "test": "3 nearby major threat interrupts hunt",
+    "passed": true
+  },
+  {
+    "test": "3 attack overrides small prey",
+    "passed": true
+  },
+  {
+    "test": "3 unsuccessful prey chase is bounded",
+    "passed": true,
+    "seconds": 3.17,
+    "travel": 98188.5859375
+  },
+  {
+    "test": "3 hunt cooldown prevents immediate reacquisition",
+    "passed": true
+  },
+  {
+    "test": "3 rejects prey beyond safe map interior",
+    "passed": true
+  }
+]

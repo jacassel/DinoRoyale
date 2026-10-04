@@ -1,0 +1,67 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 6,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "four real networked players connected",
+      "status": "PASS"
+    },
+    {
+      "test": "four distinct controlled participants",
+      "status": "PASS"
+    },
+    {
+      "test": "full lobby rejects additional client with clear reason",
+      "status": "PASS",
+      "connected": 4
+    },
+    {
+      "test": "incompatible build rejected with clear reason",
+      "status": "PASS"
+    },
+    {
+      "test": "four-player FFA starts with two separate raptor packs",
+      "status": "PASS"
+    },
+    {
+      "test": "player 0 movement reaches all peers",
+      "status": "PASS",
+      "distance": 729.8889555601481
+    },
+    {
+      "test": "player 1 movement reaches all peers",
+      "status": "PASS",
+      "distance": 756.6351887050893
+    },
+    {
+      "test": "player 2 movement reaches all peers",
+      "status": "PASS",
+      "distance": 367.3054989674629
+    },
+    {
+      "test": "player 3 movement reaches all peers",
+      "status": "PASS",
+      "distance": 411.13995788527865
+    },
+    {
+      "test": "2v2 team match starts on all four peers",
+      "status": "PASS"
+    },
+    {
+      "test": "team score and assist agree across four peers",
+      "status": "PASS"
+    },
+    {
+      "test": "host departure returns all guests to multiplayer menu",
+      "status": "PASS"
+    },
+    {
+      "test": "all guests see Host disconnected",
+      "status": "PASS"
+    }
+  ]
+}

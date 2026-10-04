@@ -1,0 +1,17 @@
+[
+  {
+    "suite": "ui",
+    "passed": 6,
+    "total": 6
+  },
+  {
+    "suite": "settings-water-blood",
+    "passed": 28,
+    "total": 28
+  },
+  {
+    "suite": "core-live",
+    "passed": 90,
+    "total": 90
+  }
+]

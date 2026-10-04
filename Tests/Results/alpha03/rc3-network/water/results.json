@@ -1,0 +1,466 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 75,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "0 pond center swimming 0",
+      "status": "PASS"
+    },
+    {
+      "test": "0 exits shoreline 0",
+      "status": "PASS",
+      "x": 6137.601628878648,
+      "y": 4500,
+      "z": 583.3658375263869
+    },
+    {
+      "test": "0 re-enters pond 0",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pivots while swimming 0",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pond center swimming 45",
+      "status": "PASS"
+    },
+    {
+      "test": "0 exits shoreline 45",
+      "status": "PASS",
+      "x": 4843.777729025065,
+      "y": 6343.777729025135,
+      "z": 572.5237931393472
+    },
+    {
+      "test": "0 re-enters pond 45",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pivots while swimming 45",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pond center swimming 90",
+      "status": "PASS"
+    },
+    {
+      "test": "0 exits shoreline 90",
+      "status": "PASS",
+      "x": 3000,
+      "y": 6669.345729773636,
+      "z": 469.5420717203284
+    },
+    {
+      "test": "0 re-enters pond 90",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pivots while swimming 90",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pond center swimming 135",
+      "status": "PASS"
+    },
+    {
+      "test": "0 exits shoreline 135",
+      "status": "PASS",
+      "x": 1226.7559124883173,
+      "y": 6273.244087511521,
+      "z": 467.3391592080451
+    },
+    {
+      "test": "0 re-enters pond 135",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pivots while swimming 135",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pond center swimming 180",
+      "status": "PASS"
+    },
+    {
+      "test": "0 exits shoreline 180",
+      "status": "PASS",
+      "x": -103.56836110493005,
+      "y": 4500,
+      "z": 428.94059519148277
+    },
+    {
+      "test": "0 re-enters pond 180",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pivots while swimming 180",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pond center swimming 225",
+      "status": "PASS"
+    },
+    {
+      "test": "0 exits shoreline 225",
+      "status": "PASS",
+      "x": 1246.4910401530394,
+      "y": 2746.4910401528473,
+      "z": 442.2905251071083
+    },
+    {
+      "test": "0 re-enters pond 225",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pivots while swimming 225",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pond center swimming 270",
+      "status": "PASS"
+    },
+    {
+      "test": "0 exits shoreline 270",
+      "status": "PASS",
+      "x": 3000,
+      "y": 2271.507239103706,
+      "z": 427.111660587224
+    },
+    {
+      "test": "0 re-enters pond 270",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pivots while swimming 270",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pond center swimming 315",
+      "status": "PASS"
+    },
+    {
+      "test": "0 exits shoreline 315",
+      "status": "PASS",
+      "x": 4827.109832149544,
+      "y": 2672.890167850288,
+      "z": 476.27450567280954
+    },
+    {
+      "test": "0 re-enters pond 315",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pivots while swimming 315",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pond center swimming 0",
+      "status": "PASS"
+    },
+    {
+      "test": "1 exits shoreline 0",
+      "status": "PASS",
+      "x": 6291.520927494235,
+      "y": 4500,
+      "z": 515.1824827855927
+    },
+    {
+      "test": "1 re-enters pond 0",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pivots while swimming 0",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pond center swimming 45",
+      "status": "PASS"
+    },
+    {
+      "test": "1 exits shoreline 45",
+      "status": "PASS",
+      "x": 4846.1138180414,
+      "y": 6346.1138180417065,
+      "z": 461.963606040449
+    },
+    {
+      "test": "1 re-enters pond 45",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pivots while swimming 45",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pond center swimming 90",
+      "status": "PASS"
+    },
+    {
+      "test": "1 exits shoreline 90",
+      "status": "PASS",
+      "x": 3000,
+      "y": 6805.2195981779105,
+      "z": 348.44873590906093
+    },
+    {
+      "test": "1 re-enters pond 90",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pivots while swimming 90",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pond center swimming 135",
+      "status": "PASS"
+    },
+    {
+      "test": "1 exits shoreline 135",
+      "status": "PASS",
+      "x": 1122.6975888857771,
+      "y": 6377.302411114506,
+      "z": 308.5093465495794
+    },
+    {
+      "test": "1 re-enters pond 135",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pivots while swimming 135",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pond center swimming 180",
+      "status": "PASS"
+    },
+    {
+      "test": "1 exits shoreline 180",
+      "status": "PASS",
+      "x": -186.19820449777765,
+      "y": 4500,
+      "z": 294.0767092168177
+    },
+    {
+      "test": "1 re-enters pond 180",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pivots while swimming 180",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pond center swimming 225",
+      "status": "PASS"
+    },
+    {
+      "test": "1 exits shoreline 225",
+      "status": "PASS",
+      "x": 1077.6033020063358,
+      "y": 2577.6033020062655,
+      "z": 246.91663691411156
+    },
+    {
+      "test": "1 re-enters pond 225",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pivots while swimming 225",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pond center swimming 270",
+      "status": "PASS"
+    },
+    {
+      "test": "1 exits shoreline 270",
+      "status": "PASS",
+      "x": 3000,
+      "y": 2157.642664140587,
+      "z": 302.70684176159926
+    },
+    {
+      "test": "1 re-enters pond 270",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pivots while swimming 270",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pond center swimming 315",
+      "status": "PASS"
+    },
+    {
+      "test": "1 exits shoreline 315",
+      "status": "PASS",
+      "x": 4885.745613583512,
+      "y": 2630.389221127449,
+      "z": 365.220103129175
+    },
+    {
+      "test": "1 re-enters pond 315",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pivots while swimming 315",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pond center swimming 0",
+      "status": "PASS"
+    },
+    {
+      "test": "2 exits shoreline 0",
+      "status": "PASS",
+      "x": 6053.612016928607,
+      "y": 4500,
+      "z": 504.1805384633199
+    },
+    {
+      "test": "2 re-enters pond 0",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pivots while swimming 0",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pond center swimming 45",
+      "status": "PASS"
+    },
+    {
+      "test": "2 exits shoreline 45",
+      "status": "PASS",
+      "x": 4787.417552579144,
+      "y": 6287.41755257905,
+      "z": 510.7530208712827
+    },
+    {
+      "test": "2 re-enters pond 45",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pivots while swimming 45",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pond center swimming 90",
+      "status": "PASS"
+    },
+    {
+      "test": "2 exits shoreline 90",
+      "status": "PASS",
+      "x": 3000,
+      "y": 6670.356510842234,
+      "z": 424.5654085089161
+    },
+    {
+      "test": "2 re-enters pond 90",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pivots while swimming 90",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pond center swimming 135",
+      "status": "PASS"
+    },
+    {
+      "test": "2 exits shoreline 135",
+      "status": "PASS",
+      "x": 1269.50747902115,
+      "y": 6230.492520978638,
+      "z": 424.5087332817612
+    },
+    {
+      "test": "2 re-enters pond 135",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pivots while swimming 135",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pond center swimming 180",
+      "status": "PASS"
+    },
+    {
+      "test": "2 exits shoreline 180",
+      "status": "PASS",
+      "x": -107.76847476186958,
+      "y": 4500,
+      "z": 383.4924484707305
+    },
+    {
+      "test": "2 re-enters pond 180",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pivots while swimming 180",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pond center swimming 225",
+      "status": "PASS"
+    },
+    {
+      "test": "2 exits shoreline 225",
+      "status": "PASS",
+      "x": 1226.312016658566,
+      "y": 2726.3120166584463,
+      "z": 388.1759981805954
+    },
+    {
+      "test": "2 re-enters pond 225",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pivots while swimming 225",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pond center swimming 270",
+      "status": "PASS"
+    },
+    {
+      "test": "2 exits shoreline 270",
+      "status": "PASS",
+      "x": 3000,
+      "y": 2330.9762037016017,
+      "z": 386.8368998961237
+    },
+    {
+      "test": "2 re-enters pond 270",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pivots while swimming 270",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pond center swimming 315",
+      "status": "PASS"
+    },
+    {
+      "test": "2 exits shoreline 315",
+      "status": "PASS",
+      "x": 4762.188133634667,
+      "y": 2737.8118663651526,
+      "z": 434.7577523328032
+    },
+    {
+      "test": "2 re-enters pond 315",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pivots while swimming 315",
+      "status": "PASS"
+    }
+  ]
+}

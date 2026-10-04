@@ -1,0 +1,1002 @@
+[
+  {
+    "variant": "Standard",
+    "mode": "ffa",
+    "scene": "plains",
+    "seconds": 20.058722499758005,
+    "fps": 169.90114899097463,
+    "sampledFrames": 388,
+    "timings": {
+      "frameMs": {
+        "median": 5.464399337768555,
+        "p95": 6.750199794769287,
+        "p99": 7.562000274658203,
+        "maximum": 8.205499649047852
+      },
+      "gameThreadMs": {
+        "median": 5.204900026321411,
+        "p95": 6.5177001953125,
+        "p99": 7.3703999519348145,
+        "maximum": 8.639800071716309
+      },
+      "renderThreadMs": {
+        "median": 5.1900999546051025,
+        "p95": 6.181099891662598,
+        "p99": 6.441299915313721,
+        "maximum": 6.946000099182129
+      },
+      "gpuMs": {
+        "median": 4.852750062942505,
+        "p95": 5.011000156402588,
+        "p99": 5.093299865722656,
+        "maximum": 5.155099868774414
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 119,
+      "majorCount": 10,
+      "treeInstances": 502,
+      "grassInstances": 31731,
+      "fernInstances": 523,
+      "navObstacles": 556,
+      "disconnectedNavCells": 8
+    },
+    "plants": 36,
+    "memoryStartMB": 1167.859375,
+    "memoryEndMB": 1173.4765625,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Standard",
+    "mode": "ffa",
+    "scene": "forest",
+    "seconds": 20.03853189945221,
+    "fps": 165.2316655039241,
+    "sampledFrames": 377,
+    "timings": {
+      "frameMs": {
+        "median": 5.932997703552246,
+        "p95": 6.701599597930908,
+        "p99": 7.031399726867676,
+        "maximum": 7.785797119140625
+      },
+      "gameThreadMs": {
+        "median": 4.558199882507324,
+        "p95": 6.065800189971924,
+        "p99": 6.458700180053711,
+        "maximum": 7.175000190734863
+      },
+      "renderThreadMs": {
+        "median": 5.872300148010254,
+        "p95": 6.596499919891357,
+        "p99": 6.811800003051758,
+        "maximum": 7.503200054168701
+      },
+      "gpuMs": {
+        "median": 5.308899879455566,
+        "p95": 5.412899971008301,
+        "p99": 5.464000225067139,
+        "maximum": 5.5183000564575195
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 120,
+      "majorCount": 10,
+      "treeInstances": 502,
+      "grassInstances": 31731,
+      "fernInstances": 523,
+      "navObstacles": 556,
+      "disconnectedNavCells": 8
+    },
+    "plants": 36,
+    "memoryStartMB": 1175.0625,
+    "memoryEndMB": 1167.12109375,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Standard",
+    "mode": "ffa",
+    "scene": "pond",
+    "seconds": 20.076429899781942,
+    "fps": 178.2189372244346,
+    "sampledFrames": 386,
+    "timings": {
+      "frameMs": {
+        "median": 5.059950113296509,
+        "p95": 6.9416985511779785,
+        "p99": 7.788900375366211,
+        "maximum": 8.328303337097168
+      },
+      "gameThreadMs": {
+        "median": 4.8162500858306885,
+        "p95": 6.800300121307373,
+        "p99": 7.64739990234375,
+        "maximum": 8.160099983215332
+      },
+      "renderThreadMs": {
+        "median": 4.411750078201294,
+        "p95": 5.457799911499023,
+        "p99": 5.878399848937988,
+        "maximum": 5.973999977111816
+      },
+      "gpuMs": {
+        "median": 4.367649793624878,
+        "p95": 4.466000080108643,
+        "p99": 4.5019001960754395,
+        "maximum": 4.53000020980835
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 122,
+      "majorCount": 10,
+      "treeInstances": 502,
+      "grassInstances": 31731,
+      "fernInstances": 523,
+      "navObstacles": 556,
+      "disconnectedNavCells": 8
+    },
+    "plants": 36,
+    "memoryStartMB": 1174.7421875,
+    "memoryEndMB": 1172.3515625,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Standard",
+    "mode": "ffa",
+    "scene": "close-combat",
+    "seconds": 20.054118897765875,
+    "fps": 162.11133565993651,
+    "sampledFrames": 336,
+    "timings": {
+      "frameMs": {
+        "median": 5.77395224571228,
+        "p95": 6.623998165130615,
+        "p99": 7.425498008728027,
+        "maximum": 7.96899938583374
+      },
+      "gameThreadMs": {
+        "median": 5.215350151062012,
+        "p95": 6.412099838256836,
+        "p99": 6.697299957275391,
+        "maximum": 8.120599746704102
+      },
+      "renderThreadMs": {
+        "median": 5.6389000415802,
+        "p95": 6.450699806213379,
+        "p99": 6.790800094604492,
+        "maximum": 7.088799953460693
+      },
+      "gpuMs": {
+        "median": 5.166450023651123,
+        "p95": 5.298699855804443,
+        "p99": 5.328800201416016,
+        "maximum": 5.383999824523926
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 126,
+      "majorCount": 10,
+      "treeInstances": 502,
+      "grassInstances": 31731,
+      "fernInstances": 523,
+      "navObstacles": 556,
+      "disconnectedNavCells": 8
+    },
+    "plants": 36,
+    "memoryStartMB": 1177.671875,
+    "memoryEndMB": 1181.5703125,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Standard",
+    "mode": "ffa",
+    "scene": "traversal",
+    "seconds": 20.049685899168253,
+    "fps": 166.0375138414563,
+    "sampledFrames": 387,
+    "timings": {
+      "frameMs": {
+        "median": 5.612998962402344,
+        "p95": 6.859801769256592,
+        "p99": 7.711700916290283,
+        "maximum": 8.472200393676758
+      },
+      "gameThreadMs": {
+        "median": 5.106400012969971,
+        "p95": 6.5833001136779785,
+        "p99": 7.533599853515625,
+        "maximum": 8.269100189208984
+      },
+      "renderThreadMs": {
+        "median": 5.297900199890137,
+        "p95": 6.4654998779296875,
+        "p99": 7.217700004577637,
+        "maximum": 10.130499839782715
+      },
+      "gpuMs": {
+        "median": 5.030900001525879,
+        "p95": 5.626800060272217,
+        "p99": 5.8180999755859375,
+        "maximum": 5.950200080871582
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 130,
+      "majorCount": 10,
+      "treeInstances": 502,
+      "grassInstances": 31731,
+      "fernInstances": 523,
+      "navObstacles": 556,
+      "disconnectedNavCells": 8
+    },
+    "plants": 36,
+    "memoryStartMB": 1188.109375,
+    "memoryEndMB": 1174.34765625,
+    "movement": 23279.5418802708,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Standard",
+    "mode": "teams",
+    "scene": "plains",
+    "seconds": 20.06707190349698,
+    "fps": 161.05987039577892,
+    "sampledFrames": 388,
+    "timings": {
+      "frameMs": {
+        "median": 5.882099151611328,
+        "p95": 6.917897701263428,
+        "p99": 7.589101791381836,
+        "maximum": 8.23540210723877
+      },
+      "gameThreadMs": {
+        "median": 5.195499897003174,
+        "p95": 6.543099880218506,
+        "p99": 7.150599956512451,
+        "maximum": 7.728899955749512
+      },
+      "renderThreadMs": {
+        "median": 5.688499927520752,
+        "p95": 6.65369987487793,
+        "p99": 6.9278998374938965,
+        "maximum": 7.258399963378906
+      },
+      "gpuMs": {
+        "median": 5.26230001449585,
+        "p95": 5.437600135803223,
+        "p99": 5.495100021362305,
+        "maximum": 5.5503997802734375
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 133,
+      "majorCount": 10,
+      "treeInstances": 502,
+      "grassInstances": 31731,
+      "fernInstances": 523,
+      "navObstacles": 556,
+      "disconnectedNavCells": 8
+    },
+    "plants": 36,
+    "memoryStartMB": 1178.90234375,
+    "memoryEndMB": 1183.90234375,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Standard",
+    "mode": "teams",
+    "scene": "forest",
+    "seconds": 20.04904229938984,
+    "fps": 164.49663533805648,
+    "sampledFrames": 381,
+    "timings": {
+      "frameMs": {
+        "median": 5.8572998046875,
+        "p95": 6.753999710083008,
+        "p99": 7.426697731018066,
+        "maximum": 8.3725004196167
+      },
+      "gameThreadMs": {
+        "median": 5.1041998863220215,
+        "p95": 6.151599884033203,
+        "p99": 7.007500171661377,
+        "maximum": 7.7403998374938965
+      },
+      "renderThreadMs": {
+        "median": 5.782400131225586,
+        "p95": 6.447199821472168,
+        "p99": 6.612599849700928,
+        "maximum": 6.940299987792969
+      },
+      "gpuMs": {
+        "median": 5.222799777984619,
+        "p95": 5.310999870300293,
+        "p99": 5.340099811553955,
+        "maximum": 5.3480000495910645
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 134,
+      "majorCount": 10,
+      "treeInstances": 502,
+      "grassInstances": 31731,
+      "fernInstances": 523,
+      "navObstacles": 556,
+      "disconnectedNavCells": 8
+    },
+    "plants": 36,
+    "memoryStartMB": 1183.15625,
+    "memoryEndMB": 1174.49609375,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Standard",
+    "mode": "teams",
+    "scene": "pond",
+    "seconds": 20.063009902834892,
+    "fps": 172.75573389964066,
+    "sampledFrames": 388,
+    "timings": {
+      "frameMs": {
+        "median": 5.111750364303589,
+        "p95": 7.1648993492126465,
+        "p99": 7.918700695037842,
+        "maximum": 64.13710021972656
+      },
+      "gameThreadMs": {
+        "median": 4.896749973297119,
+        "p95": 7.002600193023682,
+        "p99": 8.135700225830078,
+        "maximum": 63.82270050048828
+      },
+      "renderThreadMs": {
+        "median": 4.392699956893921,
+        "p95": 5.629799842834473,
+        "p99": 6.124000072479248,
+        "maximum": 6.350200176239014
+      },
+      "gpuMs": {
+        "median": 4.401900053024292,
+        "p95": 4.527599811553955,
+        "p99": 4.576499938964844,
+        "maximum": 4.593999862670898
+      }
+    },
+    "hitchesOver33ms": 2,
+    "hitchesOver50ms": 2,
+    "counts": {
+      "actorCount": 137,
+      "majorCount": 10,
+      "treeInstances": 502,
+      "grassInstances": 31731,
+      "fernInstances": 523,
+      "navObstacles": 556,
+      "disconnectedNavCells": 8
+    },
+    "plants": 36,
+    "memoryStartMB": 1176.50390625,
+    "memoryEndMB": 1179.984375,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Standard",
+    "mode": "teams",
+    "scene": "close-combat",
+    "seconds": 20.141036599874496,
+    "fps": 152.92162271425454,
+    "sampledFrames": 348,
+    "timings": {
+      "frameMs": {
+        "median": 6.077151775360107,
+        "p95": 7.113300323486328,
+        "p99": 7.457800388336182,
+        "maximum": 7.980700492858887
+      },
+      "gameThreadMs": {
+        "median": 5.253050088882446,
+        "p95": 6.664700031280518,
+        "p99": 7.182799816131592,
+        "maximum": 7.488900184631348
+      },
+      "renderThreadMs": {
+        "median": 6.041149854660034,
+        "p95": 6.870999813079834,
+        "p99": 7.1778998374938965,
+        "maximum": 7.82889986038208
+      },
+      "gpuMs": {
+        "median": 5.441500186920166,
+        "p95": 5.884799957275391,
+        "p99": 5.972499847412109,
+        "maximum": 6.038700103759766
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 141,
+      "majorCount": 10,
+      "treeInstances": 502,
+      "grassInstances": 31731,
+      "fernInstances": 523,
+      "navObstacles": 556,
+      "disconnectedNavCells": 8
+    },
+    "plants": 36,
+    "memoryStartMB": 1187.4921875,
+    "memoryEndMB": 1187.546875,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Standard",
+    "mode": "teams",
+    "scene": "traversal",
+    "seconds": 20.054853200912476,
+    "fps": 162.7037589011889,
+    "sampledFrames": 384,
+    "timings": {
+      "frameMs": {
+        "median": 5.777347803115845,
+        "p95": 6.805799961090088,
+        "p99": 7.109001159667969,
+        "maximum": 8.167098999023438
+      },
+      "gameThreadMs": {
+        "median": 5.348999977111816,
+        "p95": 6.778200149536133,
+        "p99": 7.28410005569458,
+        "maximum": 8.255399703979492
+      },
+      "renderThreadMs": {
+        "median": 5.40090012550354,
+        "p95": 6.458499908447266,
+        "p99": 6.892300128936768,
+        "maximum": 7.144999980926514
+      },
+      "gpuMs": {
+        "median": 5.113450050354004,
+        "p95": 5.690400123596191,
+        "p99": 5.890399932861328,
+        "maximum": 5.970600128173828
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 143,
+      "majorCount": 10,
+      "treeInstances": 502,
+      "grassInstances": 31731,
+      "fernInstances": 523,
+      "navObstacles": 556,
+      "disconnectedNavCells": 8
+    },
+    "plants": 36,
+    "memoryStartMB": 1188.00390625,
+    "memoryEndMB": 1179.2265625,
+    "movement": 24773.508395662466,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Performance",
+    "mode": "ffa",
+    "scene": "plains",
+    "seconds": 20.039193101227283,
+    "fps": 177.00313491079473,
+    "sampledFrames": 384,
+    "timings": {
+      "frameMs": {
+        "median": 4.917951345443726,
+        "p95": 6.273500442504883,
+        "p99": 7.2907023429870605,
+        "maximum": 8.499000549316406
+      },
+      "gameThreadMs": {
+        "median": 4.742000102996826,
+        "p95": 6.561399936676025,
+        "p99": 7.299900054931641,
+        "maximum": 8.097200393676758
+      },
+      "renderThreadMs": {
+        "median": 4.258900165557861,
+        "p95": 5.348100185394287,
+        "p99": 5.728700160980225,
+        "maximum": 6.104300022125244
+      },
+      "gpuMs": {
+        "median": 4.195749998092651,
+        "p95": 4.326200008392334,
+        "p99": 4.367700099945068,
+        "maximum": 4.3968000411987305
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 151,
+      "majorCount": 10,
+      "treeInstances": 0,
+      "grassInstances": 0,
+      "fernInstances": 0,
+      "navObstacles": 54,
+      "disconnectedNavCells": 0
+    },
+    "plants": 36,
+    "memoryStartMB": 1170.75,
+    "memoryEndMB": 1175.45703125,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Performance",
+    "mode": "ffa",
+    "scene": "forest",
+    "seconds": 20.0661786980927,
+    "fps": 186.23376459590705,
+    "sampledFrames": 386,
+    "timings": {
+      "frameMs": {
+        "median": 4.503849983215332,
+        "p95": 5.790800094604492,
+        "p99": 6.851598739624023,
+        "maximum": 8.853301048278809
+      },
+      "gameThreadMs": {
+        "median": 4.409499883651733,
+        "p95": 6.114999771118164,
+        "p99": 6.779099941253662,
+        "maximum": 7.134900093078613
+      },
+      "renderThreadMs": {
+        "median": 3.417449951171875,
+        "p95": 4.57919979095459,
+        "p99": 4.949100017547607,
+        "maximum": 5.498700141906738
+      },
+      "gpuMs": {
+        "median": 3.262250065803528,
+        "p95": 3.4277000427246094,
+        "p99": 3.476799964904785,
+        "maximum": 3.511899948120117
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 151,
+      "majorCount": 10,
+      "treeInstances": 0,
+      "grassInstances": 0,
+      "fernInstances": 0,
+      "navObstacles": 54,
+      "disconnectedNavCells": 0
+    },
+    "plants": 36,
+    "memoryStartMB": 1174.2578125,
+    "memoryEndMB": 1168.1328125,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Performance",
+    "mode": "ffa",
+    "scene": "pond",
+    "seconds": 20.04127399995923,
+    "fps": 187.91220558172404,
+    "sampledFrames": 385,
+    "timings": {
+      "frameMs": {
+        "median": 4.427399635314941,
+        "p95": 5.876097679138184,
+        "p99": 6.514798641204834,
+        "maximum": 7.133200645446777
+      },
+      "gameThreadMs": {
+        "median": 4.363800048828125,
+        "p95": 6.181399822235107,
+        "p99": 7.0665998458862305,
+        "maximum": 7.514400005340576
+      },
+      "renderThreadMs": {
+        "median": 3.3671000003814697,
+        "p95": 4.4593000411987305,
+        "p99": 4.802199840545654,
+        "maximum": 5.183499813079834
+      },
+      "gpuMs": {
+        "median": 3.305500030517578,
+        "p95": 3.4609999656677246,
+        "p99": 3.5218000411987305,
+        "maximum": 3.5804998874664307
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 156,
+      "majorCount": 10,
+      "treeInstances": 0,
+      "grassInstances": 0,
+      "fernInstances": 0,
+      "navObstacles": 54,
+      "disconnectedNavCells": 0
+    },
+    "plants": 36,
+    "memoryStartMB": 1175.078125,
+    "memoryEndMB": 1173.05859375,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Performance",
+    "mode": "ffa",
+    "scene": "close-combat",
+    "seconds": 20.19281989708543,
+    "fps": 164.61296722998932,
+    "sampledFrames": 344,
+    "timings": {
+      "frameMs": {
+        "median": 5.332901954650879,
+        "p95": 6.805498123168945,
+        "p99": 7.377397060394287,
+        "maximum": 8.37869930267334
+      },
+      "gameThreadMs": {
+        "median": 5.16700005531311,
+        "p95": 6.984899997711182,
+        "p99": 7.553800106048584,
+        "maximum": 8.28689956665039
+      },
+      "renderThreadMs": {
+        "median": 4.735999822616577,
+        "p95": 5.9253997802734375,
+        "p99": 6.184599876403809,
+        "maximum": 6.435800075531006
+      },
+      "gpuMs": {
+        "median": 4.511000156402588,
+        "p95": 4.733399868011475,
+        "p99": 4.788400173187256,
+        "maximum": 4.827199935913086
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 160,
+      "majorCount": 10,
+      "treeInstances": 0,
+      "grassInstances": 0,
+      "fernInstances": 0,
+      "navObstacles": 54,
+      "disconnectedNavCells": 0
+    },
+    "plants": 36,
+    "memoryStartMB": 1103.19921875,
+    "memoryEndMB": 1103.046875,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Performance",
+    "mode": "ffa",
+    "scene": "traversal",
+    "seconds": 20.077401999384165,
+    "fps": 182.9419961861929,
+    "sampledFrames": 384,
+    "timings": {
+      "frameMs": {
+        "median": 4.561198949813843,
+        "p95": 5.973599910736084,
+        "p99": 6.7396016120910645,
+        "maximum": 7.129698753356934
+      },
+      "gameThreadMs": {
+        "median": 4.501349925994873,
+        "p95": 6.230599880218506,
+        "p99": 7.038300037384033,
+        "maximum": 7.502399921417236
+      },
+      "renderThreadMs": {
+        "median": 3.40939998626709,
+        "p95": 4.611800193786621,
+        "p99": 5.227700233459473,
+        "maximum": 6.149199962615967
+      },
+      "gpuMs": {
+        "median": 3.220800042152405,
+        "p95": 3.891900062561035,
+        "p99": 4.01170015335083,
+        "maximum": 4.105100154876709
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 162,
+      "majorCount": 10,
+      "treeInstances": 0,
+      "grassInstances": 0,
+      "fernInstances": 0,
+      "navObstacles": 54,
+      "disconnectedNavCells": 0
+    },
+    "plants": 36,
+    "memoryStartMB": 1109.46875,
+    "memoryEndMB": 1100.625,
+    "movement": 20176.878384148702,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Performance",
+    "mode": "teams",
+    "scene": "plains",
+    "seconds": 20.032202903181314,
+    "fps": 167.1808146206499,
+    "sampledFrames": 385,
+    "timings": {
+      "frameMs": {
+        "median": 5.125500202178955,
+        "p95": 6.8097004890441895,
+        "p99": 7.538501262664795,
+        "maximum": 8.133698463439941
+      },
+      "gameThreadMs": {
+        "median": 5.083000183105469,
+        "p95": 6.572000026702881,
+        "p99": 7.482100009918213,
+        "maximum": 7.929599761962891
+      },
+      "renderThreadMs": {
+        "median": 4.650300025939941,
+        "p95": 5.837800025939941,
+        "p99": 6.1778998374938965,
+        "maximum": 6.820300102233887
+      },
+      "gpuMs": {
+        "median": 4.542099952697754,
+        "p95": 4.723100185394287,
+        "p99": 4.758299827575684,
+        "maximum": 4.864500045776367
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 164,
+      "majorCount": 10,
+      "treeInstances": 0,
+      "grassInstances": 0,
+      "fernInstances": 0,
+      "navObstacles": 54,
+      "disconnectedNavCells": 0
+    },
+    "plants": 36,
+    "memoryStartMB": 1117.6953125,
+    "memoryEndMB": 1116.515625,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Performance",
+    "mode": "teams",
+    "scene": "forest",
+    "seconds": 20.04668590053916,
+    "fps": 185.91601716569826,
+    "sampledFrames": 383,
+    "timings": {
+      "frameMs": {
+        "median": 4.463497638702393,
+        "p95": 5.7336015701293945,
+        "p99": 6.42110013961792,
+        "maximum": 9.206201553344727
+      },
+      "gameThreadMs": {
+        "median": 4.390399932861328,
+        "p95": 5.946899890899658,
+        "p99": 6.610099792480469,
+        "maximum": 6.718100070953369
+      },
+      "renderThreadMs": {
+        "median": 3.449199914932251,
+        "p95": 4.482800006866455,
+        "p99": 5.0914998054504395,
+        "maximum": 6.520400047302246
+      },
+      "gpuMs": {
+        "median": 3.185699939727783,
+        "p95": 3.3459999561309814,
+        "p99": 3.381700038909912,
+        "maximum": 3.4270999431610107
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 167,
+      "majorCount": 10,
+      "treeInstances": 0,
+      "grassInstances": 0,
+      "fernInstances": 0,
+      "navObstacles": 54,
+      "disconnectedNavCells": 0
+    },
+    "plants": 36,
+    "memoryStartMB": 1115.95703125,
+    "memoryEndMB": 1108.5546875,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Performance",
+    "mode": "teams",
+    "scene": "pond",
+    "seconds": 20.102433998137712,
+    "fps": 185.59941549096192,
+    "sampledFrames": 383,
+    "timings": {
+      "frameMs": {
+        "median": 4.429500579833984,
+        "p95": 5.805798053741455,
+        "p99": 7.107801914215088,
+        "maximum": 8.527398109436035
+      },
+      "gameThreadMs": {
+        "median": 4.350299835205078,
+        "p95": 6.0304999351501465,
+        "p99": 7.247300148010254,
+        "maximum": 8.360300064086914
+      },
+      "renderThreadMs": {
+        "median": 3.452500104904175,
+        "p95": 4.717700004577637,
+        "p99": 5.107600212097168,
+        "maximum": 5.772200107574463
+      },
+      "gpuMs": {
+        "median": 3.4377999305725098,
+        "p95": 3.620699882507324,
+        "p99": 3.6475000381469727,
+        "maximum": 3.710099935531616
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 172,
+      "majorCount": 10,
+      "treeInstances": 0,
+      "grassInstances": 0,
+      "fernInstances": 0,
+      "navObstacles": 54,
+      "disconnectedNavCells": 0
+    },
+    "plants": 36,
+    "memoryStartMB": 1109.29296875,
+    "memoryEndMB": 1112.3203125,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Performance",
+    "mode": "teams",
+    "scene": "close-combat",
+    "seconds": 20.081772800534964,
+    "fps": 160.29461302909712,
+    "sampledFrames": 342,
+    "timings": {
+      "frameMs": {
+        "median": 5.504800081253052,
+        "p95": 6.822101593017578,
+        "p99": 7.49450159072876,
+        "maximum": 8.443400382995605
+      },
+      "gameThreadMs": {
+        "median": 5.168499946594238,
+        "p95": 6.6585001945495605,
+        "p99": 7.837500095367432,
+        "maximum": 8.488100051879883
+      },
+      "renderThreadMs": {
+        "median": 5.244549989700317,
+        "p95": 6.190299987792969,
+        "p99": 6.6255998611450195,
+        "maximum": 8.183099746704102
+      },
+      "gpuMs": {
+        "median": 4.802700042724609,
+        "p95": 5.245999813079834,
+        "p99": 5.309999942779541,
+        "maximum": 5.375400066375732
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 173,
+      "majorCount": 10,
+      "treeInstances": 0,
+      "grassInstances": 0,
+      "fernInstances": 0,
+      "navObstacles": 54,
+      "disconnectedNavCells": 0
+    },
+    "plants": 36,
+    "memoryStartMB": 1120.9921875,
+    "memoryEndMB": 1119.09375,
+    "movement": 0.0,
+    "endHealth": 1500
+  },
+  {
+    "variant": "Performance",
+    "mode": "teams",
+    "scene": "traversal",
+    "seconds": 20.09653289988637,
+    "fps": 180.5286522841218,
+    "sampledFrames": 384,
+    "timings": {
+      "frameMs": {
+        "median": 4.571948051452637,
+        "p95": 5.8859028816223145,
+        "p99": 6.3191986083984375,
+        "maximum": 7.296599388122559
+      },
+      "gameThreadMs": {
+        "median": 4.485450029373169,
+        "p95": 6.090700149536133,
+        "p99": 6.999499797821045,
+        "maximum": 7.668099880218506
+      },
+      "renderThreadMs": {
+        "median": 3.430699944496155,
+        "p95": 4.591000080108643,
+        "p99": 5.232600212097168,
+        "maximum": 5.769999980926514
+      },
+      "gpuMs": {
+        "median": 3.2030500173568726,
+        "p95": 3.8673999309539795,
+        "p99": 4.033599853515625,
+        "maximum": 4.092400074005127
+      }
+    },
+    "hitchesOver33ms": 0,
+    "hitchesOver50ms": 0,
+    "counts": {
+      "actorCount": 174,
+      "majorCount": 10,
+      "treeInstances": 0,
+      "grassInstances": 0,
+      "fernInstances": 0,
+      "navObstacles": 54,
+      "disconnectedNavCells": 0
+    },
+    "plants": 36,
+    "memoryStartMB": 1117.0078125,
+    "memoryEndMB": 1111.95703125,
+    "movement": 24961.651330074237,
+    "endHealth": 1500
+  }
+]

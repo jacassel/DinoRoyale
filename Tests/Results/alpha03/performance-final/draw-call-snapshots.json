@@ -1,0 +1,9 @@
+{
+  "method": "Manually read stat-unit values in post-measurement engine screenshots. These are individual snapshots with different live AI/corpse states, not averaged map comparisons.",
+  "screenshots": [
+    {"file": "Standard-forest.png", "drawCalls": 215, "primitivesThousands": 1285.3},
+    {"file": "Performance-forest.png", "drawCalls": 130, "primitivesThousands": 1002.0},
+    {"file": "Standard-close-combat.png", "drawCalls": 508, "primitivesThousands": 2709.3},
+    {"file": "Performance-close-combat.png", "drawCalls": 691, "primitivesThousands": 4215.0}
+  ]
+}

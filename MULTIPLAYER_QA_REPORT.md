@@ -4,15 +4,27 @@ The owner reports successful real multiplayer with the prior release. This updat
 retains the existing EOS session, relay and service identity. Compatibility moves
 to **2026100303** because both peers need the new movement and lobby behavior.
 
-The 0.3 source build passes lobby (20), combat (39), bots (17), match rules (48),
-ecology (25), packs (21), Performance-map matches (48), custom team configurations
-and late join (25), and 96 delayed pond-crossing assertions. Compatibility and EOS
-resolved-URL automation pass all 32 assertions. Source regression passes 478 checks.
+The release gameplay executable passes **577/577** packaged multiplayer checks:
+lobby 20, combat 39, bots 17, match rules 48, ecology 25, packs 21, Performance-map
+matches 48, custom teams/late join 25, water 96, pivot 82, grounding/carcasses 66,
+lobby/maps 13, survival edges 16, cosmetics 3, four-player sessions 13,
+delayed fundamentals 24 and delayed packs 21. Compatibility and EOS resolved-URL
+automation pass all 32 assertions. Source and packaged offline regression each
+pass 478 checks across 14 suites.
 
-The first 0.3 package passes 66 replicated mesh/carcass checks with 75ms per-peer
-delay: all species, both observers, movement/combat/water, flat ground, slopes,
-rocks, trees, pond edges, water, host/client/AI deaths and independent respawn.
-Remaining package suites and release measurements are still running. See TEST_LOG.
+Grounding, pivot and water use 75ms per-peer delay; fundamentals and packs also
+use 2% packet loss. Grounding coverage includes all species, both observers,
+movement/combat/water, flat ground, slopes, rocks, trees, pond edges, water,
+host/client/AI deaths and independent respawn. Rendered two-process checks pass
+7/7 and show both maps, a two-human-versus-five-bot roster, remote pivots and
+replicated corpse food. Automated screenshots were visually inspected.
+
+Evidence is under `Tests/Results/alpha03/rc3-network`, `rc3-regression`,
+`rc3-automation` and `rc3-rendered`. The final RC4 package changes only the allowlist
+for saving mouse sensitivity; its executable has the same SHA256 as RC3.
+Fresh-process preferences pass 5/5; additional final-package UI/settings/core
+checks pass 124/124. The requested native close-combat pass remains pending
+owner handling of Windows' firewall prompt. See TEST_LOG.md for exact boundaries.
 
 These tests use separate local game processes over explicit development sockets.
 They verify local multiplayer behavior, not a new WAN/EOS connection. No firewall,
