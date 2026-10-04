@@ -1,7 +1,7 @@
 # Dino Royale — Version 0.3 Alpha Test
 
-The Windows package is locally verified. Native close-combat acceptance and the
-requested GitHub push remain pending the owner's firewall/GitHub access steps.
+The locally verified Windows package is published as a
+[public Alpha Test release](https://github.com/jacassel/DinoRoyale/releases/tag/v0.3.0-alpha-test).
 Use TEST_LOG.md for evidence and HANDOFF.md for the recoverable checkpoint.
 
 ## Changes
@@ -45,9 +45,14 @@ plains/forest/pond scenes rose from **66/105/80 to 185/177/187 FPS**. Across the
 See PERFORMANCE_REPORT.md for thread/GPU timings, native-1080p results, memory,
 sampling limits and exact settings. The ordinary 60 FPS cap remains unchanged.
 
-Native close-combat acceptance is waiting on a Windows firewall permission dialog
-that the owner must handle. The requested GitHub repository push is waiting on
-authenticated GitHub access. Neither is being represented as complete.
+Computer Use checks covered Rex/Rex, Rex/Triceratops, Triceratops/Rex,
+raptor/Rex and a raptor pack/Triceratops. Native mouse attacks landed in all five;
+held pivots, movement and charged attacks used the development input bridge because
+the desktop tool only taps keys. See NATIVE_PLAYTEST_REPORT.md for exact evidence,
+fixture corrections and the distinction from continuous human keyboard play.
+Public source is at https://github.com/jacassel/DinoRoyale; the version tag is
+`v0.3.0-alpha-test`. The sealed ZIP's included notes predate publication and these
+last checks; the current repository and release page supersede their pending status.
 
 The owner reports working real multiplayer on the prior release. Local loopback
 tests do not establish a fresh internet EOS session. All players need this version:

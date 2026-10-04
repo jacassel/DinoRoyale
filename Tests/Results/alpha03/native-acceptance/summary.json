@@ -1,0 +1,62 @@
+{
+  "method": "Hybrid Computer Use plus mapped-input bridge; not continuous native keyboard play",
+  "matchups": [
+    {
+      "matchup": "rex-rex",
+      "pivotDegrees": 61.750874638557434,
+      "pivotCameraDelta": 0,
+      "pivotTravelCm": 0.0,
+      "pivotClipObserved": true,
+      "nativeQuickDamage": 187,
+      "heavyTurnDegrees": 5.541749000549316,
+      "movementCameraGap": 1.8000602779011388e-05,
+      "inputMethod": "Native mouse quick attack; bridge-held pivot, movement and heavy"
+    },
+    {
+      "matchup": "rex-trike",
+      "pivotDegrees": 66.5010640621185,
+      "pivotCameraDelta": 0,
+      "pivotTravelCm": 0.0,
+      "pivotClipObserved": true,
+      "nativeQuickDamage": 187,
+      "heavyTurnDegrees": 5.145895898342246,
+      "movementCameraGap": 0,
+      "inputMethod": "Native mouse quick attack; bridge-held pivot, movement and heavy"
+    },
+    {
+      "matchup": "trike-rex",
+      "pivotDegrees": 86.252565383911,
+      "pivotCameraDelta": 0,
+      "pivotTravelCm": 0.0,
+      "pivotClipObserved": true,
+      "nativeQuickDamage": 155,
+      "heavyTurnDegrees": 7.474217981100082,
+      "movementCameraGap": 14.854583740234375,
+      "inputMethod": "Native mouse quick attack; bridge-held pivot, movement and heavy"
+    },
+    {
+      "matchup": "raptor-rex",
+      "pivotDegrees": 66.50108361244202,
+      "pivotCameraDelta": 0,
+      "pivotTravelCm": 0.0,
+      "pivotClipObserved": true,
+      "nativeQuickDamage": 66.5999755859375,
+      "heavyTurnDegrees": 0.0,
+      "movementCameraGap": 0,
+      "inputMethod": "Native mouse quick attack; bridge-held pivot, movement and heavy"
+    },
+    {
+      "matchup": "pack-final",
+      "pivotDegrees": 66.50165367126475,
+      "pivotCameraDelta": 0,
+      "pivotTravelCm": 0.0,
+      "pivotClipObserved": true,
+      "nativeQuickDamage": 66.5999755859375,
+      "heavyTurnDegrees": 0.0,
+      "movementCameraGap": 0,
+      "inputMethod": "Native mouse quick attack; bridge-held pivot, movement and heavy"
+    }
+  ],
+  "excludedFixture": "pack-trike-* did not place the offline followers; pack-final-* corrects that setup",
+  "runtimeChanged": false
+}

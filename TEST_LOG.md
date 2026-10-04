@@ -1,5 +1,29 @@
 # Test log
 
+## Public release and interactive follow-up, October 4, 2026
+
+- Public repository: https://github.com/jacassel/DinoRoyale, default `main`.
+  Published prerelease: `v0.3.0-alpha-test`, tested runtime source `008bcee`.
+  GitHub's uploaded-asset size and SHA256 match the sealed 461,520,853-byte ZIP;
+  anonymous reads confirm public access. Evidence: `alpha03/release/publication.json`.
+- Computer Use operated the real game window for all five requested adjacent
+  matchups. Native mouse attacks land for 187/187/155/66.6/66.6 damage after pivots;
+  held pivots change camera yaw by zero and position by zero. Held controls use
+  the mapped-input bridge because the native API only taps keys. Heavy turning
+  remains bounded at 0–7.5° in the sampled quarter-second. W restores locomotion.
+  Full method, correction of an offline pack fixture and visual limits:
+  `NATIVE_PLAYTEST_REPORT.md`, evidence `alpha03/native-acceptance`.
+- The final pack encounter shows both followers using the human leader, fighting,
+  leader kill credit and enemy respawn. These invulnerable-player control fixtures
+  do not establish human balance or continuous native keyboard feel.
+- No gameplay/runtime changes after the full regression. The published ZIP remains
+  unchanged; its bundled pending-status notes predate this follow-up. The current
+  repository and release page supersede those notes. Prior playable builds remain intact.
+- Account allowance at this milestone: 78%; no Astra-specific allowance exposed.
+- Final normal launcher opens the published runtime, loads LostValley and displays
+  the 0.3 selection screen without development bridge flags. Runtime hash remains
+  unchanged. The game is left open; evidence: `alpha03/release/normal-launch-publication.json`.
+
 ## Dino Royale 0.3 Alpha Test - release verification, October 4, 2026
 
 - Final gameplay candidate RC3: **478/478** rendered offline checks across 14 suites and **577/577** separate-process multiplayer checks across 17 suites. Evidence: `rc3-regression/summary.json`, `rc3-network/summary.json`. Network coverage includes both maps, FFA/teams, up to four simultaneous human peers, bots, unequal rosters, feeding/reveal, packs, pivot replay, remote grounding, corpse persistence, death/respawn and water. Grounding/pivot/water use 75ms per-peer delay; fundamentals and packs additionally use 2% packet loss. These are development loopback sessions, not fresh EOS/WAN acceptance.

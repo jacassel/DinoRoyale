@@ -1,0 +1,10 @@
+{
+  "verifiedAtUtc": "2026-10-04T14:14:42.7673700Z",
+  "launcher": "LaunchGame.bat",
+  "runtimePid": 31900,
+  "executable": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Releases\\DinoRoyale-0.3-Alpha-Test\\Windows\\DinosaurBattle\\Binaries\\Win64\\DinosaurBattle.exe",
+  "commandLine": "\"C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Releases\\DinoRoyale-0.3-Alpha-Test\\Windows\\DinosaurBattle\\Binaries\\Win64\\DinosaurBattle.exe\" DinosaurBattle -windowed -ResX=1600 -ResY=900",
+  "testFlagsAbsent": true,
+  "worldLoaded": true,
+  "runtimeSHA256": "AB8ACF532F92A9E58785776690EC024B841F44D35043356EA89A08D28E8F1596"
+}

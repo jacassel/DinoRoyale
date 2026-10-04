@@ -1,5 +1,8 @@
 # Dino Royale — Version 0.3 Alpha Test
 
+[Download the Windows Alpha Test](https://github.com/jacassel/DinoRoyale/releases/tag/v0.3.0-alpha-test)
+· [Public source repository](https://github.com/jacassel/DinoRoyale)
+
 A dinosaur combat prototype with offline play and an Epic Online Services multiplayer integration.
 The owner reports successful real multiplayer play with the prior release. Version 0.3
 adds close-combat pivoting, optimized foliage, a Performance map, custom AI teams,
@@ -21,8 +24,10 @@ folder and run **Windows\Play Dino Royale.bat**. Keep the entire folder together
 Copy each computer's existing configured `OnlineServices.ini` to its new
 `Windows\DinosaurBattle` subfolder before online play; credentials are excluded
 from the ZIP. Both players must use 0.3. The prior QA2 friends package, its independent
-recovery, QA1 and `Dist\Windows` remain preserved. Native close-combat acceptance
-and a fresh physical/WAN session remain pending; automated local multiplayer passes.
+recovery, QA1 and `Dist\Windows` remain preserved. Five close-combat matchups were
+checked with native mouse input and bridge-assisted held controls; see
+[NATIVE_PLAYTEST_REPORT.md](NATIVE_PLAYTEST_REPORT.md) for the method and limits.
+A fresh physical/WAN session remains unverified; automated local multiplayer passes.
 See `MULTIPLAYER_QA_REPORT.md` for the current verification and recovery status.
 See `RELEASE_READINESS.md` for the remaining college playtest and optional Steam launch work.
 Choose a dinosaur with **1 / 2 / 3**. **Escape** pauses; **F10** from the menu exits.

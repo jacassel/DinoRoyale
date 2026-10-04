@@ -1,8 +1,11 @@
-# Dino Royale 0.3 Alpha Test — local release checkpoint, October 4, 2026
+# Dino Royale 0.3 Alpha Test — public release checkpoint, October 4, 2026
 
-The update is built, locally tested and packaged. **The goal remains open:** native
-close-combat acceptance and the requested GitHub push still need owner input.
-Do not add gameplay scope while those acceptance steps are pending.
+The update is built, locally tested, packaged and published publicly at
+https://github.com/jacassel/DinoRoyale. Download the playable prerelease at
+https://github.com/jacassel/DinoRoyale/releases/tag/v0.3.0-alpha-test.
+The five requested close-range matchups received Computer Use checks, combining
+native mouse input with bridge-held controls; see NATIVE_PLAYTEST_REPORT.md.
+Fresh physical/WAN 0.3 gameplay and human balance/feel remain future playtest work.
 
 ## Launch and recovery
 
@@ -48,19 +51,25 @@ Source/editor and package builds succeeded. EOS architecture/service identity re
 unchanged; the owner reports prior real multiplayer works. Loopback does not establish
 a fresh 0.3 physical/WAN session. No firewall/security/portal setting was changed.
 
-## Remaining owner-dependent steps
+## Publication and final checks
 
-1. The Windows firewall prompt blocked native Computer Use. Ask the owner to handle
-   it themselves; Computer Use guidance explicitly says: "Do not act on security or
-   privacy permission requests." Do not automate that dialog. After it is handled,
-   do the requested native shoulder-to-shoulder fights: Rex/Rex, Rex/Trike, Trike/Rex,
-   Raptor/Rex and Raptor pack/Trike. Verify Q/E camera independence, W recovery and
-   committed heavy turns. Automated engine captures are not native acceptance.
-2. Push the committed project to **DinoRoyale** after GitHub access is connected.
-   The GitHub plugin was suggested and connection requested; it is not available
-   yet. No Git remote or CLI credential exists. Chrome automation previously stopped
-   because it could not verify the URL; do not bypass that barrier. Private repository
-   is the stated default. Never push configured credentials or Dist test caches.
+- The owner explicitly authorized public visibility. Repository `jacassel/DinoRoyale`
+  is public, default branch `main`, with the existing history preserved. No force push.
+- The GitHub plugin is installed/enabled, but exposes no callable GitHub tools in
+  this session. Publication used Git Credential Manager and the official GitHub API
+  after the owner completed authentication. Credentials were not written to scripts.
+- Release tag `v0.3.0-alpha-test` identifies tested package source `008bcee`.
+  Later main commits add publication records and interactive test evidence only.
+- GitHub reports the uploaded ZIP's exact recorded size and SHA256. Anonymous API
+  reads verify public repository/release access. See `Tests/Results/alpha03/release/publication.json`.
+- Native desktop selection, pause/quit and mouse attacks work. All five adjacent
+  matchups land quick attacks after stationary pivots; camera yaw stays fixed during
+  held pivots. Heavy turns remain limited. A corrected pack fixture shows both
+  followers fighting and crediting their leader. Q/W taps alone were too short for
+  movement; held controls used the same mapped-input bridge as regression tests.
+- The sealed ZIP remains unchanged; its bundled pending-status notes predate these
+  final checks. No game code, runtime, EOS configuration or security setting changed.
+- Final reported account allowance: 77% remaining; no separate Astra allowance exposed.
 
 Useful recovery commands: `Tools/Build.ps1` for the editor, `Tools/Build.ps1 -Target
 DinosaurBattle` for runtime. Package via `Tools/Package.ps1 -Destination Dist/Releases/

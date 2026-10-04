@@ -1,0 +1,17 @@
+{
+  "repository": "https://github.com/jacassel/DinoRoyale",
+  "visibility": "public",
+  "defaultBranch": "main",
+  "packageSourceCommit": "008bceea304c8eca3302b9a57d40796bf1f0155f",
+  "tag": "v0.3.0-alpha-test",
+  "release": "https://github.com/jacassel/DinoRoyale/releases/tag/v0.3.0-alpha-test",
+  "prerelease": true,
+  "publishedAt": "2026-10-04T14:06:43Z",
+  "asset": "https://github.com/jacassel/DinoRoyale/releases/download/v0.3.0-alpha-test/DinoRoyale-0.3-Alpha-Test.zip",
+  "assetId": 609952833,
+  "size": 461520853,
+  "digest": "sha256:28f72d4f0a13455ce98c0b37d302df0ccab511f6fb21c8f0173b7a68d02ff844",
+  "anonymousRepositoryAndReleaseVerified": true,
+  "anonymousDownloadStatus": 200,
+  "anonymousDownloadContentLength": 461520853
+}
