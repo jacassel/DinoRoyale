@@ -1,0 +1,142 @@
+[
+  {
+    "player": 1,
+    "enemy": 0,
+    "humanLeadsPack": true,
+    "seconds": 5.484267100691795,
+    "playerHP": 0,
+    "playerDead": true,
+    "ai": [
+      {
+        "id": 1,
+        "species": 0,
+        "hp": 645.1880493164062,
+        "leader": -1,
+        "hits": 4,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "species": 1,
+        "hp": 520,
+        "leader": 0,
+        "hits": 5,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 3,
+        "species": 1,
+        "hp": 333,
+        "leader": 0,
+        "hits": 0,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Charging",
+      "Pursuing",
+      "Repositioning",
+      "Retreating",
+      "Roaming"
+    ],
+    "staminaValid": true
+  },
+  {
+    "player": 1,
+    "enemy": 2,
+    "humanLeadsPack": true,
+    "seconds": 6.258131999522448,
+    "playerHP": 0,
+    "playerDead": true,
+    "ai": [
+      {
+        "id": 1,
+        "species": 2,
+        "hp": 506.14404296875,
+        "leader": -1,
+        "hits": 2,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "species": 1,
+        "hp": 520,
+        "leader": 0,
+        "hits": 7,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 3,
+        "species": 1,
+        "hp": 520,
+        "leader": 0,
+        "hits": 2,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Pursuing",
+      "Repositioning",
+      "Roaming"
+    ],
+    "staminaValid": true
+  },
+  {
+    "player": 0,
+    "enemy": 1,
+    "humanLeadsPack": false,
+    "seconds": 7.807681202888489,
+    "playerHP": 0,
+    "playerDead": true,
+    "ai": [
+      {
+        "id": 1,
+        "species": 1,
+        "hp": 520,
+        "leader": 1,
+        "hits": 4,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 2,
+        "species": 1,
+        "hp": 276.8999938964844,
+        "leader": 1,
+        "hits": 7,
+        "stuck": 0,
+        "paths": 0
+      },
+      {
+        "id": 3,
+        "species": 1,
+        "hp": 333,
+        "leader": 1,
+        "hits": 3,
+        "stuck": 0,
+        "paths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Flanking",
+      "Pursuing",
+      "Repositioning",
+      "Roaming",
+      "Seeking food"
+    ],
+    "staminaValid": true
+  }
+]

@@ -1,0 +1,317 @@
+[
+  {
+    "test": "Trex sprint accelerates and drains",
+    "passed": true,
+    "walk": 1050,
+    "sprint": 1449,
+    "stamina": 85.21586608886719
+  },
+  {
+    "test": "Trex walking regenerates",
+    "passed": true
+  },
+  {
+    "test": "Trex idle regenerates quickly",
+    "passed": true
+  },
+  {
+    "test": "Trex jump spends stamina",
+    "passed": true
+  },
+  {
+    "test": "Trex airborne jump cannot spend again",
+    "passed": true
+  },
+  {
+    "test": "Trex exhaustion restricts sprint jump heavy",
+    "passed": true
+  },
+  {
+    "test": "Trex exhausted quick still works",
+    "passed": true
+  },
+  {
+    "test": "Trex exhaustion reliably recovers",
+    "passed": true
+  },
+  {
+    "test": "Trex combo strike 1",
+    "passed": true,
+    "damage": 187
+  },
+  {
+    "test": "Trex combo strike 2",
+    "passed": true,
+    "damage": 187
+  },
+  {
+    "test": "Trex combo strike 3",
+    "passed": true,
+    "damage": 209.4404296875
+  },
+  {
+    "test": "Trex third strike enforces recovery",
+    "passed": true,
+    "first": 0.5278607726097106,
+    "third": 1.4712453603744506
+  },
+  {
+    "test": "Trex immediate fourth strike rejected",
+    "passed": true
+  },
+  {
+    "test": "Trex brace cannot cancel commitment",
+    "passed": true
+  },
+  {
+    "test": "Trex pause cannot erase cooldown",
+    "passed": true
+  },
+  {
+    "test": "Trex heavy has readable charge",
+    "passed": true
+  },
+  {
+    "test": "Trex heavy worthwhile and single hit",
+    "passed": true,
+    "quick": 187,
+    "heavy": 673.2001953125,
+    "stamina": 65.23754119873047
+  },
+  {
+    "test": "Trex heavy has no duplicate damage",
+    "passed": true
+  },
+  {
+    "test": "Trex heavy miss punished",
+    "passed": true,
+    "recovery": 0.9651936292648315
+  },
+  {
+    "test": "Trex food restores stamina at full health",
+    "passed": true,
+    "stamina": 54.5885124206543
+  },
+  {
+    "test": "Trex damage prevents immediate combat feeding",
+    "passed": true
+  },
+  {
+    "test": "Trex food becomes available after safe interval",
+    "passed": true
+  },
+  {
+    "test": "Trex brace drains and breaks at zero",
+    "passed": true
+  },
+  {
+    "test": "Raptor sprint accelerates and drains",
+    "passed": true,
+    "walk": 1600,
+    "sprint": 2400,
+    "stamina": 91.11017608642578
+  },
+  {
+    "test": "Raptor walking regenerates",
+    "passed": true
+  },
+  {
+    "test": "Raptor idle regenerates quickly",
+    "passed": true
+  },
+  {
+    "test": "Raptor jump spends stamina",
+    "passed": true
+  },
+  {
+    "test": "Raptor airborne jump cannot spend again",
+    "passed": true
+  },
+  {
+    "test": "Raptor exhaustion restricts sprint jump heavy",
+    "passed": true
+  },
+  {
+    "test": "Raptor exhausted quick still works",
+    "passed": true
+  },
+  {
+    "test": "Raptor exhaustion reliably recovers",
+    "passed": true
+  },
+  {
+    "test": "Raptor combo strike 1",
+    "passed": true,
+    "damage": 66.599609375
+  },
+  {
+    "test": "Raptor combo strike 2",
+    "passed": true,
+    "damage": 66.599609375
+  },
+  {
+    "test": "Raptor combo strike 3",
+    "passed": true,
+    "damage": 74.591796875
+  },
+  {
+    "test": "Raptor third strike enforces recovery",
+    "passed": true,
+    "first": 0.22916788309812547,
+    "third": 0.7250378847122192
+  },
+  {
+    "test": "Raptor immediate fourth strike rejected",
+    "passed": true
+  },
+  {
+    "test": "Raptor brace cannot cancel commitment",
+    "passed": true
+  },
+  {
+    "test": "Raptor pause cannot erase cooldown",
+    "passed": true
+  },
+  {
+    "test": "Raptor heavy has readable charge",
+    "passed": true
+  },
+  {
+    "test": "Raptor heavy worthwhile and single hit",
+    "passed": true,
+    "quick": 66.599609375,
+    "heavy": 193.1396484375,
+    "stamina": 75.37503814697266
+  },
+  {
+    "test": "Raptor heavy has no duplicate damage",
+    "passed": true
+  },
+  {
+    "test": "Raptor heavy miss punished",
+    "passed": true,
+    "recovery": 0.2765331268310547
+  },
+  {
+    "test": "Raptor food restores stamina at full health",
+    "passed": true,
+    "stamina": 55.67864990234375
+  },
+  {
+    "test": "Raptor damage prevents immediate combat feeding",
+    "passed": true
+  },
+  {
+    "test": "Raptor food becomes available after safe interval",
+    "passed": true
+  },
+  {
+    "test": "Raptor brace drains and breaks at zero",
+    "passed": true
+  },
+  {
+    "test": "Trike sprint accelerates and drains",
+    "passed": true,
+    "walk": 850,
+    "sprint": 1317.5,
+    "stamina": 86.66220092773438
+  },
+  {
+    "test": "Trike walking regenerates",
+    "passed": true
+  },
+  {
+    "test": "Trike idle regenerates quickly",
+    "passed": true
+  },
+  {
+    "test": "Trike jump spends stamina",
+    "passed": true
+  },
+  {
+    "test": "Trike airborne jump cannot spend again",
+    "passed": true
+  },
+  {
+    "test": "Trike exhaustion restricts sprint jump heavy",
+    "passed": true
+  },
+  {
+    "test": "Trike exhausted quick still works",
+    "passed": true
+  },
+  {
+    "test": "Trike exhaustion reliably recovers",
+    "passed": true
+  },
+  {
+    "test": "Trike combo strike 1",
+    "passed": true,
+    "damage": 155
+  },
+  {
+    "test": "Trike combo strike 2",
+    "passed": true,
+    "damage": 155
+  },
+  {
+    "test": "Trike combo strike 3",
+    "passed": true,
+    "damage": 173.599609375
+  },
+  {
+    "test": "Trike third strike enforces recovery",
+    "passed": true,
+    "first": 0.4603835463523865,
+    "third": 1.236236047744751
+  },
+  {
+    "test": "Trike immediate fourth strike rejected",
+    "passed": true
+  },
+  {
+    "test": "Trike brace cannot cancel commitment",
+    "passed": true
+  },
+  {
+    "test": "Trike pause cannot erase cooldown",
+    "passed": true
+  },
+  {
+    "test": "Trike heavy has readable charge",
+    "passed": true
+  },
+  {
+    "test": "Trike heavy worthwhile and single hit",
+    "passed": true,
+    "quick": 155,
+    "heavy": 511.5,
+    "stamina": 67.51274871826172
+  },
+  {
+    "test": "Trike heavy has no duplicate damage",
+    "passed": true
+  },
+  {
+    "test": "Trike heavy miss punished",
+    "passed": true,
+    "recovery": 0.8924789428710938
+  },
+  {
+    "test": "Trike food restores stamina at full health",
+    "passed": true,
+    "stamina": 57.170799255371094
+  },
+  {
+    "test": "Trike damage prevents immediate combat feeding",
+    "passed": true
+  },
+  {
+    "test": "Trike food becomes available after safe interval",
+    "passed": true
+  },
+  {
+    "test": "Trike brace drains and breaks at zero",
+    "passed": true
+  }
+]

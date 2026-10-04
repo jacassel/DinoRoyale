@@ -452,6 +452,7 @@ void ADinoPlayerController::WriteTelemetry()
         O->SetNumberField(TEXT("grassInstances"),It->Grass->GetInstanceCount());
         O->SetNumberField(TEXT("fernInstances"),It->Ferns->GetInstanceCount());
         O->SetNumberField(TEXT("navObstacles"),It->Obstacles.Num());
+        O->SetNumberField(TEXT("disconnectedNavCells"),It->DisconnectedNavCells);
         TArray<TSharedPtr<FJsonValue>> Fixtures;
         for(bool Tree:{false,true})for(const auto& Obstacle:It->Obstacles)if(Obstacle.bTree==Tree)
         {

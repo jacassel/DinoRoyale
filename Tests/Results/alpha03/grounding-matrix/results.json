@@ -1,0 +1,198 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 75,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "0 standing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 walking remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 pivoting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 bracing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 sprinting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 quick attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 committed heavy attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 swimming remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 bank exit remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 64,
+      "bad": []
+    },
+    {
+      "test": "1 standing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 walking remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 pivoting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 40,
+      "bad": []
+    },
+    {
+      "test": "1 bracing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 sprinting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 quick attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 committed heavy attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 swimming remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 bank exit remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 64,
+      "bad": []
+    },
+    {
+      "test": "2 standing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 walking remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 pivoting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 40,
+      "bad": []
+    },
+    {
+      "test": "2 bracing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 sprinting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 quick attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 committed heavy attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 swimming remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 bank exit remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 64,
+      "bad": []
+    },
+    {
+      "test": "0 flat body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 16.972571593703123,
+      "ground": 16.767318725585938
+    },
+    {
+      "test": "0 flat authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "0 slope body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 2421.897900390488,
+      "ground": 2420.41748046875
+    },
+    {
+      "test": "0 slope authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pond-edge body grounded or floating at water surface",
+      "status": "FAIL",
+      "bodyZ": 276.4057940673623,
+      "ground": 210.6785430908203
+    }
+  ]
+}

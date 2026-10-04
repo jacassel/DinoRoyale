@@ -4,6 +4,15 @@ The owner has authorized this major update and resumed development. The historic
 
 Current branch: `codex/dino-royale-alpha-0.3`. Current subsystem checkpoint: `alpha03-systems-tested` (controls, pivot clips, grounding, map variants, AI slots, foliage LODs, swim correction and prey priorities). Broad regression and release work continue from this checkpoint; preserve subsequent working changes. See the newest TEST_LOG entry and `Tests/Results/alpha03`.
 
+Latest verified source checkpoint: `alpha03-navigation-settings-tested`, following
+`alpha03-regression-tested` (`5710de5`, full source 478/478). First package also passes
+478/478 plus broad multiplayer checks. Subsequent stress/UI testing fixed unreachable
+retreat choices, eight disconnected navigation-grid cells, and custom settings saving.
+Targeted routes (including all 42 landmark pairs per map) and six UI checks pass.
+RC2 lacks the last navigation/settings changes; RC3 is the next candidate. Preserve
+all candidates and the prior known-good QA2. Native play is blocked by a Windows
+firewall dialog requiring user action; no security setting has been changed.
+
 Keep the working prior package at `Dist/Releases/DinoRoyale-20260926-QA2-ForCairnFriends/Windows` and its independent QA2 recovery. The old launcher still points to a missing unsuffixed QA2 folder and must be updated only after the 0.3 package passes. The first 0.3 package exists at `Dist/Releases/DinoRoyale-0.3-Alpha-Test/Windows`; release verification is ongoing. No GitHub push exists yet.
 
 Build: `powershell -ExecutionPolicy Bypass -File Tools/Build.ps1`.

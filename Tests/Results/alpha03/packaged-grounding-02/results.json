@@ -1,0 +1,360 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 75,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "0 standing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 walking remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 40,
+      "bad": []
+    },
+    {
+      "test": "0 pivoting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 bracing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 40,
+      "bad": []
+    },
+    {
+      "test": "0 sprinting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 quick attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 committed heavy attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 swimming remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "0 bank exit remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 64,
+      "bad": []
+    },
+    {
+      "test": "1 standing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 40,
+      "bad": []
+    },
+    {
+      "test": "1 walking remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 pivoting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 bracing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 40,
+      "bad": []
+    },
+    {
+      "test": "1 sprinting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 quick attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 40,
+      "bad": []
+    },
+    {
+      "test": "1 committed heavy attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 swimming remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "1 bank exit remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 64,
+      "bad": []
+    },
+    {
+      "test": "2 standing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 walking remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 pivoting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 bracing remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 sprinting remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 quick attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 committed heavy attack remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 swimming remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 44,
+      "bad": []
+    },
+    {
+      "test": "2 bank exit remote mesh follows capsule across both observers",
+      "status": "PASS",
+      "samples": 64,
+      "bad": []
+    },
+    {
+      "test": "0 flat body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 16.951240539550497,
+      "ground": 16.95124053955078
+    },
+    {
+      "test": "0 flat authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "0 slope body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 2421.8978515623626,
+      "ground": 2424.18359375
+    },
+    {
+      "test": "0 slope authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "0 pond-edge body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 276.4056927490029,
+      "ground": 277.2724609375
+    },
+    {
+      "test": "0 pond-edge authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "0 water body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 111.75,
+      "ground": -470
+    },
+    {
+      "test": "0 water authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "0 rock body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 362.0628384971618,
+      "ground": 362.2298583984375
+    },
+    {
+      "test": "0 rock authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "0 tree body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 695.4863057016851,
+      "ground": 695.5706176757812
+    },
+    {
+      "test": "0 tree authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "1 flat body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 16.95124053955068,
+      "ground": 16.95124053955078
+    },
+    {
+      "test": "1 flat authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "1 slope body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 2421.89785156244,
+      "ground": 2424.18359375
+    },
+    {
+      "test": "1 slope authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "1 pond-edge body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 276.4056927490146,
+      "ground": 277.2724609375
+    },
+    {
+      "test": "1 pond-edge authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "1 water body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 150.25,
+      "ground": -470
+    },
+    {
+      "test": "1 water authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "1 rock body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 362.0628384971619,
+      "ground": 362.2298583984375
+    },
+    {
+      "test": "1 rock authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "1 tree body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 695.4863057017657,
+      "ground": 695.5706176757812
+    },
+    {
+      "test": "1 tree authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "2 flat body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 16.95124053955061,
+      "ground": 16.95124053955078
+    },
+    {
+      "test": "2 flat authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "2 slope body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 2421.8978515623944,
+      "ground": 2424.18359375
+    },
+    {
+      "test": "2 slope authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "2 pond-edge body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 276.4056927490076,
+      "ground": 277.2724609375
+    },
+    {
+      "test": "2 pond-edge authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "2 water body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 127.5,
+      "ground": -470
+    },
+    {
+      "test": "2 water authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "2 rock body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 362.0628384971618,
+      "ground": 362.2298583984375
+    },
+    {
+      "test": "2 rock authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "2 tree body grounded or floating at water surface",
+      "status": "PASS",
+      "bodyZ": 695.486305701718,
+      "ground": 695.5706176757812
+    },
+    {
+      "test": "2 tree authoritative body and food agree",
+      "status": "PASS"
+    },
+    {
+      "test": "ten-second respawn leaves old body independent",
+      "status": "PASS"
+    },
+    {
+      "test": "real client attack kills host and publishes carcass",
+      "status": "FAIL"
+    }
+  ]
+}

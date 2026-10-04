@@ -1,5 +1,15 @@
 # Dino Royale: Epic playtest and optional Steam readiness
 
+**October 4, 2026 update:** official game branding is Dino Royale. Version 0.3
+Alpha Test is in release verification, with compatibility **2026100303**. The
+owner reports working multiplayer in the prior release and authorized this update
+and a GitHub project named DinoRoyale. Use the current FRIEND_QUICKSTART and
+TEST_LOG for 0.3. The report below is historical; the September stop and branding
+approval notes do not prevent the authorized 0.3 work. No store release or spending
+is authorized or performed.
+
+---
+
 Prepared September 26, 2026; official references checked during wrap-up.
 This is a report of remaining work, not authorization to publish or spend.
 Live QA pursuit stopped at the owner's request. No store submission, purchase,

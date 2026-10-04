@@ -10,7 +10,7 @@ try:
     t.check('two human packs each have two replicated followers with bots off',wait_for(lambda:len(followers(client,0))==2 and len(followers(client,1))==2))
     t.check('followers do not consume participant slots',len(host.state()['players'])==2 and len([a for a in host.state()['networkActors'] if a['id']<10 and a['scoring']])==2)
     t.check('only raptor leaders are scoring targets',all(not a['scoring'] for a in followers(client,0)+followers(client,1)))
-    t.check('each local leader sees its followers as allies',all(not a['enemy'] for a in followers(host,0)) and all(not a['enemy'] for a in followers(client,1)))
+    t.check('each local leader sees its followers as allies',wait_for(lambda:host.state()['species']==client.state()['species']==1 and all(not a['enemy'] for a in followers(host,0)) and all(not a['enemy'] for a in followers(client,1))))
     t.check('different FFA packs remain enemies',all(a['enemy'] for a in followers(host,1)) and all(a['enemy'] for a in followers(client,0)))
     client.lobby(2,1);host.lobby(6)
     t.check('both packs survive match start without duplicates',wait_for(lambda:not client.state()['lobby'] and len(followers(client,0))==2 and len(followers(client,1))==2))

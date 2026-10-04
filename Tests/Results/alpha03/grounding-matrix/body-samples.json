@@ -1,0 +1,70 @@
+[
+  {
+    "species": 0,
+    "location": "flat",
+    "host": {
+      "name": "DinosaurCarcass_0",
+      "species": 0,
+      "source": 1,
+      "z": 211.8685461900852,
+      "bodyZ": 16.972571593703123,
+      "bodyRelativeZ": -195,
+      "ground": 16.767318725585938,
+      "spineZ": 116.83333686227408,
+      "food": 360,
+      "maxFood": 360,
+      "frozen": true,
+      "x": -5.4953979561674,
+      "y": -1.926428244048969
+    },
+    "client": {
+      "name": "DinosaurCarcass_0",
+      "species": 0,
+      "source": 1,
+      "z": 212,
+      "bodyZ": 17.117443019995733,
+      "bodyRelativeZ": -194.99999999999997,
+      "ground": 16.779850006103516,
+      "spineZ": 120.021526423832,
+      "food": 360,
+      "maxFood": 360,
+      "frozen": true,
+      "x": -5,
+      "y": -2
+    }
+  },
+  {
+    "species": 0,
+    "location": "slope",
+    "host": {
+      "name": "DinosaurCarcass_1",
+      "species": 0,
+      "source": 1,
+      "z": 2614.8924161343366,
+      "bodyZ": 2421.897900390488,
+      "bodyRelativeZ": -195,
+      "ground": 2420.41748046875,
+      "spineZ": 2542.4901681453116,
+      "food": 360,
+      "maxFood": 360,
+      "frozen": true,
+      "x": 11484.286175440395,
+      "y": 9476.952383842134
+    },
+    "client": {
+      "name": "DinosaurCarcass_1",
+      "species": 0,
+      "source": 1,
+      "z": 2615,
+      "bodyZ": 2421.9908781806807,
+      "bodyRelativeZ": -194.99999999999986,
+      "ground": 2420.405029296875,
+      "spineZ": 2544.093603971921,
+      "food": 360,
+      "maxFood": 360,
+      "frozen": true,
+      "x": 11484,
+      "y": 9477
+    }
+  }
+]

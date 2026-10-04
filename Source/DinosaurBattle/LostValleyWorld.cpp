@@ -304,6 +304,26 @@ FVector ALostValleyWorld::CellPoint(int32 I) const{return GroundPoint((I%GridN)*
 void ALostValleyWorld::BuildGrid()
 {
     Blocked.SetNum(GridN*GridN);for(int32 I=0;I<Blocked.Num();++I)Blocked[I]=!IsWalkable(CellPoint(I),430);
+    // Clearance can leave isolated walkable cells inside groves or at the rim.
+    // Snap path endpoints into the connected playable grid, not those pockets.
+    // Four-neighbour connectivity matches our prohibition on diagonal corner cuts.
+    TArray<int32> Regions;Regions.Init(INDEX_NONE,Blocked.Num());
+    int32 Region=0,Largest=INDEX_NONE,LargestSize=0;
+    for(int32 Seed=0;Seed<Blocked.Num();++Seed)
+    {
+        if(Blocked[Seed]||Regions[Seed]!=INDEX_NONE)continue;
+        TArray<int32> Queue;Queue.Add(Seed);Regions[Seed]=Region;
+        for(int32 Head=0;Head<Queue.Num();++Head)
+        {
+            const int32 CellID=Queue[Head],X=CellID%GridN,Y=CellID/GridN;
+            const int32 Neighbours[]={X>0?CellID-1:INDEX_NONE,X+1<GridN?CellID+1:INDEX_NONE,Y>0?CellID-GridN:INDEX_NONE,Y+1<GridN?CellID+GridN:INDEX_NONE};
+            for(int32 Next:Neighbours)if(Next!=INDEX_NONE&&!Blocked[Next]&&Regions[Next]==INDEX_NONE){Regions[Next]=Region;Queue.Add(Next);}
+        }
+        if(Queue.Num()>LargestSize){LargestSize=Queue.Num();Largest=Region;}
+        ++Region;
+    }
+    DisconnectedNavCells=0;
+    for(int32 I=0;I<Blocked.Num();++I)if(!Blocked[I]&&Regions[I]!=Largest){Blocked[I]=true;++DisconnectedNavCells;}
 }
 bool ALostValleyWorld::FindPath(const FVector& Start,const FVector& End,TArray<FVector>& Out) const
 {

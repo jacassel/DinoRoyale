@@ -1,0 +1,435 @@
+[
+  {
+    "sprint": false,
+    "samples": [
+      {
+        "time": 157.41874120384455,
+        "x": 0,
+        "y": 0,
+        "speed": 0,
+        "sprinting": false,
+        "audioSteps": 28,
+        "stamina": 100
+      },
+      {
+        "time": 157.5216435045004,
+        "x": 6.921186227146604,
+        "y": 0,
+        "speed": 133.66471505768513,
+        "sprinting": false,
+        "audioSteps": 28,
+        "stamina": 100
+      },
+      {
+        "time": 157.5716497041285,
+        "x": 16.189296202586444,
+        "y": 0,
+        "speed": 211.17479248586187,
+        "sprinting": false,
+        "audioSteps": 28,
+        "stamina": 100
+      },
+      {
+        "time": 157.63831770420074,
+        "x": 34.57348807883656,
+        "y": 0,
+        "speed": 314.50956736980737,
+        "sprinting": false,
+        "audioSteps": 28,
+        "stamina": 100
+      },
+      {
+        "time": 157.7551801018417,
+        "x": 83.42394628601483,
+        "y": 0,
+        "speed": 495.6464450742648,
+        "sprinting": false,
+        "audioSteps": 28,
+        "stamina": 100
+      },
+      {
+        "time": 157.80530840158463,
+        "x": 110.86659458632376,
+        "y": 0,
+        "speed": 573.3456130678838,
+        "sprinting": false,
+        "audioSteps": 28,
+        "stamina": 100
+      },
+      {
+        "time": 157.92197770252824,
+        "x": 189.81436975361189,
+        "y": 0,
+        "speed": 754.1827188145251,
+        "sprinting": false,
+        "audioSteps": 28,
+        "stamina": 100
+      },
+      {
+        "time": 157.97197880223393,
+        "x": 230.107613025011,
+        "y": 0,
+        "speed": 831.6841265492735,
+        "sprinting": false,
+        "audioSteps": 28,
+        "stamina": 100
+      },
+      {
+        "time": 158.03864680230618,
+        "x": 286.775666406156,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 28,
+        "stamina": 100
+      },
+      {
+        "time": 158.1553156040609,
+        "x": 385.9439769068374,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 28,
+        "stamina": 100
+      },
+      {
+        "time": 158.22198310494423,
+        "x": 442.6115236485018,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 29,
+        "stamina": 100
+      },
+      {
+        "time": 158.2719836048782,
+        "x": 485.11194859236616,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 29,
+        "stamina": 100
+      },
+      {
+        "time": 158.3886526040733,
+        "x": 584.2806834036126,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 29,
+        "stamina": 100
+      },
+      {
+        "time": 158.45531990379095,
+        "x": 640.9478881636276,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 29,
+        "stamina": 100
+      },
+      {
+        "time": 158.50532060489058,
+        "x": 683.4483131074919,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 29,
+        "stamina": 100
+      },
+      {
+        "time": 158.62198930233717,
+        "x": 782.6167914325013,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 29,
+        "stamina": 100
+      },
+      {
+        "time": 158.67199640348554,
+        "x": 825.1172163763656,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 29,
+        "stamina": 100
+      },
+      {
+        "time": 158.72200740501285,
+        "x": 867.6240186446919,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 30,
+        "stamina": 100
+      },
+      {
+        "time": 158.8386758044362,
+        "x": 966.8001472258582,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 30,
+        "stamina": 100
+      },
+      {
+        "time": 158.8886771015823,
+        "x": 1009.3011674711122,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 30,
+        "stamina": 100
+      },
+      {
+        "time": 159.0054184049368,
+        "x": 1108.5316141375913,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 30,
+        "stamina": 100
+      },
+      {
+        "time": 159.1054659038782,
+        "x": 1193.5719027423872,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 30,
+        "stamina": 100
+      },
+      {
+        "time": 159.15546710416675,
+        "x": 1236.0726665014042,
+        "y": 0,
+        "speed": 850,
+        "sprinting": false,
+        "audioSteps": 30,
+        "stamina": 100
+      }
+    ]
+  },
+  {
+    "sprint": true,
+    "samples": [
+      {
+        "time": 160.03584610298276,
+        "x": 1.5760405221468827,
+        "y": 0,
+        "speed": 56.98869757639974,
+        "sprinting": false,
+        "audioSteps": 31,
+        "stamina": 100
+      },
+      {
+        "time": 160.13589610159397,
+        "x": 15.121150928352142,
+        "y": 0,
+        "speed": 183.11156288556327,
+        "sprinting": true,
+        "audioSteps": 31,
+        "stamina": 98.916015625
+      },
+      {
+        "time": 160.2025643028319,
+        "x": 30.42906664252625,
+        "y": 0,
+        "speed": 257.513495392392,
+        "sprinting": true,
+        "audioSteps": 31,
+        "stamina": 98.04933166503906
+      },
+      {
+        "time": 160.26924980431795,
+        "x": 50.7031294476081,
+        "y": 0,
+        "speed": 331.93417810483794,
+        "sprinting": true,
+        "audioSteps": 31,
+        "stamina": 97.18242645263672
+      },
+      {
+        "time": 160.31925070285797,
+        "x": 69.16028521051626,
+        "y": 0,
+        "speed": 387.7354063635835,
+        "sprinting": true,
+        "audioSteps": 31,
+        "stamina": 96.53240966796875
+      },
+      {
+        "time": 160.43592170253396,
+        "x": 123.0784615733086,
+        "y": 0,
+        "speed": 517.9403577816971,
+        "sprinting": true,
+        "audioSteps": 31,
+        "stamina": 95.01569366455078
+      },
+      {
+        "time": 160.48592230305076,
+        "x": 150.8358948847684,
+        "y": 0,
+        "speed": 573.7411433117925,
+        "sprinting": true,
+        "audioSteps": 31,
+        "stamina": 94.36568450927734
+      },
+      {
+        "time": 160.58596650511026,
+        "x": 214.75112450147688,
+        "y": 0,
+        "speed": 685.3904687230282,
+        "sprinting": true,
+        "audioSteps": 31,
+        "stamina": 93.06510925292969
+      },
+      {
+        "time": 160.65263480320573,
+        "x": 263.5447816777175,
+        "y": 0,
+        "speed": 759.7918378175325,
+        "sprinting": true,
+        "audioSteps": 31,
+        "stamina": 92.19842529296875
+      },
+      {
+        "time": 160.71930250152946,
+        "x": 317.2985394015974,
+        "y": 0,
+        "speed": 834.1931020764849,
+        "sprinting": true,
+        "audioSteps": 31,
+        "stamina": 91.33174133300781
+      },
+      {
+        "time": 160.769303701818,
+        "x": 360.86910226969786,
+        "y": 0,
+        "speed": 889.9942138747931,
+        "sprinting": true,
+        "audioSteps": 31,
+        "stamina": 90.68173217773438
+      },
+      {
+        "time": 160.8360080048442,
+        "x": 423.3393403611267,
+        "y": 0,
+        "speed": 964.4365408271906,
+        "sprinting": true,
+        "audioSteps": 32,
+        "stamina": 89.8145751953125
+      },
+      {
+        "time": 160.96934390440583,
+        "x": 563.0940111353436,
+        "y": 0,
+        "speed": 1113.2396324144318,
+        "sprinting": true,
+        "audioSteps": 32,
+        "stamina": 88.0811996459961
+      },
+      {
+        "time": 161.0360120050609,
+        "x": 640.4112314699482,
+        "y": 0,
+        "speed": 1187.6407942382364,
+        "sprinting": true,
+        "audioSteps": 32,
+        "stamina": 87.21451568603516
+      },
+      {
+        "time": 161.0860131047666,
+        "x": 701.6544051330903,
+        "y": 0,
+        "speed": 1243.4417985226826,
+        "sprinting": true,
+        "audioSteps": 32,
+        "stamina": 86.56450653076172
+      },
+      {
+        "time": 161.20268240198493,
+        "x": 853.5227741665915,
+        "y": 0,
+        "speed": 1317.5,
+        "sprinting": true,
+        "audioSteps": 33,
+        "stamina": 85.04782104492188
+      },
+      {
+        "time": 161.25268350169063,
+        "x": 919.4005383915976,
+        "y": 0,
+        "speed": 1317.5,
+        "sprinting": true,
+        "audioSteps": 33,
+        "stamina": 84.39778900146484
+      },
+      {
+        "time": 161.31935170292854,
+        "x": 1007.2356284867749,
+        "y": 0,
+        "speed": 1317.5,
+        "sprinting": true,
+        "audioSteps": 33,
+        "stamina": 83.5311050415039
+      },
+      {
+        "time": 161.4360335022211,
+        "x": 1160.9636389270202,
+        "y": 0,
+        "speed": 1317.5,
+        "sprinting": true,
+        "audioSteps": 33,
+        "stamina": 82.01424407958984
+      },
+      {
+        "time": 161.48624310269952,
+        "x": 1227.110041453667,
+        "y": 0,
+        "speed": 1317.5,
+        "sprinting": true,
+        "audioSteps": 33,
+        "stamina": 81.36156463623047
+      },
+      {
+        "time": 161.55291080474854,
+        "x": 1314.9498776525036,
+        "y": 0,
+        "speed": 1317.5,
+        "sprinting": true,
+        "audioSteps": 34,
+        "stamina": 80.49482727050781
+      },
+      {
+        "time": 161.65304470434785,
+        "x": 1446.8757603030429,
+        "y": 0,
+        "speed": 1317.5,
+        "sprinting": true,
+        "audioSteps": 34,
+        "stamina": 79.19309997558594
+      },
+      {
+        "time": 161.71973940357566,
+        "x": 1534.746556607239,
+        "y": 0,
+        "speed": 1317.5,
+        "sprinting": true,
+        "audioSteps": 34,
+        "stamina": 78.32605743408203
+      },
+      {
+        "time": 161.786406904459,
+        "x": 1622.5809890210405,
+        "y": 0,
+        "speed": 1317.5,
+        "sprinting": true,
+        "audioSteps": 34,
+        "stamina": 77.45938110351562
+      }
+    ]
+  }
+]

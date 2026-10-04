@@ -43,6 +43,7 @@ public:
     TArray<FVector> FeedingSpots;
     TArray<FVector> FoodSpawnPoints;
     int32 PathRequests=0,PathFailures=0;
+    int32 DisconnectedNavCells=0;
 private:
     void Generate();
     void BuildGrid();

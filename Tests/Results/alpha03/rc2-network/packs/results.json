@@ -1,0 +1,26 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "two human packs each have two replicated followers with bots off",
+      "status": "PASS"
+    },
+    {
+      "test": "followers do not consume participant slots",
+      "status": "PASS"
+    },
+    {
+      "test": "only raptor leaders are scoring targets",
+      "status": "PASS"
+    },
+    {
+      "test": "each local leader sees its followers as allies",
+      "status": "FAIL"
+    }
+  ]
+}

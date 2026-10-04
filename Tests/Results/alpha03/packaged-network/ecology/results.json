@@ -1,0 +1,113 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "client receives server-approved enemy marker in view",
+      "status": "PASS"
+    },
+    {
+      "test": "server-only occlusion removes client map marker",
+      "status": "PASS"
+    },
+    {
+      "test": "attack noise reveals occluded enemy position to client",
+      "status": "PASS"
+    },
+    {
+      "test": "noise marker carries server location",
+      "status": "PASS"
+    },
+    {
+      "test": "noise reveal expires on server clock",
+      "status": "PASS"
+    },
+    {
+      "test": "clear line of sight restores client marker",
+      "status": "PASS"
+    },
+    {
+      "test": "client eating restores authoritative health hunger stamina",
+      "status": "PASS"
+    },
+    {
+      "test": "carcass quantity decreases and replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "movement cancels server feeding",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 swimming reaches client",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 client swim movement",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 brace replicates in water",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 brace stops swimming",
+      "status": "PASS"
+    },
+    {
+      "test": "species 0 client surface jump",
+      "status": "PASS",
+      "rise": 63.81952092474219
+    },
+    {
+      "test": "species 1 swimming reaches client",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 client swim movement",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 brace replicates in water",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 brace stops swimming",
+      "status": "PASS"
+    },
+    {
+      "test": "species 1 client surface jump",
+      "status": "PASS",
+      "rise": 97.37692538596309
+    },
+    {
+      "test": "species 2 swimming reaches client",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 client swim movement",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 brace replicates in water",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 brace stops swimming",
+      "status": "PASS"
+    },
+    {
+      "test": "species 2 client surface jump",
+      "status": "PASS",
+      "rise": 33.150595234349396
+    },
+    {
+      "test": "client depletes plant on server and both hide it",
+      "status": "PASS"
+    }
+  ]
+}

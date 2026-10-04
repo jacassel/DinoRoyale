@@ -1,0 +1,35 @@
+[
+  {
+    "script": "runtime_sprint_rules.py",
+    "passed": true,
+    "checks": 36,
+    "expected": 36,
+    "seconds": 35.3,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_audio.py",
+    "passed": true,
+    "checks": 54,
+    "expected": 54,
+    "seconds": 119.9,
+    "exitCode": 0,
+    "fixtureCorrection": "Suite was expanded previously to 54 checks; runner still expected 36. All 54 live checks passed."
+  },
+  {
+    "script": "runtime_core.py",
+    "passed": true,
+    "checks": 90,
+    "expected": 90,
+    "seconds": 122.0,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_combat_polish.py",
+    "passed": false,
+    "checks": 69,
+    "expected": 69,
+    "seconds": 95.7,
+    "exitCode": 1
+  }
+]

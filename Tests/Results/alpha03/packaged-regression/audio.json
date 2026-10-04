@@ -1,0 +1,230 @@
+[
+  {
+    "test": "Trex all clips loaded",
+    "passed": true
+  },
+  {
+    "test": "Trex idle quiet",
+    "passed": true
+  },
+  {
+    "test": "Trex movement cadence",
+    "passed": true,
+    "walk": 4,
+    "run": 6
+  },
+  {
+    "test": "Trex sprint exertion",
+    "passed": true
+  },
+  {
+    "test": "Trex airborne quiet",
+    "passed": true
+  },
+  {
+    "test": "Trex swimming has no footsteps",
+    "passed": true
+  },
+  {
+    "test": "Trex miss motion without impact",
+    "passed": true
+  },
+  {
+    "test": "Trex hit sound",
+    "passed": true
+  },
+  {
+    "test": "Trex charge starts once",
+    "passed": true
+  },
+  {
+    "test": "Trex heavy sound",
+    "passed": true
+  },
+  {
+    "test": "Trex hurt reaction",
+    "passed": true
+  },
+  {
+    "test": "Trex injured breathing",
+    "passed": true
+  },
+  {
+    "test": "Trex healing stops injured breath",
+    "passed": true
+  },
+  {
+    "test": "Trex death once",
+    "passed": true
+  },
+  {
+    "test": "Trex menu pauses simulation",
+    "passed": true
+  },
+  {
+    "test": "Trex death voice ends without looping",
+    "passed": true
+  },
+  {
+    "test": "Trex respawn silent",
+    "passed": true
+  },
+  {
+    "test": "Trex rendered audio nonzero and unclipped",
+    "passed": true,
+    "peak": 0.215728759765625,
+    "rms": 0.025741261390299554
+  },
+  {
+    "test": "Raptor all clips loaded",
+    "passed": true
+  },
+  {
+    "test": "Raptor idle quiet",
+    "passed": true
+  },
+  {
+    "test": "Raptor movement cadence",
+    "passed": true,
+    "walk": 12,
+    "run": 14
+  },
+  {
+    "test": "Raptor sprint exertion",
+    "passed": true
+  },
+  {
+    "test": "Raptor airborne quiet",
+    "passed": true
+  },
+  {
+    "test": "Raptor swimming has no footsteps",
+    "passed": true
+  },
+  {
+    "test": "Raptor miss motion without impact",
+    "passed": true
+  },
+  {
+    "test": "Raptor hit sound",
+    "passed": true
+  },
+  {
+    "test": "Raptor charge starts once",
+    "passed": true
+  },
+  {
+    "test": "Raptor heavy sound",
+    "passed": true
+  },
+  {
+    "test": "Raptor hurt reaction",
+    "passed": true
+  },
+  {
+    "test": "Raptor injured breathing",
+    "passed": true
+  },
+  {
+    "test": "Raptor healing stops injured breath",
+    "passed": true
+  },
+  {
+    "test": "Raptor death once",
+    "passed": true
+  },
+  {
+    "test": "Raptor menu pauses simulation",
+    "passed": true
+  },
+  {
+    "test": "Raptor death voice ends without looping",
+    "passed": true
+  },
+  {
+    "test": "Raptor respawn silent",
+    "passed": true
+  },
+  {
+    "test": "Raptor rendered audio nonzero and unclipped",
+    "passed": true,
+    "peak": 0.275299072265625,
+    "rms": 0.01859858818506087
+  },
+  {
+    "test": "Trike all clips loaded",
+    "passed": true
+  },
+  {
+    "test": "Trike idle quiet",
+    "passed": true
+  },
+  {
+    "test": "Trike movement cadence",
+    "passed": true,
+    "walk": 5,
+    "run": 7
+  },
+  {
+    "test": "Trike sprint exertion",
+    "passed": true
+  },
+  {
+    "test": "Trike airborne quiet",
+    "passed": true
+  },
+  {
+    "test": "Trike swimming has no footsteps",
+    "passed": true
+  },
+  {
+    "test": "Trike miss motion without impact",
+    "passed": true
+  },
+  {
+    "test": "Trike hit sound",
+    "passed": true
+  },
+  {
+    "test": "Trike charge starts once",
+    "passed": true
+  },
+  {
+    "test": "Trike heavy sound",
+    "passed": true
+  },
+  {
+    "test": "Trike hurt reaction",
+    "passed": true
+  },
+  {
+    "test": "Trike injured breathing",
+    "passed": true
+  },
+  {
+    "test": "Trike healing stops injured breath",
+    "passed": true
+  },
+  {
+    "test": "Trike death once",
+    "passed": true
+  },
+  {
+    "test": "Trike menu pauses simulation",
+    "passed": true
+  },
+  {
+    "test": "Trike death voice ends without looping",
+    "passed": true
+  },
+  {
+    "test": "Trike respawn silent",
+    "passed": true
+  },
+  {
+    "test": "Trike rendered audio nonzero and unclipped",
+    "passed": true,
+    "peak": 0.211700439453125,
+    "rms": 0.019829385627304984
+  }
+]

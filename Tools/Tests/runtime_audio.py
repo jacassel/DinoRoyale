@@ -15,8 +15,10 @@ for sp,name in enumerate(['Trex','Raptor','Trike']):
     recording_started=time.time();t.command('audioRecord',start=True)
     check(name+' all clips loaded',t.state()['audioLoadedClips']==81)
     a=t.state();wait(.5);check(name+' idle quiet',t.state()['audioSteps']==a['audioSteps'])
-    t.key('W');a=t.state();wait(1.8);b=t.state();t.key('W','up');walk=b['audioSteps']-a['audioSteps'];wait(.3)
-    t.command('teleport',x=0,y=0);t.key('W');t.key('LeftShift');a=t.state();wait(1.8);b=t.state();t.key('W','up');t.key('LeftShift','up');run=b['audioSteps']-a['audioSteps']
+    # Include enough complete strides to distinguish cadence from the starting
+    # footstep phase and the heavy species' slower sprint acceleration.
+    t.command('teleport',x=0,y=0);t.key('W');a=t.state();wait(3);b=t.state();t.key('W','up');walk=b['audioSteps']-a['audioSteps'];wait(.3)
+    t.command('teleport',x=0,y=0);t.key('W');t.key('LeftShift');a=t.state();wait(3);b=t.state();t.key('W','up');t.key('LeftShift','up');run=b['audioSteps']-a['audioSteps']
     check(name+' movement cadence',walk>=1 and run>walk,walk=walk,run=run)
     check(name+' sprint exertion',b['audioSprintBreaths']>a['audioSprintBreaths'])
     wait(.4);press('SpaceBar');wait(.15);a=t.state();wait(.2);b=t.state();check(name+' airborne quiet',a['falling'] and b['audioSteps']==a['audioSteps']);wait(1.3)

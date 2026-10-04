@@ -1,0 +1,114 @@
+[
+  {
+    "script": "runtime_sprint_rules.py",
+    "passed": true,
+    "checks": 36,
+    "expected": 36,
+    "seconds": 35.8,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_audio.py",
+    "passed": true,
+    "checks": 54,
+    "expected": 54,
+    "seconds": 128.0,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_core.py",
+    "passed": true,
+    "checks": 90,
+    "expected": 90,
+    "seconds": 122.9,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_combat_polish.py",
+    "passed": true,
+    "checks": 69,
+    "expected": 69,
+    "seconds": 96.2,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_combat_followup.py",
+    "passed": true,
+    "checks": 17,
+    "expected": 17,
+    "seconds": 46.3,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_integration.py",
+    "passed": true,
+    "checks": 41,
+    "expected": 41,
+    "seconds": 64.3,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_settings.py",
+    "passed": true,
+    "checks": 28,
+    "expected": 28,
+    "seconds": 26.0,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_matches.py",
+    "passed": true,
+    "checks": 24,
+    "expected": 24,
+    "seconds": 26.7,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_swimming.py",
+    "passed": true,
+    "checks": 40,
+    "expected": 40,
+    "seconds": 57.4,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_ecology.py",
+    "passed": true,
+    "checks": 42,
+    "expected": 42,
+    "seconds": 120.8,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_ecology_edges.py",
+    "passed": true,
+    "checks": 5,
+    "expected": 5,
+    "seconds": 30.8,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_tactics.py",
+    "passed": true,
+    "checks": 11,
+    "expected": 11,
+    "seconds": 27.0,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_traversal.py",
+    "passed": true,
+    "checks": 18,
+    "expected": 18,
+    "seconds": 289.3,
+    "exitCode": 0
+  },
+  {
+    "script": "runtime_ai_swimming.py",
+    "passed": true,
+    "checks": 3,
+    "expected": 3,
+    "seconds": 37.2,
+    "exitCode": 0
+  }
+]

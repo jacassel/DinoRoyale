@@ -1,4 +1,29 @@
-# Dino Royale EOS join QA report - September 26, 2026
+# Dino Royale 0.3 multiplayer verification — October 4, 2026
+
+The owner reports successful real multiplayer with the prior release. This update
+retains the existing EOS session, relay and service identity. Compatibility moves
+to **2026100303** because both peers need the new movement and lobby behavior.
+
+The 0.3 source build passes lobby (20), combat (39), bots (17), match rules (48),
+ecology (25), packs (21), Performance-map matches (48), custom team configurations
+and late join (25), and 96 delayed pond-crossing assertions. Compatibility and EOS
+resolved-URL automation pass all 32 assertions. Source regression passes 478 checks.
+
+The first 0.3 package passes 66 replicated mesh/carcass checks with 75ms per-peer
+delay: all species, both observers, movement/combat/water, flat ground, slopes,
+rocks, trees, pond edges, water, host/client/AI deaths and independent respawn.
+Remaining package suites and release measurements are still running. See TEST_LOG.
+
+These tests use separate local game processes over explicit development sockets.
+They verify local multiplayer behavior, not a new WAN/EOS connection. No firewall,
+Epic portal or authentication settings have been changed by the agent.
+
+The following report records the earlier EOS repair and its evidence; its release
+number and historical stop instructions do not describe the active 0.3 update.
+
+---
+
+# Historical EOS join QA report - September 26, 2026
 
 Release: **DinoRoyale-20260926-QA2**. Compatibility: **2026092201**.
 **Live testing stopped at the owner's request. Physical EOS gameplay acceptance remains pending.**

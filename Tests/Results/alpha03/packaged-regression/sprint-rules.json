@@ -1,0 +1,164 @@
+[
+  {
+    "test": "pack size teams=False species=0 team=-1",
+    "passed": true,
+    "count": 3
+  },
+  {
+    "test": "one scoring leader teams=False species=0 team=-1",
+    "passed": true
+  },
+  {
+    "test": "ten participants False 0",
+    "passed": true
+  },
+  {
+    "test": "pack size teams=False species=1 team=-1",
+    "passed": true,
+    "count": 3
+  },
+  {
+    "test": "one scoring leader teams=False species=1 team=-1",
+    "passed": true
+  },
+  {
+    "test": "ten participants False 1",
+    "passed": true
+  },
+  {
+    "test": "pack size teams=False species=2 team=-1",
+    "passed": true,
+    "count": 3
+  },
+  {
+    "test": "one scoring leader teams=False species=2 team=-1",
+    "passed": true
+  },
+  {
+    "test": "ten participants False 2",
+    "passed": true
+  },
+  {
+    "test": "pack size teams=True species=0 team=0",
+    "passed": true,
+    "count": 3
+  },
+  {
+    "test": "one scoring leader teams=True species=0 team=0",
+    "passed": true
+  },
+  {
+    "test": "pack size teams=True species=0 team=1",
+    "passed": true,
+    "count": 3
+  },
+  {
+    "test": "one scoring leader teams=True species=0 team=1",
+    "passed": true
+  },
+  {
+    "test": "ten participants True 0",
+    "passed": true
+  },
+  {
+    "test": "pack size teams=True species=1 team=0",
+    "passed": true,
+    "count": 3
+  },
+  {
+    "test": "one scoring leader teams=True species=1 team=0",
+    "passed": true
+  },
+  {
+    "test": "pack size teams=True species=1 team=1",
+    "passed": true,
+    "count": 3
+  },
+  {
+    "test": "one scoring leader teams=True species=1 team=1",
+    "passed": true
+  },
+  {
+    "test": "ten participants True 1",
+    "passed": true
+  },
+  {
+    "test": "pack size teams=True species=2 team=0",
+    "passed": true,
+    "count": 3
+  },
+  {
+    "test": "one scoring leader teams=True species=2 team=0",
+    "passed": true
+  },
+  {
+    "test": "pack size teams=True species=2 team=1",
+    "passed": true,
+    "count": 3
+  },
+  {
+    "test": "one scoring leader teams=True species=2 team=1",
+    "passed": true
+  },
+  {
+    "test": "ten participants True 2",
+    "passed": true
+  },
+  {
+    "test": "health 0",
+    "passed": true
+  },
+  {
+    "test": "hunger drain 0",
+    "passed": true,
+    "rate": 0.0750622062206307
+  },
+  {
+    "test": "quick damage 0",
+    "passed": true,
+    "damage": 187
+  },
+  {
+    "test": "heavy damage 0",
+    "passed": true,
+    "damage": 673.2001953125
+  },
+  {
+    "test": "health 1",
+    "passed": true
+  },
+  {
+    "test": "hunger drain 1",
+    "passed": true,
+    "rate": 0.11260246393825982
+  },
+  {
+    "test": "quick damage 1",
+    "passed": true,
+    "damage": 66.599609375
+  },
+  {
+    "test": "heavy damage 1",
+    "passed": true,
+    "damage": 193.1396484375
+  },
+  {
+    "test": "health 2",
+    "passed": true
+  },
+  {
+    "test": "hunger drain 2",
+    "passed": true,
+    "rate": 0.05996494830230705
+  },
+  {
+    "test": "quick damage 2",
+    "passed": true,
+    "damage": 155
+  },
+  {
+    "test": "heavy damage 2",
+    "passed": true,
+    "damage": 511.5
+  }
+]

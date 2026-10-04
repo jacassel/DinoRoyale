@@ -1,0 +1,26 @@
+[
+  {
+    "test": "F2 opens name-tag setting",
+    "passed": true
+  },
+  {
+    "test": "N toggles local name tags",
+    "passed": true
+  },
+  {
+    "test": "name-tag choice is written to local configuration",
+    "passed": false
+  },
+  {
+    "test": "name-tag preference restored",
+    "passed": true
+  },
+  {
+    "test": "selection map row switches variant and resets round",
+    "passed": true
+  },
+  {
+    "test": "selection restores initial map",
+    "passed": true
+  }
+]

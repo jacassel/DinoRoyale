@@ -69,16 +69,27 @@ void ADinosaurAIController::ChooseRetreat(const ADinosaurCharacter* Threat)
 {
     auto* D=Dino();if(!D||!Threat||!Valley)return;
     FVector P=D->GetActorLocation(),Away=(P-Threat->GetActorLocation()).GetSafeNormal2D();
-    FVector Best=P+Away*4500;float BestScore=-FLT_MAX;
-    for(float Angle:{0.f,-35.f,35.f,-70.f,70.f})
+    TArray<TPair<float,FVector>> Candidates;
+    for(float Angle:{0.f,-35.f,35.f,-70.f,70.f,-110.f,110.f,180.f})
     {
         FVector Candidate=Valley->NearestWalkable(P+Away.RotateAngleAxis(Angle,FVector::UpVector)*4500);
         if(!Valley->IsWalkable(Candidate,D->Stats().Radius+80))continue;
         float Score=FVector::Dist2D(Candidate,Threat->GetActorLocation())-FVector::Dist2D(P,Candidate)*.12f;
         if(Leader.IsValid()&&!Leader->bDead&&Leader.Get()!=D)Score-=FVector::Dist2D(Candidate,Leader->GetActorLocation())*.20f;
-        if(Score>BestScore){BestScore=Score;Best=Candidate;}
+        Candidates.Emplace(Score,Candidate);
     }
-    GoTo(Best);RetreatUntil=GetWorld()->GetTimeSeconds()+2.2f;++RetreatDecisions;
+    Candidates.Sort([](const auto& A,const auto& B){return A.Key>B.Key;});
+    // A walkable endpoint can sit in an isolated grid pocket near the rim.
+    // Rank escape options as before, then commit the first reachable route.
+    // Keep failed candidate searches visible in the world's path diagnostics.
+    for(const auto& Candidate:Candidates)
+    {
+        TArray<FVector> Route;++Valley->PathRequests;
+        if(!Valley->FindPath(P,Candidate.Value,Route)){++Valley->PathFailures;continue;}
+        Goal=Candidate.Value;Path=MoveTemp(Route);PathIndex=0;PathTimer=.7f;
+        RetreatUntil=GetWorld()->GetTimeSeconds()+2.2f;++RetreatDecisions;return;
+    }
+    Path.Empty();++FailedPaths;RetreatUntil=GetWorld()->GetTimeSeconds()+.7f;
 }
 void ADinosaurAIController::SetTravelGoal(const FVector& Point){bForcedTravel=true;Target=nullptr;ForcedDestination=Valley?Valley->NearestWalkable(Point):Point;GoTo(ForcedDestination);State=TEXT("Traversing");}
 void ADinosaurAIController::ClearTravelGoal(){bForcedTravel=false;Path.Empty();RoamTimer=0;}
