@@ -272,7 +272,7 @@ void ADinosaurCharacter::CancelActions()
 {
     SprintOff();CancelPivot();if(!HasAuthority()){ServerAction(8);return;}
     // Opening a menu cancels held inputs, never the cooldown of a committed hit.
-    if(GetNetMode()==NM_Standalone||MatchFrozen())Combat->Cancel();
+    if(MatchFrozen())Combat->Cancel();
     else{Combat->bCharging=false;Combat->bBracing=false;Combat->BufferedQuick=0;}
     Food->StopEating();
 }

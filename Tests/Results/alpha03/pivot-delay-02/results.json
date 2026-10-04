@@ -1,0 +1,425 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 75,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "0 Q turns in place",
+      "status": "PASS",
+      "turn": -50.667773485183716,
+      "travel": 0.0
+    },
+    {
+      "test": "0 Q leaves camera independent",
+      "status": "PASS"
+    },
+    {
+      "test": "0 Q retains released facing",
+      "status": "PASS"
+    },
+    {
+      "test": "0 Q uses replicated stepping clip",
+      "status": "PASS",
+      "animation": "PivotLeft"
+    },
+    {
+      "test": "0 Q server agrees with client yaw",
+      "status": "PASS",
+      "host": -57.00116872787475,
+      "client": -57.00116872787475
+    },
+    {
+      "test": "0 E turns in place",
+      "status": "PASS",
+      "turn": 47.500996589660645,
+      "travel": 0.0
+    },
+    {
+      "test": "0 E leaves camera independent",
+      "status": "PASS"
+    },
+    {
+      "test": "0 E retains released facing",
+      "status": "PASS"
+    },
+    {
+      "test": "0 E uses replicated stepping clip",
+      "status": "PASS",
+      "animation": "PivotRight"
+    },
+    {
+      "test": "0 E server agrees with client yaw",
+      "status": "PASS",
+      "host": -1.5833997726440434,
+      "client": -1.5833997726440434
+    },
+    {
+      "test": "0 W exits held pivot",
+      "status": "PASS"
+    },
+    {
+      "test": "0 Ctrl brace blocks movement and pivot",
+      "status": "PASS"
+    },
+    {
+      "test": "0 heavy pivot remains committed",
+      "status": "PASS",
+      "turn": 2.7685546875
+    },
+    {
+      "test": "0 host observes grounded actor 1",
+      "status": "PASS",
+      "base": -195,
+      "relative": -195,
+      "half": 195
+    },
+    {
+      "test": "0 host observes grounded actor 2",
+      "status": "PASS",
+      "base": -195,
+      "relative": -195,
+      "half": 195
+    },
+    {
+      "test": "0 client observes grounded actor 0",
+      "status": "PASS",
+      "base": -195,
+      "relative": -195,
+      "half": 194.99000549316406
+    },
+    {
+      "test": "0 client observes grounded actor 2",
+      "status": "PASS",
+      "base": -195,
+      "relative": -195,
+      "half": 195
+    },
+    {
+      "test": "0 host corpse uses anatomical offset",
+      "status": "PASS",
+      "corpse": {
+        "name": "DinosaurCarcass_0",
+        "species": 0,
+        "source": 1,
+        "z": 269.63575878595543,
+        "bodyZ": 74.78017344305434,
+        "bodyRelativeZ": -195.00000000000003,
+        "ground": 74.48625946044922,
+        "spineZ": 173.96422602758398,
+        "food": 360,
+        "maxFood": 360,
+        "frozen": true,
+        "x": 1894.2989273282342,
+        "y": -3.7844655788003485
+      }
+    },
+    {
+      "test": "0 client corpse uses anatomical offset",
+      "status": "PASS",
+      "corpse": {
+        "name": "DinosaurCarcass_0",
+        "species": 0,
+        "source": 1,
+        "z": 270,
+        "bodyZ": 75.11744301999573,
+        "bodyRelativeZ": -194.99999999999997,
+        "ground": 74.47234344482422,
+        "spineZ": 178.021526423832,
+        "food": 360,
+        "maxFood": 360,
+        "frozen": true,
+        "x": 1894,
+        "y": -4
+      }
+    },
+    {
+      "test": "0 ten-second respawn returns",
+      "status": "PASS"
+    },
+    {
+      "test": "0 carcass survives respawn",
+      "status": "PASS"
+    },
+    {
+      "test": "1 Q turns in place",
+      "status": "PASS",
+      "turn": -91.83301925659192,
+      "travel": 0.0
+    },
+    {
+      "test": "1 Q leaves camera independent",
+      "status": "PASS"
+    },
+    {
+      "test": "1 Q retains released facing",
+      "status": "PASS"
+    },
+    {
+      "test": "1 Q uses replicated stepping clip",
+      "status": "PASS",
+      "animation": "PivotLeft"
+    },
+    {
+      "test": "1 Q server agrees with client yaw",
+      "status": "PASS",
+      "host": -107.66611099243183,
+      "client": -107.66611099243183
+    },
+    {
+      "test": "1 E turns in place",
+      "status": "PASS",
+      "turn": 88.67328643798811,
+      "travel": 0.0
+    },
+    {
+      "test": "1 E leaves camera independent",
+      "status": "PASS"
+    },
+    {
+      "test": "1 E retains released facing",
+      "status": "PASS"
+    },
+    {
+      "test": "1 E uses replicated stepping clip",
+      "status": "PASS",
+      "animation": "PivotRight"
+    },
+    {
+      "test": "1 E server agrees with client yaw",
+      "status": "PASS",
+      "host": -3.1542968750003415,
+      "client": -3.1542968750003415
+    },
+    {
+      "test": "1 W exits held pivot",
+      "status": "PASS"
+    },
+    {
+      "test": "1 Ctrl brace blocks movement and pivot",
+      "status": "PASS"
+    },
+    {
+      "test": "1 heavy pivot remains committed",
+      "status": "PASS",
+      "turn": 3.9605712890625
+    },
+    {
+      "test": "1 host observes grounded actor 1",
+      "status": "PASS",
+      "base": -85,
+      "relative": -85,
+      "half": 85
+    },
+    {
+      "test": "1 host observes grounded actor 2",
+      "status": "PASS",
+      "base": -85,
+      "relative": -85,
+      "half": 85
+    },
+    {
+      "test": "1 client observes grounded actor 0",
+      "status": "PASS",
+      "base": -195,
+      "relative": -195,
+      "half": 194.99000549316406
+    },
+    {
+      "test": "1 client observes grounded actor 2",
+      "status": "PASS",
+      "base": -85,
+      "relative": -85,
+      "half": 85
+    },
+    {
+      "test": "1 host corpse uses anatomical offset",
+      "status": "PASS",
+      "corpse": {
+        "name": "DinosaurCarcass_1",
+        "species": 1,
+        "source": 1,
+        "z": 181.33680493880735,
+        "bodyZ": 96.40527767768207,
+        "bodyRelativeZ": -84.99999999999999,
+        "ground": 96.25650024414062,
+        "spineZ": 128.09375571954465,
+        "food": 120,
+        "maxFood": 120,
+        "frozen": true,
+        "x": 2539.4467575790427,
+        "y": -1.719782559618239
+      }
+    },
+    {
+      "test": "1 client corpse uses anatomical offset",
+      "status": "PASS",
+      "corpse": {
+        "name": "DinosaurCarcass_1",
+        "species": 1,
+        "source": 1,
+        "z": 181,
+        "bodyZ": 96.10238622256034,
+        "bodyRelativeZ": -85,
+        "ground": 96.23542022705078,
+        "spineZ": 126.30945482831939,
+        "food": 120,
+        "maxFood": 120,
+        "frozen": true,
+        "x": 2539,
+        "y": -2
+      }
+    },
+    {
+      "test": "1 ten-second respawn returns",
+      "status": "PASS"
+    },
+    {
+      "test": "1 carcass survives respawn",
+      "status": "PASS"
+    },
+    {
+      "test": "2 Q turns in place",
+      "status": "PASS",
+      "turn": -55.603981018066406,
+      "travel": 0.0
+    },
+    {
+      "test": "2 Q leaves camera independent",
+      "status": "PASS"
+    },
+    {
+      "test": "2 Q retains released facing",
+      "status": "PASS"
+    },
+    {
+      "test": "2 Q uses replicated stepping clip",
+      "status": "PASS",
+      "animation": "PivotLeft"
+    },
+    {
+      "test": "2 Q server agrees with client yaw",
+      "status": "PASS",
+      "host": -72.85415649414057,
+      "client": -72.85415649414057
+    },
+    {
+      "test": "2 E turns in place",
+      "status": "PASS",
+      "turn": 59.434623718261776,
+      "travel": 0.0
+    },
+    {
+      "test": "2 E leaves camera independent",
+      "status": "PASS"
+    },
+    {
+      "test": "2 E retains released facing",
+      "status": "PASS"
+    },
+    {
+      "test": "2 E uses replicated stepping clip",
+      "status": "PASS",
+      "animation": "PivotRight"
+    },
+    {
+      "test": "2 E server agrees with client yaw",
+      "status": "PASS",
+      "host": -5.752983093261605,
+      "client": -5.752983093261605
+    },
+    {
+      "test": "2 W exits held pivot",
+      "status": "PASS"
+    },
+    {
+      "test": "2 Ctrl brace blocks movement and pivot",
+      "status": "PASS"
+    },
+    {
+      "test": "2 heavy pivot remains committed",
+      "status": "PASS",
+      "turn": 5.2734375
+    },
+    {
+      "test": "2 host observes grounded actor 1",
+      "status": "PASS",
+      "base": -150,
+      "relative": -150,
+      "half": 150
+    },
+    {
+      "test": "2 host observes grounded actor 2",
+      "status": "PASS",
+      "base": -150,
+      "relative": -150,
+      "half": 150
+    },
+    {
+      "test": "2 client observes grounded actor 0",
+      "status": "PASS",
+      "base": -195,
+      "relative": -195,
+      "half": 194.99000549316406
+    },
+    {
+      "test": "2 client observes grounded actor 2",
+      "status": "PASS",
+      "base": -150,
+      "relative": -150,
+      "half": 150
+    },
+    {
+      "test": "2 host corpse uses anatomical offset",
+      "status": "PASS",
+      "corpse": {
+        "name": "DinosaurCarcass_2",
+        "species": 2,
+        "source": 1,
+        "z": 227.44841398126022,
+        "bodyZ": 77.55813249132885,
+        "bodyRelativeZ": -150,
+        "ground": 77.31195068359375,
+        "spineZ": 212.4171011941372,
+        "food": 480,
+        "maxFood": 480,
+        "frozen": true,
+        "x": 1979.3397965959673,
+        "y": -2.839648694358383
+      }
+    },
+    {
+      "test": "2 client corpse uses anatomical offset",
+      "status": "PASS",
+      "corpse": {
+        "name": "DinosaurCarcass_2",
+        "species": 2,
+        "source": 1,
+        "z": 227,
+        "bodyZ": 77.04517719556938,
+        "bodyRelativeZ": -150,
+        "ground": 77.29764556884766,
+        "spineZ": 211.30960201023396,
+        "food": 480,
+        "maxFood": 480,
+        "frozen": true,
+        "x": 1979,
+        "y": -3
+      }
+    },
+    {
+      "test": "2 ten-second respawn returns",
+      "status": "PASS"
+    },
+    {
+      "test": "2 carcass survives respawn",
+      "status": "PASS"
+    },
+    {
+      "test": "mouse still controls camera",
+      "status": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+[
+  {
+    "test": "Trex enters deep pond swimming",
+    "passed": true,
+    "animation": "Swim",
+    "z": 131.24543773578108
+  },
+  {
+    "test": "Trex floats at surface",
+    "passed": true,
+    "height": 131.24543773578108,
+    "surface": 180
+  },
+  {
+    "test": "Trex swims forward",
+    "passed": true,
+    "metres": 5.346088305217149
+  },
+  {
+    "test": "Trex swimming is slower",
+    "passed": true,
+    "swimSpeed": 525,
+    "wadingSpeed": 682.5
+  },
+  {
+    "test": "Trex brace holds position in water",
+    "passed": true,
+    "distance": 0.0
+  },
+  {
+    "test": "Trex injured swim slowdown",
+    "passed": true
+  },
+  {
+    "test": "Trex critical swim slowdown",
+    "passed": true
+  },
+  {
+    "test": "Trex critical charge blocked in water",
+    "passed": true
+  },
+  {
+    "test": "Trex swimming recovers after heavy attack",
+    "passed": true
+  },
+  {
+    "test": "Trex surface surge",
+    "passed": true,
+    "rise": 62.166990241090446
+  },
+  {
+    "test": "Trex returns to swimming after surge",
+    "passed": true
+  },
+  {
+    "test": "Trex swims to shore and exits",
+    "passed": true,
+    "x": 6266.739186410798,
+    "z": 624.1527542588524,
+    "animation": "Idle"
+  },
+  {
+    "test": "Trex land controls restored",
+    "passed": true
+  },
+  {
+    "test": "Raptor enters deep pond swimming",
+    "passed": true,
+    "animation": "Swim",
+    "z": 158.7452307400389
+  },
+  {
+    "test": "Raptor floats at surface",
+    "passed": true,
+    "height": 158.7452307400389,
+    "surface": 180
+  },
+  {
+    "test": "Raptor swims forward",
+    "passed": true,
+    "metres": 8.10556322315856
+  },
+  {
+    "test": "Raptor swimming is slower",
+    "passed": true,
+    "swimSpeed": 800,
+    "wadingSpeed": 1040
+  },
+  {
+    "test": "Raptor brace holds position in water",
+    "passed": true,
+    "distance": 0.0
+  },
+  {
+    "test": "Raptor injured swim slowdown",
+    "passed": true
+  },
+  {
+    "test": "Raptor critical swim slowdown",
+    "passed": true
+  },
+  {
+    "test": "Raptor critical charge blocked in water",
+    "passed": true
+  },
+  {
+    "test": "Raptor swimming recovers after heavy attack",
+    "passed": true
+  },
+  {
+    "test": "Raptor surface surge",
+    "passed": true,
+    "rise": 71.35561864954076
+  },
+  {
+    "test": "Raptor returns to swimming after surge",
+    "passed": true
+  },
+  {
+    "test": "Raptor swims to shore and exits",
+    "passed": true,
+    "x": 6402.615954340087,
+    "z": 520.1268848145392,
+    "animation": "Idle"
+  },
+  {
+    "test": "Raptor land controls restored",
+    "passed": true
+  },
+  {
+    "test": "Trike enters deep pond swimming",
+    "passed": true,
+    "animation": "Swim",
+    "z": 142.4953603964881
+  },
+  {
+    "test": "Trike floats at surface",
+    "passed": true,
+    "height": 142.49577804668704,
+    "surface": 180
+  },
+  {
+    "test": "Trike swims forward",
+    "passed": true,
+    "metres": 4.29564896421316
+  },
+  {
+    "test": "Trike swimming is slower",
+    "passed": true,
+    "swimSpeed": 425,
+    "wadingSpeed": 552.5
+  },
+  {
+    "test": "Trike brace holds position in water",
+    "passed": true,
+    "distance": 0.0
+  },
+  {
+    "test": "Trike injured swim slowdown",
+    "passed": true
+  },
+  {
+    "test": "Trike critical swim slowdown",
+    "passed": true
+  },
+  {
+    "test": "Trike critical charge blocked in water",
+    "passed": true
+  },
+  {
+    "test": "Trike swimming recovers after heavy attack",
+    "passed": true
+  },
+  {
+    "test": "Trike surface surge",
+    "passed": true,
+    "rise": 45.40056649901206
+  },
+  {
+    "test": "Trike returns to swimming after surge",
+    "passed": true
+  },
+  {
+    "test": "Trike swims to shore and exits",
+    "passed": true,
+    "x": 6216.667734077129,
+    "z": 573.5050761629964,
+    "animation": "Idle"
+  },
+  {
+    "test": "Trike land controls restored",
+    "passed": true
+  },
+  {
+    "test": "all 42 pond-inclusive region paths",
+    "passed": true
+  }
+]

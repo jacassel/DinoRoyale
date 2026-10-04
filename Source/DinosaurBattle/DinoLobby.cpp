@@ -73,6 +73,7 @@ void ADinoGameMode::LobbyAction(ADinoPlayerController* PC,uint8 Action,int32 Val
         break;
     case 4:
         if(Value<2||Value>10||Value<GetNumPlayers()){PC->ClientLobbyMessage(TEXT("Capacity must fit connected players (2 to 10)."));return;}
+        for(auto P:GetGameState<ADinoGameState>()->PlayerArray)if(auto* Human=Cast<ADinoPlayerState>(P))if(Human->CombatantID>=Value){PC->ClientLobbyMessage(TEXT("That slot is occupied by a connected player."));return;}
         MaxParticipants=Value;break;
     case 5:bFillBots=Value!=0;break;
     case 9:SetMapVariant(Value!=0);break;
@@ -87,7 +88,7 @@ void ADinoGameMode::LobbyAction(ADinoPlayerController* PC,uint8 Action,int32 Val
         break;
     case 12:
         bCustomBotSlots=false;bFillBots=true;MaxParticipants=10;bTeamMatch=true;
-        for(auto P:GetGameState<ADinoGameState>()->PlayerArray)if(auto* Human=Cast<ADinoPlayerState>(P))if(Human->TeamID<0)Human->TeamID=ChooseTeam(Human->CombatantID);
+        for(auto P:GetGameState<ADinoGameState>()->PlayerArray)if(auto* Human=Cast<ADinoPlayerState>(P)){Human->bReady=false;if(Human->TeamID<0)Human->TeamID=ChooseTeam(Human->CombatantID);}
         break;
     case 6:
         for(auto P:GetGameState<ADinoGameState>()->PlayerArray)

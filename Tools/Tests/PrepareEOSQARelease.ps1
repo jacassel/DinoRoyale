@@ -29,8 +29,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0CollectQALogs.ps1" -Pa
 if errorlevel 1 pause
 '@ | Set-Content -LiteralPath (Join-Path $release 'Collect QA Logs.bat') -Encoding ascii
 @"
-Dino Royale - Pre-Alpha 0.2
-Release: $releaseName (UE 5.8 EOS resolved travel URL repair)
+Dino Royale - Version 0.3 Alpha Test
+Release: $releaseName
 Game compatibility build: $compat
 Authoritative source: DinoCompatibility::Build / DINO_BUILD (EOS Int64)
 Unreal OSS BuildUniqueId override: $compat
@@ -38,11 +38,11 @@ Unreal network checksum protection: ENABLED (no override or bypass)
 Build type: Windows Development, complete BuildCookRun build/cook/stage/archive
 
 Use this WHOLE fresh Windows folder on both PCs, not an overlay of an older install.
-The earlier faulty release also displayed $compat; the release label and hashes
-distinguish the repaired executable and cooked content.
+Both PCs must use this 0.3 release; older 0.2 clients have a different compatibility ID.
 
 See MULTIPLAYER_QA_REPORT.md for completed tests and explicit limitations.
-Two-PC EOS lobby and gameplay acceptance: PENDING THE OWNER'S VISUAL VERIFICATION.
+The owner reports the prior release worked in real multiplayer. This update has
+local multi-process regression evidence; a fresh physical/WAN playtest remains separate.
 Configured OnlineServices.ini is NOT included in this distribution.
 Copy your existing file to Windows/DinosaurBattle/OnlineServices.ini on BOTH PCs.
 Do not change its values. Sign in separately on each PC.

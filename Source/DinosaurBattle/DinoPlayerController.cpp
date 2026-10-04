@@ -109,7 +109,7 @@ void ADinoPlayerController::SetMenuOpen(bool Open)
     else{if(GetNetMode()==NM_Standalone)SetPause(false);SetInputMode(FInputModeGameOnly());bShowMouseCursor=false;FlushPressedKeys();}
 }
 void ADinoPlayerController::ToggleMenu(){if(OnlinePage>0&&GetNetMode()==NM_Standalone){OnlinePage=OnlinePage==1?0:1;return;}if(GetNetMode()!=NM_Standalone){if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())if(GS->bLobby||GS->bRoundOver)return;SetMenuOpen(!bSelectionOpen);return;}if(bSettingsOpen){bSettingsOpen=false;return;}if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bRoundOver){ResumeGame();return;}SetMenuOpen(!bSelectionOpen);}
-void ADinoPlayerController::ToggleMapVariant(){if(bSelectionOpen&&!bSettingsOpen&&GetNetMode()==NM_Standalone)if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->SetMapVariant(!GM->bPerformanceMap);}
+void ADinoPlayerController::ToggleMapVariant(){if(bSelectionOpen&&!bSettingsOpen&&GetNetMode()==NM_Standalone)if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>()){GM->SetMapVariant(!GM->bPerformanceMap);GM->StartRound();}}
 void ADinoPlayerController::ToggleMatchMode(){if(bSelectionOpen&&!bSettingsOpen)if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->SetTeamMode(!GM->bTeamMatch);}
 void ADinoPlayerController::ToggleSettings(){if(bSelectionOpen)bSettingsOpen=!bSettingsOpen;}
 void ADinoPlayerController::ToggleNameTags(){if(bSelectionOpen&&bSettingsOpen){bShowNameTags=!bShowNameTags;GConfig->SetBool(TEXT("Dino.UserSettings"),TEXT("ShowNameTags"),bShowNameTags,GGameIni);GConfig->Flush(false,GGameIni);}}
@@ -452,6 +452,20 @@ void ADinoPlayerController::WriteTelemetry()
         O->SetNumberField(TEXT("grassInstances"),It->Grass->GetInstanceCount());
         O->SetNumberField(TEXT("fernInstances"),It->Ferns->GetInstanceCount());
         O->SetNumberField(TEXT("navObstacles"),It->Obstacles.Num());
+        TArray<TSharedPtr<FJsonValue>> Fixtures;
+        for(bool Tree:{false,true})for(const auto& Obstacle:It->Obstacles)if(Obstacle.bTree==Tree)
+        {
+            bool Found=false;
+            for(float Angle:{0.f,90.f,180.f,270.f})
+            {
+                const FVector Point=FVector(Obstacle.Center,0)+FVector(Obstacle.Radius+D->Stats().Radius+180,0,0).RotateAngleAxis(Angle,FVector::UpVector);
+                if(!It->IsWalkable(Point,D->Stats().Radius+30))continue;
+                auto Fixture=MakeShared<FJsonObject>();Fixture->SetStringField(TEXT("kind"),Tree?TEXT("tree"):TEXT("rock"));
+                Fixture->SetNumberField(TEXT("x"),Point.X);Fixture->SetNumberField(TEXT("y"),Point.Y);Fixtures.Add(MakeShared<FJsonValueObject>(Fixture));Found=true;break;
+            }
+            if(Found)break;
+        }
+        O->SetArrayField(TEXT("obstacleFixtures"),Fixtures);
         break;
     }
     if(auto* Driver=GetWorld()->GetNetDriver())
@@ -528,7 +542,7 @@ void ADinoPlayerController::WriteTelemetry()
     }
     O->SetArrayField(TEXT("ai"),AIs);
     TArray<TSharedPtr<FJsonValue>> Corpses,Plants;
-    for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("species"),It->Species);R->SetNumberField(TEXT("source"),It->SourceID);R->SetNumberField(TEXT("z"),It->GetActorLocation().Z);R->SetNumberField(TEXT("bodyZ"),It->Body->GetComponentLocation().Z);R->SetNumberField(TEXT("bodyRelativeZ"),It->Body->GetRelativeLocation().Z);R->SetNumberField(TEXT("ground"),ALostValleyWorld::HeightAt(It->GetActorLocation().X,It->GetActorLocation().Y));R->SetNumberField(TEXT("spineZ"),It->Body->GetSocketLocation(TEXT("spine")).Z);R->SetNumberField(TEXT("food"),It->Nutrition);R->SetNumberField(TEXT("maxFood"),It->MaximumNutrition);R->SetBoolField(TEXT("frozen"),!It->Body->IsComponentTickEnabled());R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Corpses.Add(MakeShared<FJsonValueObject>(R));}
+    for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("species"),It->Species);R->SetNumberField(TEXT("source"),It->SourceID);R->SetNumberField(TEXT("z"),It->GetActorLocation().Z);R->SetNumberField(TEXT("bodyZ"),It->Body->GetComponentLocation().Z);R->SetNumberField(TEXT("bodyX"),It->Body->GetComponentLocation().X);R->SetNumberField(TEXT("bodyY"),It->Body->GetComponentLocation().Y);R->SetNumberField(TEXT("bodyGround"),ALostValleyWorld::HeightAt(It->Body->GetComponentLocation().X,It->Body->GetComponentLocation().Y));R->SetNumberField(TEXT("bodyRelativeZ"),It->Body->GetRelativeLocation().Z);R->SetNumberField(TEXT("ground"),ALostValleyWorld::HeightAt(It->GetActorLocation().X,It->GetActorLocation().Y));R->SetNumberField(TEXT("spineZ"),It->Body->GetSocketLocation(TEXT("spine")).Z);R->SetNumberField(TEXT("food"),It->Nutrition);R->SetNumberField(TEXT("maxFood"),It->MaximumNutrition);R->SetBoolField(TEXT("frozen"),!It->Body->IsComponentTickEnabled());R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Corpses.Add(MakeShared<FJsonValueObject>(R));}
     for(TActorIterator<AFoodPlant> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("food"),It->Nutrition);R->SetBoolField(TEXT("hidden"),It->IsHidden());R->SetBoolField(TEXT("outline"),It->Visual->bRenderCustomDepth);R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Plants.Add(MakeShared<FJsonValueObject>(R));}
     O->SetArrayField(TEXT("corpses"),Corpses);O->SetArrayField(TEXT("plants"),Plants);
     FString Out;auto W=TJsonWriterFactory<>::Create(&Out);FJsonSerializer::Serialize(O,W);

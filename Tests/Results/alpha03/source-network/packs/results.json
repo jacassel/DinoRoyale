@@ -1,0 +1,95 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 3,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "two human packs each have two replicated followers with bots off",
+      "status": "PASS"
+    },
+    {
+      "test": "followers do not consume participant slots",
+      "status": "PASS"
+    },
+    {
+      "test": "only raptor leaders are scoring targets",
+      "status": "PASS"
+    },
+    {
+      "test": "each local leader sees its followers as allies",
+      "status": "PASS"
+    },
+    {
+      "test": "different FFA packs remain enemies",
+      "status": "PASS"
+    },
+    {
+      "test": "both packs survive match start without duplicates",
+      "status": "PASS"
+    },
+    {
+      "test": "server AI resolves the correct distinct leaders",
+      "status": "PASS"
+    },
+    {
+      "test": "followers move on server and replicate to client",
+      "status": "PASS",
+      "travel": 2943.2338859473393
+    },
+    {
+      "test": "enemy follower death is replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "follower death awards no FFA kill",
+      "status": "PASS"
+    },
+    {
+      "test": "follower reset preserves its pack",
+      "status": "PASS"
+    },
+    {
+      "test": "follower kill credits its own leader",
+      "status": "PASS"
+    },
+    {
+      "test": "leader death removes only that leaders followers",
+      "status": "PASS"
+    },
+    {
+      "test": "dead human leader waits for ten-second respawn",
+      "status": "PASS"
+    },
+    {
+      "test": "human leader respawn reconstructs exactly two followers",
+      "status": "PASS"
+    },
+    {
+      "test": "respawn creates no extra scoring participants",
+      "status": "PASS"
+    },
+    {
+      "test": "allied human packs share team but retain their leaders",
+      "status": "PASS"
+    },
+    {
+      "test": "changing dinosaur cleans only its old pack",
+      "status": "PASS"
+    },
+    {
+      "test": "disconnect removes human and associated followers",
+      "status": "PASS"
+    },
+    {
+      "test": "filler raptor leaders also receive separate packs",
+      "status": "PASS"
+    },
+    {
+      "test": "human replacing raptor bot cleans old followers",
+      "status": "PASS"
+    }
+  ]
+}

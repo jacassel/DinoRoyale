@@ -4,13 +4,13 @@ The owner has authorized this major update and resumed development. The historic
 
 Current branch: `codex/dino-royale-alpha-0.3`. Current subsystem checkpoint: `alpha03-systems-tested` (controls, pivot clips, grounding, map variants, AI slots, foliage LODs, swim correction and prey priorities). Broad regression and release work continue from this checkpoint; preserve subsequent working changes. See the newest TEST_LOG entry and `Tests/Results/alpha03`.
 
-Keep the working prior package at `Dist/Releases/DinoRoyale-20260926-QA2-ForCairnFriends/Windows` and its independent QA2 recovery. The old launcher still points to a missing unsuffixed QA2 folder and must be updated only after the 0.3 package passes. No 0.3 package or GitHub push exists yet.
+Keep the working prior package at `Dist/Releases/DinoRoyale-20260926-QA2-ForCairnFriends/Windows` and its independent QA2 recovery. The old launcher still points to a missing unsuffixed QA2 folder and must be updated only after the 0.3 package passes. The first 0.3 package exists at `Dist/Releases/DinoRoyale-0.3-Alpha-Test/Windows`; release verification is ongoing. No GitHub push exists yet.
 
 Build: `powershell -ExecutionPolicy Bypass -File Tools/Build.ps1`.
 Development runtime: `powershell -ExecutionPolicy Bypass -File Tools/Tests/StartTestGame.ps1`.
 New compatibility identifier: `2026100303`; both peers must use 0.3. EOS transport and service identity remain unchanged. The owner reports prior real multiplayer works; this update's loopback tests do not establish a fresh WAN result.
 
-Pending: full regression, prey priorities, broader grounding/carcass cases, measured Standard/Performance comparisons, visual native playtest, final package/recovery/ZIP, final docs/launcher, and private `DinoRoyale` GitHub push. Computer Use's Chrome URL policy stopped that browser attempt; do not bypass it. Native game QA is separate. Account remaining 94%; no Astra-specific allowance exposed. One agent; no purchases.
+Source regression 478/478, prey priorities 28/28, requested team configurations 25/25 and source multiplayer suites pass. Delayed stationary pivot replay and an offline pause cooldown bypass are fixed. Pending: package regression, broader grounding/carcass cases, measured Standard/Performance comparisons, visual native playtest, final recovery/ZIP, final docs/launcher, and private `DinoRoyale` GitHub push. Computer Use's Chrome URL policy stopped that browser attempt; do not bypass it. Native game QA is separate. Account remaining 90%; no Astra-specific allowance exposed. One agent; no purchases.
 
 ---
 

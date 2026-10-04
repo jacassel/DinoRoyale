@@ -32,6 +32,7 @@ void UDinoAnimationComponent::LoadSpecies()
     Clips.Empty();
     for(const TCHAR* N:{TEXT("Idle"),TEXT("PivotLeft"),TEXT("PivotRight"),TEXT("Walk"),TEXT("Run"),TEXT("Swim"),TEXT("Quick"),TEXT("Charge"),TEXT("Heavy"),TEXT("Jump"),TEXT("Brace"),TEXT("Death"),TEXT("Eat")})
     {
+        if(D->Species==3&&FString(N).StartsWith(TEXT("Pivot")))continue;
         FString A=Name+TEXT("_")+N;
         if(auto* Clip=LoadObject<UAnimSequence>(nullptr,*(TEXT("/Game/Dinosaurs/")+Name+TEXT("/")+A+TEXT(".")+A))) Clips.Add(N,Clip);
     }

@@ -1,0 +1,232 @@
+[
+  {
+    "test": "Trex hunger gentle normal drain",
+    "passed": true,
+    "loss": 0.15158843994140625
+  },
+  {
+    "test": "Trex hunger 95 regen thresholds",
+    "passed": true,
+    "hpRate": 0.030005875411916797,
+    "staminaRate": 27.505505971777026
+  },
+  {
+    "test": "Trex hunger 75 regen thresholds",
+    "passed": true,
+    "hpRate": 0.020048883552562853,
+    "staminaRate": 22.05386519769674
+  },
+  {
+    "test": "Trex hunger 65 regen thresholds",
+    "passed": true,
+    "hpRate": 0.010013399474522662,
+    "staminaRate": 14.319001154518084
+  },
+  {
+    "test": "Trex hunger 35 regen thresholds",
+    "passed": true,
+    "hpRate": 0.0,
+    "staminaRate": 8.794430895174223
+  },
+  {
+    "test": "Trex hunger 15 regen thresholds",
+    "passed": true,
+    "hpRate": 0.0,
+    "staminaRate": 0.0
+  },
+  {
+    "test": "Trex hunger 9 regen thresholds",
+    "passed": true,
+    "hpRate": -0.002500905498768559,
+    "staminaRate": 0.0
+  },
+  {
+    "test": "Trex eating rescues hunger health stamina",
+    "passed": true,
+    "hunger": 23.916833877563477,
+    "healthGain": 149.69342041015625,
+    "stamina": 36.99044418334961
+  },
+  {
+    "test": "Trex starvation does not block feeding",
+    "passed": true
+  },
+  {
+    "test": "Raptor hunger gentle normal drain",
+    "passed": true,
+    "loss": 0.22900390625
+  },
+  {
+    "test": "Raptor hunger 95 regen thresholds",
+    "passed": true,
+    "hpRate": 0.03000048408447785,
+    "staminaRate": 27.500392908888823
+  },
+  {
+    "test": "Raptor hunger 75 regen thresholds",
+    "passed": true,
+    "hpRate": 0.020000270486293978,
+    "staminaRate": 21.99996895351795
+  },
+  {
+    "test": "Raptor hunger 65 regen thresholds",
+    "passed": true,
+    "hpRate": 0.009998400557211079,
+    "staminaRate": 14.297583307398305
+  },
+  {
+    "test": "Raptor hunger 35 regen thresholds",
+    "passed": true,
+    "hpRate": 0.0,
+    "staminaRate": 9.19394429500214
+  },
+  {
+    "test": "Raptor hunger 15 regen thresholds",
+    "passed": true,
+    "hpRate": 0.0,
+    "staminaRate": 0.0
+  },
+  {
+    "test": "Raptor hunger 9 regen thresholds",
+    "passed": true,
+    "hpRate": -0.002539417915712679,
+    "staminaRate": 0.0
+  },
+  {
+    "test": "Raptor eating rescues hunger health stamina",
+    "passed": true,
+    "hunger": 33.93901443481445,
+    "healthGain": 86.56983947753906,
+    "stamina": 54.7181510925293
+  },
+  {
+    "test": "Raptor starvation does not block feeding",
+    "passed": true
+  },
+  {
+    "test": "Trike hunger gentle normal drain",
+    "passed": true,
+    "loss": 0.11993408203125
+  },
+  {
+    "test": "Trike hunger 95 regen thresholds",
+    "passed": true,
+    "hpRate": 0.030000015713727526,
+    "staminaRate": 27.499999376869425
+  },
+  {
+    "test": "Trike hunger 75 regen thresholds",
+    "passed": true,
+    "hpRate": 0.019999273476633085,
+    "staminaRate": 22.000003017427726
+  },
+  {
+    "test": "Trike hunger 65 regen thresholds",
+    "passed": true,
+    "hpRate": 0.010000702258375418,
+    "staminaRate": 14.300006660267252
+  },
+  {
+    "test": "Trike hunger 35 regen thresholds",
+    "passed": true,
+    "hpRate": 0.0,
+    "staminaRate": 8.80001348410959
+  },
+  {
+    "test": "Trike hunger 15 regen thresholds",
+    "passed": true,
+    "hpRate": 0.0,
+    "staminaRate": 0.0
+  },
+  {
+    "test": "Trike hunger 9 regen thresholds",
+    "passed": true,
+    "hpRate": -0.0024990684091293447,
+    "staminaRate": 0.0
+  },
+  {
+    "test": "Trike eating rescues hunger health stamina",
+    "passed": true,
+    "hunger": 41.41449737548828,
+    "healthGain": 357.51123046875,
+    "stamina": 68.42755126953125
+  },
+  {
+    "test": "Trike starvation does not block feeding",
+    "passed": true
+  },
+  {
+    "test": "carcass food scales with size",
+    "passed": true,
+    "food": {
+      "3": 25,
+      "1": 120,
+      "0": 360,
+      "2": 480
+    }
+  },
+  {
+    "test": "carcass settles to frozen pose",
+    "passed": true
+  },
+  {
+    "test": "corpse survives its dinosaur respawn",
+    "passed": true
+  },
+  {
+    "test": "tiny carcass consumed exactly and removed",
+    "passed": true,
+    "hunger": 14.94123363494873
+  },
+  {
+    "test": "eaten plant disappears and cannot supply more food",
+    "passed": true,
+    "food": 0
+  },
+  {
+    "test": "quiet dinosaur visible in line of sight",
+    "passed": true
+  },
+  {
+    "test": "quiet dinosaur outside view hidden on map",
+    "passed": true
+  },
+  {
+    "test": "AI attack reveals an unseen position",
+    "passed": true
+  },
+  {
+    "test": "noise marker expires after six seconds",
+    "passed": true
+  },
+  {
+    "test": "terrain obstacle blocks sight and marker",
+    "passed": true
+  },
+  {
+    "test": "charge windup reveals through occlusion",
+    "passed": true
+  },
+  {
+    "test": "AI sprint reveals its location",
+    "passed": true
+  },
+  {
+    "test": "human sprint reveals location",
+    "passed": true
+  },
+  {
+    "test": "human noise expires after stopping",
+    "passed": true
+  },
+  {
+    "test": "hungry AI seeks and actually consumes food",
+    "passed": true,
+    "hunger": 91.15412902832031,
+    "states": [
+      "Feeding",
+      "Pursuing",
+      "Seeking food"
+    ]
+  }
+]

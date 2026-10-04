@@ -12,6 +12,8 @@ public:
     virtual float GetMaxSpeed() const override;
     virtual void UpdateFromCompressedFlags(uint8 Flags) override;
     virtual FNetworkPredictionData_Client* GetPredictionData_Client() const override;
+    virtual bool ClientUpdatePositionAfterServerUpdate() override;
+    virtual bool ShouldCorrectRotation() const override { return true; }
 protected:
     virtual void UpdateCharacterStateBeforeMovement(float DeltaSeconds) override;
     virtual void PhysicsRotation(float DeltaTime) override;

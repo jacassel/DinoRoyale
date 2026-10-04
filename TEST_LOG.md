@@ -11,7 +11,10 @@
 - Custom team/map network checks: 13/13 on the current build. Two humans versus five bots, empty slots, host authority, replicated map variant, identical 36 edible plants, scores, follower exclusions, return to Standard, normal 5v5 and replacement bots on departure passed.
 - Foliage audit: existing HISM components already avoided per-tree actors. Added real mesh LODs (canopy 97,200 to 1,267 vertices), tighter culling, reduced grass density and distant shadows. Performance measurements pending; no improvement percentage claimed yet.
 - Post-fix delayed pond crossings: 96/96. Hunger/prey/threat/chase tests: 28/28 across all four personalities. Broad source regression is running; no package or performance claim yet.
-- Current editor build passes. Broader regression, visual playtesting, packaged release, final performance comparison and GitHub push remain unfinished.
+- Source final regression: **478/478 across 14 suites**, including all species, combat, stamina, hunger, swimming, traversal and AI pond escape (`source-regression-02/summary.json`). The first run exposed an offline pause/cancel cooldown bypass; fixed without cancelling committed attacks during ordinary menus.
+- Delayed pivot replay: preserved current input around historical saved-move replay and sent authoritative rotation corrections at pivot input edges. Delayed pivot checks 64/64 and an independent 18-turn repeated release trace converge exactly. Expanded stress coverage is running on the package.
+- Source network suites: lobby 20, combat 39, bots 17, matches 48, ecology 25 and packs 21 pass. Performance-map matches 48/48; requested team configurations and late join 25/25. Compatibility/EOS URL automation: 32 assertions, two passing suites.
+- First 0.3 Windows package built successfully. Package, visual playtesting, final performance comparison and GitHub push remain unfinished. Failed test attempts are retained alongside corrected fixture evidence; they are not counted as passing release results.
 
 ## EOS resolved URL repair / QA2 - September 26, 2026
 

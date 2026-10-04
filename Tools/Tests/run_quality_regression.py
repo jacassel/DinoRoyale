@@ -5,7 +5,7 @@ OUT=pathlib.Path(os.environ.get('DINO_RESULTS_DIR',str(ROOT/'Tests/Results/quali
 OUT.mkdir(parents=True,exist_ok=True)
 os.environ['DINO_RESULTS_DIR']=str(OUT)
 import runtime_core as t
-suites=[('runtime_sprint_rules.py','sprint-rules.json',36),('runtime_audio.py','audio.json',36),
+suites=[('runtime_sprint_rules.py','sprint-rules.json',36),('runtime_audio.py','audio.json',54),
 ('runtime_core.py','core-live.json',90),('runtime_combat_polish.py','combat-polish.json',69),
 ('runtime_combat_followup.py','combat-followup.json',17),('runtime_integration.py','integration-live.json',41),
 ('runtime_settings.py','settings-water-blood.json',28),('runtime_matches.py','match-rules.json',24),

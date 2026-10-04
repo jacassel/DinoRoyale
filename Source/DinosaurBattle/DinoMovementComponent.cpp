@@ -32,7 +32,28 @@ public:
 };
 }
 void UDinoMovementComponent::UpdateFromCompressedFlags(uint8 Flags)
-{Super::UpdateFromCompressedFlags(Flags);if(auto* D=Cast<ADinosaurCharacter>(CharacterOwner)){D->bSprintRequested=(Flags&FSavedMove_Character::FLAG_Custom_0)!=0;D->PivotInput=((Flags&FSavedMove_Character::FLAG_Custom_2)?1:0)-((Flags&FSavedMove_Character::FLAG_Custom_1)?1:0);}}
+{
+    Super::UpdateFromCompressedFlags(Flags);
+    if(auto* D=Cast<ADinosaurCharacter>(CharacterOwner))
+    {
+        const int8 PreviousPivot=D->PivotInput;
+        D->bSprintRequested=(Flags&FSavedMove_Character::FLAG_Custom_0)!=0;
+        D->PivotInput=((Flags&FSavedMove_Character::FLAG_Custom_2)?1:0)-((Flags&FSavedMove_Character::FLAG_Custom_1)?1:0);
+        // Stationary turns can diverge without a positional error. Send the server's
+        // facing at input edges through the normal timestamped correction/replay path.
+        if(D->HasAuthority()&&!D->IsLocallyControlled()&&PreviousPivot!=D->PivotInput)ForceClientAdjustment();
+    }
+}
+bool UDinoMovementComponent::ClientUpdatePositionAfterServerUpdate()
+{
+    auto* D=Cast<ADinosaurCharacter>(CharacterOwner);
+    if(!D)return Super::ClientUpdatePositionAfterServerUpdate();
+    const int8 CurrentPivot=D->PivotInput;const bool CurrentSprint=D->bSprintRequested;
+    const bool Replayed=Super::ClientUpdatePositionAfterServerUpdate();
+    // Saved moves restore historical inputs during replay, not the keys held now.
+    D->PivotInput=CurrentPivot;D->bSprintRequested=CurrentSprint;
+    return Replayed;
+}
 FNetworkPredictionData_Client* UDinoMovementComponent::GetPredictionData_Client() const
 {
     if(!ClientPredictionData)const_cast<UDinoMovementComponent*>(this)->ClientPredictionData=new FDinoPredictionData(*this);

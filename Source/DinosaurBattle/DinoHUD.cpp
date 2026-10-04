@@ -105,7 +105,7 @@ void ADinoHUD::DrawHUD()
     }
     if(PC->bShowHelp)
     {
-        Panel(24*S,H-99*S,W-48*S,75*S,.82f);
+        Panel(24*S,H-99*S,W-48*S,85*S,.82f);
         Text(TEXT("WASD Move   SHIFT Sprint   MOUSE Look   SPACE Jump   Q / E Pivot   CTRL Brace"),42*S,H-84*S,.94f);
         Text(TEXT("LMB  Quick attack     HOLD / RELEASE RMB  Heavy attack     HOLD F  Eat"),42*S,H-60*S,.88f,Muted);
         Text(GetNetMode()==NM_Standalone?TEXT("1 / 2 / 3  Species     M  Map     H  Help     ESC  Pause"):TEXT("M  Map     H  Help     ESC  Multiplayer menu"),42*S,H-38*S,.78f,Gold);
@@ -155,6 +155,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
         Text(TEXT("SHOW NAME TAGS"),W*.22f,H*.61f,1.08f);
         Text(PC->bShowNameTags?TEXT("[ N ]   ON"):TEXT("[ N ]   OFF"),W*.64f,H*.61f,1.08f,Teal);
         Text(TEXT("Settings save automatically on this computer."),W*.22f,H*.69f,.8f,Muted);
+        Text(TEXT("Q / E Pivot     Ctrl Brace     Shift Sprint     F Eat"),W*.22f,H*.735f,.72f,Muted);
         Text((GetNetMode()==NM_Standalone?TEXT("ESC / F2  Back to dinosaur selection      ENTER  Resume"):TEXT("ESC / F2  Back to multiplayer")),W*.22f,H*.78f,.95f,Teal);
         return;
     }

@@ -1,17 +1,19 @@
 # Dino Royale — Version 0.3 Alpha Test (in development)
 
 A dinosaur combat prototype with offline play and an Epic Online Services multiplayer integration.
-Physical QA of QA1 confirmed Epic sign-in, EOS hosting, discovery, overlay and
-successful JoinSession/address resolution. A custom URL-prefix check then blocked
-ClientTravel. QA2 repairs that check for UE 5.8's bracketed EOS URL. Two distinct
-Epic accounts subsequently joined the same match through real EOS on this PC.
-Physical two-PC joining and different-network play still require visual verification.
+The owner reports successful real multiplayer play with the prior release. Version 0.3
+adds close-combat pivoting, optimized foliage, a Performance map, custom AI teams,
+name tags, grounded replicated dinosaurs/carcasses, and more reliable swimming.
+Multiplayer retains the existing EOS architecture and service identity. Both players
+must update together: 0.3 uses compatibility ID **2026100303**.
+Current verification and remaining release work are recorded in TEST_LOG.md.
 See [EOS_SETUP.md](EOS_SETUP.md) for setup and [Docs/MULTIPLAYER_ACCEPTANCE.md](Docs/MULTIPLAYER_ACCEPTANCE.md) for the evidence boundary.
 
 ## Launch
 
 Open `C:\Users\joel1\Documents\DinosaurBattle Prototype` in File Explorer and double-click **LaunchGame.bat**.
-The corrected QA release is `Dist\Releases\DinoRoyale-20260926-QA2\Windows`;
+While 0.3 is in development, the preserved working release is
+`Dist\Releases\DinoRoyale-20260926-QA2-ForCairnFriends\Windows`;
 keep that entire folder together. Copy your existing configured `OnlineServices.ini`
 to its `DinosaurBattle` subfolder before online play; credentials are not shipped
 in the QA2 ZIP. QA1 and `Dist\Windows` remain preserved.
@@ -56,10 +58,20 @@ The game opens on dinosaur selection. Choose a card or press 1, 2 or 3 to begin.
 Online: the host plays and chooses 2–10 main participant slots, FFA or Team Battle,
 bots ON/OFF and public/invite-only visibility. Guests select species/team in the
 lobby and mark Ready; the host starts. Team Battle allows up to five per team,
-including smaller and uneven matches. Bots fill empty slots and yield to joining
-humans. Each human or bot raptor leader owns two extra followers; these do not
+including smaller and uneven matches. The host can enable/disable each AI slot
+and choose Team A/B in its roster row; disabled slots remain empty. The 5v5 preset
+restores the ordinary balanced roster. Bots yield to joining humans. Each human or bot raptor leader owns two extra followers; these do not
 consume participant slots. Only leaders award kills. The host leaving ends the
 match for everyone. Use the in-game lobby controls to rematch or return to lobby.
+Choose **Sungrass Plains — Standard** or **Performance** on the selection screen or
+in the host setup/lobby. Performance retains terrain, rocks, water, edible plants,
+and match rules while removing cosmetic trees, grass and ferns. The host's selection
+applies to every peer. Changing the offline map starts a fresh round.
+
+Name tags default ON and save locally. Open Escape, F2, then press N or click the
+name-tag row. Tags use multiplayer display names or dinosaur/pack labels; they require
+line of sight and remain within 60 meters. The toggle changes labels, not enemy reveal rules.
+
 Send friends [FRIEND_QUICKSTART.md](FRIEND_QUICKSTART.md) with the complete Windows folder.
 
 At round end, the game pauses on results showing all ten competitors' kills, deaths and assists, including when an AI wins solo play. Press Enter to start again. Map pins appear as gold diamonds on both maps, survive respawns, and clear for a new round. Open M, point at a location, then press R; adding a ninth pin replaces the oldest. The world continues while you use the map; close it with M to resume movement and mouse look.
