@@ -1,0 +1,26 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "runtime_combat_polish.py exits successfully",
+      "status": "PASS"
+    },
+    {
+      "test": "runtime_integration.py exits successfully",
+      "status": "PASS"
+    },
+    {
+      "test": "runtime_safe_respawn.py exits successfully",
+      "status": "PASS"
+    },
+    {
+      "test": "runtime_rounds.py exits successfully",
+      "status": "PASS"
+    }
+  ]
+}

@@ -68,7 +68,7 @@ void UCombatComponent::DetectHits()
         FVector Contact=D->GetMesh()->GetSocketLocation(Socket);
         const float Width=D->Species==4?(Socket==TEXT("spine")?155.f:80.f):D->Species==5?(Socket==TEXT("tail_04")?95.f:bChargedAttack?210.f:115.f):55.f;
         if(Socket==TEXT("spine"))Contact+=D->GetActorRightVector()*115;
-        if(D->Species==5&&bChargedAttack)Contact=(Contact+D->GetMesh()->GetSocketLocation(TEXT("stomp_r")))*.5f;
+        if(D->Species==5&&bChargedAttack)Contact=(D->GetMesh()->GetSocketLocation(TEXT("stomp_l"))+D->GetMesh()->GetSocketLocation(TEXT("stomp_r")))*.5f;
         const FVector Start=bHasContact?PreviousContact:Contact;PreviousContact=Contact;bHasContact=true;
         GetWorld()->SweepMultiByObjectType(Hits,Start,Contact,FQuat::Identity,FCollisionObjectQueryParams(ECC_Pawn),FCollisionShape::MakeSphere(Width),Params);
     }

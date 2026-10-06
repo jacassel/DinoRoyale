@@ -32,7 +32,7 @@ try:
     c.quit();h.lobby(12)
     t.check('one human plus four AI vs five AI',wait_for(lambda:count(h)==[5,5] and sum(x['bot'] and x['scoring'] for x in h.state()['networkActors'])==9))
     c=Peer(t,'TeamLateClient')
-    t.check('late join receives Performance variant and matching food',wait_for(lambda:c.state()['performanceMap'] and len(c.state()['plants'])==36 and c.state()['treeInstances']==0))
+    t.check('late join receives Performance variant with shrubs and browse trees',wait_for(lambda:c.state()['performanceMap'] and len(c.state()['plants'])==54 and sum(p['tree'] for p in c.state()['plants'])==18 and c.state()['treeInstances']==0))
     t.check('late human replaces exactly one bot',wait_for(lambda:sum(x['bot'] and x['scoring'] for x in c.state()['networkActors'])==8 and len(c.state()['players'])==2))
     c.quit();h.quit()
 finally:t.close()

@@ -11,6 +11,8 @@ species=[0,1,2,4,5,6];jobs=[]
 for x,y in itertools.combinations(species,2):
  if a.kind in ['solo','all']:jobs.append((x,y,False,False))
  if a.kind in ['packs','all'] and (x in [1,6] or y in [1,6]):jobs.append((x,y,x in [1,6],y in [1,6]))
+# Exercise large-body contact and combo-reset regressions first, then the remaining matrix.
+jobs.sort(key=lambda job: (0 if job[:2] in [(2,5),(5,6),(4,5),(0,4),(2,4)] else 1,job))
 path=t.out/'matches.json';rows=json.loads(path.read_text()) if a.resume and path.exists() else []
 try:
  h=Peer(t,'RosterBalance','/Game/Maps/LostValley');h.command('menu',open=False)

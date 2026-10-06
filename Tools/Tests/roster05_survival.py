@@ -1,0 +1,47 @@
+"""Rendered new-roster defense, injury, exhaustion, blood and water regression."""
+import argparse,time
+from net_harness import NetworkTest,Peer,wait_for
+p=argparse.ArgumentParser();p.add_argument('--executable');p.add_argument('--output',default='Tests/Results/roster05/survival');a=p.parse_args()
+t=NetworkTest(a.output,executable=a.executable,rendered=True);t.render_size=(1280,720)
+try:
+ h=Peer(t,'RosterSurvival','/Game/Maps/LostValley');h.command('menu',open=False);h.command('ai',paused=True);h.command('sandbox',enabled=True)
+ def blood(enabled):
+  h.command('menu',open=True)
+  if not h.state()['settingsOpen']:h.tap('F2')
+  if h.state()['bloodEnabled']!=enabled:h.tap('B')
+  h.command('menu',open=False);time.sleep(.2)
+ for species,armor,brace in [(4,.78,.10),(5,.9,.17),(6,1,.25)]:
+  h.command('removeTarget');h.command('species',value=species);h.command('face',yaw=0);time.sleep(.8)
+  base=h.state();h.key('MouseX','axis');time.sleep(.1)
+  h.command('target');h.key('LeftControl');wait_for(lambda:h.state()['brace'],2)
+  b=h.state();h.command('hitFromTarget',value=100,front=True);s=h.state()
+  t.check(f'{species} frontal armor and brace',abs(b['health']-s['health']-100*armor*brace)<1)
+  b=s;h.command('hitFromTarget',value=100,front=False);s=h.state()
+  t.check(f'{species} rear bypasses directional brace but retains armor',abs(b['health']-s['health']-100*armor)<1)
+  h.key('LeftControl','up');h.command('removeTarget');h.command('heal');time.sleep(.4)
+  h.command('stamina',value=0);h.key('W');h.key('LeftShift');h.tap('SpaceBar');h.key('RightMouseButton');time.sleep(.2);s=h.state()
+  t.check(f'{species} exhausted sprint jump heavy blocked',s['exhausted'] and not s['sprinting'] and not s['falling'] and not s['charging'])
+  h.key('W','up');h.key('LeftShift','up');h.key('RightMouseButton','up');h.command('stamina',value=0);h.tap('LeftMouseButton');time.sleep(.15)
+  t.check(f'{species} exhausted quick remains weak',h.state()['weakAttack'] and h.state()['recovery']>0)
+  t.check(f'{species} stamina recovers from exhaustion',wait_for(lambda:not h.state()['exhausted'],5))
+  time.sleep(2);h.command('species',value=species);h.command('face',yaw=0);time.sleep(.6)
+  speed=h.state()['maxSpeed'];h.command('damage',value=h.state()['maxHealth']*.6/armor);time.sleep(.2)
+  t.check(f'{species} injured movement slows',abs(h.state()['maxSpeed']/speed-.85)<.02)
+  h.command('damage',value=h.state()['maxHealth']*.22/armor);time.sleep(.2);h.key('RightMouseButton');time.sleep(.2)
+  t.check(f'{species} critical movement and heavy restriction',abs(h.state()['maxSpeed']/speed-.7)<.02 and not h.state()['charging']);h.key('RightMouseButton','up');h.command('heal')
+  for enabled in [False,True]:
+   blood(enabled);h.command('species',value=species);h.command('face',yaw=0);time.sleep(.6)
+   x,y={4:(-440,250),5:(320,120),6:(290,0)}[species]
+   h.command('testAI',id=1,species=0,x=x,y=y,yaw=180,health=1,enabled=False);b=h.state();health=h.actor(1)['health'];h.tap('LeftMouseButton');time.sleep(.65);s=h.state()
+   t.check(f'{species} blood toggle {enabled}',h.actor(1)['health']<health and ((s['bloodEmitted']>b['bloodEmitted']) if enabled else s['bloodEmitted']==b['bloodEmitted']))
+   h.command('testAI',id=1,species=0,x=15000,y=0,yaw=180,health=1,enabled=False);time.sleep(1)
+  blood(False);t.check(f'{species} blood off clears particles',h.state()['bloodParticles']==0);h.command('removeTarget');h.command('heal')
+  h.command('teleport',x=3000,y=4500);h.command('face',yaw=0);time.sleep(3.5);s=h.state()
+  t.check(f'{species} deep water swim animation',s['swimming'] and s['animation']=='Swim')
+  time.sleep(.8);b=h.state();t.check(f'{species} stable buoyancy',abs(b['z']-s['z'])<5)
+  h.hold('W',1);s=h.state();t.check(f'{species} swimming advances',s['x']-b['x']>150 and s['swimming'])
+  h.command('damage',value=s['maxHealth']*.6/armor);time.sleep(.2)
+  t.check(f'{species} injured swimming slows',abs(h.state()['swimSpeed']/s['swimSpeed']-.85)<.02);h.command('heal')
+  h.key('W');t.check(f'{species} can swim out onto bank',wait_for(lambda:h.state()['x']>6200,30));h.key('W','up');time.sleep(1)
+  t.check(f'{species} returns to grounded land movement',not h.state()['swimming'] and not h.state()['falling']);h.command('screenshot')
+finally:t.close()

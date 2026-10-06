@@ -1,0 +1,92 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "shared pre-match lobby",
+      "status": "PASS"
+    },
+    {
+      "test": "capacity and connected players replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "only host marked as host",
+      "status": "PASS"
+    },
+    {
+      "test": "lobby prevents gameplay movement",
+      "status": "PASS",
+      "distance": 0.0
+    },
+    {
+      "test": "guest chooses own species",
+      "status": "PASS"
+    },
+    {
+      "test": "guest cannot change host settings or start",
+      "status": "PASS"
+    },
+    {
+      "test": "host settings synchronized",
+      "status": "PASS"
+    },
+    {
+      "test": "teams assigned automatically",
+      "status": "PASS"
+    },
+    {
+      "test": "guest changes own team",
+      "status": "PASS"
+    },
+    {
+      "test": "automatic team balances humans",
+      "status": "PASS"
+    },
+    {
+      "test": "unready guest blocks start",
+      "status": "PASS"
+    },
+    {
+      "test": "ready state synchronized",
+      "status": "PASS"
+    },
+    {
+      "test": "host starts both players together",
+      "status": "PASS"
+    },
+    {
+      "test": "menus close after replicated start",
+      "status": "PASS"
+    },
+    {
+      "test": "client controls dinosaur after start",
+      "status": "PASS",
+      "distance": 522.1773817147132
+    },
+    {
+      "test": "guest cannot return everyone to lobby",
+      "status": "PASS"
+    },
+    {
+      "test": "host returns both to lobby",
+      "status": "PASS"
+    },
+    {
+      "test": "lobby clears readiness",
+      "status": "PASS"
+    },
+    {
+      "test": "no duplicate participants across lobby transition",
+      "status": "PASS"
+    },
+    {
+      "test": "departed player removed from lobby",
+      "status": "PASS"
+    }
+  ]
+}

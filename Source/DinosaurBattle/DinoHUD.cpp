@@ -152,7 +152,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
         Text(GM->WinnerName(),W*.20f,H*.27f,1.7f,Gold);
         Text(GM->bTeamMatch?TEXT("TEAM RESULTS"):FString::Printf(TEXT("SOLO RESULTS / FIRST TO %d POINTS"),GM->SoloKillGoal),W*.20f,H*.235f,.78f,Teal);
         Text(TEXT("PLAYER / DINOSAUR"),W*.20f,H*.34f,.78f,Muted);
-        Text(TEXT("POINTS / KILLS"),W*.56f,H*.34f,.72f,Muted);Text(TEXT("DEATHS"),W*.67f,H*.34f,.72f,Muted);Text(TEXT("ASSISTS"),W*.76f,H*.34f,.72f,Muted);
+        Text(GM->bTeamMatch?TEXT("KILLS"):TEXT("POINTS / KILLS"),W*.56f,H*.34f,.72f,Muted);Text(TEXT("DEATHS"),W*.67f,H*.34f,.72f,Muted);Text(TEXT("ASSISTS"),W*.76f,H*.34f,.72f,Muted);
         TArray<int32> IDs;GM->Scores.GetKeys(IDs);IDs.Sort([&](int32 A,int32 B){auto SA=GM->GetScore(A),SB=GM->GetScore(B);return !GM->bTeamMatch&&SA.SoloPoints()!=SB.SoloPoints()?SA.SoloPoints()>SB.SoloPoints():SA.Kills!=SB.Kills?SA.Kills>SB.Kills:SA.Deaths!=SB.Deaths?SA.Deaths<SB.Deaths:A<B;});
         float Y=H*.39f;
         for(int32 ID:IDs)
@@ -191,7 +191,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
     if(Portraits.Num()!=6){Portraits.SetNumZeroed(6);for(int32 I=0;I<6;++I){const FString Kind=FSpeciesData::Get(FSpeciesData::PlayableID(I)).AssetName;Portraits[I]=LoadObject<UTexture2D>(nullptr,*FString::Printf(TEXT("/Game/UI/T_%sPortrait.T_%sPortrait"),*Kind,*Kind));}}
     const TCHAR* Names[]={TEXT("T-REX"),TEXT("VELOCIRAPTOR"),TEXT("TRICERATOPS"),TEXT("ANKYLOSAURUS"),TEXT("BRACHIOSAURUS"),TEXT("PACHYCEPHALOSAURUS")};
     const TCHAR* Roles[]={TEXT("APEX PREDATOR"),TEXT("PACK HUNTER"),TEXT("FRONTLINE DEFENDER"),TEXT("ARMORED TANK"),TEXT("COLOSSUS"),TEXT("PACK CHARGER")};
-    const TCHAR* Ability[]={TEXT("Bite / committed lunge"),TEXT("Fast slash / allied pack"),TEXT("Horn charge / frontal brace"),TEXT("Rear club / armored brace"),TEXT("Stomp / holds nearby space"),TEXT("Headbutt / momentum charge")};
+    const TCHAR* Ability[]={TEXT("Bite / committed lunge"),TEXT("Fast slash / allied pack"),TEXT("Horn charge / frontal brace"),TEXT("Rear club / armored brace"),TEXT("Stomp / browses trees"),TEXT("Headbutt / three-member pack")};
     float MX=-1,MY=-1;PC->GetMousePosition(MX,MY);
     for(int32 I=0;I<6;++I)
     {
@@ -210,7 +210,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
         for(int32 J=0;J<5;++J){const float SY=Y+53*S+J*21*S;Text(Labels[J],X+CardW*.57f,SY,.49f,Muted);Bar(X+CardW*.78f,SY+3*S,CardW*.18f,5*S,FMath::Clamp(Ratings[J],0.f,1.f),Accent);}
         Text(Ability[I],X+12*S,Y+CardH-23*S,.57f,Muted);
     }
-    Text(TEXT("Choose a card or press 1-6 to start a new round. Raptor followers stay allied; only the leader awards a kill."),Left,H*.754f,.64f,Muted);
+    Text(TEXT("Choose a card or press 1-6. Raptor and Pachy packs have one leader and two followers; only leaders score."),Left,H*.754f,.64f,Muted);
     Text(GM&&GM->bPerformanceMap?TEXT("MAP: SUNGRASS PLAINS - PERFORMANCE  /  CLICK TO CHANGE"):TEXT("MAP: SUNGRASS PLAINS - STANDARD  /  CLICK TO CHANGE"),Left,H*.775f,.88f,Gold);
     DrawRect(FLinearColor(.11f,.23f,.22f),W*.18f,H*.83f,W*.40f,H*.08f);
     Text(TEXT("ENTER / ESC   RESUME EXPLORATION"),W*.22f,H*.852f,.97f,Teal);

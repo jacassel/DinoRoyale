@@ -1,0 +1,27 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "real browse tree fully consumed",
+      "status": "PASS"
+    },
+    {
+      "test": "tree remains depleted before two-minute regrowth",
+      "status": "PASS"
+    },
+    {
+      "test": "tree regrows leaves nutrition and outline after timer",
+      "status": "PASS",
+      "seconds": 116.84448679536581
+    },
+    {
+      "test": "regrown tree can be browsed again",
+      "status": "PASS"
+    }
+  ]
+}

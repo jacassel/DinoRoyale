@@ -18,7 +18,7 @@ try:
     plants=sorted((p['x'],p['y']) for p in c.state()['plants'])
     h.lobby(9,1);t.check('performance variant reaches both peers',wait_for(lambda:c.state()['performanceMap'] and h.state()['performanceMap']))
     t.check('performance has no decorative foliage',all(c.state()[k]==0 for k in ['treeInstances','grassInstances','fernInstances']))
-    t.check('performance retains 36 feeding plants',len(c.state()['plants'])==36 and sorted((p['x'],p['y']) for p in c.state()['plants'])==plants)
+    t.check('performance retains 36 shrubs and 18 browse trees',len(c.state()['plants'])==54 and sum(p['tree'] for p in c.state()['plants'])==18 and sorted((p['x'],p['y']) for p in c.state()['plants'])==plants)
     c.lobby(9,0);time.sleep(.3);t.check('guest cannot change map',h.state()['performanceMap'])
     c.lobby(2,1);assert wait_for(lambda:h.player(1)['ready']);h.lobby(6);assert wait_for(lambda:not c.state()['lobby'])
     t.check('unequal team goal stays ten',c.state()['goal']==10)

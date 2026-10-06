@@ -1,0 +1,218 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 3,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "two humans begin FFA with empty slots",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA kill 1 replicated once",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA continues below five (1)",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA kill 2 replicated once",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA continues below five (2)",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA kill 3 replicated once",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA continues below five (3)",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA kill 4 replicated once",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA continues below five (4)",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA kill 5 replicated once",
+      "status": "PASS"
+    },
+    {
+      "test": "five-kill victory shared",
+      "status": "PASS"
+    },
+    {
+      "test": "results freeze client movement",
+      "status": "PASS"
+    },
+    {
+      "test": "host rematch resets scores and corpses",
+      "status": "PASS"
+    },
+    {
+      "test": "rematch restores living players",
+      "status": "PASS"
+    },
+    {
+      "test": "odd 2v1 team match starts",
+      "status": "PASS"
+    },
+    {
+      "test": "real quick attack ignores teammate",
+      "status": "PASS"
+    },
+    {
+      "test": "client quick attack ignores allied host",
+      "status": "PASS"
+    },
+    {
+      "test": "team kill 1 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team combined points 1 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team continues below ten points (1)",
+      "status": "PASS"
+    },
+    {
+      "test": "team kill 2 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team combined points 2 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team continues below ten points (2)",
+      "status": "PASS"
+    },
+    {
+      "test": "team kill 3 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team combined points 3 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team continues below ten points (4)",
+      "status": "PASS"
+    },
+    {
+      "test": "team kill 4 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team combined points 4 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team continues below ten points (5)",
+      "status": "PASS"
+    },
+    {
+      "test": "team kill 5 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team combined points 5 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team continues below ten points (6)",
+      "status": "PASS"
+    },
+    {
+      "test": "team kill 6 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team combined points 6 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team continues below ten points (8)",
+      "status": "PASS"
+    },
+    {
+      "test": "team kill 7 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team combined points 7 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team continues below ten points (9)",
+      "status": "PASS"
+    },
+    {
+      "test": "team kill 8 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "team combined points 8 replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "ten-point team victory shared",
+      "status": "PASS"
+    },
+    {
+      "test": "assists are authoritative and replicated",
+      "status": "PASS"
+    },
+    {
+      "test": "individual kills tracked separately from points",
+      "status": "PASS"
+    },
+    {
+      "test": "rematch 1 clears shared score and carcasses",
+      "status": "PASS"
+    },
+    {
+      "test": "rematch 1 has exactly three participants",
+      "status": "PASS"
+    },
+    {
+      "test": "lobby restart 1 succeeds",
+      "status": "PASS"
+    },
+    {
+      "test": "rematch 2 clears shared score and carcasses",
+      "status": "PASS"
+    },
+    {
+      "test": "rematch 2 has exactly three participants",
+      "status": "PASS"
+    },
+    {
+      "test": "lobby restart 2 succeeds",
+      "status": "PASS"
+    },
+    {
+      "test": "rematch 3 clears shared score and carcasses",
+      "status": "PASS"
+    },
+    {
+      "test": "rematch 3 has exactly three participants",
+      "status": "PASS"
+    },
+    {
+      "test": "lobby restart 3 succeeds",
+      "status": "PASS"
+    }
+  ]
+}

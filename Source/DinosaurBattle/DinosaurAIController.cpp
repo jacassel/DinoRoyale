@@ -12,12 +12,17 @@
 #include "EngineUtils.h"
 namespace
 {
+int32 NextQuickCombo(const UCombatComponent* Combat)
+{
+    return Combat->ComboResetLeft<=0||Combat->ComboCount>=3?1:Combat->ComboCount+1;
+}
 FVector AnatomicalFacing(const ADinosaurCharacter* D,const FVector& ToEnemy)
 {
     if(D->Combat->bBracing)return ToEnemy;
-    const int32 Combo=D->Combat->IsBusy()?D->Combat->ComboCount:D->Combat->ComboCount%3+1;
+    const int32 Combo=D->Combat->IsBusy()?D->Combat->ComboCount:NextQuickCombo(D->Combat);
     const bool Heavy=D->Combat->bCharging||(D->Combat->IsBusy()&&D->Combat->bChargedAttack);
-    if(D->Species==4)return !Heavy&&Combo==3?ToEnemy.RotateAngleAxis(-90,FVector::UpVector):-ToEnemy;
+    // Aim the club's impact arc at the rival, rather than pointing the tail's rest pose at it.
+    if(D->Species==4)return ToEnemy.RotateAngleAxis(!Heavy&&Combo==3?-135:!Heavy&&Combo==2?150:-150,FVector::UpVector);
     if(D->Species==5)
     {
         if(Heavy)return ToEnemy;
@@ -238,7 +243,17 @@ void ADinosaurAIController::Think(float Dt)
     {
         auto* Enemy=Target.Get();float Dist=FVector::Dist2D(Position,Enemy->GetActorLocation());
         State=TEXT("Pursuing");FVector ToEnemy=(Enemy->GetActorLocation()-Position).GetSafeNormal2D();
-        float AttackDistance=D->Stats().AttackRange+Enemy->Stats().Radius*.25f;
+        const int32 NextCombo=NextQuickCombo(D->Combat);
+        const float AnatomicalRange=D->Species==4&&NextCombo==3?330.f:D->Species==5&&NextCombo==2?850.f:D->Stats().AttackRange;
+        float AttackDistance=FMath::Max(AnatomicalRange+Enemy->Stats().Radius*.25f,(D->Stats().Radius+Enemy->Stats().Radius+25)/.83f);
+        if(D->Species==5&&NextCombo==2&&Dist<520&&!D->Combat->IsBusy()&&!D->Combat->bCharging)
+        {
+            // A tail sweep cannot reach a rival under the chest. Keep the frontal guard
+            // until the natural combo reset, instead of turning away for a guaranteed miss.
+            Path.Empty();State=TEXT("Bracing");Decision=TEXT("Guard the chest; wait for a forefoot opening");
+            if(D->Combat->SetBrace(true))BraceTime=.25f;
+            return;
+        }
         if(FSpeciesData::IsPack(D->Species)&&Enemy->Combat->bBracing&&Dist<AttackDistance*2.5f&&FVector::DotProduct(Enemy->GetActorForwardVector(),-ToEnemy)>.2f)
         {
             FVector Side=FVector::CrossProduct(Enemy->GetActorForwardVector(),FVector::UpVector)*(D->CombatantID%2?1:-1);
@@ -251,7 +266,7 @@ void ADinosaurAIController::Think(float Dt)
             if(FVector::DotProduct(D->GetActorForwardVector(),AnatomicalFacing(D,ToEnemy))>(D->Species>=4?.92f:.70f)&&!D->Combat->IsBusy()&&!D->Combat->bBracing)
             {
                 bool Finish=Enemy->Health->Current<=D->Stats().Damage*1.05f;
-                const bool HeavyAligned=(D->Species!=4&&D->Species!=5)||FVector::DotProduct(D->GetActorForwardVector()*(D->Species==4?-1.f:1.f),ToEnemy)>.7f;
+                const bool HeavyAligned=(D->Species!=4&&D->Species!=5)||(FVector::DotProduct(D->GetActorForwardVector()*(D->Species==4?-1.f:1.f),ToEnemy)>.85f&&(D->Species!=4||Dist>380));
                 if(!Finish&&HeavyAligned&&Random.FRand()<FMath::Clamp((Personality==0?.18f:Personality==1?.45f:Personality==2?.38f:.52f)*Temperament+(Enemy->Stamina->bExhausted||Enemy->Combat->RecoveryLeft>.5f?.25f:0.f),.1f,.85f)&&D->Combat->StartCharge()){ChargeTarget=Random.FRandRange(.75f,1.f);State=TEXT("Charging");}
                 else if(D->Combat->QuickAttack())++AttacksMade;
             }

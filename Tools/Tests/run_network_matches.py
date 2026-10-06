@@ -27,15 +27,17 @@ try:
     t.check('real quick attack ignores teammate',abs(client.state()['health']-hp)<.01)
     client.command('face',yaw=180);client.tap('LeftMouseButton');time.sleep(.9)
     t.check('client quick attack ignores allied host',host.state()['health']==host.state()['maxHealth'])
-    for count in range(1,11):
+    # One assist per kill: eight kills plus floor(8/3) assist points reaches ten.
+    for count in range(1,9):
         if count>1:host.command('resetCombatant',id=2)
         host.command('scoreHit',attacker=0,victim=2,value=1)
         host.command('scoreHit',attacker=1,victim=2,value=100000)
         t.check(f'team kill {count} replicated',wait_for(lambda:third.state()['team0Kills']==count))
-        if count<10:t.check(f'team continues below ten ({count})',not third.state()['roundOver'])
-    t.check('ten-kill team victory shared',wait_for(lambda:third.state()['roundOver'] and client.state()['roundOver'] and third.state()['winnerTeam']==0))
-    t.check('assists are authoritative and replicated',wait_for(lambda:host.state()['assists']==10 and next(s for s in third.state()['scoreboard'] if s['id']==0)['assists']==10))
-    t.check('individual kills tracked for client winner',client.state()['kills']==10 and third.state()['deaths']==10)
+        t.check(f'team combined points {count} replicated',wait_for(lambda:third.state()['team0Score']==count+count//3))
+        if count<8:t.check(f'team continues below ten points ({count+count//3})',not third.state()['roundOver'])
+    t.check('ten-point team victory shared',wait_for(lambda:third.state()['roundOver'] and client.state()['roundOver'] and third.state()['winnerTeam']==0))
+    t.check('assists are authoritative and replicated',wait_for(lambda:host.state()['assists']==8 and next(s for s in third.state()['scoreboard'] if s['id']==0)['assists']==8))
+    t.check('individual kills tracked separately from points',client.state()['kills']==8 and third.state()['deaths']==8)
     for repeat in range(3):
         host.lobby(8)
         t.check(f'rematch {repeat+1} clears shared score and carcasses',wait_for(lambda:not third.state()['roundOver'] and third.state()['team0Kills']==0 and len(third.state()['corpses'])==0))
