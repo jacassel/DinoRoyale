@@ -28,6 +28,7 @@ struct FSpeciesData
     static constexpr int32 PlayableCount=6;
     static int32 PlayableID(int32 Slot){const int32 IDs[]={0,1,2,4,5,6};return IDs[FMath::Clamp(Slot,0,5)];}
     static bool IsPlayable(int32 ID){return ID>=0&&ID<=6&&ID!=3;}
+    static bool IsPack(int32 ID){return ID==1||ID==6;}
     FLinearColor Color=FLinearColor(.27f,.35f,.19f);
     static const FSpeciesData& Get(int32 Species);
 };

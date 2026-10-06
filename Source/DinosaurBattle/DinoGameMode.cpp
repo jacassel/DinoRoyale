@@ -68,6 +68,8 @@ void ADinoGameMode::BeginPlay()
     {
         GetWorld()->SpawnActor<AFoodPlant>(Spot,FRotator(0,Random.FRandRange(0,360),0));
     }
+    for(const FVector& Spot:Valley->TreeFoodSpawnPoints)
+        GetWorld()->SpawnActor<AFoodTree>(Spot,FRotator::ZeroRotator);
     auto* PC=GetWorld()->GetFirstPlayerController();if(PC)
     {
         PC->SetControlRotation(FRotator(-13,0,0));PC->PlayerCameraManager->ViewPitchMin=-65;PC->PlayerCameraManager->ViewPitchMax=25;
@@ -77,7 +79,7 @@ void ADinoGameMode::BeginPlay()
 }
 
 FDinoScore ADinoGameMode::GetScore(int32 ID) const{if(const auto* S=Scores.Find(ID))return *S;return FDinoScore();}
-FString ADinoGameMode::MatchName() const{return bTeamMatch?FString::Printf(TEXT("5 v 5 TEAM FIGHT  /  FIRST TO %d"),TeamKillGoal):FString::Printf(TEXT("SOLO FREE-FOR-ALL  /  FIRST TO %d"),SoloKillGoal);}
+FString ADinoGameMode::MatchName() const{return bTeamMatch?FString::Printf(TEXT("5 v 5 TEAM FIGHT  /  FIRST TO %d POINTS"),TeamKillGoal):FString::Printf(TEXT("SOLO FREE-FOR-ALL  /  FIRST TO %d POINTS"),SoloKillGoal);}
 ADinosaurCharacter* ADinoGameMode::FindCombatant(int32 ID) const
 {
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->bMajor&&It->CombatantID==ID)return *It;return nullptr;
@@ -92,23 +94,23 @@ bool ADinoGameMode::AreEnemies(const ADinosaurCharacter* A,const ADinosaurCharac
         return bTeamMatch&&A->TeamID>=0&&B->TeamID>=0?A->TeamID!=B->TeamID:true;
     }
     if(bTeamMatch&&A->TeamID>=0&&B->TeamID>=0)return A->TeamID!=B->TeamID;
-    return !(A->Species==1&&B->Species==1);
+    return !(FSpeciesData::IsPack(A->Species)&&B->Species==A->Species);
 }
 ADinosaurCharacter* ADinoGameMode::GetPackLeader(const ADinosaurCharacter* Member) const
 {
     if(GetNetMode()!=NM_Standalone)return Member?(Member->bPackFollower?FindCombatant(Member->PackLeaderID):const_cast<ADinosaurCharacter*>(Member)):nullptr;
-    if(!Member||Member->Species!=1)return nullptr;ADinosaurCharacter* Leader=nullptr;
+    if(!Member||!FSpeciesData::IsPack(Member->Species))return nullptr;ADinosaurCharacter* Leader=nullptr;
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
     {
-        auto* D=*It;if(!D->bMajor||D->Species!=1||(bTeamMatch&&D->TeamID!=Member->TeamID))continue;
+        auto* D=*It;if(!D->bMajor||D->Species!=Member->Species||(bTeamMatch&&D->TeamID!=Member->TeamID))continue;
         // The role persists through the ten-second respawn; killing followers never becomes a score exploit.
         if(D->IsPlayerControlled())return D;
         if(!Leader||D->CombatantID<Leader->CombatantID)Leader=D;
     }
     return Leader;
 }
-ADinosaurCharacter* ADinoGameMode::ScoringOwner(ADinosaurCharacter* D) const{return D&&D->Species==1&&bSharePackKills?GetPackLeader(D):D;}
-bool ADinoGameMode::IsScoringTarget(const ADinosaurCharacter* D) const{return D&&D->bMajor&&(D->Species!=1||GetPackLeader(D)==D);}
+ADinosaurCharacter* ADinoGameMode::ScoringOwner(ADinosaurCharacter* D) const{return D&&FSpeciesData::IsPack(D->Species)&&bSharePackKills?GetPackLeader(D):D;}
+bool ADinoGameMode::IsScoringTarget(const ADinosaurCharacter* D) const{return D&&D->bMajor&&(!FSpeciesData::IsPack(D->Species)||GetPackLeader(D)==D);}
 void ADinoGameMode::SetTeamMode(bool Enabled)
 {
     if(GetNetMode()!=NM_Standalone)return;
@@ -118,18 +120,21 @@ void ADinoGameMode::StartRound()
 {
     if(bOnlineMatch){StartNetworkRound();return;}
     if(auto* PC=Cast<ADinoPlayerController>(GetWorld()->GetFirstPlayerController()))PC->MapPins.Empty();
-    bRoundOver=false;WinnerID=WinnerTeam=-1;TeamKills[0]=TeamKills[1]=0;Scores.Empty();++RoundNumber;RoundStartTime=GetWorld()->GetTimeSeconds();
+    bRoundOver=false;WinnerID=WinnerTeam=-1;TeamKills[0]=TeamKills[1]=0;TeamAssists[0]=TeamAssists[1]=0;Scores.Empty();++RoundNumber;RoundStartTime=GetWorld()->GetTimeSeconds();
     const FVector SoloHomes[]={FVector(0,0,0),FVector(12500,3000,0),FVector(28500,-6000,0),FVector(-23500,13500,0),FVector(4500,4000,0),FVector(5000,4400,0),FVector(4400,4800,0),FVector(-14000,-22000,0),FVector(8500,-6500,0),FVector(22000,18000,0)};
-    const int32 TeamSpecies[]={0,1,1,1,2,0,1,1,1,2};
+    const int32 TeamSpecies[]={0,1,1,1,4,5,6,6,6,2};
+    const int32 PachyTeamSpecies[]={6,6,6,0,4,5,1,1,1,2};
+    const int32 SoloSpecies[]={0,4,5,2,1,1,1,6,6,6};
     const auto* FirstPC=GetWorld()->GetFirstPlayerController();
     const auto* Player=FirstPC?Cast<ADinosaurCharacter>(FirstPC->GetPawn()):nullptr;
     const bool PlayerRaptor=Player&&Player->Species==1;
+    const bool PlayerPachy=Player&&Player->Species==6;
     ALostValleyWorld* Valley=nullptr;for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
     {
         auto* D=*It;if(!D->bMajor)continue;int32 ID=D->CombatantID;if(ID<0||ID>9)continue;
         D->TeamID=bTeamMatch?(ID<=4?0:1):-1;
-        if(!D->IsPlayerControlled())D->ApplySpecies(bTeamMatch?(PlayerRaptor&&ID==1?0:TeamSpecies[ID]):(PlayerRaptor&&ID==6?0:(ID-1)/3));
+        if(!D->IsPlayerControlled())D->ApplySpecies(bTeamMatch?(PlayerPachy?PachyTeamSpecies[ID]:(PlayerRaptor&&ID==1?0:TeamSpecies[ID])):((PlayerRaptor&&ID==6)||(PlayerPachy&&ID==9)?0:SoloSpecies[ID]));
         FVector Home=SoloHomes[ID]*.5f;
         if(bTeamMatch){int32 Slot=ID<=4?ID:ID-5;Home=FVector(ID<=4?-6000:6000,(Slot-2)*1300,0);}
         if(Valley)Home=Valley->NearestWalkable(Home);
@@ -159,12 +164,23 @@ void ADinoGameMode::RegisterDeath(ADinosaurCharacter* Victim)
         auto* Contributor=ScoringOwner(FindCombatant(Pair.Key));
         if(Contributor&&Contributor!=Killer&&AreEnemies(Contributor,Victim)&&GetWorld()->GetTimeSeconds()-Pair.Value<=AssistWindow)AssistIDs.Add(Contributor->CombatantID);
     }
-    for(int32 ID:AssistIDs)Scores.FindOrAdd(ID).Assists++;
+    for(int32 ID:AssistIDs)
+    {
+        Scores.FindOrAdd(ID).Assists++;
+        if(bTeamMatch)if(auto* Contributor=FindCombatant(ID))if(Contributor->TeamID>=0&&Contributor->TeamID<2)++TeamAssists[Contributor->TeamID];
+    }
     if(bTeamMatch&&Killer->TeamID>=0&&Killer->TeamID<2)++TeamKills[Killer->TeamID];
-    bool Won=bTeamMatch?(Killer->TeamID>=0&&TeamKills[Killer->TeamID]>=TeamKillGoal):Scores[Killer->CombatantID].Kills>=SoloKillGoal;
+    // An assist can cross the win threshold even when another participant lands the kill.
+    auto* Winner=Killer;
+    if(!bTeamMatch)for(int32 ID:AssistIDs)if(auto* Contributor=FindCombatant(ID))
+    {
+        const auto A=GetScore(ID),B=GetScore(Winner->CombatantID);
+        if(A.SoloPoints()>B.SoloPoints()||(A.SoloPoints()==B.SoloPoints()&&(A.Kills>B.Kills||(A.Kills==B.Kills&&ID<Winner->CombatantID))))Winner=Contributor;
+    }
+    const bool Won=bTeamMatch?(Killer->TeamID>=0&&TeamPoints(Killer->TeamID)>=TeamKillGoal):GetScore(Winner->CombatantID).SoloPoints()>=SoloKillGoal;
     if(Won&&!bIgnoreWinCondition)
     {
-        bRoundOver=true;WinnerID=Killer->CombatantID;WinnerTeam=Killer->TeamID;
+        bRoundOver=true;WinnerID=Winner->CombatantID;WinnerTeam=Winner->TeamID;
         if(auto* GS=GetGameState<ADinoGameState>())GS->SynchronizeRules();
         if(auto* PC=Cast<ADinoPlayerController>(GetWorld()->GetFirstPlayerController()))PC->SetMenuOpen(true);
     }

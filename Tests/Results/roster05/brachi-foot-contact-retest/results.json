@@ -1,0 +1,83 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "species loads with health and stamina",
+      "status": "PASS",
+      "species": 5,
+      "health": 3100
+    },
+    {
+      "test": "W mapped movement",
+      "status": "PASS",
+      "travel": 428.9246358850278
+    },
+    {
+      "test": "S mapped movement",
+      "status": "PASS",
+      "travel": -428.8974392625446
+    },
+    {
+      "test": "A mapped movement",
+      "status": "PASS",
+      "travel": -428.9096681830525
+    },
+    {
+      "test": "D mapped movement",
+      "status": "PASS",
+      "travel": 419.2301257629692
+    },
+    {
+      "test": "sprint spends stamina and reveals",
+      "status": "PASS"
+    },
+    {
+      "test": "brace stays planted",
+      "status": "PASS"
+    },
+    {
+      "test": "quick anatomical strike hits",
+      "status": "PASS",
+      "before": 1500,
+      "after": 1270,
+      "damage": 230
+    },
+    {
+      "test": "strike does not repeat after contact",
+      "status": "PASS"
+    },
+    {
+      "test": "heavy anatomical strike hits",
+      "status": "PASS",
+      "before": 1500,
+      "after": 787,
+      "damage": 713
+    },
+    {
+      "test": "strike does not repeat after contact",
+      "status": "PASS"
+    },
+    {
+      "test": "herbivore restores hunger from plants",
+      "status": "PASS",
+      "hunger": 72.98383331298828
+    },
+    {
+      "test": "death produces carcass",
+      "status": "PASS"
+    },
+    {
+      "test": "ten-second respawn",
+      "status": "PASS"
+    },
+    {
+      "test": "carcass persists after respawn",
+      "status": "PASS"
+    }
+  ]
+}

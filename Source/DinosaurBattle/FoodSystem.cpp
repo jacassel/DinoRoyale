@@ -30,21 +30,33 @@ AFoodPlant::AFoodPlant()
 }
 void AFoodPlant::BeginPlay()
 {
-    Super::BeginPlay();GConfig->GetFloat(TEXT("Dino.Food"),TEXT("PlantFoodUnits"),MaximumNutrition,GGameIni);
+    Super::BeginPlay();MaximumNutrition=bTreeFood?480:120;GConfig->GetFloat(TEXT("Dino.Food"),bTreeFood?TEXT("TreeFoodUnits"):TEXT("PlantFoodUnits"),MaximumNutrition,GGameIni);
     GConfig->GetFloat(TEXT("Dino.Food"),TEXT("PlantRegrowSeconds"),RegrowSeconds,GGameIni);if(HasAuthority())Nutrition=MaximumNutrition;
 }
 float AFoodPlant::Consume(float Amount)
 {
     if(!HasAuthority())return 0;
     float Taken=FMath::Clamp(Amount,0.f,Nutrition);Nutrition-=Taken;
-    if(Nutrition<=0){RegrowTimer=RegrowSeconds;Visual->SetRenderCustomDepth(false);SetActorHiddenInGame(true);}return Taken;
+    if(Nutrition<=0){RegrowTimer=RegrowSeconds;OnRep_Nutrition();}return Taken;
 }
 void AFoodPlant::Tick(float Dt)
 {
-    Super::Tick(Dt);if(HasAuthority()&&Nutrition<=0&&RegrowSeconds>0){RegrowTimer-=Dt;if(RegrowTimer<=0){Nutrition=MaximumNutrition;SetActorHiddenInGame(false);}}
+    Super::Tick(Dt);if(HasAuthority()&&Nutrition<=0&&RegrowSeconds>0){RegrowTimer-=Dt;if(RegrowTimer<=0){Nutrition=MaximumNutrition;OnRep_Nutrition();}}
     const auto* PC=GetWorld()->GetFirstPlayerController();
     const auto* Player=PC?Cast<ADinosaurCharacter>(PC->GetPawn()):nullptr;
-    Visual->SetRenderCustomDepth(IsAvailable()&&Player&&Player->Stats().bHerbivore&&!Player->bDead);
+    Visual->SetRenderCustomDepth(IsAvailable()&&Player&&CanFeed(Player->Species)&&!Player->bDead);
+}
+AFoodTree::AFoodTree()
+{
+    bTreeFood=true;MaximumNutrition=Nutrition=480;
+    Trunk=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BrowseTrunk"));
+    SetRootComponent(Trunk);Visual->SetupAttachment(Trunk);
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> Bark(TEXT("/Game/World/SM_ConiferTrunk.SM_ConiferTrunk"));
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> Leaves(TEXT("/Game/World/SM_ConiferCanopy.SM_ConiferCanopy"));
+    if(Bark.Succeeded())Trunk->SetStaticMesh(Bark.Object);
+    if(Leaves.Succeeded())Visual->SetStaticMesh(Leaves.Object);
+    Trunk->SetCollisionProfileName(TEXT("BlockAll"));Trunk->SetCanEverAffectNavigation(false);
+    Visual->SetRelativeScale3D(FVector(1));
 }
 ADinosaurCarcass::ADinosaurCarcass()
 {
@@ -99,7 +111,7 @@ AActor* UFoodInteractionComponent::FindFood(float Range) const
         for(TActorIterator<AFoodPlant> It(GetWorld());It;++It)
         {
             float Dist=FVector::DistSquared2D(It->GetActorLocation(),D->GetActorLocation());
-            if(It->IsAvailable()&&Dist<BestDist){Best=*It;BestDist=Dist;}
+            if(It->IsAvailable()&&It->CanFeed(D->Species)&&Dist<BestDist){Best=*It;BestDist=Dist;}
         }
     }
     else if(D->Species!=3)
@@ -139,7 +151,7 @@ void UFoodInteractionComponent::TickComponent(float Dt,ELevelTick Type,FActorCom
 
 void AFoodPlant::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {Super::GetLifetimeReplicatedProps(OutLifetimeProps);DOREPLIFETIME(AFoodPlant,Nutrition);DOREPLIFETIME(AFoodPlant,MaximumNutrition);}
-void AFoodPlant::OnRep_Nutrition(){SetActorHiddenInGame(Nutrition<=0);if(Nutrition<=0)Visual->SetRenderCustomDepth(false);}
+void AFoodPlant::OnRep_Nutrition(){if(bTreeFood)Visual->SetVisibility(Nutrition>0);else SetActorHiddenInGame(Nutrition<=0);if(Nutrition<=0)Visual->SetRenderCustomDepth(false);}
 void ADinosaurCarcass::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {Super::GetLifetimeReplicatedProps(OutLifetimeProps);DOREPLIFETIME(ADinosaurCarcass,Nutrition);DOREPLIFETIME(ADinosaurCarcass,MaximumNutrition);DOREPLIFETIME(ADinosaurCarcass,Species);DOREPLIFETIME(ADinosaurCarcass,SourceID);DOREPLIFETIME(ADinosaurCarcass,BodyTransform);}
 void ADinosaurCarcass::BeginPlay()

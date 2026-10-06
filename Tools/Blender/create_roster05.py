@@ -16,11 +16,18 @@ PALETTES={'Anky':((.24,.29,.19),(.46,.42,.26),(.085,.12,.09)),
 g.palette=lambda kind:PALETTES[kind]
 
 def build(kind):
+    print('ROSTER05_BEGIN',kind,flush=True)
     bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)
     for a in list(bpy.data.actions):bpy.data.actions.remove(a)
     g.PARTS=[];g.BONES={};g.SPECIES=kind
     scene=bpy.context.scene;scene.unit_settings.system='METRIC';scene.unit_settings.scale_length=.01;scene.render.fps=30
     skin=g.material('Dino_Skin',PALETTES[kind][0]);horn=g.material('Dino_Horn',(.31,.27,.17))
+    # Bake original scale cells and fine creases so the game shares Blender's surface.
+    nt=skin.node_tree;bsdf=nt.nodes.get('Principled BSDF');attr=nt.nodes.get('Skin_attribute')
+    coord=nt.nodes.new('ShaderNodeTexCoord');cells=nt.nodes.new('ShaderNodeTexVoronoi');cells.feature='DISTANCE_TO_EDGE';cells.inputs['Scale'].default_value=.40;nt.links.new(coord.outputs['Object'],cells.inputs['Vector'])
+    ramp=nt.nodes.new('ShaderNodeValToRGB');ramp.color_ramp.elements[0].position=.012;ramp.color_ramp.elements[0].color=(.35,.35,.35,1);ramp.color_ramp.elements[1].position=.13
+    nt.links.new(cells.outputs['Distance'],ramp.inputs['Fac']);mul=nt.nodes.new('ShaderNodeMixRGB');mul.blend_type='MULTIPLY';mul.inputs[0].default_value=.38;nt.links.new(attr.outputs['Color'],mul.inputs[1]);nt.links.new(ramp.outputs['Color'],mul.inputs[2]);nt.links.new(mul.outputs['Color'],bsdf.inputs['Base Color'])
+    bump=nt.nodes.new('ShaderNodeBump');bump.inputs['Strength'].default_value=.3;bump.inputs['Distance'].default_value=.5;nt.links.new(ramp.outputs['Color'],bump.inputs['Height']);nt.links.new(bump.outputs['Normal'],bsdf.inputs['Normal'])
     eye=g.material('Dino_Eye',(.7,.31,.035),.25);pupil=g.material('Dino_Pupil',(.005,.008,.006),.18)
     claw=g.material('Dino_Claw',(.09,.085,.06),.5)
     g.bone('root',(0,0,0),(0,0,60))
@@ -89,6 +96,7 @@ def build(kind):
         g.ellipsoid(name+'_haunch',a,(r*1.35,r,r*1.65),skin,name+'_upper')
         g.skin_joint(name+'_thigh',a,b,r,r*.8,skin,name+'_upper');g.skin_joint(name+'_shin',b,c,r*.78,r*.56,skin,name+'_lower')
         g.ellipsoid(name+'_ankle',c,(r*.6,r*.58,r*.58),skin,name+'_foot')
+        g.skin_joint(name+'_metatarsal',c,d,r*.56,r*.65,skin,name+'_foot')
         g.ellipsoid(name+'_pad',d,(r*1.08,r*.82,r*.44),skin,name+'_foot')
         for j in range(4 if kind!='Pachy' else 3):
             g.ellipsoid(name+'_nail',(d[0]+r*.9,d[1]+(j-1.5)*r*.34,d[2]-2),(r*.35,r*.19,r*.2),claw,name+'_foot',12,8)
@@ -97,6 +105,7 @@ def build(kind):
             n='arm_l' if side<0 else 'arm_r';a=(45,side*37,191);b=(66,side*44,150);c=(86,side*39,143)
             g.bone(n+'_upper',a,b,'spine');g.bone(n+'_lower',b,c,n+'_upper')
             g.skin_joint(n,a,b,9,6,skin,n+'_upper');g.skin_joint(n+'_fore',b,c,6,5,skin,n+'_lower')
+            for j in range(3):g.sweep(n+'_finger',[c,(c[0]+11,c[1]+side*(j-1)*4,c[2]-8)],[3,.4],claw,n+'_lower',10)
         g.ellipsoid('Reinforced_dome',(134,0,268),(35,27,28),horn,'head',32,20)
         for j in range(11):
             a=pi*.3+pi*1.4*j/10;p=(128+32*cos(a),29*sin(a),257)
@@ -119,12 +128,20 @@ def build(kind):
         g.bone('stomp_l',(160,-138,24),(160,-138,35),'arm_l_foot')
         g.bone('stomp_r',(160,138,24),(160,138,35),'arm_r_foot')
     # Union only skin volumes; preserve armor/nails/eyes as rigid weighted surfaces.
-    g.refine_skin(body)
+    print('ROSTER05_SURFACE',kind,flush=True)
+    g.refine_skin(body,7.0 if kind=='Brachi' else None)
     bpy.ops.object.select_all(action='DESELECT')
     for o in g.PARTS:o.select_set(True)
     bpy.context.view_layer.objects.active=g.PARTS[0];bpy.ops.object.join();mesh=bpy.context.object;mesh.name='SK_'+kind
     bpy.ops.object.transform_apply(location=True,rotation=True,scale=True)
     bpy.ops.object.mode_set(mode='EDIT');bpy.ops.mesh.select_all(action='SELECT');bpy.ops.uv.smart_project(island_margin=.015);bpy.ops.object.mode_set(mode='OBJECT')
+    g.EXPORT=EXP;g.bake_skin(mesh,kind)
+    normal=bpy.data.images.new(kind+'_SkinNormal',width=2048,height=2048,alpha=False)
+    normal.colorspace_settings.name='Non-Color'
+    for mat in mesh.data.materials:
+        node=mat.node_tree.nodes.new('ShaderNodeTexImage');node.image=normal;mat.node_tree.nodes.active=node
+    bpy.ops.object.bake(type='NORMAL',margin=12,use_clear=True)
+    normal.filepath_raw=str(EXP/(kind+'_SkinNormal.png'));normal.file_format='PNG';normal.save();normal.pack()
     bpy.ops.object.select_all(action='DESELECT');ad=bpy.data.armatures.new(kind+'_Skeleton');rig=bpy.data.objects.new('Rig_'+kind,ad);bpy.context.collection.objects.link(rig)
     bpy.context.view_layer.objects.active=rig;rig.select_set(True);bpy.ops.object.mode_set(mode='EDIT')
     for name,(h,t,parent) in g.BONES.items():
@@ -197,7 +214,7 @@ def actions(rig,kind):
                 rot('neck',18 if kind=='Pachy' else 3);rot('head',-8 if kind=='Pachy' else 0)
                 if kind=='Anky' and name=='Charge':rot('tail_01',yaw=-30)
             elif name=='Eat':
-                if kind=='Brachi':rot('neck',32);rot('neck_2',47);rot('neck_3',42);rot('head',-60)
+                if kind=='Brachi':rot('neck',5+sin(phase));rot('neck_2',8);rot('neck_3',10);rot('head',-12)
                 else:rot('neck',24+2*sin(phase));rot('head',12)
                 rot('jaw',7*(.5+.5*sin(phase*3)))
             elif name=='Hit':rot('spine',roll=4*sin(pi*t));rot('head',-5*sin(pi*t))

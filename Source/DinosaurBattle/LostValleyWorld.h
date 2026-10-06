@@ -42,6 +42,7 @@ public:
     TArray<FValleyObstacle> Obstacles;
     TArray<FVector> FeedingSpots;
     TArray<FVector> FoodSpawnPoints;
+    TArray<FVector> TreeFoodSpawnPoints;
     int32 PathRequests=0,PathFailures=0;
     int32 DisconnectedNavCells=0;
 private:

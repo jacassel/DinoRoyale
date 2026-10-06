@@ -1,0 +1,136 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "Anky six complete sound banks loaded",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky footsteps",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky sprint breath",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky unique quick and contact sounds play",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky charge and heavy play once",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky hurt and injured breathing",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky death voice fires once",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky death voice ends",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky mixer recording written",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky recorded mix audible and unclipped",
+      "status": "PASS",
+      "peak": 0.266998291015625,
+      "rms": 0.02397435346732279
+    },
+    {
+      "test": "Brachi six complete sound banks loaded",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi footsteps",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi sprint breath",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi unique quick and contact sounds play",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi charge and heavy play once",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi hurt and injured breathing",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi death voice fires once",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi death voice ends",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi mixer recording written",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi recorded mix audible and unclipped",
+      "status": "PASS",
+      "peak": 0.1553955078125,
+      "rms": 0.012859357723111772
+    },
+    {
+      "test": "Pachy six complete sound banks loaded",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy footsteps",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy sprint breath",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy unique quick and contact sounds play",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy charge and heavy play once",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy hurt and injured breathing",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy death voice fires once",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy death voice ends",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy mixer recording written",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy recorded mix audible and unclipped",
+      "status": "PASS",
+      "peak": 0.22039794921875,
+      "rms": 0.016324289045641076
+    }
+  ]
+}

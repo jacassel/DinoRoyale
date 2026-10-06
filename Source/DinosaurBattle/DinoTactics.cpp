@@ -23,7 +23,7 @@ FDinoTacticalAssessment AssessDinosaurFight(const ADinosaurCharacter* Self,const
         float Weight=.65f*(1-Dist/(Self->Stats().AISupportRadius*1.4f));
         // Coordinated nearby packmates are committed support, not incidental bystanders.
         // The old individual estimate made healthy packs flee an apex animal indefinitely.
-        if(Self->Species==1&&Other->Species==1&&!Self->IsEnemy(Other))Weight=1.f-.25f*Dist/Self->Stats().AISupportRadius;
+        if(FSpeciesData::IsPack(Self->Species)&&Other->Species==Self->Species&&!Self->IsEnemy(Other))Weight=1.f-.25f*Dist/Self->Stats().AISupportRadius;
         float Power=Other->Health->Current*DPS(Other)*Weight;
         if(!Self->IsEnemy(Other)&&Other->IsEnemy(Enemy)){Mine+=Power;++A.Allies;}
         else if(Self->IsEnemy(Other)&&!Enemy->IsEnemy(Other)){Theirs+=Power;++A.EnemySupport;}

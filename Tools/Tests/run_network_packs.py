@@ -1,16 +1,16 @@
 """Stage G: multiple human-owned raptor packs with bots off."""
 import time,argparse
 from net_harness import NetworkTest,Peer,host_url,wait_for,distance
-p=argparse.ArgumentParser();p.add_argument('--output',default='Tests/Results/multiplayer/stage-g-01');p.add_argument('--lag',type=int,default=0);p.add_argument('--loss',type=int,default=0);p.add_argument('--executable');a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--output',default='Tests/Results/multiplayer/stage-g-01');p.add_argument('--lag',type=int,default=0);p.add_argument('--loss',type=int,default=0);p.add_argument('--executable');p.add_argument('--species',type=int,choices=[1,6],default=1);a=p.parse_args()
 t=NetworkTest(a.output,lag=a.lag,loss=a.loss,executable=a.executable)
 def followers(peer,leader):return [a for a in peer.state()['networkActors'] if a['follower'] and a['pack']==leader]
 try:
     host=Peer(t,'PackHost',host_url(6));client=Peer(t,'PackClient');time.sleep(.5)
-    host.lobby(0,1);client.lobby(0,1)
+    host.lobby(0,a.species);client.lobby(0,a.species)
     t.check('two human packs each have two replicated followers with bots off',wait_for(lambda:len(followers(client,0))==2 and len(followers(client,1))==2))
     t.check('followers do not consume participant slots',len(host.state()['players'])==2 and len([a for a in host.state()['networkActors'] if a['id']<10 and a['scoring']])==2)
-    t.check('only raptor leaders are scoring targets',all(not a['scoring'] for a in followers(client,0)+followers(client,1)))
-    t.check('each local leader sees its followers as allies',wait_for(lambda:host.state()['species']==client.state()['species']==1 and all(not a['enemy'] for a in followers(host,0)) and all(not a['enemy'] for a in followers(client,1))))
+    t.check('only pack leaders are scoring targets',all(not a['scoring'] for a in followers(client,0)+followers(client,1)))
+    t.check('each local leader sees same-species followers as allies',wait_for(lambda:host.state()['species']==client.state()['species']==a.species and all(not v['enemy'] and v['species']==a.species for v in followers(host,0)) and all(not v['enemy'] and v['species']==a.species for v in followers(client,1))))
     t.check('different FFA packs remain enemies',all(a['enemy'] for a in followers(host,1)) and all(a['enemy'] for a in followers(client,0)))
     client.lobby(2,1);host.lobby(6)
     t.check('both packs survive match start without duplicates',wait_for(lambda:not client.state()['lobby'] and len(followers(client,0))==2 and len(followers(client,1))==2))
@@ -37,8 +37,8 @@ try:
     client.quit()
     t.check('disconnect removes human and associated followers',wait_for(lambda:len(host.state()['players'])==1 and not followers(host,1)))
     host.lobby(5,1)
-    t.check('filler raptor leaders also receive separate packs',wait_for(lambda:len(followers(host,1))==2 and len(followers(host,4))==2))
+    t.check('filler raptor and Pachy leaders receive separate packs',wait_for(lambda:len(followers(host,1))==2 and len(followers(host,5))==2))
     rejoin=Peer(t,'PackRejoin');time.sleep(.5)
-    t.check('human replacing raptor bot cleans old followers',wait_for(lambda:not followers(host,1) and len(followers(host,4))==2 and len([a for a in host.state()['networkActors'] if a['id']<10 and a['scoring']])==6))
+    t.check('human replacing raptor bot cleans old followers',wait_for(lambda:not followers(host,1) and len(followers(host,5))==2 and len([a for a in host.state()['networkActors'] if a['id']<10 and a['scoring']])==6))
     rejoin.quit();host.quit()
 finally:t.close()

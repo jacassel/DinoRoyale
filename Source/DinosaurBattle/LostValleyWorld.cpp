@@ -250,6 +250,9 @@ void ALostValleyWorld::Generate()
     for(FVector P:{FVector(-7500,-11500,0),FVector(-9500,-10500,0),FVector(-6000,-13000,0),FVector(4000,-3500,0),FVector(6000,-3000,0),FVector(-1750,1250,0),FVector(2000,2250,0),FVector(-13500,7000,0),FVector(13500,8000,0)})
         FeedingSpots.Add(NearestWalkable(P));
     FoodSpawnPoints.Reset();for(const FVector& P:FeedingSpots)for(int32 PlantIndex=0;PlantIndex<4;++PlantIndex)FoodSpawnPoints.Add(NearestWalkable(P+FVector(PlantIndex%2*750,PlantIndex/2*750,0)));
+    TreeFoodSpawnPoints.Reset();
+    for(const FVector& P:FeedingSpots)for(int32 TreeIndex=0;TreeIndex<2;++TreeIndex)
+        TreeFoodSpawnPoints.Add(NearestWalkable(P+FVector(-850,TreeIndex?1050:-1050,0)));
     if(bPerformanceMap)
     {
         // The exact seeded terrain, rocks, water and feeding locations are retained.
@@ -257,6 +260,8 @@ void ALostValleyWorld::Generate()
         for(auto* Foliage:{Trunks,Canopies,Ferns,Grass})Foliage->ClearInstances();
         Obstacles.RemoveAll([](const FValleyObstacle& O){return O.bTree;});
     }
+    // These 18 low-cost food trees have identical positions and collision in both variants.
+    for(const FVector& P:TreeFoodSpawnPoints)Obstacles.Add({FVector2D(P),90,true});
 }
 bool ALostValleyWorld::IsWalkable(const FVector& P,float Radius) const
 {

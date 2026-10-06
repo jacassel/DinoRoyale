@@ -63,6 +63,7 @@ void UDinoAnimationComponent::TickComponent(float Dt,ELevelTick T,FActorComponen
         Play(N,false,Length/FMath::Max(.1f,D->Combat->AttackDuration),LastAttackSerial!=D->Combat->AttackSerial);
         LastAttackSerial=D->Combat->AttackSerial;return;
     }
+    if(D->Species>=4&&D->Health->HitFlash>0){Play(TEXT("Hit"),false,2.5f);return;}
     if(D->bSwimming){Play(TEXT("Swim"),true,.75f+.5f*D->GetVelocity().Size2D()/FMath::Max(1.f,D->GetCharacterMovement()->MaxSwimSpeed));return;}
     if(D->GetCharacterMovement()->IsFalling()){Play(TEXT("Jump"),false);return;}
     if(D->PivotVisual!=0){Play(D->PivotVisual<0?TEXT("PivotLeft"):TEXT("PivotRight"),true);return;}

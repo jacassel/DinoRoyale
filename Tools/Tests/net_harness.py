@@ -38,7 +38,7 @@ class Peer:
         width,height=getattr(test,'render_size',(960,540))
         render_args=['-windowed','-ResX='+str(width),'-ResY='+str(height),'-ForceRes','-WinX='+str(30+len(test.peers)*990),'-WinY=60'] if test.rendered else ['-nullrhi']
         if test.rendered and getattr(test,'offscreen',False):render_args+=['-RenderOffscreen']
-        cmd += [url,*render_args,'-game','-nosound','-unattended','-nosplash','-DinoDevBridge','-DinoBridge='+name,
+        cmd += [url,*render_args,'-game',*([] if getattr(test,'audio',False) else ['-nosound']),'-unattended','-nosplash','-DinoDevBridge','-DinoBridge='+name,
                 '-port=7788','-multihome=127.0.0.1','-abslog='+str(test.out/(name+'.log')),
                 '-PktLag='+str(test.lag),'-PktLoss='+str(test.loss)]
         self.proc=subprocess.Popen(cmd,creationflags=subprocess.CREATE_NO_WINDOW);test.peers.append(self)

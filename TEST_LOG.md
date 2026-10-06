@@ -1,5 +1,15 @@
 # Test log
 
+## Version 0.5 development checkpoint, October 6, 2026
+
+- In progress on `codex/dino-royale-0.5`; the 0.3 playable release and source recovery are preserved. No 0.5 release has been promoted at this checkpoint.
+- Ankylosaurus, Pachycephalosaurus and Brachiosaurus each pass 15/15 rendered input/physics checks. Brachiosaurus's first stomp fixtures missed; socket telemetry identified the imported forefoot side and the AI now approaches the anatomical contact range. Failed runs remain recorded alongside passing retests.
+- Existing T-Rex, raptor and Triceratops core controls pass 90/90. Diet/pack/score changes pass 40/40: one Pachy leader plus two followers, shrub versus tree restrictions, 18 browse trees in both map variants, selective tree outlines, P leaderboard, 2-assist FFA points and 3-assist pooled team points including assist-triggered victories.
+- Three unique sound banks add 81 clips. Actual rendered mixer/event checks pass 30/30, including finite death playback and nonzero unclipped recordings. Direct auditory judgment remains a human review task.
+- Six-species AI balance trials, additional survival/online regression, final packaging and GitHub publication are still pending. These initial checks do not establish final balance or release readiness.
+- The owner confirms prior cross-network multiplayer worked. Version 0.5 preserves that implementation and uses the supplied real OnlineServices.ini locally; the configured file remains ignored and excluded from public artifacts. Fresh 0.5 loopback regression will be distinguished from that prior WAN acceptance.
+- Account allowance: 71% remaining at the Pachy milestone; no Astra-specific allowance exposed. No purchases, resets or delegation.
+
 ## Public release and interactive follow-up, October 4, 2026
 
 - Public repository: https://github.com/jacassel/DinoRoyale, default `main`.

@@ -22,7 +22,19 @@ public:
     UPROPERTY(Replicated) float MaximumNutrition=120;
     float RegrowTimer=0,RegrowSeconds=120;
     bool IsAvailable() const {return Nutrition>0;}
+    bool bTreeFood=false;
+    bool CanFeed(int32 Species) const {return bTreeFood?Species==5:(Species==2||Species==4||Species==6);}
     float Consume(float Amount);
+};
+
+/** Sparse browse trees remain in both map variants; only their foliage is consumed. */
+UCLASS()
+class DINOSAURBATTLE_API AFoodTree : public AFoodPlant
+{
+    GENERATED_BODY()
+public:
+    AFoodTree();
+    UPROPERTY(VisibleAnywhere) UStaticMeshComponent* Trunk;
 };
 
 /** Food lifetime is independent of the living combatant's ten-second respawn. */

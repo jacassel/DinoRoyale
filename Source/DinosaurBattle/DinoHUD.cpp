@@ -40,12 +40,26 @@ void ADinoHUD::DrawHUD()
         Panel(24*S,H-188*S,246*S,75*S);
         Text(TEXT("KILLS     DEATHS     ASSISTS"),40*S,H-176*S,.69f,Muted);
         Text(FString::Printf(TEXT("%d          %d          %d"),Score.Kills,Score.Deaths,Score.Assists),43*S,H-151*S,1.35f,Gold);
-        FString Goal=GM->bTeamMatch?FString::Printf(TEXT("TEAM BATTLE   YOUR TEAM %d - %d RIVALS   /   GOAL %d"),GM->TeamKills[FMath::Clamp(D->TeamID,0,1)],GM->TeamKills[1-FMath::Clamp(D->TeamID,0,1)],GM->TeamKillGoal):FString::Printf(TEXT("FREE-FOR-ALL   %d / %d KILLS"),Score.Kills,GM->SoloKillGoal);
+        FString Goal=GM->bTeamMatch?FString::Printf(TEXT("TEAM BATTLE   YOUR TEAM %d - %d RIVALS   /   GOAL %d"),GM->TeamPoints(FMath::Clamp(D->TeamID,0,1)),GM->TeamPoints(1-FMath::Clamp(D->TeamID,0,1)),GM->TeamKillGoal):FString::Printf(TEXT("FREE-FOR-ALL   %d / %d POINTS"),Score.SoloPoints(),GM->SoloKillGoal);
         Text(Goal,W*.5f-160*S+S,79*S+S,.73f,FLinearColor::White);
         Text(Goal,W*.5f-160*S,79*S,.73f,FLinearColor::Black);
+        if(!GM->bTeamMatch)
+        {
+            const auto IDs=GM->LeaderboardIDs();FString Lead=TEXT("LEADER: NO SCORES YET");
+            if(!IDs.IsEmpty())
+            {
+                const int32 Kills=GM->GetScore(IDs[0]).SoloPoints();int32 Tied=0;
+                for(int32 ID:IDs)if(GM->GetScore(ID).SoloPoints()==Kills)++Tied;
+                Lead=Kills==0?TEXT("LEADER: ALL TIED AT 0"):FString::Printf(TEXT("LEADER: %s - %d POINTS%s"),*GM->CombatantName(IDs[0],D->CombatantID),Kills,Tied>1?*FString::Printf(TEXT(" (%d TIED)"),Tied):TEXT(""));
+            }
+            Text(Lead,W*.5f-160*S+S,103*S+S,.72f,FLinearColor::White);
+            Text(Lead,W*.5f-160*S,103*S,.72f,FLinearColor::Black);
+        }
     }
+    if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())
+        Text(GS->bTeamMatch?FString::Printf(TEXT("3 TEAM ASSISTS = 1 POINT  /  %d OF 3"),GS->TeamAssists[FMath::Clamp(D->TeamID,0,1)]%3):TEXT("2 ASSISTS = 1 POINT   /   P LEADERBOARD"),W*.5f-160*S,127*S,.65f,FLinearColor::Black);
     Panel(24*S,24*S,386*S,230*S);
-    Text(TEXT("DINO ROYALE / 0.3 ALPHA TEST"),42*S,37*S,.95f,Gold);
+    Text(TEXT("DINO ROYALE / VERSION 0.5"),42*S,37*S,.95f,Gold);
     Text(D->Stats().Name,42*S,64*S,1.32f);
     FLinearColor HealthColor=D->Health->Fraction()<.25f?Red:D->Health->Fraction()<.5f?Gold:Teal;
     Bar(42*S,99*S,350*S,12*S,D->Health->Fraction(),HealthColor);
@@ -61,10 +75,10 @@ void ADinoHUD::DrawHUD()
     Text(ALostValleyWorld::RegionName(D->GetActorLocation()),W*.5f-150*S+S,30*S+S,.98f,FLinearColor::White);
     Text(ALostValleyWorld::RegionName(D->GetActorLocation()),W*.5f-150*S,30*S,.98f,FLinearColor::Black);
     Text(D->bSwimming?TEXT("SWIMMING - SPACE TO SURGE"):D->bInWater?TEXT("WADING - MOVEMENT SLOWED"):TEXT("LOST VALLEY"),W*.5f-80*S,51*S,.70f,FLinearColor::Black);
-    if(D->Species==1)
+    if(FSpeciesData::IsPack(D->Species))
     {
         int32 Alive=0,Close=0;
-        for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(*It!=D&&It->Species==1&&!It->bDead&&!D->IsEnemy(*It)&&(GetNetMode()==NM_Standalone||(It->bPackFollower&&It->PackLeaderID==D->CombatantID))){++Alive;if(FVector::Dist2D(D->GetActorLocation(),It->GetActorLocation())<5000)++Close;}
+        for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(*It!=D&&It->Species==D->Species&&!It->bDead&&!D->IsEnemy(*It)&&(GetNetMode()==NM_Standalone||(It->bPackFollower&&It->PackLeaderID==D->CombatantID))){++Alive;if(FVector::Dist2D(D->GetActorLocation(),It->GetActorLocation())<5000)++Close;}
         Text(FString::Printf(TEXT("PACK LEADER   %d nearby / %d alive"),Close,Alive),42*S,268*S,.9f,Teal);
     }
     float Since=GetWorld()->GetTimeSeconds()-D->Health->LastDamageTime;
@@ -83,7 +97,7 @@ void ADinoHUD::DrawHUD()
         {
             FLinearColor C=D->IsEnemy(O)?Red:Teal;Bar(P.X-45*S,P.Y,90*S,5*S,O->Health->Fraction(),C);
             FString Name=O->Stats().Name;
-            if(O->Species==1)if(auto* GM=GetWorld()->GetGameState<ADinoGameState>())Name=GM->IsScoringTarget(O)?TEXT("RAPTOR LEADER"):TEXT("Pack follower");
+            if(FSpeciesData::IsPack(O->Species))if(auto* GM=GetWorld()->GetGameState<ADinoGameState>())Name=GM->IsScoringTarget(O)?(O->Species==6?TEXT("PACHY LEADER"):TEXT("RAPTOR LEADER")):TEXT("Pack follower");
             if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())for(auto Player:GS->PlayerArray)
                 if(auto* PS=Cast<ADinoPlayerState>(Player))if(PS->CombatantID==O->CombatantID){Name=PS->GetPlayerName();break;}
             if(PC->bShowNameTags&&O->bMajor){Text(Name,P.X-45*S+S,P.Y-19*S+S,.64f,FLinearColor::Black);Text(Name,P.X-45*S,P.Y-19*S,.64f,C);}
@@ -98,7 +112,7 @@ void ADinoHUD::DrawHUD()
     else if(!D->bDead&&D->Food->FindFood(D->Stats().AttackRange+260))
     {
         Panel(W*.5f-205*S,H-176*S,410*S,66*S);
-        Text(D->Food->bEating?TEXT("FEEDING  +HEALTH / STAMINA / HUNGER"):D->Stats().bHerbivore?TEXT("HOLD F - EAT VEGETATION"):TEXT("HOLD F - FEED ON CARCASS"),W*.5f-185*S,H-164*S,.76f,Teal);
+        Text(D->Food->bEating?TEXT("FEEDING  +HEALTH / STAMINA / HUNGER"):D->Stats().bHerbivore?(D->Species==5?TEXT("HOLD F - BROWSE TREE"):TEXT("HOLD F - EAT SHRUB")):TEXT("HOLD F - FEED ON CARCASS"),W*.5f-185*S,H-164*S,.76f,Teal);
         AActor* Meal=D->Food->FindFood(D->Stats().AttackRange+260);float Remaining=0;
         if(auto* Plant=Cast<AFoodPlant>(Meal))Remaining=Plant->Nutrition;else if(auto* Corpse=Cast<ADinosaurCarcass>(Meal))Remaining=Corpse->Nutrition;
         Text(FString::Printf(TEXT("%.0f food remaining"),Remaining),W*.5f-185*S,H-138*S,.7f,Muted);
@@ -108,33 +122,47 @@ void ADinoHUD::DrawHUD()
         Panel(24*S,H-99*S,W-48*S,85*S,.82f);
         Text(TEXT("WASD Move   SHIFT Sprint   MOUSE Look   SPACE Jump   Q / E Pivot   CTRL Brace"),42*S,H-84*S,.94f);
         Text(TEXT("LMB  Quick attack     HOLD / RELEASE RMB  Heavy attack     HOLD F  Eat"),42*S,H-60*S,.88f,Muted);
-        Text(GetNetMode()==NM_Standalone?TEXT("1 / 2 / 3  Species     M  Map     H  Help     ESC  Pause"):TEXT("M  Map     H  Help     ESC  Multiplayer menu"),42*S,H-38*S,.78f,Gold);
+        Text(GetNetMode()==NM_Standalone?TEXT("1-6  Species     M  Map     P  Leaderboard     H  Help     ESC  Pause"):TEXT("M  Map     P  Leaderboard     H  Help     ESC  Multiplayer menu"),42*S,H-38*S,.78f,Gold);
     }
-    else Text(GetNetMode()==NM_Standalone?TEXT("H  Help     M  Map     ESC  Pause"):TEXT("H  Help     M  Map     ESC  Menu"),30*S,H-32*S,.8f,Muted);
+    else Text(GetNetMode()==NM_Standalone?TEXT("H  Help     P  Leaderboard     M  Map     ESC  Pause"):TEXT("H  Help     P  Leaderboard     M  Map     ESC  Menu"),30*S,H-32*S,.8f,Muted);
     DrawWorldMap(D,PC->bMapOpen);
+    if(PC->bLeaderboardOpen)if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())if(!GS->bTeamMatch)
+    {
+        const float X=W*.22f,Y=H*.22f,Width=W*.56f;
+        const auto IDs=GS->LeaderboardIDs();Panel(X,Y,Width,120*S+IDs.Num()*32*S,.96f);
+        Text(TEXT("FREE-FOR-ALL LEADERBOARD    P CLOSE"),X+20*S,Y+18*S,.95f,Gold);
+        Text(TEXT("PLAYER / DINOSAUR"),X+20*S,Y+58*S,.72f,Muted);
+        Text(TEXT("PTS   K   D   A"),X+Width-140*S,Y+58*S,.72f,Muted);
+        for(int32 Rank=0;Rank<IDs.Num();++Rank)
+        {
+            const int32 ID=IDs[Rank];const auto Score=GS->GetScore(ID);const auto C=ID==D->CombatantID?Teal:FLinearColor::White;
+            Text(FString::Printf(TEXT("%d. %s"),Rank+1,*GS->CombatantName(ID,D->CombatantID)),X+20*S,Y+(88+Rank*32)*S,.76f,C);
+            Text(FString::Printf(TEXT("%d    %d   %d   %d"),Score.SoloPoints(),Score.Kills,Score.Deaths,Score.Assists),X+Width-140*S,Y+(88+Rank*32)*S,.76f,C);
+        }
+    }
 }
 void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
 {
     float W=Canvas->SizeX,H=Canvas->SizeY,S=Scale;Panel(0,0,W,H,.93f);
     Text(TEXT("DINO ROYALE"),W*.105f,H*.11f,2.7f,Gold);
-    Text(GetNetMode()==NM_Standalone?TEXT("LOST VALLEY  /  OFFLINE PLAY  /  0.3 ALPHA TEST"):TEXT("MULTIPLAYER  /  LOCAL SETTINGS  /  0.3 ALPHA TEST"),W*.108f,H*.19f,.75f,Muted);
+    Text(GetNetMode()==NM_Standalone?TEXT("LOST VALLEY  /  OFFLINE PLAY  /  VERSION 0.5"):TEXT("MULTIPLAYER  /  LOCAL SETTINGS  /  VERSION 0.5"),W*.108f,H*.19f,.75f,Muted);
     auto* GM=GetWorld()->GetGameState<ADinoGameState>();
     if(GM&&GM->bRoundOver&&!PC->bSettingsOpen)
     {
         Text(GM->WinnerName(),W*.20f,H*.27f,1.7f,Gold);
-        Text(GM->bTeamMatch?TEXT("TEAM RESULTS"):FString::Printf(TEXT("SOLO RESULTS / FIRST TO %d KILLS"),GM->SoloKillGoal),W*.20f,H*.235f,.78f,Teal);
+        Text(GM->bTeamMatch?TEXT("TEAM RESULTS"):FString::Printf(TEXT("SOLO RESULTS / FIRST TO %d POINTS"),GM->SoloKillGoal),W*.20f,H*.235f,.78f,Teal);
         Text(TEXT("PLAYER / DINOSAUR"),W*.20f,H*.34f,.78f,Muted);
-        Text(TEXT("KILLS"),W*.59f,H*.34f,.72f,Muted);Text(TEXT("DEATHS"),W*.67f,H*.34f,.72f,Muted);Text(TEXT("ASSISTS"),W*.76f,H*.34f,.72f,Muted);
-        TArray<int32> IDs;GM->Scores.GetKeys(IDs);IDs.Sort([&](int32 A,int32 B){auto SA=GM->GetScore(A),SB=GM->GetScore(B);return SA.Kills!=SB.Kills?SA.Kills>SB.Kills:SA.Deaths!=SB.Deaths?SA.Deaths<SB.Deaths:A<B;});
+        Text(TEXT("POINTS / KILLS"),W*.56f,H*.34f,.72f,Muted);Text(TEXT("DEATHS"),W*.67f,H*.34f,.72f,Muted);Text(TEXT("ASSISTS"),W*.76f,H*.34f,.72f,Muted);
+        TArray<int32> IDs;GM->Scores.GetKeys(IDs);IDs.Sort([&](int32 A,int32 B){auto SA=GM->GetScore(A),SB=GM->GetScore(B);return !GM->bTeamMatch&&SA.SoloPoints()!=SB.SoloPoints()?SA.SoloPoints()>SB.SoloPoints():SA.Kills!=SB.Kills?SA.Kills>SB.Kills:SA.Deaths!=SB.Deaths?SA.Deaths<SB.Deaths:A<B;});
         float Y=H*.39f;
         for(int32 ID:IDs)
         {
             auto* Who=GM->FindCombatant(ID);if(!Who)continue;auto Score=GM->GetScore(ID);FLinearColor C=ID==D->CombatantID?Teal:Muted;
             FString Name=(ID==D->CombatantID?TEXT("YOU / "):FString::Printf(TEXT("AI %d / "),ID))+Who->Stats().Name;
-            if(Who->Species==1&&!GM->IsScoringTarget(Who))Name+=TEXT(" follower");
-            Text(Name,W*.20f,Y,.76f,C);Text(FString::FromInt(Score.Kills),W*.59f,Y,.84f,C);Text(FString::FromInt(Score.Deaths),W*.67f,Y,.84f,C);Text(FString::FromInt(Score.Assists),W*.76f,Y,.84f,C);Y+=27*S;
+            if(FSpeciesData::IsPack(Who->Species)&&!GM->IsScoringTarget(Who))Name+=TEXT(" follower");
+            Text(Name,W*.20f,Y,.76f,C);Text(GM->bTeamMatch?FString::FromInt(Score.Kills):FString::Printf(TEXT("%d / %d"),Score.SoloPoints(),Score.Kills),W*.59f,Y,.84f,C);Text(FString::FromInt(Score.Deaths),W*.67f,Y,.84f,C);Text(FString::FromInt(Score.Assists),W*.76f,Y,.84f,C);Y+=27*S;
         }
-        Text(TEXT("ENTER / ESC  Play again     1 / 2 / 3  Change dinosaur     F3  Change mode"),W*.20f,H*.85f,.78f,Gold);
+        Text(TEXT("ENTER / ESC  Play again     1-6  Change dinosaur     F3  Change mode"),W*.20f,H*.85f,.78f,Gold);
         return;
     }
     if(GetNetMode()==NM_Standalone)
@@ -159,27 +187,30 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
         Text((GetNetMode()==NM_Standalone?TEXT("ESC / F2  Back to dinosaur selection      ENTER  Resume"):TEXT("ESC / F2  Back to multiplayer")),W*.22f,H*.78f,.95f,Teal);
         return;
     }
-    float Top=H*.28f,CardW=W*.25f,CardH=400*S,Gap=W*.035f,Left=(W-3*CardW-2*Gap)*.5f;
-    if(Portraits.Num()!=3){Portraits.SetNumZeroed(3);const TCHAR* Kinds[]={TEXT("Trex"),TEXT("Raptor"),TEXT("Trike")};for(int32 I=0;I<3;++I)Portraits[I]=LoadObject<UTexture2D>(nullptr,*FString::Printf(TEXT("/Game/UI/T_%sPortrait.T_%sPortrait"),Kinds[I],Kinds[I]));}
-    const TCHAR* Names[]={TEXT("TYRANNOSAURUS"),TEXT("VELOCIRAPTOR"),TEXT("TRICERATOPS")};
-    const TCHAR* Roles[]={TEXT("SOLO PREDATOR"),TEXT("PACK LEADER"),TEXT("DEFENSIVE HERBIVORE")};
-    const TCHAR* Abilities[]={TEXT("Crushing bite / charged lunge"),TEXT("Fast slash / leaping strike"),TEXT("Horn thrust / powerful brace")};
-    const TCHAR* Foods[]={TEXT("Feed on fallen prey"),TEXT("Lead an allied raptor pack"),TEXT("Feed on cycad clusters")};
-    const float Ratings[3][3]={{.9f,.55f,.60f},{.70f,.95f,.30f},{.75f,.45f,.90f}};
+    const float Top=H*.28f,CardW=W*.26f,CardH=H*.225f,Gap=W*.025f,RowGap=H*.016f,Left=(W-3*CardW-2*Gap)*.5f;
+    if(Portraits.Num()!=6){Portraits.SetNumZeroed(6);for(int32 I=0;I<6;++I){const FString Kind=FSpeciesData::Get(FSpeciesData::PlayableID(I)).AssetName;Portraits[I]=LoadObject<UTexture2D>(nullptr,*FString::Printf(TEXT("/Game/UI/T_%sPortrait.T_%sPortrait"),*Kind,*Kind));}}
+    const TCHAR* Names[]={TEXT("T-REX"),TEXT("VELOCIRAPTOR"),TEXT("TRICERATOPS"),TEXT("ANKYLOSAURUS"),TEXT("BRACHIOSAURUS"),TEXT("PACHYCEPHALOSAURUS")};
+    const TCHAR* Roles[]={TEXT("APEX PREDATOR"),TEXT("PACK HUNTER"),TEXT("FRONTLINE DEFENDER"),TEXT("ARMORED TANK"),TEXT("COLOSSUS"),TEXT("PACK CHARGER")};
+    const TCHAR* Ability[]={TEXT("Bite / committed lunge"),TEXT("Fast slash / allied pack"),TEXT("Horn charge / frontal brace"),TEXT("Rear club / armored brace"),TEXT("Stomp / holds nearby space"),TEXT("Headbutt / momentum charge")};
     float MX=-1,MY=-1;PC->GetMousePosition(MX,MY);
-    for(int32 I=0;I<3;++I)
+    for(int32 I=0;I<6;++I)
     {
-        float X=Left+I*(CardW+Gap);bool Hover=MX>X&&MX<X+CardW&&MY>Top&&MY<Top+CardH;
-        FLinearColor Accent=I==1?Teal:I==2?FLinearColor(.8f,.48f,.28f):Gold;
-        DrawRect(Hover?FLinearColor(.10f,.17f,.17f,1):FLinearColor(.055f,.085f,.09f,1),X,Top,CardW,CardH);
-        DrawRect(Accent,X,Top,CardW,4*S);Text(FString::Printf(TEXT("%d"),I+1),X+CardW-35*S,Top+14*S,1.0f,Accent);
-        Text(Names[I],X+20*S,Top+14*S,1.02f);Text(Roles[I],X+20*S,Top+41*S,.68f,Accent);
-        if(Portraits.IsValidIndex(I)&&Portraits[I])DrawTexture(Portraits[I],X+10*S,Top+65*S,CardW-20*S,(CardW-20*S)*.5625f,0,0,1,1,FLinearColor::White,BLEND_Translucent);
-        const TCHAR* Stats[]={TEXT("ATTACK"),TEXT("SPEED"),TEXT("TOUGHNESS")};
-        for(int32 J=0;J<3;++J){float Y=Top+(285+25*J)*S;Text(Stats[J],X+20*S,Y,.67f,Muted);Bar(X+110*S,Y+3*S,CardW-132*S,7*S,Ratings[I][J],Accent);}
-        Text(Abilities[I],X+20*S,Top+362*S,.72f);Text(Foods[I],X+20*S,Top+383*S,.68f,Muted);
+        const int32 ID=FSpeciesData::PlayableID(I);const auto& Stats=FSpeciesData::Get(ID);
+        const float X=Left+(I%3)*(CardW+Gap),Y=Top+(I/3)*(CardH+RowGap);
+        const bool Selected=D->Species==ID,Hover=MX>X&&MX<X+CardW&&MY>Y&&MY<Y+CardH;
+        const FLinearColor Accent=Selected?Gold:Teal;
+        DrawRect(Selected?FLinearColor(.16f,.19f,.12f):Hover?FLinearColor(.10f,.17f,.17f):FLinearColor(.045f,.075f,.085f),X,Y,CardW,CardH);
+        DrawRect(Accent,X,Y,CardW,(Selected?4:2)*S);
+        Text(Names[I],X+12*S,Y+9*S,I==5?.77f:.90f);Text(Roles[I],X+12*S,Y+31*S,.56f,Accent);
+        Text(FString::Printf(TEXT("%d%s"),I+1,Selected?TEXT("  SELECTED"):TEXT("")),X+CardW-95*S,Y+31*S,.53f,Accent);
+        const float ArtW=CardW*.55f,ArtH=CardH*.61f;
+        if(Portraits[I]){const float Fit=FMath::Min(ArtW/Portraits[I]->GetSizeX(),ArtH/Portraits[I]->GetSizeY());const float PW=Portraits[I]->GetSizeX()*Fit,PH=Portraits[I]->GetSizeY()*Fit;DrawTexture(Portraits[I],X+5*S+(ArtW-PW)*.5f,Y+50*S+(ArtH-PH)*.5f,PW,PH,0,0,1,1,FLinearColor::White,BLEND_Translucent);}
+        const TCHAR* Labels[]={TEXT("HEALTH"),TEXT("ATTACK"),TEXT("DEFENSE"),TEXT("SPEED"),TEXT("STAMINA")};
+        const float Ratings[]={Stats.MaxHealth/3100,Stats.Damage/240,(1-Stats.BraceMultiplier)*(.65f+.35f*(1-Stats.ArmorMultiplier)),Stats.Speed/1600,Stats.MaxStamina/160};
+        for(int32 J=0;J<5;++J){const float SY=Y+53*S+J*21*S;Text(Labels[J],X+CardW*.57f,SY,.49f,Muted);Bar(X+CardW*.78f,SY+3*S,CardW*.18f,5*S,FMath::Clamp(Ratings[J],0.f,1.f),Accent);}
+        Text(Ability[I],X+12*S,Y+CardH-23*S,.57f,Muted);
     }
-    Text(TEXT("Choose a card or press 1, 2, 3 to start a new round. Only raptor leaders award kills."),Left,H*.75f,.70f,Muted);
+    Text(TEXT("Choose a card or press 1-6 to start a new round. Raptor followers stay allied; only the leader awards a kill."),Left,H*.754f,.64f,Muted);
     Text(GM&&GM->bPerformanceMap?TEXT("MAP: SUNGRASS PLAINS - PERFORMANCE  /  CLICK TO CHANGE"):TEXT("MAP: SUNGRASS PLAINS - STANDARD  /  CLICK TO CHANGE"),Left,H*.775f,.88f,Gold);
     DrawRect(FLinearColor(.11f,.23f,.22f),W*.18f,H*.83f,W*.40f,H*.08f);
     Text(TEXT("ENTER / ESC   RESUME EXPLORATION"),W*.22f,H*.852f,.97f,Teal);

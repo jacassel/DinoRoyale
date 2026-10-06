@@ -1,0 +1,326 @@
+[
+  {
+    "name": "Anky_Charge_0",
+    "duration": 1.0199999809265137
+  },
+  {
+    "name": "Anky_Charge_1",
+    "duration": 1.0199999809265137
+  },
+  {
+    "name": "Anky_Charge_2",
+    "duration": 1.0199999809265137
+  },
+  {
+    "name": "Anky_Death_0",
+    "duration": 2.4000000953674316
+  },
+  {
+    "name": "Anky_Death_1",
+    "duration": 2.4000000953674316
+  },
+  {
+    "name": "Anky_Death_2",
+    "duration": 2.4000000953674316
+  },
+  {
+    "name": "Anky_Heavy_0",
+    "duration": 1.2400000095367432
+  },
+  {
+    "name": "Anky_Heavy_1",
+    "duration": 1.2400000095367432
+  },
+  {
+    "name": "Anky_Heavy_2",
+    "duration": 1.2400000095367432
+  },
+  {
+    "name": "Anky_Hurt_0",
+    "duration": 0.6899773478507996
+  },
+  {
+    "name": "Anky_Hurt_1",
+    "duration": 0.6899773478507996
+  },
+  {
+    "name": "Anky_Hurt_2",
+    "duration": 0.6899773478507996
+  },
+  {
+    "name": "Anky_Impact_0",
+    "duration": 0.4000000059604645
+  },
+  {
+    "name": "Anky_Impact_1",
+    "duration": 0.4000000059604645
+  },
+  {
+    "name": "Anky_Impact_2",
+    "duration": 0.4000000059604645
+  },
+  {
+    "name": "Anky_InjuredBreath_0",
+    "duration": 1.1799999475479126
+  },
+  {
+    "name": "Anky_InjuredBreath_1",
+    "duration": 1.1799999475479126
+  },
+  {
+    "name": "Anky_InjuredBreath_2",
+    "duration": 1.1799999475479126
+  },
+  {
+    "name": "Anky_Quick_0",
+    "duration": 0.6299999952316284
+  },
+  {
+    "name": "Anky_Quick_1",
+    "duration": 0.6299999952316284
+  },
+  {
+    "name": "Anky_Quick_2",
+    "duration": 0.6299999952316284
+  },
+  {
+    "name": "Anky_SprintBreath_0",
+    "duration": 0.9100000262260437
+  },
+  {
+    "name": "Anky_SprintBreath_1",
+    "duration": 0.9100000262260437
+  },
+  {
+    "name": "Anky_SprintBreath_2",
+    "duration": 0.9100000262260437
+  },
+  {
+    "name": "Anky_Step_0",
+    "duration": 0.3400000035762787
+  },
+  {
+    "name": "Anky_Step_1",
+    "duration": 0.3400000035762787
+  },
+  {
+    "name": "Anky_Step_2",
+    "duration": 0.3400000035762787
+  },
+  {
+    "name": "Brachi_Charge_0",
+    "duration": 1.4199999570846558
+  },
+  {
+    "name": "Brachi_Charge_1",
+    "duration": 1.4199999570846558
+  },
+  {
+    "name": "Brachi_Charge_2",
+    "duration": 1.4199999570846558
+  },
+  {
+    "name": "Brachi_Death_0",
+    "duration": 3.4000000953674316
+  },
+  {
+    "name": "Brachi_Death_1",
+    "duration": 3.4000000953674316
+  },
+  {
+    "name": "Brachi_Death_2",
+    "duration": 3.4000000953674316
+  },
+  {
+    "name": "Brachi_Heavy_0",
+    "duration": 1.7999999523162842
+  },
+  {
+    "name": "Brachi_Heavy_1",
+    "duration": 1.7999999523162842
+  },
+  {
+    "name": "Brachi_Heavy_2",
+    "duration": 1.7999999523162842
+  },
+  {
+    "name": "Brachi_Hurt_0",
+    "duration": 1.1499773263931274
+  },
+  {
+    "name": "Brachi_Hurt_1",
+    "duration": 1.1499773263931274
+  },
+  {
+    "name": "Brachi_Hurt_2",
+    "duration": 1.1499773263931274
+  },
+  {
+    "name": "Brachi_Impact_0",
+    "duration": 0.5799999833106995
+  },
+  {
+    "name": "Brachi_Impact_1",
+    "duration": 0.5799999833106995
+  },
+  {
+    "name": "Brachi_Impact_2",
+    "duration": 0.5799999833106995
+  },
+  {
+    "name": "Brachi_InjuredBreath_0",
+    "duration": 1.6200000047683716
+  },
+  {
+    "name": "Brachi_InjuredBreath_1",
+    "duration": 1.6200000047683716
+  },
+  {
+    "name": "Brachi_InjuredBreath_2",
+    "duration": 1.6200000047683716
+  },
+  {
+    "name": "Brachi_Quick_0",
+    "duration": 1.0299999713897705
+  },
+  {
+    "name": "Brachi_Quick_1",
+    "duration": 1.0299999713897705
+  },
+  {
+    "name": "Brachi_Quick_2",
+    "duration": 1.0299999713897705
+  },
+  {
+    "name": "Brachi_SprintBreath_0",
+    "duration": 1.4800000190734863
+  },
+  {
+    "name": "Brachi_SprintBreath_1",
+    "duration": 1.4800000190734863
+  },
+  {
+    "name": "Brachi_SprintBreath_2",
+    "duration": 1.4800000190734863
+  },
+  {
+    "name": "Brachi_Step_0",
+    "duration": 0.550000011920929
+  },
+  {
+    "name": "Brachi_Step_1",
+    "duration": 0.550000011920929
+  },
+  {
+    "name": "Brachi_Step_2",
+    "duration": 0.550000011920929
+  },
+  {
+    "name": "Pachy_Charge_0",
+    "duration": 0.6700000166893005
+  },
+  {
+    "name": "Pachy_Charge_1",
+    "duration": 0.6700000166893005
+  },
+  {
+    "name": "Pachy_Charge_2",
+    "duration": 0.6700000166893005
+  },
+  {
+    "name": "Pachy_Death_0",
+    "duration": 1.7400000095367432
+  },
+  {
+    "name": "Pachy_Death_1",
+    "duration": 1.7400000095367432
+  },
+  {
+    "name": "Pachy_Death_2",
+    "duration": 1.7400000095367432
+  },
+  {
+    "name": "Pachy_Heavy_0",
+    "duration": 0.8700000047683716
+  },
+  {
+    "name": "Pachy_Heavy_1",
+    "duration": 0.8700000047683716
+  },
+  {
+    "name": "Pachy_Heavy_2",
+    "duration": 0.8700000047683716
+  },
+  {
+    "name": "Pachy_Hurt_0",
+    "duration": 0.4699999988079071
+  },
+  {
+    "name": "Pachy_Hurt_1",
+    "duration": 0.4699999988079071
+  },
+  {
+    "name": "Pachy_Hurt_2",
+    "duration": 0.4699999988079071
+  },
+  {
+    "name": "Pachy_Impact_0",
+    "duration": 0.27000001072883606
+  },
+  {
+    "name": "Pachy_Impact_1",
+    "duration": 0.27000001072883606
+  },
+  {
+    "name": "Pachy_Impact_2",
+    "duration": 0.27000001072883606
+  },
+  {
+    "name": "Pachy_InjuredBreath_0",
+    "duration": 0.7900000214576721
+  },
+  {
+    "name": "Pachy_InjuredBreath_1",
+    "duration": 0.7900000214576721
+  },
+  {
+    "name": "Pachy_InjuredBreath_2",
+    "duration": 0.7900000214576721
+  },
+  {
+    "name": "Pachy_Quick_0",
+    "duration": 0.38999998569488525
+  },
+  {
+    "name": "Pachy_Quick_1",
+    "duration": 0.38999998569488525
+  },
+  {
+    "name": "Pachy_Quick_2",
+    "duration": 0.38999998569488525
+  },
+  {
+    "name": "Pachy_SprintBreath_0",
+    "duration": 0.569977343082428
+  },
+  {
+    "name": "Pachy_SprintBreath_1",
+    "duration": 0.569977343082428
+  },
+  {
+    "name": "Pachy_SprintBreath_2",
+    "duration": 0.569977343082428
+  },
+  {
+    "name": "Pachy_Step_0",
+    "duration": 0.23000000417232513
+  },
+  {
+    "name": "Pachy_Step_1",
+    "duration": 0.23000000417232513
+  },
+  {
+    "name": "Pachy_Step_2",
+    "duration": 0.23000000417232513
+  }
+]

@@ -40,14 +40,14 @@ void ADinoGameMode::SynchronizePacks()
         auto* D=*It;
         if(!D->bPackFollower)
         {
-            D->PackLeaderID=D->bMajor&&D->Species==1?D->CombatantID:-1;
+            D->PackLeaderID=D->bMajor&&FSpeciesData::IsPack(D->Species)?D->CombatantID:-1;
             if(D->PackLeaderID>=0&&!D->bDead)Leaders.Add(D);
         }
     }
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->bPackFollower)
     {
         auto* Leader=FindCombatant(It->PackLeaderID);
-        if(!Leader||Leader->bDead||Leader->Species!=1||Followers.Contains(It->CombatantID))RemoveParticipant(*It);
+        if(!Leader||Leader->bDead||!FSpeciesData::IsPack(Leader->Species)||It->Species!=Leader->Species||Followers.Contains(It->CombatantID))RemoveParticipant(*It);
         else Followers.Add(It->CombatantID,*It);
     }
     for(auto* Leader:Leaders)for(int32 Index=0;Index<2;++Index)
@@ -57,11 +57,11 @@ void ADinoGameMode::SynchronizePacks()
         if(!Follower)
         {
             FVector P=Leader->GetActorLocation()-Leader->GetActorForwardVector()*650+Leader->GetActorRightVector()*(Index==0?-550:550);
-            P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+FSpeciesData::Get(1).HalfHeight+30;
+            P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+Leader->Stats().HalfHeight+30;
             const FTransform Spawn(Leader->GetActorRotation(),P);
             Follower=GetWorld()->SpawnActorDeferred<ADinosaurCharacter>(ADinosaurCharacter::StaticClass(),Spawn,nullptr,nullptr,ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn);
             if(!Follower)continue;
-            Follower->Species=1;Follower->bPackFollower=true;Follower->bScoringParticipant=false;
+            Follower->Species=Leader->Species;Follower->bPackFollower=true;Follower->bScoringParticipant=false;
             Follower->PackLeaderID=Leader->CombatantID;Follower->CombatantID=ID;Follower->TeamID=Leader->TeamID;
             UGameplayStatics::FinishSpawningActor(Follower,Spawn);
             Follower->HomePosition=P;Follower->bDead=true;Follower->ResetLife();
@@ -97,7 +97,7 @@ void ADinoGameMode::ReconcileBots()
         auto* D=Bots.FindRef(ID);
         if(!D)
         {
-            const int32 Species=ID%3;FVector P=ParticipantHome(ID,Team);
+            const int32 Species=FSpeciesData::PlayableID(ID%6);FVector P=ParticipantHome(ID,Team);
             P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+FSpeciesData::Get(Species).HalfHeight+30;
             const FTransform Spawn(FRotator::ZeroRotator,P);
             D=GetWorld()->SpawnActorDeferred<ADinosaurCharacter>(ADinosaurCharacter::StaticClass(),Spawn,nullptr,nullptr,ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn);

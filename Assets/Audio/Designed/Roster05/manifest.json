@@ -1,0 +1,569 @@
+[
+  {
+    "file": "Anky_Step_0.wav",
+    "seconds": 0.34,
+    "peak": 0.3842365401457139,
+    "rms": 0.0899999999999997,
+    "sha256": "ba316333c617144b21532fce441e375cfc19ecbe8dd745de2798b350570735f8"
+  },
+  {
+    "file": "Anky_Step_1.wav",
+    "seconds": 0.34,
+    "peak": 0.5160404156535487,
+    "rms": 0.08999999999999984,
+    "sha256": "15538268ae95d7142f598fec21fc5c0f4c84ca4bcef4bb8f753d927c3526812a"
+  },
+  {
+    "file": "Anky_Step_2.wav",
+    "seconds": 0.34,
+    "peak": 0.33560421999739154,
+    "rms": 0.08999999999998903,
+    "sha256": "3be128bf307db4aa068e1dc3986005164fe686635aeb7f20ecc53cb6623a20b0"
+  },
+  {
+    "file": "Anky_Quick_0.wav",
+    "seconds": 0.63,
+    "peak": 0.6448540240966995,
+    "rms": 0.13999999999999985,
+    "sha256": "ed963c368ecf9727b1ebef05172e75086943f46fd4f75eaf93c05849024be972"
+  },
+  {
+    "file": "Anky_Quick_1.wav",
+    "seconds": 0.63,
+    "peak": 0.49059361545012514,
+    "rms": 0.13999999999999033,
+    "sha256": "8c1156be44c645af739440c538b830e202b071c3413f06cd110b77da2abccb69"
+  },
+  {
+    "file": "Anky_Quick_2.wav",
+    "seconds": 0.63,
+    "peak": 0.4079136782986402,
+    "rms": 0.13999999999999987,
+    "sha256": "e7f295a8828fc6aec88daf8cf4c0bad5b033c968118ca0e23300d874ce460156"
+  },
+  {
+    "file": "Anky_Heavy_0.wav",
+    "seconds": 1.24,
+    "peak": 0.5273548423325775,
+    "rms": 0.13999999999999999,
+    "sha256": "0ff3f2475a73445be9f94133e5a1a72f53696651b8ccae3f217a114c31db20e0"
+  },
+  {
+    "file": "Anky_Heavy_1.wav",
+    "seconds": 1.24,
+    "peak": 0.546499347019046,
+    "rms": 0.13999999999999999,
+    "sha256": "d0074f539a4caa2ec4ec9f82fb4e1d0a990319ab7fde584a84f7f52a06849e92"
+  },
+  {
+    "file": "Anky_Heavy_2.wav",
+    "seconds": 1.24,
+    "peak": 0.5482010301386375,
+    "rms": 0.13999999999999999,
+    "sha256": "0fbc0535d6efdb86250545f83f67a441f6eb986caba7a9e2b6b9b61267d77164"
+  },
+  {
+    "file": "Anky_Impact_0.wav",
+    "seconds": 0.4,
+    "peak": 0.4638153768166737,
+    "rms": 0.08999999999999654,
+    "sha256": "6fefe24fb3f2550d38201e066ef2a419d62806f7a95daf3e5b2aebd8b8b32a32"
+  },
+  {
+    "file": "Anky_Impact_1.wav",
+    "seconds": 0.4,
+    "peak": 0.68,
+    "rms": 0.0859291734266384,
+    "sha256": "2d4fda1b6232315b5007d1821d5514c945ac3dbc7ca8209f39ad149d0b8cecc8"
+  },
+  {
+    "file": "Anky_Impact_2.wav",
+    "seconds": 0.4,
+    "peak": 0.3649851472286987,
+    "rms": 0.08999999999999998,
+    "sha256": "6cc70a32e181903c83dbf550882bf5e15d1364dba5afc5e0b02fc2fc3404cb92"
+  },
+  {
+    "file": "Anky_Death_0.wav",
+    "seconds": 2.4,
+    "peak": 0.68,
+    "rms": 0.1321989219629423,
+    "sha256": "66b4f04a950cb12a409a2342206997860353d5d659b5749f3bf8f0d5ff0a147a"
+  },
+  {
+    "file": "Anky_Death_1.wav",
+    "seconds": 2.4,
+    "peak": 0.68,
+    "rms": 0.12858596185671678,
+    "sha256": "408b6b9ed64f7c0c911781f300abca9523969af27d5da949d60b70d215adc02d"
+  },
+  {
+    "file": "Anky_Death_2.wav",
+    "seconds": 2.4,
+    "peak": 0.68,
+    "rms": 0.11122293621911407,
+    "sha256": "5bce53adde09e8508c6dfd2e157023b1ff56b1556c65d7a4665617fe5997694f"
+  },
+  {
+    "file": "Anky_Charge_0.wav",
+    "seconds": 1.02,
+    "peak": 0.48701846505730945,
+    "rms": 0.14000000000000004,
+    "sha256": "b6719059d6ae58b33a4d68038f8bf2d8ef26519318df9a48d028aeaec20e959a"
+  },
+  {
+    "file": "Anky_Charge_1.wav",
+    "seconds": 1.02,
+    "peak": 0.4893247408815021,
+    "rms": 0.14,
+    "sha256": "8bce164c1164a8c556848f11edf4efeb5e6901443195a3a56cc448a659ecb4a1"
+  },
+  {
+    "file": "Anky_Charge_2.wav",
+    "seconds": 1.02,
+    "peak": 0.532966552679745,
+    "rms": 0.14,
+    "sha256": "1686a6acd850b9132bc94fd696d36e130c0adaa23b4275ffd321035292236731"
+  },
+  {
+    "file": "Anky_Hurt_0.wav",
+    "seconds": 0.6899773242630386,
+    "peak": 0.5963697956231008,
+    "rms": 0.1399999999899628,
+    "sha256": "736cc9ba3b3c974488f2198402c9237104276990094421cff0f8cee289b37e9a"
+  },
+  {
+    "file": "Anky_Hurt_1.wav",
+    "seconds": 0.6899773242630386,
+    "peak": 0.4372174595338683,
+    "rms": 0.13999999999990267,
+    "sha256": "4c0ff087f823bf6cbd5bb492cf1045dc26999ba10f6e705e2006875dcb879c37"
+  },
+  {
+    "file": "Anky_Hurt_2.wav",
+    "seconds": 0.6899773242630386,
+    "peak": 0.42104751024475323,
+    "rms": 0.13999999999999993,
+    "sha256": "82af3fef041e7f37017427ed6fee7753c1b04e06c2bbcc087f20cec0220f59ad"
+  },
+  {
+    "file": "Anky_SprintBreath_0.wav",
+    "seconds": 0.91,
+    "peak": 0.46136759273042793,
+    "rms": 0.09000000000000001,
+    "sha256": "07aff3d05920b379b665da0f0ad6061b7b6eb04aca3d3ca82fba0feb7826b5e3"
+  },
+  {
+    "file": "Anky_SprintBreath_1.wav",
+    "seconds": 0.91,
+    "peak": 0.44557363422755714,
+    "rms": 0.09,
+    "sha256": "348260f88cbbd3620991deb0cce5ffb0e5e916032154de28f24f2ce06872e3e6"
+  },
+  {
+    "file": "Anky_SprintBreath_2.wav",
+    "seconds": 0.91,
+    "peak": 0.5142659291568549,
+    "rms": 0.09,
+    "sha256": "91749ac8ce5f88893cccdea785178fbe56c4dd408162ed5921e1dc2ad17b0222"
+  },
+  {
+    "file": "Anky_InjuredBreath_0.wav",
+    "seconds": 1.18,
+    "peak": 0.5090896364762366,
+    "rms": 0.09000000000000001,
+    "sha256": "1ff498ed612def334c35fd7f9b78e10a11349870a7b8e97268a2bb6bf83af017"
+  },
+  {
+    "file": "Anky_InjuredBreath_1.wav",
+    "seconds": 1.18,
+    "peak": 0.5604413994119808,
+    "rms": 0.09,
+    "sha256": "14ac116119db31488846f8e9a126adbe426700077edd303054e6aa9bac87a253"
+  },
+  {
+    "file": "Anky_InjuredBreath_2.wav",
+    "seconds": 1.18,
+    "peak": 0.5250340934171476,
+    "rms": 0.09000000000000001,
+    "sha256": "12ac00bdd112e6f6d21939759f4dc2c532310af58ca131823d847b5e94819b9c"
+  },
+  {
+    "file": "Brachi_Step_0.wav",
+    "seconds": 0.55,
+    "peak": 0.38314061712689707,
+    "rms": 0.08999999999999815,
+    "sha256": "07f552ccddec741586bec312ac2a331b58cd8a654ffbd01b1e81c165be637e73"
+  },
+  {
+    "file": "Brachi_Step_1.wav",
+    "seconds": 0.55,
+    "peak": 0.4871168891110245,
+    "rms": 0.08999999999999393,
+    "sha256": "ac5bf9163ea4daed5a9284c55d5d72ff23b452a882b3f17fbd927749990c2b94"
+  },
+  {
+    "file": "Brachi_Step_2.wav",
+    "seconds": 0.55,
+    "peak": 0.315238575766189,
+    "rms": 0.08999999999999203,
+    "sha256": "b2c5737b6589bab85ee91b70197b6580251d56f0617037f9a4765ce40938d581"
+  },
+  {
+    "file": "Brachi_Quick_0.wav",
+    "seconds": 1.03,
+    "peak": 0.68,
+    "rms": 0.12276935174112316,
+    "sha256": "11d09f2360ec2d5b131dd22fa9efa7b63e92a084d3523bbd7f2a533e2476904b"
+  },
+  {
+    "file": "Brachi_Quick_1.wav",
+    "seconds": 1.03,
+    "peak": 0.68,
+    "rms": 0.09826252277930915,
+    "sha256": "f6ddd2063f19736a026149d94944490165af03677edbb65bcc9dbda8fd45c3b7"
+  },
+  {
+    "file": "Brachi_Quick_2.wav",
+    "seconds": 1.03,
+    "peak": 0.68,
+    "rms": 0.10484146201269405,
+    "sha256": "8dfdaedf9317ff5aadaee0257ffa1e78993a334bb6fdb9ae7726b44c13e0e7b4"
+  },
+  {
+    "file": "Brachi_Heavy_0.wav",
+    "seconds": 1.8,
+    "peak": 0.68,
+    "rms": 0.09566463550288379,
+    "sha256": "627e4b3abed6b2e5e97dbaf7ccec90ac84641a5eb90c767fa819c65aa9cd3d80"
+  },
+  {
+    "file": "Brachi_Heavy_1.wav",
+    "seconds": 1.8,
+    "peak": 0.68,
+    "rms": 0.08197718405103206,
+    "sha256": "3d96c7e23045f8833e80d9a99c86cb547b8b4597be9e2c57ab1cfba259c210d4"
+  },
+  {
+    "file": "Brachi_Heavy_2.wav",
+    "seconds": 1.8,
+    "peak": 0.68,
+    "rms": 0.06669304384506645,
+    "sha256": "ad36349f92320a2f2e9ee25b0388a9e8a9c0f33ad5eae49abd09ed7dd024b8e3"
+  },
+  {
+    "file": "Brachi_Impact_0.wav",
+    "seconds": 0.58,
+    "peak": 0.40966623810207464,
+    "rms": 0.08999999999998928,
+    "sha256": "72d727d75d5507c4933d846f85bdaf188ff3a01adbde0da4c03866dce9f13177"
+  },
+  {
+    "file": "Brachi_Impact_1.wav",
+    "seconds": 0.58,
+    "peak": 0.540006244970688,
+    "rms": 0.0899999999999951,
+    "sha256": "eb0ea2a5e66332ebfb376bbb23eb64c1b663bb568f85478be6012dd559d6fedc"
+  },
+  {
+    "file": "Brachi_Impact_2.wav",
+    "seconds": 0.58,
+    "peak": 0.3317801497424142,
+    "rms": 0.08999999999999857,
+    "sha256": "e0922b559603395e83026c6aa22976bde52ef61982410202eadf3b974540fa08"
+  },
+  {
+    "file": "Brachi_Death_0.wav",
+    "seconds": 3.4,
+    "peak": 0.68,
+    "rms": 0.06013750621145178,
+    "sha256": "b9f55557cfbe795a4b042c20a593046aff2eaf946ab3d9fe9218bd259b3b25fe"
+  },
+  {
+    "file": "Brachi_Death_1.wav",
+    "seconds": 3.4,
+    "peak": 0.68,
+    "rms": 0.058185054540844786,
+    "sha256": "05a40f5af00e2ca7f209e43d61f354e3e163822e1d8ebefe5567841c187bd397"
+  },
+  {
+    "file": "Brachi_Death_2.wav",
+    "seconds": 3.4,
+    "peak": 0.68,
+    "rms": 0.059035830330114135,
+    "sha256": "45048e5ee5c4d345c2c0c8a3a815db86be97ed1b881a72a4c86785515c04a313"
+  },
+  {
+    "file": "Brachi_Charge_0.wav",
+    "seconds": 1.42,
+    "peak": 0.68,
+    "rms": 0.12947382609271813,
+    "sha256": "e3a956a0350c8dcc901068b251c9a7de77eb85ba44d072cb7b7f11bc643facf8"
+  },
+  {
+    "file": "Brachi_Charge_1.wav",
+    "seconds": 1.42,
+    "peak": 0.68,
+    "rms": 0.11673591028594318,
+    "sha256": "72f4354c14f80e5b3b5f6a6394137e9e79a792ab6659d76e57d99b5fe300cbf0"
+  },
+  {
+    "file": "Brachi_Charge_2.wav",
+    "seconds": 1.42,
+    "peak": 0.68,
+    "rms": 0.10679898066301877,
+    "sha256": "930dfa91a3a36d5bb088adf797dabff70a58b4369ef62d8ed4c82502f630afe2"
+  },
+  {
+    "file": "Brachi_Hurt_0.wav",
+    "seconds": 1.1499773242630384,
+    "peak": 0.68,
+    "rms": 0.11707036098350958,
+    "sha256": "31da31f9f6785378287ba473bedd5dfc8875c72d035456fa6c7826a9ac674215"
+  },
+  {
+    "file": "Brachi_Hurt_1.wav",
+    "seconds": 1.1499773242630384,
+    "peak": 0.68,
+    "rms": 0.09223380012381115,
+    "sha256": "ac902c6611d4ae40f23829582d986c95555f34bc7f9695d28c0bb0bef89632a2"
+  },
+  {
+    "file": "Brachi_Hurt_2.wav",
+    "seconds": 1.1499773242630384,
+    "peak": 0.68,
+    "rms": 0.0994448803021843,
+    "sha256": "1dd49ca8d4b7b8243854c31915cc16c3e88a84dd0fbdb491b509f9291ee9aafa"
+  },
+  {
+    "file": "Brachi_SprintBreath_0.wav",
+    "seconds": 1.48,
+    "peak": 0.5019942945528606,
+    "rms": 0.09000000000000001,
+    "sha256": "e895c51f5d1c21d4c7abb35dac17820e29f03a6e3e6ede59d86d73ec23f73a06"
+  },
+  {
+    "file": "Brachi_SprintBreath_1.wav",
+    "seconds": 1.48,
+    "peak": 0.48232431831497335,
+    "rms": 0.09000000000000001,
+    "sha256": "0ee9143f2c1db2f317d55474a7fbf2f6619275fc7f2e17db37d6a15f72c5514f"
+  },
+  {
+    "file": "Brachi_SprintBreath_2.wav",
+    "seconds": 1.48,
+    "peak": 0.4862914170743425,
+    "rms": 0.09,
+    "sha256": "97d34ed68b3c651d937b2f38cba4e16d468a5baf2a9dfbca98587a9026d0901b"
+  },
+  {
+    "file": "Brachi_InjuredBreath_0.wav",
+    "seconds": 1.62,
+    "peak": 0.5251779553244095,
+    "rms": 0.09,
+    "sha256": "da42243691f99728e5cc178a36b82da84293bde9642bb1aa06d42d161bc67712"
+  },
+  {
+    "file": "Brachi_InjuredBreath_1.wav",
+    "seconds": 1.62,
+    "peak": 0.5594034780753716,
+    "rms": 0.09,
+    "sha256": "7f99f659efccc36276e0f343496d3905898bd7d3893eace2ce9197d321cdafcd"
+  },
+  {
+    "file": "Brachi_InjuredBreath_2.wav",
+    "seconds": 1.62,
+    "peak": 0.5291633638284109,
+    "rms": 0.09,
+    "sha256": "32325493ca938dbce0c59d54a502831f174ce9100f5241065ce93d6984652dee"
+  },
+  {
+    "file": "Pachy_Step_0.wav",
+    "seconds": 0.23,
+    "peak": 0.4479407906993495,
+    "rms": 0.08999999999999692,
+    "sha256": "8f7eeb2708837770b1f7b22b37b2e3483c8c4fe9eba5a387cfd4c28ceb92a07e"
+  },
+  {
+    "file": "Pachy_Step_1.wav",
+    "seconds": 0.23,
+    "peak": 0.509017193284551,
+    "rms": 0.08999999999999998,
+    "sha256": "0a68f69f66a17fe67e77de71758874d96ea903ffa92ac7ed316e3bf37c8c5a49"
+  },
+  {
+    "file": "Pachy_Step_2.wav",
+    "seconds": 0.23,
+    "peak": 0.4022898491795295,
+    "rms": 0.08999999999999998,
+    "sha256": "2640e8b99922aa25701e2b9f6d06b684d76a6401e18f34ee66bde2666126785a"
+  },
+  {
+    "file": "Pachy_Quick_0.wav",
+    "seconds": 0.39,
+    "peak": 0.6800000000000002,
+    "rms": 0.11065333297209702,
+    "sha256": "8ad96892d584f328886c68c83b063fd797e857b1e33e3a0c7fbcfe5d623f5eb0"
+  },
+  {
+    "file": "Pachy_Quick_1.wav",
+    "seconds": 0.39,
+    "peak": 0.68,
+    "rms": 0.11367374593761805,
+    "sha256": "e0b4684869b535b02ac24ba6cf403b4f354b1683eadd2ba96b3870f2ef3f778e"
+  },
+  {
+    "file": "Pachy_Quick_2.wav",
+    "seconds": 0.39,
+    "peak": 0.68,
+    "rms": 0.09533600604915031,
+    "sha256": "cb7f57c2a4a8547ef9cacdceef93b62739f014ab978175db28de4c79c513392c"
+  },
+  {
+    "file": "Pachy_Heavy_0.wav",
+    "seconds": 0.87,
+    "peak": 0.68,
+    "rms": 0.07763225758203804,
+    "sha256": "42d063526438ad99675200efddd3f898ee8ecec8ce618a141cb74d9e7d5c890f"
+  },
+  {
+    "file": "Pachy_Heavy_1.wav",
+    "seconds": 0.87,
+    "peak": 0.68,
+    "rms": 0.07489302452986014,
+    "sha256": "02f5f2b5219b6e2d2fa6e03774a5c0820e57c98e9fac402966c7d29467c0c731"
+  },
+  {
+    "file": "Pachy_Heavy_2.wav",
+    "seconds": 0.87,
+    "peak": 0.68,
+    "rms": 0.07399412921352376,
+    "sha256": "19ebfb203aba152f06c5ccd9345f094f8297d34e6899d07a174ed51df0b7bbed"
+  },
+  {
+    "file": "Pachy_Impact_0.wav",
+    "seconds": 0.27,
+    "peak": 0.5490314430778641,
+    "rms": 0.09000000000000001,
+    "sha256": "2f14875a0f0ce648646ba466ad8af28c8ec76700017d05b9a9e3e68323e4f26d"
+  },
+  {
+    "file": "Pachy_Impact_1.wav",
+    "seconds": 0.27,
+    "peak": 0.6681508617296319,
+    "rms": 0.09,
+    "sha256": "748c76474ccb93351c42b096382d54bf5643e0ae6bde747b1a4b4c7f51601046"
+  },
+  {
+    "file": "Pachy_Impact_2.wav",
+    "seconds": 0.27,
+    "peak": 0.4007464466791979,
+    "rms": 0.09,
+    "sha256": "496077f9cae33f3cb4d8bbc0c10cb7aac47461b95e684d8ccbf0e75d506a27c1"
+  },
+  {
+    "file": "Pachy_Death_0.wav",
+    "seconds": 1.74,
+    "peak": 0.68,
+    "rms": 0.05947718393435334,
+    "sha256": "e0a15d2a49aaad9be64201e3c4f0a579248044a085eb0581e530a24979dab1ce"
+  },
+  {
+    "file": "Pachy_Death_1.wav",
+    "seconds": 1.74,
+    "peak": 0.68,
+    "rms": 0.05805092409839031,
+    "sha256": "34f44b7067f876f270d80a5686b883b5d57e24711d1f8d3eb85015e39c195678"
+  },
+  {
+    "file": "Pachy_Death_2.wav",
+    "seconds": 1.74,
+    "peak": 0.68,
+    "rms": 0.0585110463921385,
+    "sha256": "a2b4046b6d6a1c3566ba7c1307488ed97db64381cd6198f17db221875f54a594"
+  },
+  {
+    "file": "Pachy_Charge_0.wav",
+    "seconds": 0.67,
+    "peak": 0.68,
+    "rms": 0.09594271656085919,
+    "sha256": "3c190b02eadb76280076a2e57bd28e45aacd2c70b16a56d8687418b648bf65dd"
+  },
+  {
+    "file": "Pachy_Charge_1.wav",
+    "seconds": 0.67,
+    "peak": 0.68,
+    "rms": 0.08880592691494452,
+    "sha256": "b5d93caf16a5e1597a5333b5db07fb4d51990f38c1748759ec5069f27e8ec47e"
+  },
+  {
+    "file": "Pachy_Charge_2.wav",
+    "seconds": 0.67,
+    "peak": 0.6800000000000002,
+    "rms": 0.08317164297680439,
+    "sha256": "1076cb3424686d75c7feac89bc78e19ca9383857fb821ae476e939af80a6dd47"
+  },
+  {
+    "file": "Pachy_Hurt_0.wav",
+    "seconds": 0.47,
+    "peak": 0.68,
+    "rms": 0.11224325845525716,
+    "sha256": "5be512fd9810db168bd161c96a13af3e2583bd530caa622c71d3d1e6b9d39783"
+  },
+  {
+    "file": "Pachy_Hurt_1.wav",
+    "seconds": 0.47,
+    "peak": 0.68,
+    "rms": 0.09662005433467925,
+    "sha256": "bea14e06925c4bec7ca9ec90a9b2020f7e9a40a85c5a3f6be900d6e4c51b65b8"
+  },
+  {
+    "file": "Pachy_Hurt_2.wav",
+    "seconds": 0.47,
+    "peak": 0.68,
+    "rms": 0.10158878739262674,
+    "sha256": "f9d36cd9bc97440c30af3c2f85784faa437b220b45b6f566df02c068fdc592cd"
+  },
+  {
+    "file": "Pachy_SprintBreath_0.wav",
+    "seconds": 0.5699773242630386,
+    "peak": 0.41673762218172256,
+    "rms": 0.08999999999999998,
+    "sha256": "b1b06812f989fcce66ddcdc9de39a7903a6b4bf7844bdb711fe05143922de261"
+  },
+  {
+    "file": "Pachy_SprintBreath_1.wav",
+    "seconds": 0.5699773242630386,
+    "peak": 0.5089455864454221,
+    "rms": 0.08999999999999998,
+    "sha256": "f0d4f7a4ab8566500a13d987c337026ac3d7e0154f2e3a9ef93f152bb4ccb3eb"
+  },
+  {
+    "file": "Pachy_SprintBreath_2.wav",
+    "seconds": 0.5699773242630386,
+    "peak": 0.5947908610559627,
+    "rms": 0.08999999999999998,
+    "sha256": "cdbb2eaa8130aab3628d08963fab891d616c2b69ba3265be7d4fdb4c3f839ad7"
+  },
+  {
+    "file": "Pachy_InjuredBreath_0.wav",
+    "seconds": 0.79,
+    "peak": 0.4890945121607316,
+    "rms": 0.09,
+    "sha256": "e260d8d600bd7869d054eef9885373b765d7e0ca0c32c401aeb0c3a1f0842bc6"
+  },
+  {
+    "file": "Pachy_InjuredBreath_1.wav",
+    "seconds": 0.79,
+    "peak": 0.48442071915403373,
+    "rms": 0.09,
+    "sha256": "e2108eacddc8ac6d2af1b8698606d5764555956423e30bb8b6f7808fa6887811"
+  },
+  {
+    "file": "Pachy_InjuredBreath_2.wav",
+    "seconds": 0.79,
+    "peak": 0.4745824411538694,
+    "rms": 0.09,
+    "sha256": "651f24a6f0c409de41a65e5b6517124a406de12740c093fd3a0d83d7cc406dff"
+  }
+]

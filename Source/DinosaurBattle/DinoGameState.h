@@ -11,6 +11,7 @@ struct FDinoScore
     UPROPERTY() int32 Kills=0;
     UPROPERTY() int32 Deaths=0;
     UPROPERTY() int32 Assists=0;
+    int32 SoloPoints() const {return Kills+Assists/2;}
 };
 USTRUCT()
 struct FDinoScoreRow
@@ -42,6 +43,8 @@ public:
     UPROPERTY(Replicated) int32 SoloKillGoal=5;
     UPROPERTY(Replicated) int32 TeamKillGoal=10;
     UPROPERTY(Replicated) TArray<int32> TeamKills={0,0};
+    UPROPERTY(Replicated) TArray<int32> TeamAssists={0,0};
+    int32 TeamPoints(int32 Team) const {return Team>=0&&Team<2?TeamKills[Team]+TeamAssists[Team]/3:0;}
     UPROPERTY(Replicated) int32 WinnerID=-1;
     UPROPERTY(Replicated) int32 WinnerTeam=-1;
     UPROPERTY(Replicated) int32 RoundNumber=0;
@@ -53,4 +56,6 @@ public:
     bool IsScoringTarget(const ADinosaurCharacter* D) const;
     FString MatchName() const;
     FString WinnerName() const;
+    TArray<int32> LeaderboardIDs() const;
+    FString CombatantName(int32 ID,int32 ViewerID=-1) const;
 };

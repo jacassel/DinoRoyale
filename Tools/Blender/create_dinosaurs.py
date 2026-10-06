@@ -105,7 +105,7 @@ def assign_body(o):
         else:bn='spine'
         g=o.vertex_groups.get(bn) or o.vertex_groups.new(name=bn);g.add([v.index],1,'REPLACE')
 
-def refine_skin(body):
+def refine_skin(body,voxel_size=None):
     """Union the original skin volumes, then transfer blended rig weights locally."""
     global PARTS
     from mathutils.kdtree import KDTree
@@ -122,7 +122,7 @@ def refine_skin(body):
     tree.balance()
     work=source.copy();work.data=source.data.copy();bpy.context.collection.objects.link(work)
     bpy.ops.object.select_all(action='DESELECT');work.select_set(True);bpy.context.view_layer.objects.active=work
-    rem=work.modifiers.new('Continuous_anatomy','REMESH');rem.mode='VOXEL';rem.voxel_size=2.1 if SPECIES in ('Raptor','Prey') else 4.0;rem.use_smooth_shade=True
+    rem=work.modifiers.new('Continuous_anatomy','REMESH');rem.mode='VOXEL';rem.voxel_size=voxel_size if voxel_size else 2.1 if SPECIES in ('Raptor','Prey') else 4.0;rem.use_smooth_shade=True
     bpy.ops.object.modifier_apply(modifier=rem.name)
     smooth=work.modifiers.new('Organic_surface','SMOOTH');smooth.factor=.62;smooth.iterations=4;bpy.ops.object.modifier_apply(modifier=smooth.name)
     dec=work.modifiers.new('Realtime_topology','DECIMATE');dec.ratio=.55;dec.use_collapse_triangulate=True;bpy.ops.object.modifier_apply(modifier=dec.name)

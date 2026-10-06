@@ -37,7 +37,7 @@ void ADinoPlayerController::OnlineClick(float X,float Y)
         if(!GS||!PS)return;
         if(GS->bLobby)
         {
-            for(int32 I=0;I<3;++I)if(At(.08f+I*.28f,.17f,.25f,.065f)){ServerLobbyAction(0,I);return;}
+            for(int32 I=0;I<6;++I)if(At(.08f+(I%3)*.28f,.17f+(I/3)*.045f,.25f,.04f)){ServerLobbyAction(0,FSpeciesData::PlayableID(I));return;}
             if(At(.08f,.26f,.25f,.065f)){ServerLobbyAction(1,-1);return;}
             if(At(.36f,.26f,.25f,.065f)){ServerLobbyAction(1,PS->TeamID==0?1:0);return;}
             if(At(.65f,.26f,.25f,.065f)){ServerLobbyAction(2,!PS->bReady);return;}
@@ -107,8 +107,8 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
         Label(FString::Printf(TEXT("%s  /  %d of %d players  /  bots %s"),*GS->MatchName(),GS->PlayerArray.Num(),GS->MaxParticipants,GS->bFillBots?TEXT("ON"):TEXT("OFF")),.08f,.12f,.86f,MenuMuted);
         if(GS->bLobby)
         {
-            const TCHAR* Kinds[]={TEXT("1  TYRANNOSAURUS"),TEXT("2  VELOCIRAPTOR"),TEXT("3  TRICERATOPS")};
-            for(int32 I=0;I<3;++I)Button(FString(PS->SelectedSpecies==I?TEXT("[X] "):TEXT(""))+Kinds[I],.08f+I*.28f,.17f);
+            const TCHAR* Kinds[]={TEXT("1 T-REX"),TEXT("2 VELOCIRAPTOR"),TEXT("3 TRICERATOPS"),TEXT("4 ANKYLOSAURUS"),TEXT("5 BRACHIOSAURUS"),TEXT("6 PACHYCEPHALOSAURUS")};
+            for(int32 I=0;I<6;++I)Button(FString(PS->SelectedSpecies==FSpeciesData::PlayableID(I)?TEXT("[X] "):TEXT(""))+Kinds[I],.08f+(I%3)*.28f,.17f+(I/3)*.045f,.25f,.04f);
             Button(TEXT("AUTO TEAM"),.08f,.26f,.25f,.065f,GS->bTeamMatch);
             Button(GS->bTeamMatch?FString::Printf(TEXT("TEAM %d / CHANGE"),PS->TeamID+1):TEXT("FREE-FOR-ALL"),.36f,.26f,.25f,.065f,GS->bTeamMatch);
             Button(PS->bReady?TEXT("READY / UNREADY"):TEXT("MARK READY"),.65f,.26f);
@@ -130,7 +130,7 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
                     const int32 Team=GS->BotSlotTeams.IsValidIndex(ID)?GS->BotSlotTeams[ID]:-1;
                     const bool Enabled=GS->bFillBots&&Team>=0;
                     Label((Enabled?FString::Printf(TEXT("AI SLOT %d"),ID+1):FString::Printf(TEXT("SLOT %d / EMPTY"),ID+1)),.08f,RowY,.75f,Enabled?MenuTeal:MenuMuted);
-                    Label(Enabled?FSpeciesData::Get(ID%3).Name:TEXT("--"),.40f,RowY,.75f);
+                    Label(Enabled?FSpeciesData::Get(FSpeciesData::PlayableID(ID%6)).Name:TEXT("--"),.40f,RowY,.75f);
                     Label(GS->bTeamMatch?(Team==1?TEXT("[ B ]"):TEXT("[ A ]")):TEXT("--"),.69f,RowY,.75f,PS->bHost?MenuTeal:MenuMuted);
                     Label(Enabled?TEXT("[ ON ]"):TEXT("[ OFF ]"),.80f,RowY,.75f,PS->bHost?MenuTeal:MenuMuted);
                 }

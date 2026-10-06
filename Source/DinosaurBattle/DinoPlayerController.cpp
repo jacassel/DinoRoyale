@@ -78,12 +78,16 @@ void ADinoPlayerController::PlayerTick(float Dt)
 void ADinoPlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
+    InputComponent->BindKey(EKeys::P,IE_Pressed,this,&ADinoPlayerController::ToggleLeaderboard);
     InputComponent->BindKey(EKeys::N,IE_Pressed,this,&ADinoPlayerController::ToggleNameTags).bExecuteWhenPaused=true;
     InputComponent->BindKey(EKeys::F4,IE_Pressed,this,&ADinoPlayerController::ToggleMultiplayer).bExecuteWhenPaused=true;
     InputComponent->BindAction("Menu",IE_Pressed,this,&ADinoPlayerController::ToggleMenu).bExecuteWhenPaused=true;
     InputComponent->BindAction("SelectRex",IE_Pressed,this,&ADinoPlayerController::SelectRex).bExecuteWhenPaused=true;
     InputComponent->BindAction("SelectRaptor",IE_Pressed,this,&ADinoPlayerController::SelectRaptor).bExecuteWhenPaused=true;
     InputComponent->BindAction("SelectTrike",IE_Pressed,this,&ADinoPlayerController::SelectTrike).bExecuteWhenPaused=true;
+    InputComponent->BindAction("SelectAnky",IE_Pressed,this,&ADinoPlayerController::SelectAnky).bExecuteWhenPaused=true;
+    InputComponent->BindAction("SelectBrachi",IE_Pressed,this,&ADinoPlayerController::SelectBrachi).bExecuteWhenPaused=true;
+    InputComponent->BindAction("SelectPachy",IE_Pressed,this,&ADinoPlayerController::SelectPachy).bExecuteWhenPaused=true;
     auto& Click=InputComponent->BindAction("QuickAttack",IE_Pressed,this,&ADinoPlayerController::MenuClick);Click.bExecuteWhenPaused=true;Click.bConsumeInput=false;
     InputComponent->BindAction("Confirm",IE_Pressed,this,&ADinoPlayerController::ResumeGame).bExecuteWhenPaused=true;
     InputComponent->BindAction("Quit",IE_Pressed,this,&ADinoPlayerController::QuitGame).bExecuteWhenPaused=true;
@@ -99,7 +103,7 @@ void ADinoPlayerController::SetupInputComponent()
 void ADinoPlayerController::SetMenuOpen(bool Open)
 {
     if(!IsLocalController())return;
-    bSelectionOpen=Open;bMapOpen=false;if(!Open)bSettingsOpen=false;
+    bSelectionOpen=Open;bMapOpen=false;bLeaderboardOpen=false;if(!Open)bSettingsOpen=false;
     ResetIgnoreLookInput();ResetIgnoreMoveInput();
     if(Open)
     {
@@ -127,6 +131,11 @@ void ADinoPlayerController::ToggleMap()
     }
     else SetInputMode(FInputModeGameOnly());
 }
+void ADinoPlayerController::ToggleLeaderboard()
+{
+    if(bSelectionOpen)return;
+    if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())if(!GS->bTeamMatch&&!GS->bLobby)bLeaderboardOpen=!bLeaderboardOpen;
+}
 void ADinoPlayerController::PlaceMapPin()
 {
     if(bSelectionOpen||!bMapOpen)return;
@@ -143,6 +152,9 @@ void ADinoPlayerController::ToggleHelp(){bShowHelp=!bShowHelp;}
 void ADinoPlayerController::SelectRex(){ChooseSpecies(0);}
 void ADinoPlayerController::SelectRaptor(){ChooseSpecies(1);}
 void ADinoPlayerController::SelectTrike(){ChooseSpecies(2);}
+void ADinoPlayerController::SelectAnky(){ChooseSpecies(4);}
+void ADinoPlayerController::SelectBrachi(){ChooseSpecies(5);}
+void ADinoPlayerController::SelectPachy(){ChooseSpecies(6);}
 void ADinoPlayerController::ResumeGame(){if(OnlinePage>0&&GetNetMode()==NM_Standalone)return;if(GetNetMode()!=NM_Standalone){if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())if(GS->bLobby||GS->bRoundOver)return;SetMenuOpen(false);return;}if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bRoundOver)GM->StartRound();if(bSelectionOpen)SetMenuOpen(false);}
 void ADinoPlayerController::QuitGame(){if(bSelectionOpen)ConsoleCommand(TEXT("quit"));}
 void ADinoPlayerController::SensitivityUp(){if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->MouseSensitivity=FMath::Clamp(D->MouseSensitivity+.1f,.2f,3.f);GConfig->SetFloat(TEXT("Dino.Session"),TEXT("MouseSensitivity"),D->MouseSensitivity,GGameIni);GConfig->Flush(false,GGameIni);}}
@@ -155,10 +167,10 @@ void ADinoPlayerController::MenuClick()
     if(const auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GM->bRoundOver&&!bSettingsOpen)return;
     if(X>W*.73f&&Y>H*.1f&&Y<H*.21f){ToggleSettings();return;}
     if(bSettingsOpen){if(Y>H*.60f&&Y<H*.67f){ToggleNameTags();return;}if(Y>H*.33f&&Y<H*.45f)ToggleBlood();else if(Y>H*.50f&&Y<H*.59f){if(X>W*.6f)SensitivityUp();else SensitivityDown();}return;}
-    float S=FMath::Clamp(H/900.f,.45f,1.5f),Top=H*.28f,CardW=W*.25f,CardH=400*S,Gap=W*.035f,Left=(W-3*CardW-2*Gap)*.5f;
+    float Top=H*.28f,CardW=W*.26f,CardH=H*.225f,Gap=W*.025f,RowGap=H*.016f,Left=(W-3*CardW-2*Gap)*.5f;
     if(Y>H*.77f&&Y<H*.82f){ToggleMapVariant();return;}
     if(Y>H*.215f&&Y<H*.285f){ToggleMatchMode();return;}
-    if(Y>=Top&&Y<=Top+CardH)for(int32 I=0;I<3;++I)if(X>=Left+I*(CardW+Gap)&&X<=Left+I*(CardW+Gap)+CardW){DinoSpecies(I);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GetNetMode()==NM_Standalone)GM->StartRound();SetMenuOpen(false);return;}
+    for(int32 I=0;I<6;++I)if(Y>=Top+(I/3)*(CardH+RowGap)&&Y<=Top+(I/3)*(CardH+RowGap)+CardH&&X>=Left+(I%3)*(CardW+Gap)&&X<=Left+(I%3)*(CardW+Gap)+CardW){DinoSpecies(FSpeciesData::PlayableID(I));if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())if(GetNetMode()==NM_Standalone)GM->StartRound();SetMenuOpen(false);return;}
     if(Y>H*.83f&&Y<H*.91f){if(X>W*.62f)QuitGame();else if(X>W*.18f)ResumeGame();}
 }
 void ADinoPlayerController::DinoSpecies(int32 I){if(GetNetMode()!=NM_Standalone)return;if(auto* D=Cast<ADinosaurCharacter>(GetPawn())){D->ApplySpecies(I);D->ResetLife();}}
@@ -273,7 +285,7 @@ void ADinoPlayerController::ReadBridge()
     {
         FVector P=D->GetActorLocation()+D->GetActorForwardVector()*(D->Stats().AttackRange*.65f);
         P.Z=ALostValleyWorld::HeightAt(P.X,P.Y);
-        if(D->Stats().bHerbivore){if(auto* Plant=GetWorld()->SpawnActor<AFoodPlant>(P,FRotator::ZeroRotator))Plant->Tags.Add(TEXT("TestFood"));}
+        if(D->Stats().bHerbivore){if(auto* Plant=GetWorld()->SpawnActor<AFoodPlant>(D->Species==5?AFoodTree::StaticClass():AFoodPlant::StaticClass(),P,FRotator::ZeroRotator))Plant->Tags.Add(TEXT("TestFood"));}
         else
         {
             FActorSpawnParameters S;S.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -363,15 +375,19 @@ void ADinoPlayerController::ReadBridge()
         const int32 Seed=O->GetIntegerField(TEXT("seed"));FRandomStream R(Seed);
         const float Angle=O->GetNumberField(TEXT("angle"));const int32 Opponent=O->GetIntegerField(TEXT("opponent"));
         const bool Pack=O->GetBoolField(TEXT("pack"));
+        double ChallengerValue=1;O->TryGetNumberField(TEXT("challenger"),ChallengerValue);
+        const int32 Challenger=FSpeciesData::IsPlayable(int32(ChallengerValue))?int32(ChallengerValue):1;
+        bool OpponentPack=false;O->TryGetBoolField(TEXT("opponentPack"),OpponentPack);
         for(TActorIterator<ADinosaurAIController> It(GetWorld());It;++It)
         {
             auto* A=Cast<ADinosaurCharacter>(It->GetPawn());if(!A)continue;
-            const int32 ID=A->CombatantID;const bool Active=ID>=1&&ID<=(Pack?4:2);
-            A->ApplySpecies(ID==1?Opponent:Active?1:3);A->ResetLife();A->RespawnDelay=0;
+            const int32 ID=A->CombatantID;const bool OtherSide=ID==1||(OpponentPack&&(ID==5||ID==6));
+            const bool Active=OtherSide||ID==2||(Pack&&(ID==3||ID==4));
+            A->ApplySpecies(OtherSide?Opponent:Active?Challenger:3);A->ResetLife();A->RespawnDelay=0;
             It->ResetTactics();It->ClearTravelGoal();It->SetTestSeed(Seed+ID*173);It->Personality=(Seed+ID)%4;It->bPaused=!Active;
-            FVector P=Active?FVector(ID==1?-650:650,ID<=2?0:ID==3?-500:500,0).RotateAngleAxis(Angle,FVector::UpVector):FVector(-25000+ID*30,-24000,0);
+            FVector P=Active?FVector(OtherSide?-850:850,ID<=2?0:(ID==3||ID==5)?-600:600,0).RotateAngleAxis(Angle,FVector::UpVector):FVector(-25000+ID*30,-24000,0);
             P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+A->Stats().HalfHeight+15;A->SetActorLocation(P);A->HomePosition=P;
-            A->SetActorRotation(FRotator(0,Angle+(ID==1?R.FRandRange(-60,60):180+R.FRandRange(-45,45)),0));
+            A->SetActorRotation(FRotator(0,Angle+(OtherSide?R.FRandRange(-60,60):180+R.FRandRange(-45,45)),0));
             A->GetCharacterMovement()->StopMovementImmediately();
             A->GetCapsuleComponent()->SetCollisionEnabled(Active?ECollisionEnabled::QueryAndPhysics:ECollisionEnabled::NoCollision);
             if(!Active){A->bDead=true;A->Health->Current=0;A->SetActorHiddenInGame(true);}
@@ -518,11 +534,17 @@ void ADinoPlayerController::WriteTelemetry()
         TArray<TSharedPtr<FJsonValue>> Players;for(auto P:GM->PlayerArray)if(auto* PS=Cast<ADinoPlayerState>(P)){auto R=MakeShared<FJsonObject>();R->SetNumberField(TEXT("id"),PS->CombatantID);R->SetNumberField(TEXT("species"),PS->SelectedSpecies);R->SetNumberField(TEXT("team"),PS->TeamID);R->SetBoolField(TEXT("ready"),PS->bReady);R->SetBoolField(TEXT("host"),PS->bHost);R->SetStringField(TEXT("name"),PS->GetPlayerName());Players.Add(MakeShared<FJsonValueObject>(R));}O->SetArrayField(TEXT("players"),Players);O->SetStringField(TEXT("lobbyStatus"),LobbyStatus);
         auto Score=GM->GetScore(D->CombatantID);O->SetNumberField(TEXT("kills"),Score.Kills);O->SetNumberField(TEXT("deaths"),Score.Deaths);O->SetNumberField(TEXT("assists"),Score.Assists);
         O->SetBoolField(TEXT("teamMode"),GM->bTeamMatch);O->SetBoolField(TEXT("roundOver"),GM->bRoundOver);O->SetNumberField(TEXT("winner"),GM->WinnerID);O->SetNumberField(TEXT("winnerTeam"),GM->WinnerTeam);
-        O->SetNumberField(TEXT("team0Kills"),GM->TeamKills[0]);O->SetNumberField(TEXT("team1Kills"),GM->TeamKills[1]);O->SetNumberField(TEXT("goal"),GM->bTeamMatch?GM->TeamKillGoal:GM->SoloKillGoal);
-        TArray<TSharedPtr<FJsonValue>> Board;for(auto Pair:GM->Scores){auto Row=MakeShared<FJsonObject>();Row->SetNumberField(TEXT("id"),Pair.Key);Row->SetNumberField(TEXT("kills"),Pair.Value.Kills);Row->SetNumberField(TEXT("deaths"),Pair.Value.Deaths);Row->SetNumberField(TEXT("assists"),Pair.Value.Assists);Board.Add(MakeShared<FJsonValueObject>(Row));}O->SetArrayField(TEXT("scoreboard"),Board);
+        O->SetNumberField(TEXT("team0Score"),GM->TeamPoints(0));O->SetNumberField(TEXT("team1Score"),GM->TeamPoints(1));O->SetNumberField(TEXT("team0Assists"),GM->TeamAssists[0]);O->SetNumberField(TEXT("team1Assists"),GM->TeamAssists[1]);O->SetNumberField(TEXT("team0Kills"),GM->TeamKills[0]);O->SetNumberField(TEXT("team1Kills"),GM->TeamKills[1]);O->SetNumberField(TEXT("goal"),GM->bTeamMatch?GM->TeamKillGoal:GM->SoloKillGoal);
+        TArray<TSharedPtr<FJsonValue>> Board;for(auto Pair:GM->Scores){auto Row=MakeShared<FJsonObject>();Row->SetNumberField(TEXT("id"),Pair.Key);Row->SetNumberField(TEXT("points"),Pair.Value.SoloPoints());Row->SetNumberField(TEXT("kills"),Pair.Value.Kills);Row->SetNumberField(TEXT("deaths"),Pair.Value.Deaths);Row->SetNumberField(TEXT("assists"),Pair.Value.Assists);Board.Add(MakeShared<FJsonValueObject>(Row));}O->SetArrayField(TEXT("scoreboard"),Board);
     }
     for(TActorIterator<ADinoEffects> It(GetWorld());It;++It){O->SetNumberField(TEXT("bloodParticles"),It->ActiveCount());O->SetNumberField(TEXT("bloodEmitted"),It->TotalEmitted);}
     O->SetBoolField(TEXT("showNameTags"),bShowNameTags);O->SetBoolField(TEXT("settingsOpen"),bSettingsOpen);O->SetBoolField(TEXT("bloodEnabled"),bBloodEnabled);O->SetBoolField(TEXT("inWater"),D->bInWater);O->SetBoolField(TEXT("menuOpen"),bSelectionOpen);O->SetBoolField(TEXT("mapOpen"),bMapOpen);O->SetNumberField(TEXT("sensitivity"),D->MouseSensitivity);O->SetStringField(TEXT("animation"),D->Animation->State);O->SetBoolField(TEXT("eating"),D->Food->bEating);O->SetNumberField(TEXT("foodConsumed"),D->Food->FoodConsumed);
+    O->SetBoolField(TEXT("leaderboardOpen"),bLeaderboardOpen);
+    if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())
+    {
+        TArray<TSharedPtr<FJsonValue>> IDs;for(int32 ID:GS->LeaderboardIDs())IDs.Add(MakeShared<FJsonValueNumber>(ID));
+        O->SetArrayField(TEXT("leaderboardIDs"),IDs);
+    }
     TArray<TSharedPtr<FJsonValue>> Materials;
     for(int32 I=0;I<D->GetMesh()->GetNumMaterials();++I)if(auto* M=D->GetMesh()->GetMaterial(I))Materials.Add(MakeShared<FJsonValueString>(GetNameSafe(M->GetMaterial())));
     O->SetArrayField(TEXT("materials"),Materials);
@@ -547,7 +569,7 @@ void ADinoPlayerController::WriteTelemetry()
     O->SetArrayField(TEXT("ai"),AIs);
     TArray<TSharedPtr<FJsonValue>> Corpses,Plants;
     for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("species"),It->Species);R->SetNumberField(TEXT("source"),It->SourceID);R->SetNumberField(TEXT("z"),It->GetActorLocation().Z);R->SetNumberField(TEXT("bodyZ"),It->Body->GetComponentLocation().Z);R->SetNumberField(TEXT("bodyX"),It->Body->GetComponentLocation().X);R->SetNumberField(TEXT("bodyY"),It->Body->GetComponentLocation().Y);R->SetNumberField(TEXT("bodyGround"),ALostValleyWorld::HeightAt(It->Body->GetComponentLocation().X,It->Body->GetComponentLocation().Y));R->SetNumberField(TEXT("bodyRelativeZ"),It->Body->GetRelativeLocation().Z);R->SetNumberField(TEXT("ground"),ALostValleyWorld::HeightAt(It->GetActorLocation().X,It->GetActorLocation().Y));R->SetNumberField(TEXT("spineZ"),It->Body->GetSocketLocation(TEXT("spine")).Z);R->SetNumberField(TEXT("food"),It->Nutrition);R->SetNumberField(TEXT("maxFood"),It->MaximumNutrition);R->SetBoolField(TEXT("frozen"),!It->Body->IsComponentTickEnabled());R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Corpses.Add(MakeShared<FJsonValueObject>(R));}
-    for(TActorIterator<AFoodPlant> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("food"),It->Nutrition);R->SetBoolField(TEXT("hidden"),It->IsHidden());R->SetBoolField(TEXT("outline"),It->Visual->bRenderCustomDepth);R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Plants.Add(MakeShared<FJsonValueObject>(R));}
+    for(TActorIterator<AFoodPlant> It(GetWorld());It;++It){auto R=MakeShared<FJsonObject>();R->SetStringField(TEXT("name"),It->GetName());R->SetNumberField(TEXT("food"),It->Nutrition);R->SetBoolField(TEXT("hidden"),It->IsHidden());R->SetBoolField(TEXT("outline"),It->Visual->bRenderCustomDepth);R->SetBoolField(TEXT("tree"),It->bTreeFood);R->SetBoolField(TEXT("foliageVisible"),It->Visual->IsVisible());R->SetNumberField(TEXT("x"),It->GetActorLocation().X);R->SetNumberField(TEXT("y"),It->GetActorLocation().Y);Plants.Add(MakeShared<FJsonValueObject>(R));}
     O->SetArrayField(TEXT("corpses"),Corpses);O->SetArrayField(TEXT("plants"),Plants);
     FString Out;auto W=TJsonWriterFactory<>::Create(&Out);FJsonSerializer::Serialize(O,W);
     FFileHelper::SaveStringToFile(Out,*(BridgeRoot/TEXT("telemetry.json")));

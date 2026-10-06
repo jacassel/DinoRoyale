@@ -13,7 +13,7 @@ UDinoAudioComponent::UDinoAudioComponent(){PrimaryComponentTick.bCanEverTick=tru
 void UDinoAudioComponent::BeginPlay()
 {
     Super::BeginPlay();Variation.Initialize(7139+GetUniqueID()*37);
-    const TCHAR* Species[]={TEXT("Trex"),TEXT("Raptor"),TEXT("Trike")};
+    const TCHAR* Species[]={TEXT("Trex"),TEXT("Raptor"),TEXT("Trike"),TEXT("Anky"),TEXT("Brachi"),TEXT("Pachy")};
     const TCHAR* Events[]={TEXT("Step"),TEXT("Quick"),TEXT("Heavy"),TEXT("Impact"),TEXT("Death"),TEXT("Charge"),TEXT("Hurt"),TEXT("SprintBreath"),TEXT("InjuredBreath")};
     for(auto Name:Species)for(auto Event:Events)for(int32 V=0;V<3;++V)
     {
@@ -53,7 +53,7 @@ void UDinoAudioComponent::PlayEvent(int32 Kind)
     const FVector Listener=Camera?Camera->GetCameraLocation():D->GetActorLocation();
     const bool Ambient=Kind==0||Kind>=7;
     if(FVector::DistSquared(Listener,D->GetActorLocation())>FMath::Square(Ambient?4200.f:7500.f))return;
-    const int32 Species=D->Species==3?1:FMath::Clamp(D->Species,0,2);
+    const int32 Species=D->Species==3?1:D->Species>=4?D->Species-1:FMath::Clamp(D->Species,0,2);
     int32 V=(LastVariants[Kind]+1+Variation.RandRange(0,1))%3;LastVariants[Kind]=V;
     const int32 Index=(Species*9+Kind)*3+V;
     if(!SoundBank.IsValidIndex(Index)||!SoundBank[Index])return;
@@ -110,6 +110,6 @@ void UDinoAudioComponent::TickComponent(float Dt,ELevelTick Type,FActorComponent
         else if(D->bSprinting){PlayEvent(7);BreathCooldown=Variation.FRandRange(1.45f,2.1f);}
     }
     if(D->bInWater||!D->GetCharacterMovement()->IsMovingOnGround()||Travel>500||D->GetVelocity().Size2D()<50){Distance=0;return;}
-    Distance+=Travel;const float Stride=D->Species==1?370:D->Species==2?420:650;
+    Distance+=Travel;const float Stride=D->Species==1?370:D->Species==6?340:D->Species==2?420:D->Species==4?390:D->Species==5?700:650;
     if(Distance>=Stride&&StepCooldown<=0){Distance=0;StepCooldown=D->Species==1?.13f:.22f;PlayEvent(0);}
 }

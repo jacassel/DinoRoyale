@@ -13,6 +13,12 @@ alongside the designed WAV files. Processing includes excerpting, resampling,
 filtering, layering, fade envelopes, level normalization and three variations.
 Rebuild with `python Tools/Art/build_creature_audio.py`.
 
+Version 0.5 adds 81 separately designed Ankylosaurus, Brachiosaurus and
+Pachycephalosaurus clips using the same credited CC0 library and original generated
+foley. Rebuild these with `python Tools/Art/build_roster05_audio.py`. Their distinct
+layering, envelopes and resonance are authored separately; the original three
+sound banks are preserved. Three variants cover each of nine gameplay events.
+
 User reference: [Jurassic Fight Club T Rex Sound Effects, CretaceousTheHunted](https://www.youtube.com/watch?v=Bikdo8MCecY).
 The video is a creative reference only; no audio from it is included in the game
 or source assets. These are cinematic creature designs, not scientifically

@@ -37,12 +37,17 @@ public:
     UFUNCTION(Server,Reliable) void ServerDisplayName(const FString& Name);
     void ChooseSpecies(int32 Index);
     void ToggleMap();
+    void ToggleLeaderboard();
+    bool bLeaderboardOpen=false;
     void PlaceMapPin();
     TArray<FVector> MapPins;
     void ToggleHelp();
     void SelectRex();
     void SelectRaptor();
     void SelectTrike();
+    void SelectAnky();
+    void SelectBrachi();
+    void SelectPachy();
     void MenuClick();
     void ResumeGame();
     void QuitGame();

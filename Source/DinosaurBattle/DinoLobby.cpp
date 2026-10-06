@@ -100,7 +100,7 @@ void ADinoGameMode::LobbyAction(ADinoPlayerController* PC,uint8 Action,int32 Val
 }
 void ADinoGameMode::StartNetworkRound()
 {
-    bLobby=false;bRoundOver=false;WinnerID=WinnerTeam=-1;TeamKills[0]=TeamKills[1]=0;Scores.Empty();++RoundNumber;RoundStartTime=GetWorld()->GetTimeSeconds();
+    bLobby=false;bRoundOver=false;WinnerID=WinnerTeam=-1;TeamKills[0]=TeamKills[1]=0;TeamAssists[0]=TeamAssists[1]=0;Scores.Empty();++RoundNumber;RoundStartTime=GetWorld()->GetTimeSeconds();
     ReconcileBots();
     for(TActorIterator<ADinosaurCarcass> It(GetWorld());It;++It)It->Destroy();
     for(TActorIterator<AFoodPlant> It(GetWorld());It;++It){It->Nutrition=It->MaximumNutrition;It->OnRep_Nutrition();}

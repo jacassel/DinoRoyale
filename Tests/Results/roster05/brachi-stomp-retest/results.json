@@ -1,0 +1,51 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "species loads with health and stamina",
+      "status": "PASS",
+      "species": 5,
+      "health": 3100
+    },
+    {
+      "test": "W mapped movement",
+      "status": "PASS",
+      "travel": 434.46705802959985
+    },
+    {
+      "test": "S mapped movement",
+      "status": "PASS",
+      "travel": -443.757254177559
+    },
+    {
+      "test": "A mapped movement",
+      "status": "PASS",
+      "travel": -419.9537688890217
+    },
+    {
+      "test": "D mapped movement",
+      "status": "PASS",
+      "travel": 407.89800604128294
+    },
+    {
+      "test": "sprint spends stamina and reveals",
+      "status": "PASS"
+    },
+    {
+      "test": "brace stays planted",
+      "status": "PASS"
+    },
+    {
+      "test": "quick anatomical strike hits",
+      "status": "FAIL",
+      "before": 1500,
+      "after": 1500,
+      "damage": 0
+    }
+  ]
+}

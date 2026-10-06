@@ -14,7 +14,7 @@ try:
     h.command('teleport',x=0,y=0);h.command('face',yaw=0);time.sleep(.7)
     for heavy in [False,True]:
         h.command('stamina',value=160)
-        x,y=((-440,250) if a.species==4 else (370,0) if a.species==5 else (340,0))
+        x,y=((-440,250) if a.species==4 else ((335,0) if heavy else (320,120)) if a.species==5 else (340,0))
         h.command('testAI',id=1,species=0,x=x,y=y,yaw=180,health=1,enabled=False)
         time.sleep(.4);before=h.actor(1)['health'];hits=h.state()['hits']
         if heavy:h.hold('RightMouseButton',1.8)

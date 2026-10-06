@@ -38,6 +38,8 @@ public:
     void RebuildPacks();
     bool bSynchronizingPacks=false;
     int32 SoloKillGoal=5,TeamKillGoal=10,TeamKills[2]={0,0},WinnerID=-1,WinnerTeam=-1,RoundNumber=0;
+    int32 TeamAssists[2]={0,0};
+    int32 TeamPoints(int32 Team) const {return Team>=0&&Team<2?TeamKills[Team]+TeamAssists[Team]/3:0;}
     float AssistWindow=12,RoundStartTime=0;
     TMap<int32,FDinoScore> Scores;
     void StartRound();

@@ -136,7 +136,7 @@ bool ADinosaurCharacter::IsEnemy(const ADinosaurCharacter* O) const
     if(!O||O==this||O->bDead) return false;
     if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())return GM->AreEnemies(this,O);
     if(GetNetMode()!=NM_Standalone){if(PackLeaderID>=0&&PackLeaderID==O->PackLeaderID)return false;auto* GS=GetWorld()->GetGameState<ADinoGameState>();return !(GS&&GS->bTeamMatch&&TeamID>=0&&TeamID==O->TeamID);}
-    if(Species==1&&O->Species==1)return false;
+    if(FSpeciesData::IsPack(Species)&&O->Species==Species)return false;
     return true;
 }
 void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
