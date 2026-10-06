@@ -127,14 +127,23 @@ void ADinoGameMode::StartRound()
     const int32 SoloSpecies[]={0,4,5,2,1,1,1,6,6,6};
     const auto* FirstPC=GetWorld()->GetFirstPlayerController();
     const auto* Player=FirstPC?Cast<ADinosaurCharacter>(FirstPC->GetPawn()):nullptr;
-    const bool PlayerRaptor=Player&&Player->Species==1;
     const bool PlayerPachy=Player&&Player->Species==6;
     ALostValleyWorld* Valley=nullptr;for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
     {
         auto* D=*It;if(!D->bMajor)continue;int32 ID=D->CombatantID;if(ID<0||ID>9)continue;
         D->TeamID=bTeamMatch?(ID<=4?0:1):-1;
-        if(!D->IsPlayerControlled())D->ApplySpecies(bTeamMatch?(PlayerPachy?PachyTeamSpecies[ID]:(PlayerRaptor&&ID==1?0:TeamSpecies[ID])):((PlayerRaptor&&ID==6)||(PlayerPachy&&ID==9)?0:SoloSpecies[ID]));
+        if(!D->IsPlayerControlled())
+        {
+            int32 Species=bTeamMatch?(PlayerPachy?PachyTeamSpecies[ID]:TeamSpecies[ID]):SoloSpecies[ID];
+            // The human replaces a species slot, not the only Rex in the roster.
+            // Keep all six choices represented while preserving each three-member pack.
+            const int32 PlayerSpecies=Player?Player->Species:0;
+            const int32 RexSlot=bTeamMatch?(PlayerSpecies==1?1:PlayerSpecies==4?4:PlayerSpecies==5?5:PlayerSpecies==2?9:-1):
+                PlayerSpecies==1?6:PlayerSpecies==6?9:PlayerSpecies==4?1:PlayerSpecies==5?2:PlayerSpecies==2?3:-1;
+            if(ID==RexSlot)Species=0;
+            D->ApplySpecies(Species);
+        }
         FVector Home=SoloHomes[ID]*.5f;
         if(bTeamMatch){int32 Slot=ID<=4?ID:ID-5;Home=FVector(ID<=4?-6000:6000,(Slot-2)*1300,0);}
         if(Valley)Home=Valley->NearestWalkable(Home);

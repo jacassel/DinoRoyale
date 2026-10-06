@@ -246,6 +246,13 @@ void ADinosaurAIController::Think(float Dt)
         const int32 NextCombo=NextQuickCombo(D->Combat);
         const float AnatomicalRange=D->Species==4&&NextCombo==3?330.f:D->Species==5&&NextCombo==2?850.f:D->Stats().AttackRange;
         float AttackDistance=FMath::Max(AnatomicalRange+Enemy->Stats().Radius*.25f,(D->Stats().Radius+Enemy->Stats().Radius+25)/.83f);
+        if(D->Species==4&&NextCombo!=3&&Dist<390&&Now>=NextReposition&&!D->Combat->IsBusy()&&!D->Combat->bCharging)
+        {
+            // A rival that lunged inside the club arc is in a real blind spot.
+            // Make room with ordinary movement rather than enlarging the hitbox.
+            GoTo(Position-ToEnemy*240);RepositionUntil=Now+.4f;NextReposition=Now+2.5f;
+            State=TEXT("Repositioning");Decision=TEXT("Make room for the tail club");return;
+        }
         if(D->Species==5&&NextCombo==2&&Dist<520&&!D->Combat->IsBusy()&&!D->Combat->bCharging)
         {
             // A tail sweep cannot reach a rival under the chest. Keep the frontal guard

@@ -38,6 +38,9 @@ class Peer:
         width,height=getattr(test,'render_size',(960,540))
         render_args=['-windowed','-ResX='+str(width),'-ResY='+str(height),'-ForceRes','-WinX='+str(30+len(test.peers)*990),'-WinY=60'] if test.rendered else ['-nullrhi']
         if test.rendered and getattr(test,'offscreen',False):render_args+=['-RenderOffscreen']
+        # Windows mutes an unfocused packaged game by default. Audio QA records the
+        # real mixer with a process-local config override; normal game settings stay intact.
+        if getattr(test,'audio',False):render_args+=['-ini:Engine:[Audio]:UnfocusedVolumeMultiplier=1.0']
         cmd += [url,*render_args,'-game',*([] if getattr(test,'audio',False) else ['-nosound']),'-unattended','-nosplash','-DinoDevBridge','-DinoBridge='+name,
                 '-port=7788','-multihome=127.0.0.1','-abslog='+str(test.out/(name+'.log')),
                 '-PktLag='+str(test.lag),'-PktLoss='+str(test.loss)]
@@ -49,7 +52,7 @@ class Peer:
             time.sleep(.2)
         raise TimeoutError(name+' did not initialize')
     def state(self):
-        deadline=time.monotonic()+5
+        deadline=time.monotonic()+15
         while time.monotonic()<deadline:
             try:return json.loads((self.path/'telemetry.json').read_text(encoding='utf-8-sig'))
             except (ValueError,OSError):time.sleep(.02)

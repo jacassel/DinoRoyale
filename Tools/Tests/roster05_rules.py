@@ -12,6 +12,10 @@ try:
   h.command('scoreHit',attacker=attacker,victim=victim,value=amount);time.sleep(.3)
  def reset(i):h.command('resetCombatant',id=i)
  for teams in [False,True]:
+  for species in [0,1,2,4,5,6]:
+   mode(teams,species);s=h.state();roster=[v['species'] for v in s['ai'] if v['major']]+[species]
+   t.check(f'all six species represented for player={species} teams={teams}',len(roster)==10 and set(roster)=={0,1,2,4,5,6} and roster.count(1)==3 and roster.count(6)==3)
+ for teams in [False,True]:
   for species in [0,1,6]:
    mode(teams,species);s=h.state();allies=[x for x in s['ai'] if x['major'] and x['species']==species and (not teams or x['team']==0)]
    if species in [1,6]:
