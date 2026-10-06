@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
+#include "Components/SkeletalMeshComponent.h"
 UCombatComponent::UCombatComponent(){PrimaryComponentTick.bCanEverTick=true;SetIsReplicatedByDefault(true);}
 ADinosaurCharacter* UCombatComponent::Dino() const {return Cast<ADinosaurCharacter>(GetOwner());}
 void UCombatComponent::Cancel(){if(!GetOwner()->HasAuthority()){return;}bBracing=false;bCharging=false;bHitPending=false;RecoveryLeft=0;ChargeElapsed=0;ComboCount=0;ComboResetLeft=0;BufferedQuick=0;HitActors.Empty();}
@@ -50,7 +51,7 @@ void UCombatComponent::Execute(bool Charged,float Power)
     AttackElapsed=0; HitTime=(Charged?S.HeavyWindup:S.Windup)/D->Health->AttackSpeedFactor();
     CurrentHeavyPower=Power;CommitDirection=D->GetActorForwardVector();HitActors.Empty();
     PendingDamage=S.Damage*(Charged?FMath::Lerp(1.15f,S.ChargeMultiplier,Power):(bWeakAttack?S.WeakAttackDamage:ComboCount==3?1.12f:1.f));
-    bHitPending=true;LastDealtDamage=0;
+    bHitPending=true;LastDealtDamage=0;bHasContact=false;
     if(Charged&&D->Species==1&&!D->bSwimming)D->LaunchCharacter(CommitDirection*S.LungeSpeed*(.55f+.45f*Power)+FVector(0,0,260),true,false);
 }
 void UCombatComponent::DetectHits()
@@ -59,12 +60,24 @@ void UCombatComponent::DetectHits()
     // Timed sweep window; each target is damaged once across all samples/components.
     FVector End=Origin+D->GetActorForwardVector()*S.AttackRange*(bChargedAttack?S.HeavyReach:1.f);
     TArray<FHitResult> Hits;FCollisionQueryParams Params(SCENE_QUERY_STAT(DinoAttack),false,D);
-    GetWorld()->SweepMultiByObjectType(Hits,Origin,End,FQuat::Identity,FCollisionObjectQueryParams(ECC_Pawn),FCollisionShape::MakeSphere(S.AttackWidth),Params);
+    if(D->Species>=4)
+    {
+        // Follow the animated striking anatomy; never sweep the full body capsule.
+        FName Socket=D->Species==4?(ComboCount==3&&!bChargedAttack?TEXT("spine"):TEXT("club_tip")):
+            D->Species==5?(!bChargedAttack&&ComboCount==2?TEXT("tail_04"):ComboCount==3?TEXT("stomp_r"):TEXT("stomp_l")):TEXT("head_impact");
+        FVector Contact=D->GetMesh()->GetSocketLocation(Socket);
+        const float Width=D->Species==4?(Socket==TEXT("spine")?155.f:80.f):D->Species==5?(Socket==TEXT("tail_04")?95.f:bChargedAttack?210.f:115.f):55.f;
+        if(Socket==TEXT("spine"))Contact+=D->GetActorRightVector()*115;
+        if(D->Species==5&&bChargedAttack)Contact=(Contact+D->GetMesh()->GetSocketLocation(TEXT("stomp_r")))*.5f;
+        const FVector Start=bHasContact?PreviousContact:Contact;PreviousContact=Contact;bHasContact=true;
+        GetWorld()->SweepMultiByObjectType(Hits,Start,Contact,FQuat::Identity,FCollisionObjectQueryParams(ECC_Pawn),FCollisionShape::MakeSphere(Width),Params);
+    }
+    else GetWorld()->SweepMultiByObjectType(Hits,Origin,End,FQuat::Identity,FCollisionObjectQueryParams(ECC_Pawn),FCollisionShape::MakeSphere(S.AttackWidth),Params);
     for(const auto& H:Hits)
     {
         auto* Target=Cast<ADinosaurCharacter>(H.GetActor());
         if(!Target||HitActors.Contains(Target)||!D->IsEnemy(Target))continue;
-        if(FVector::DotProduct(D->GetActorForwardVector(),(Target->GetActorLocation()-Origin).GetSafeNormal2D())<.15f)continue;
+        if(D->Species<4&&FVector::DotProduct(D->GetActorForwardVector(),(Target->GetActorLocation()-Origin).GetSafeNormal2D())<.15f)continue;
         FHitResult Wall; FCollisionQueryParams WallParams(SCENE_QUERY_STAT(DinoAttackWall),false,D); WallParams.AddIgnoredActor(Target);
         if(GetWorld()->LineTraceSingleByChannel(Wall,Origin,Target->GetActorLocation(),ECC_Visibility,WallParams))continue;
         HitActors.Add(Target);
@@ -75,7 +88,8 @@ void UCombatComponent::DetectHits()
             // A small pounce cannot repeatedly interrupt an apex animal's committed windup.
             const float MassRatio=FMath::Min(1.f,S.Radius/Target->Stats().Radius);
             if(MassRatio>=.65f)Target->Combat->bCharging=false;
-            Target->LaunchCharacter(CommitDirection*S.HeavyKnockback*MassRatio*(.5f+.5f*CurrentHeavyPower)+FVector(0,0,40*MassRatio),true,false);
+            const FVector ImpactDirection=D->Species==4||D->Species==5?(Target->GetActorLocation()-Origin).GetSafeNormal2D():CommitDirection;
+            Target->LaunchCharacter(ImpactDirection*S.HeavyKnockback*MassRatio*(.5f+.5f*CurrentHeavyPower)+FVector(0,0,40*MassRatio),true,false);
         }
         if(Applied>0)D->MulticastBlood(H.ImpactPoint.IsNearlyZero()?Target->GetActorLocation():FVector(H.ImpactPoint),D->GetActorForwardVector(),Applied);
     }
@@ -90,12 +104,13 @@ void UCombatComponent::TickComponent(float Dt,ELevelTick T,FActorComponentTickFu
     if(bChargedAttack&&IsBusy()&&AttackElapsed<D->Stats().HeavyDriveTime&&!bBracing)
     {
         auto* M=D->GetCharacterMovement();FVector V=CommitDirection*D->Stats().LungeSpeed*(.55f+.45f*CurrentHeavyPower)*(D->bSwimming?.45f:1.f);
+        if(D->Species==6)V*=FMath::Clamp(AttackElapsed/.30f,.15f,1.f);
         M->Velocity.X=V.X;M->Velocity.Y=V.Y;
     }
     if(bHitPending&&AttackElapsed>=HitTime)
     {
         DetectHits();
-        if(!bChargedAttack||AttackElapsed>=HitTime+.18f)
+        if((D->Species<4&&!bChargedAttack)||AttackElapsed>=HitTime+(D->Species>=4?.22f:.18f))
         {
             bHitPending=false;
             if(bChargedAttack&&HitActors.IsEmpty())RecoveryLeft+=D->Stats().HeavyMissRecovery;

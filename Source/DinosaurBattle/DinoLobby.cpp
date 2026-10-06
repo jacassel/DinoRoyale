@@ -53,7 +53,7 @@ void ADinoGameMode::LobbyAction(ADinoPlayerController* PC,uint8 Action,int32 Val
     switch(Action)
     {
     case 0:
-        if(Value<0||Value>2)return;
+        if(!FSpeciesData::IsPlayable(Value))return;
         PS->SelectedSpecies=Value;PS->bReady=false;
         if(auto* D=Cast<ADinosaurCharacter>(PC->GetPawn())){D->ApplySpecies(Value);D->ResetLife();}
         break;

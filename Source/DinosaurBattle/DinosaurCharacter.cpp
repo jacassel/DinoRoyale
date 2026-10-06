@@ -67,10 +67,11 @@ void ADinosaurCharacter::ApplySpecies(int32 ID)
 {
     Audio->ResetAudio();CancelPivot();
     const float OldHalf=GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-    Species=FMath::Clamp(ID,0,3); const auto& D=Stats();
+    Species=FMath::Clamp(ID,0,6); const auto& D=Stats();
     GetCapsuleComponent()->SetCapsuleSize(D.Radius,D.HalfHeight);
     if(HasAuthority()&&HasActorBegunPlay()) AddActorWorldOffset(FVector(0,0,D.HalfHeight-OldHalf+3),false);
     GetCharacterMovement()->MaxWalkSpeed=D.Speed; GetCharacterMovement()->MaxAcceleration=D.Acceleration;
+    GetCharacterMovement()->BrakingDecelerationWalking=D.Braking;GetCharacterMovement()->GroundFriction=D.GroundFriction;
     GetCharacterMovement()->RotationRate=FRotator(0,D.TurnRate,0); GetCharacterMovement()->JumpZVelocity=D.JumpVelocity;
     CameraBoom->TargetArmLength=D.CameraDistance; CameraBoom->SocketOffset=FVector(0,0,D.CameraHeight);
     Placeholder->SetRelativeScale3D(FVector(D.AttackRange/140.f,D.Radius/55.f,D.HalfHeight/80.f));
@@ -149,7 +150,7 @@ void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
         FVector Dir=(Attacker->GetActorLocation()-GetActorLocation()).GetSafeNormal2D();
         if(FVector::DotProduct(GetActorForwardVector(),Dir)>.25f){Stamina->Drain(Damage*Stats().BraceHitCost);Damage*=Stats().BraceMultiplier;if(Stamina->bExhausted)Combat->SetBrace(false);}
     }
-    float Applied=Health->Receive(Damage);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDamage(this,Attacker,Applied);
+    float Applied=Health->Receive(Damage*Stats().ArmorMultiplier);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDamage(this,Attacker,Applied);
     if(Health->IsDead())Die();else if(Applied>0)PlayCombatSound(6);
 }
 void ADinosaurCharacter::Die(){if(!HasAuthority())return;if(bDead)return;if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->RegisterDeath(this);bDead=true;DeathTime=0;PlayCombatSound(4);if(auto* Corpse=GetWorld()->SpawnActor<ADinosaurCarcass>())Corpse->Initialize(this);GetMesh()->SetHiddenInGame(true);Placeholder->SetHiddenInGame(true);Combat->Cancel();Food->StopEating();GetCharacterMovement()->StopMovementImmediately();GetCharacterMovement()->DisableMovement();GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);Placeholder->SetRelativeRotation(FRotator(0,0,75));if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->SynchronizePacks();}

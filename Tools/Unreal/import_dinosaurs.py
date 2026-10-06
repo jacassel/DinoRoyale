@@ -10,7 +10,7 @@ def mat(name,color,vertex=False,rough=.7):
     path='/Game/Materials/'+name
     m=unreal.load_asset(path)
     if m:
-        m.set_editor_property('used_with_skeletal_mesh',True);ML.recompile_material(m);LIB.save_loaded_asset(m);return m
+        return m  # Existing game materials already support skeletal meshes; preserve them.
     m=TOOLS.create_asset(name,'/Game/Materials',unreal.Material,unreal.MaterialFactoryNew())
     m.set_editor_property('used_with_skeletal_mesh',True)
     if vertex:

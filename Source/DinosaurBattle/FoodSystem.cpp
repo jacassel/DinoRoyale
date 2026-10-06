@@ -44,7 +44,7 @@ void AFoodPlant::Tick(float Dt)
     Super::Tick(Dt);if(HasAuthority()&&Nutrition<=0&&RegrowSeconds>0){RegrowTimer-=Dt;if(RegrowTimer<=0){Nutrition=MaximumNutrition;SetActorHiddenInGame(false);}}
     const auto* PC=GetWorld()->GetFirstPlayerController();
     const auto* Player=PC?Cast<ADinosaurCharacter>(PC->GetPawn()):nullptr;
-    Visual->SetRenderCustomDepth(IsAvailable()&&Player&&Player->Species==2&&!Player->bDead);
+    Visual->SetRenderCustomDepth(IsAvailable()&&Player&&Player->Stats().bHerbivore&&!Player->bDead);
 }
 ADinosaurCarcass::ADinosaurCarcass()
 {
@@ -94,7 +94,7 @@ AActor* UFoodInteractionComponent::FindFood(float Range) const
 {
     auto* D=Cast<ADinosaurCharacter>(GetOwner());if(!D||D->bDead)return nullptr;
     AActor* Best=nullptr;float BestDist=Range*Range;
-    if(D->Species==2)
+    if(D->Stats().bHerbivore)
     {
         for(TActorIterator<AFoodPlant> It(GetWorld());It;++It)
         {

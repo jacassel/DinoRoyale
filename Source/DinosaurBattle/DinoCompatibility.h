@@ -6,7 +6,7 @@
 // Keep DefaultEngine.ini's BuildIdOverride in sync (covered by automation).
 namespace DinoCompatibility
 {
-inline constexpr int32 Build = 2026100303;
+inline constexpr int32 Build = 2026100505;
 inline const FName Key(TEXT("DINO_BUILD"));
 struct FReadResult
 {

@@ -29,6 +29,7 @@ void UDinoAnimationComponent::LoadSpecies()
     D->CacheInitialMeshOffset(D->GetMesh()->GetRelativeLocation(),D->GetMesh()->GetRelativeRotation());
     D->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     D->GetMesh()->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+    if(D->Species>=4)D->GetMesh()->VisibilityBasedAnimTickOption=EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
     Clips.Empty();
     for(const TCHAR* N:{TEXT("Idle"),TEXT("PivotLeft"),TEXT("PivotRight"),TEXT("Walk"),TEXT("Run"),TEXT("Swim"),TEXT("Quick"),TEXT("Charge"),TEXT("Heavy"),TEXT("Jump"),TEXT("Brace"),TEXT("Death"),TEXT("Eat")})
     {
@@ -36,6 +37,8 @@ void UDinoAnimationComponent::LoadSpecies()
         FString A=Name+TEXT("_")+N;
         if(auto* Clip=LoadObject<UAnimSequence>(nullptr,*(TEXT("/Game/Dinosaurs/")+Name+TEXT("/")+A+TEXT(".")+A))) Clips.Add(N,Clip);
     }
+    if(D->Species>=4)for(const TCHAR* N:{TEXT("Quick2"),TEXT("Quick3"),TEXT("Hit")})
+    {FString A=Name+TEXT("_")+N;if(auto* Clip=LoadObject<UAnimSequence>(nullptr,*(TEXT("/Game/Dinosaurs/")+Name+TEXT("/")+A+TEXT(".")+A)))Clips.Add(N,Clip);}
     State=TEXT("");LastAttackSerial=-1;Play(TEXT("Idle"),true);
 }
 void UDinoAnimationComponent::Play(const FString& Clip,bool Loop,float Rate,bool Restart)
@@ -55,6 +58,7 @@ void UDinoAnimationComponent::TickComponent(float Dt,ELevelTick T,FActorComponen
     if(D->Combat->IsBusy())
     {
         FString N=D->Combat->bChargedAttack?TEXT("Heavy"):TEXT("Quick");
+        if(D->Species>=4&&!D->Combat->bChargedAttack&&D->Combat->ComboCount>1)N=FString::Printf(TEXT("Quick%d"),D->Combat->ComboCount);
         float Length=Clips.Contains(N)?Clips[N]->GetPlayLength():1;
         Play(N,false,Length/FMath::Max(.1f,D->Combat->AttackDuration),LastAttackSerial!=D->Combat->AttackSerial);
         LastAttackSerial=D->Combat->AttackSerial;return;
@@ -64,6 +68,6 @@ void UDinoAnimationComponent::TickComponent(float Dt,ELevelTick T,FActorComponen
     if(D->PivotVisual!=0){Play(D->PivotVisual<0?TEXT("PivotLeft"):TEXT("PivotRight"),true);return;}
     float Speed=D->GetVelocity().Size2D();
     if(Speed<35){Play(TEXT("Idle"),true);return;}
-    const float GaitSpeed=D->Species==1?1000:D->Species==2?540:D->Species==3?800:680;
+    const float GaitSpeed=D->Species>=4?D->Stats().GaitSpeed:D->Species==1?1000:D->Species==2?540:D->Species==3?800:680;
     Play(Speed>D->Stats().Speed*.45f?TEXT("Run"):TEXT("Walk"),true,FMath::Clamp(Speed/GaitSpeed,.4f,2.1f));
 }

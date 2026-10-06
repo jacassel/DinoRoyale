@@ -273,7 +273,7 @@ void ADinoPlayerController::ReadBridge()
     {
         FVector P=D->GetActorLocation()+D->GetActorForwardVector()*(D->Stats().AttackRange*.65f);
         P.Z=ALostValleyWorld::HeightAt(P.X,P.Y);
-        if(D->Species==2){if(auto* Plant=GetWorld()->SpawnActor<AFoodPlant>(P,FRotator::ZeroRotator))Plant->Tags.Add(TEXT("TestFood"));}
+        if(D->Stats().bHerbivore){if(auto* Plant=GetWorld()->SpawnActor<AFoodPlant>(P,FRotator::ZeroRotator))Plant->Tags.Add(TEXT("TestFood"));}
         else
         {
             FActorSpawnParameters S;S.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -487,6 +487,9 @@ void ADinoPlayerController::WriteTelemetry()
     O->SetNumberField(TEXT("audioSprintBreaths"),D->Audio->SprintBreaths);O->SetNumberField(TEXT("audioInjuredBreaths"),D->Audio->InjuredBreaths);O->SetNumberField(TEXT("audioLoadedClips"),D->Audio->LoadedClips);
     int32 AudioTotal=0;for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->Audio)AudioTotal+=It->Audio->ActiveVoices();O->SetNumberField(TEXT("audioTotalVoices"),AudioTotal);
     O->SetNumberField(TEXT("species"),D->Species);O->SetNumberField(TEXT("health"),D->Health->Current);O->SetNumberField(TEXT("maxHealth"),D->Health->Maximum);
+    TArray<TSharedPtr<FJsonValue>> Contacts;
+    for(const FName Bone:{FName(TEXT("club_tip")),FName(TEXT("head_impact")),FName(TEXT("stomp_l")),FName(TEXT("stomp_r"))})if(D->GetMesh()->DoesSocketExist(Bone))
+    {const FVector P=D->GetMesh()->GetSocketLocation(Bone);auto C=MakeShared<FJsonObject>();C->SetStringField(TEXT("bone"),Bone.ToString());C->SetNumberField(TEXT("x"),P.X);C->SetNumberField(TEXT("y"),P.Y);C->SetNumberField(TEXT("z"),P.Z);Contacts.Add(MakeShared<FJsonValueObject>(C));}O->SetArrayField(TEXT("attackContacts"),Contacts);
     FVector L=D->GetActorLocation();O->SetNumberField(TEXT("x"),L.X);O->SetNumberField(TEXT("y"),L.Y);O->SetNumberField(TEXT("z"),L.Z);
     O->SetNumberField(TEXT("pivot"),D->PivotVisual);O->SetNumberField(TEXT("pivotInput"),D->PivotInput);O->SetNumberField(TEXT("speed"),D->GetVelocity().Size2D());O->SetNumberField(TEXT("maxSpeed"),D->GetCharacterMovement()->MaxWalkSpeed);
     O->SetBoolField(TEXT("keyW"),IsInputKeyDown(EKeys::W));O->SetBoolField(TEXT("ignoreMove"),IsMoveInputIgnored());

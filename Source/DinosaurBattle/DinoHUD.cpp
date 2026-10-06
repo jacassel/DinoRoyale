@@ -98,7 +98,7 @@ void ADinoHUD::DrawHUD()
     else if(!D->bDead&&D->Food->FindFood(D->Stats().AttackRange+260))
     {
         Panel(W*.5f-205*S,H-176*S,410*S,66*S);
-        Text(D->Food->bEating?TEXT("FEEDING  +HEALTH / STAMINA / HUNGER"):D->Species==2?TEXT("HOLD F - EAT VEGETATION"):TEXT("HOLD F - FEED ON CARCASS"),W*.5f-185*S,H-164*S,.76f,Teal);
+        Text(D->Food->bEating?TEXT("FEEDING  +HEALTH / STAMINA / HUNGER"):D->Stats().bHerbivore?TEXT("HOLD F - EAT VEGETATION"):TEXT("HOLD F - FEED ON CARCASS"),W*.5f-185*S,H-164*S,.76f,Teal);
         AActor* Meal=D->Food->FindFood(D->Stats().AttackRange+260);float Remaining=0;
         if(auto* Plant=Cast<AFoodPlant>(Meal))Remaining=Plant->Nutrition;else if(auto* Corpse=Cast<ADinosaurCarcass>(Meal))Remaining=Corpse->Nutrition;
         Text(FString::Printf(TEXT("%.0f food remaining"),Remaining),W*.5f-185*S,H-138*S,.7f,Muted);

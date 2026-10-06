@@ -1,7 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 
-/** All balance values are read from [Dino.Trex/Raptor/Trike/Prey] in DefaultGame.ini. */
+/** Stable species IDs: prey stays 3; new playable animals append at 4..6. */
 struct FSpeciesData
 {
     FString Name, AssetName;
@@ -23,6 +23,11 @@ struct FSpeciesData
     float FoodUnits=360,EatUnitsPerSecond=30,EatHungerRate=18;
     float SightRange=10000,NoiseRevealDuration=6;
     float PivotRate=95;
+    float Braking=2600,GroundFriction=7,ArmorMultiplier=1,GaitSpeed=680;
+    bool bHerbivore=false;
+    static constexpr int32 PlayableCount=6;
+    static int32 PlayableID(int32 Slot){const int32 IDs[]={0,1,2,4,5,6};return IDs[FMath::Clamp(Slot,0,5)];}
+    static bool IsPlayable(int32 ID){return ID>=0&&ID<=6&&ID!=3;}
     FLinearColor Color=FLinearColor(.27f,.35f,.19f);
     static const FSpeciesData& Get(int32 Species);
 };

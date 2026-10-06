@@ -38,6 +38,8 @@ public:
 private:
     bool bHitPending=false;
     float PendingDamage=0,HitTime=0;
+    FVector PreviousContact=FVector::ZeroVector;
+    bool bHasContact=false;
     ADinosaurCharacter* Dino() const;
     void Execute(bool Charged,float Power);
     void DetectHits();
