@@ -1,0 +1,237 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "all six species represented for player=0 teams=False",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=1 teams=False",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=2 teams=False",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=4 teams=False",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=5 teams=False",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=6 teams=False",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=0 teams=True",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=1 teams=True",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=2 teams=True",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=4 teams=True",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=5 teams=True",
+      "status": "PASS"
+    },
+    {
+      "test": "all six species represented for player=6 teams=True",
+      "status": "PASS"
+    },
+    {
+      "test": "1 AI pack one leader two followers teams=False player=0",
+      "status": "PASS"
+    },
+    {
+      "test": "6 AI pack one leader two followers teams=False player=0",
+      "status": "PASS"
+    },
+    {
+      "test": "1 player pack has exactly two followers teams=False",
+      "status": "PASS",
+      "members": [
+        4,
+        5
+      ]
+    },
+    {
+      "test": "6 AI pack one leader two followers teams=False player=1",
+      "status": "PASS"
+    },
+    {
+      "test": "6 player pack has exactly two followers teams=False",
+      "status": "PASS",
+      "members": [
+        7,
+        8
+      ]
+    },
+    {
+      "test": "1 AI pack one leader two followers teams=False player=6",
+      "status": "PASS"
+    },
+    {
+      "test": "1 AI pack one leader two followers teams=True player=0",
+      "status": "PASS"
+    },
+    {
+      "test": "6 AI pack one leader two followers teams=True player=0",
+      "status": "PASS"
+    },
+    {
+      "test": "1 player pack has exactly two followers teams=True",
+      "status": "PASS",
+      "members": [
+        2,
+        3
+      ]
+    },
+    {
+      "test": "6 AI pack one leader two followers teams=True player=1",
+      "status": "PASS"
+    },
+    {
+      "test": "6 player pack has exactly two followers teams=True",
+      "status": "PASS",
+      "members": [
+        1,
+        2
+      ]
+    },
+    {
+      "test": "1 AI pack one leader two followers teams=True player=6",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy followers excluded from leaderboard",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy follower kill credits player leader",
+      "status": "PASS"
+    },
+    {
+      "test": "Pachy follower death awards no opponent point",
+      "status": "PASS"
+    },
+    {
+      "test": "P opens live leaderboard",
+      "status": "PASS"
+    },
+    {
+      "test": "leaderboard does not pause match",
+      "status": "PASS"
+    },
+    {
+      "test": "P closes leaderboard",
+      "status": "PASS"
+    },
+    {
+      "test": "four actual kills below FFA threshold",
+      "status": "PASS"
+    },
+    {
+      "test": "two assists add one FFA point and can win",
+      "status": "PASS"
+    },
+    {
+      "test": "points leader sorted first",
+      "status": "PASS"
+    },
+    {
+      "test": "two pooled assists carry remainder without point",
+      "status": "PASS"
+    },
+    {
+      "test": "three assists pooled across players win at ten team points",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA leaderboard hidden in team mode",
+      "status": "PASS"
+    },
+    {
+      "test": "new round resets pooled assists",
+      "status": "PASS"
+    },
+    {
+      "test": "18 edible trees remain performance=False",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi highlights trees only performance=False",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi browses world tree performance=False",
+      "status": "PASS",
+      "hunger": 67.45755004882812
+    },
+    {
+      "test": "18 edible trees remain performance=True",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi highlights trees only performance=True",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi browses world tree performance=True",
+      "status": "PASS",
+      "hunger": 67.71178436279297
+    },
+    {
+      "test": "2 highlights shrubs only",
+      "status": "PASS"
+    },
+    {
+      "test": "2 eats shared shrubs",
+      "status": "PASS"
+    },
+    {
+      "test": "4 highlights shrubs only",
+      "status": "PASS"
+    },
+    {
+      "test": "4 eats shared shrubs",
+      "status": "PASS"
+    },
+    {
+      "test": "6 highlights shrubs only",
+      "status": "PASS"
+    },
+    {
+      "test": "6 eats shared shrubs",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi rejects nearby shrub",
+      "status": "PASS"
+    },
+    {
+      "test": "consumed tree retains trunk but hides edible canopy",
+      "status": "PASS",
+      "food": 0
+    },
+    {
+      "test": "Pachy rejects trees",
+      "status": "PASS"
+    }
+  ]
+}

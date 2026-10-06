@@ -1,0 +1,24 @@
+[
+  {
+    "performance": false,
+    "teams": false,
+    "playerSpecies": 4,
+    "seconds": 180.61954190954566,
+    "samples": 209,
+    "species": [
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "hits": 129,
+    "maxStallSamples": 1,
+    "playerDeaths": 5,
+    "corpses": 12,
+    "maxCorpses": 12,
+    "failedPaths": 0,
+    "belowTerrain": false,
+    "trees": 18
+  }
+]

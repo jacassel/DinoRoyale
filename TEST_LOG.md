@@ -1,5 +1,18 @@
 # Test log
 
+## Version 0.5 final gameplay acceptance, October 6, 2026
+
+- Selected regression evidence: **845/845 checks across 30 suites**, with retries and wrappers excluded. The precise accepted paths are in `Tests/Results/roster05/acceptance-summary.json`. Two additional Unreal automation tests pass 32 compatibility/EOS-URL assertions.
+- Final package Candidate 7 repeats new-species survival (48), Anky controls (15), sound banks/mixer (30), combos (20), offline roster/scoring/diets (52), and three-process roster/combat/scoring (32). Other unchanged systems retain their individually identified earlier-candidate coverage.
+- Completed balance studies contain **93 AI bouts**: initial 24, complete two-repeat solo/natural-pack matrix 48, bounded Anky positioning 14, and final armor trial 7. The final Anky incoming-damage multiplier is 0.60. It survived longer in focused samples but still lost resolved duels; human balance is not established. See VERSION05_BALANCE_REPORT.md.
+- Four rendered three-minute endurance scenarios cover both map variants and both match modes. All six species and 18 edible trees remained present, with zero failed paths, no below-terrain living actors and at most two consecutive stalled samples. Session carcasses reached 61. Hit counters are cumulative, not independent totals to sum.
+- Final 1080p, 100% resolution, uncapped RTX 3060 samples: Standard plains/forest/pond **131.4/128.1/143.4 FPS**; Performance **148.4/162.0/158.3 FPS**. Each scene sampled twenty seconds with one running game process. The shipped 60 FPS cap is unchanged. Thread/GPU timing telemetry was unavailable; see VERSION05_TEST_REPORT.md for method and limits.
+- Test-discovered fixes include Anky grounding, anatomical AI aiming, large-body clearance, actual combo-reset timing, Brachi heavy foot origins, bounded spacing and all-six-species offline rosters for every selection. Late combo buffering, team-friendly-fire fixtures, lobby Ready synchronization and background audio muting were corrected in the harness where gameplay was already behaving correctly.
+- Editor compilation and Windows packaging succeeded. Final runtime SHA256: `8d4e912c2b7d488cc348e151e85adaef6ab0dd57251774f8e3df836fa671f1ef`. The last config change caused a rebuild; Candidate 7 is not byte-identical to Candidate 6.
+- The actual owner-supplied OnlineServices.ini is preserved locally. Public artifacts exclude configured credentials and Saved caches. Prior WAN play remains owner-confirmed; current local processes and injected delay/loss are separate regression evidence.
+- Windows Security displayed the requested network-permission dialog. It was left for the owner to handle, with no security changes. Rendered mapped-input checks and screenshot review continued; native foreground acceptance was limited by that prompt. Sound levels/events were verified but not directly listened to.
+- Prior 0.3 and QA2 packages and recovery checkpoints remain intact. The owner's Trex.blend edit remains untouched and unstaged. Account allowance at release preparation: 59% remaining, no Astra-specific allowance exposed; no purchases, resets or delegation.
+
 ## Version 0.5 development checkpoint, October 6, 2026
 
 - In progress on `codex/dino-royale-0.5`; the 0.3 playable release and source recovery are preserved. No 0.5 release has been promoted at this checkpoint.

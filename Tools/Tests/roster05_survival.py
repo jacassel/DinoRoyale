@@ -4,13 +4,13 @@ from net_harness import NetworkTest,Peer,wait_for
 p=argparse.ArgumentParser();p.add_argument('--executable');p.add_argument('--output',default='Tests/Results/roster05/survival');a=p.parse_args()
 t=NetworkTest(a.output,executable=a.executable,rendered=True);t.render_size=(1280,720)
 try:
- h=Peer(t,'RosterSurvival','/Game/Maps/LostValley');h.command('menu',open=False);h.command('ai',paused=True);h.command('sandbox',enabled=True)
+ h=Peer(t,'RosterSurvival','/Game/Maps/LostValley');h.command('match',teams=False);h.command('menu',open=False);h.command('ai',paused=True);h.command('sandbox',enabled=True)
  def blood(enabled):
   h.command('menu',open=True)
   if not h.state()['settingsOpen']:h.tap('F2')
   if h.state()['bloodEnabled']!=enabled:h.tap('B')
   h.command('menu',open=False);time.sleep(.2)
- for species,armor,brace in [(4,.78,.10),(5,.9,.17),(6,1,.25)]:
+ for species,armor,brace in [(4,.60,.10),(5,.9,.17),(6,1,.25)]:
   h.command('removeTarget');h.command('species',value=species);h.command('face',yaw=0);time.sleep(.8)
   base=h.state();h.key('MouseX','axis');time.sleep(.1)
   h.command('target');h.key('LeftControl');wait_for(lambda:h.state()['brace'],2)

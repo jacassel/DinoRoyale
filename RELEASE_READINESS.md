@@ -1,3 +1,14 @@
+# Version 0.5 development release
+
+The owner confirms successful prior multiplayer across multiple networks. Version
+0.5 preserves that implementation and expands the playable roster and scoring.
+See VERSION05_RELEASE_NOTES.md, VERSION05_TEST_REPORT.md and TEST_LOG.md for the
+current release. The historical college/Steam planning below does not override
+the authorized Version 0.5 development and GitHub publication. No purchases or
+Steam integration are part of this update.
+
+---
+
 # Dino Royale: Epic playtest and optional Steam readiness
 
 **October 4, 2026 update:** official game branding is Dino Royale. Version 0.3

@@ -1,0 +1,34 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "4 frontal armor and brace",
+      "status": "PASS"
+    },
+    {
+      "test": "4 rear bypasses directional brace but retains armor",
+      "status": "PASS"
+    },
+    {
+      "test": "4 exhausted sprint jump heavy blocked",
+      "status": "PASS"
+    },
+    {
+      "test": "4 exhausted quick remains weak",
+      "status": "PASS"
+    },
+    {
+      "test": "4 stamina recovers from exhaustion",
+      "status": "PASS"
+    },
+    {
+      "test": "4 injured movement slows",
+      "status": "FAIL"
+    }
+  ]
+}

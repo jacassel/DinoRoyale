@@ -1,0 +1,62 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "One selects correct species and closes menu",
+      "status": "PASS"
+    },
+    {
+      "test": "Two selects correct species and closes menu",
+      "status": "PASS"
+    },
+    {
+      "test": "Three selects correct species and closes menu",
+      "status": "PASS"
+    },
+    {
+      "test": "Four selects correct species and closes menu",
+      "status": "PASS"
+    },
+    {
+      "test": "Five selects correct species and closes menu",
+      "status": "PASS"
+    },
+    {
+      "test": "Six selects correct species and closes menu",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 0",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 1",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 2",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 4",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 5",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 6",
+      "status": "PASS"
+    },
+    {
+      "test": "P shows live AI leader",
+      "status": "PASS"
+    }
+  ]
+}

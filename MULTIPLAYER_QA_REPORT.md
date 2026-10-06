@@ -1,3 +1,15 @@
+# Version 0.5 multiplayer status
+
+The owner confirms successful prior-release multiplayer across multiple different
+networks. Version 0.5 preserves EOS and the configured service identity, with
+compatibility **2026100505** for the expanded roster and assist scoring.
+The actual owner-supplied OnlineServices.ini is installed locally unchanged.
+Current regression evidence and precise limits are in VERSION05_TEST_REPORT.md.
+The older reports below are historical and do not override the owner's subsequent
+confirmation of working cross-network multiplayer.
+
+---
+
 # Dino Royale 0.3 multiplayer verification — October 4, 2026
 
 The owner reports successful real multiplayer with the prior release. This update

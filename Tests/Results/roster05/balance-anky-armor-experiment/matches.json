@@ -1,0 +1,44 @@
+[
+  {
+    "key": "0-4-False-False-0",
+    "seed": 5504,
+    "opponent": 0,
+    "challenger": 4,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 0,
+    "winner": "0",
+    "seconds": 16.43,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 705.2,
+        "hits": 10,
+        "attacks": 10,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 4,
+        "health": 0,
+        "hits": 3,
+        "attacks": 4,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Pursuing",
+      "Repositioning",
+      "Roaming",
+      "Seeking food"
+    ]
+  }
+]

@@ -4,7 +4,7 @@ from net_harness import NetworkTest,Peer,wait_for
 p=argparse.ArgumentParser();p.add_argument('--executable');p.add_argument('--output',default='Tests/Results/roster05/combos');a=p.parse_args()
 t=NetworkTest(a.output,executable=a.executable,rendered=True)
 try:
- h=Peer(t,'RosterCombos','/Game/Maps/LostValley');h.command('ai',paused=True);h.command('sandbox',enabled=True)
+ h=Peer(t,'RosterCombos','/Game/Maps/LostValley');h.command('match',teams=False);h.command('ai',paused=True);h.command('sandbox',enabled=True)
  for species,positions in [(4,[(-440,250),(-440,-250),(0,250)]),(5,[(320,120),(-660,320),(320,-120)]),(6,[(290,0)]*3)]:
   h.command('species',value=species);h.command('teleport',x=0,y=0);h.command('face',yaw=0);time.sleep(.6)
   for combo,(x,y) in enumerate(positions,1):

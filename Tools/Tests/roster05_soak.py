@@ -5,7 +5,7 @@ p=argparse.ArgumentParser();p.add_argument('--executable',required=True);p.add_a
 t=NetworkTest(a.output,executable=a.executable,rendered=True);t.render_size=(1920,1080);t.audio=True
 reports=[]
 try:
- h=Peer(t,'RosterSoak','/Game/Maps/LostValley')
+ h=Peer(t,'RosterSoak','/Game/Maps/LostValley');h.command('menu',open=False)
  def shot(name):
   folder=t.bridge_root.parent/'Screenshots/Windows';before=set(folder.glob('*.png'));h.command('screenshot');end=time.monotonic()+10
   while time.monotonic()<end:

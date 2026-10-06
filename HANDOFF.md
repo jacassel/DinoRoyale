@@ -1,3 +1,32 @@
+# Dino Royale Version 0.5 checkpoint - October 6, 2026
+
+The six-species update is built and its release acceptance is passing. Source is
+on `codex/dino-royale-0.5`. Final candidate is `Dist/Releases/DinoRoyale-0.5-Candidate7/Windows`.
+The sealed release, independent playable recovery and GitHub publication records
+will be recorded in `Tests/Results/roster05/release` when publication completes.
+
+Launch: `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
+The launcher prefers `Dist/Releases/DinoRoyale-0.5/Windows` once that verified
+folder exists, with the prior 0.3 and friends packages preserved as fallbacks.
+The actual owner-supplied OnlineServices.ini is installed locally, unchanged;
+public artifacts exclude its configured values and Saved authentication caches.
+
+See VERSION05_RELEASE_NOTES.md, VERSION05_TEST_REPORT.md and
+VERSION05_BALANCE_REPORT.md for the final features, test method and limits.
+The Windows Security permission prompt was shown and left for the owner to
+handle. No security settings were changed. Native foreground review remains
+limited until that prompt is dismissed. Prior cross-network play is owner
+confirmed; current separate-process tests add local regression evidence.
+
+The owner's pre-existing Trex.blend edit is preserved and must remain unstaged.
+Source recovery from before this update is in
+`Dist/Checkpoints/Before-0.5-20261005/source.bundle`.
+No purchases, credits or subagents were used.
+
+---
+
+## Historical Version 0.3 checkpoint
+
 # Dino Royale 0.3 Alpha Test — public release checkpoint, October 4, 2026
 
 The update is built, locally tested, packaged and published publicly at

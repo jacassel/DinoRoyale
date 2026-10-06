@@ -1,0 +1,34 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 75,
+  "lossPercent": 2,
+  "tests": [
+    {
+      "test": "two human packs each have two replicated followers with bots off",
+      "status": "PASS"
+    },
+    {
+      "test": "followers do not consume participant slots",
+      "status": "PASS"
+    },
+    {
+      "test": "only pack leaders are scoring targets",
+      "status": "PASS"
+    },
+    {
+      "test": "each local leader sees same-species followers as allies",
+      "status": "PASS"
+    },
+    {
+      "test": "different FFA packs remain enemies",
+      "status": "PASS"
+    },
+    {
+      "test": "both packs survive match start without duplicates",
+      "status": "FAIL"
+    }
+  ]
+}

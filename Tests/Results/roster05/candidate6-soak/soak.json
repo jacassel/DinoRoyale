@@ -1,0 +1,94 @@
+[
+  {
+    "performance": false,
+    "teams": false,
+    "playerSpecies": 4,
+    "seconds": 180.35918320342898,
+    "samples": 209,
+    "species": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "hits": 216,
+    "maxStallSamples": 1,
+    "playerDeaths": 3,
+    "corpses": 19,
+    "maxCorpses": 19,
+    "failedPaths": 0,
+    "belowTerrain": false,
+    "trees": 18
+  },
+  {
+    "performance": true,
+    "teams": false,
+    "playerSpecies": 5,
+    "seconds": 180.42895660549402,
+    "samples": 207,
+    "species": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "hits": 437,
+    "maxStallSamples": 1,
+    "playerDeaths": 1,
+    "corpses": 39,
+    "maxCorpses": 39,
+    "failedPaths": 0,
+    "belowTerrain": false,
+    "trees": 18
+  },
+  {
+    "performance": false,
+    "teams": true,
+    "playerSpecies": 6,
+    "seconds": 180.7336219996214,
+    "samples": 206,
+    "species": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "hits": 608,
+    "maxStallSamples": 2,
+    "playerDeaths": 0,
+    "corpses": 50,
+    "maxCorpses": 50,
+    "failedPaths": 0,
+    "belowTerrain": false,
+    "trees": 18
+  },
+  {
+    "performance": true,
+    "teams": true,
+    "playerSpecies": 0,
+    "seconds": 180.04916180297732,
+    "samples": 207,
+    "species": [
+      0,
+      1,
+      2,
+      4,
+      5,
+      6
+    ],
+    "hits": 732,
+    "maxStallSamples": 2,
+    "playerDeaths": 3,
+    "corpses": 61,
+    "maxCorpses": 61,
+    "failedPaths": 0,
+    "belowTerrain": false,
+    "trees": 18
+  }
+]

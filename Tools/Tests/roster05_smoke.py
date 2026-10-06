@@ -5,6 +5,7 @@ p=argparse.ArgumentParser();p.add_argument('--species',type=int,default=4);p.add
 t=NetworkTest(a.output,executable=a.executable,rendered=True);t.render_size=(1280,720)
 try:
     h=Peer(t,'Roster05', '/Game/Maps/LostValley')
+    h.command('match',teams=False)
     h.command('ai',paused=True);h.command('sandbox',enabled=True);h.command('species',value=a.species);h.command('face',yaw=0)
     time.sleep(1);s=h.state();t.check('species loads with health and stamina',s['species']==a.species and s['health']==s['maxHealth'] and s['maxStamina']>0,species=s['species'],health=s['health'])
     for key,axis,sign in [('W','x',1),('S','x',-1),('A','y',-1),('D','y',1)]:

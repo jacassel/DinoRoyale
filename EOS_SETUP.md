@@ -81,7 +81,7 @@ leaving and rejoining. Try both FFA and Team Battle, bots on and off.
 Record both build numbers, network arrangement, session visibility, actions and
 result. Preserve both game logs from `DinosaurBattle/Saved/Logs` for diagnosis;
 review logs for account identifiers or tokens before sharing them publicly.
-Different-network connectivity must remain NOT VERIFIED until this test passes.
+The owner has confirmed successful multiplayer across different networks on the prior release. For a fresh version-specific internet regression, record the build and results separately from local loopback checks.
 
 ## Troubleshooting
 

@@ -1,0 +1,122 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 3,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "lobby species 0 replicates to three peers",
+      "status": "PASS"
+    },
+    {
+      "test": "lobby species 1 replicates to three peers",
+      "status": "PASS"
+    },
+    {
+      "test": "lobby species 2 replicates to three peers",
+      "status": "PASS"
+    },
+    {
+      "test": "lobby species 4 replicates to three peers",
+      "status": "PASS"
+    },
+    {
+      "test": "lobby species 5 replicates to three peers",
+      "status": "PASS"
+    },
+    {
+      "test": "lobby species 6 replicates to three peers",
+      "status": "PASS"
+    },
+    {
+      "test": "all three new species start together",
+      "status": "PASS"
+    },
+    {
+      "test": "remote Pachy leader owns exactly two followers",
+      "status": "PASS"
+    },
+    {
+      "test": "4 client anatomical quick hits on server",
+      "status": "PASS"
+    },
+    {
+      "test": "4 damaged health replicates to observer",
+      "status": "PASS"
+    },
+    {
+      "test": "4 client heavy hits authoritatively",
+      "status": "PASS"
+    },
+    {
+      "test": "4 swimming replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "4 remote swim moves and converges",
+      "status": "PASS"
+    },
+    {
+      "test": "4 critical health rejects remote charge",
+      "status": "PASS"
+    },
+    {
+      "test": "5 client anatomical quick hits on server",
+      "status": "PASS"
+    },
+    {
+      "test": "5 damaged health replicates to observer",
+      "status": "PASS"
+    },
+    {
+      "test": "5 client heavy hits authoritatively",
+      "status": "PASS"
+    },
+    {
+      "test": "5 swimming replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "5 remote swim moves and converges",
+      "status": "PASS"
+    },
+    {
+      "test": "5 critical health rejects remote charge",
+      "status": "PASS"
+    },
+    {
+      "test": "6 client anatomical quick hits on server",
+      "status": "PASS"
+    },
+    {
+      "test": "6 damaged health replicates to observer",
+      "status": "PASS"
+    },
+    {
+      "test": "6 client heavy hits authoritatively",
+      "status": "PASS"
+    },
+    {
+      "test": "6 swimming replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "6 remote swim moves and converges",
+      "status": "PASS"
+    },
+    {
+      "test": "6 critical health rejects remote charge",
+      "status": "PASS"
+    },
+    {
+      "test": "performance mode keeps remote browse trees and species-specific outlines",
+      "status": "PASS"
+    },
+    {
+      "test": "remote Brachi restores hunger from tree",
+      "status": "PASS"
+    }
+  ]
+}

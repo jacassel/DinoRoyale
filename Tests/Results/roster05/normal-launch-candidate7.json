@@ -1,0 +1,8 @@
+{
+  "candidate": "DinoRoyale-0.5-Candidate7",
+  "launch": "normal Windows bootstrap via Computer Use, no development bridge flags",
+  "observed": "Version 0.5 selection screen with all six species; Windows Security network-permission dialog overlays it",
+  "nativeInputReview": "blocked by permission dialog; left for owner to handle",
+  "securitySettingsChanged": false,
+  "automatedAcceptance": "845/845 checks, complete"
+}

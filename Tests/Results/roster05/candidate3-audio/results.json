@@ -1,0 +1,52 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "Anky six complete sound banks loaded",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky footsteps",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky sprint breath",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky unique quick and contact sounds play",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky charge and heavy play once",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky hurt and injured breathing",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky death voice fires once",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky death voice ends",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky mixer recording written",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky recorded mix audible and unclipped",
+      "status": "FAIL",
+      "peak": 0.0,
+      "rms": 0.0
+    }
+  ]
+}

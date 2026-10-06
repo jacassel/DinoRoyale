@@ -1,12 +1,12 @@
-# Dino Royale — Version 0.3 Alpha Test quickstart
+# Dino Royale — Version 0.5 quickstart
 
-Use **DinoRoyale-0.3-Alpha-Test** on BOTH PCs. Compatibility is **2026100303**;
-0.2 clients cannot join 0.3 matches. Keep the previous working installation.
+Use **DinoRoyale-0.5** on BOTH PCs. Compatibility is **2026100505**;
+Older clients cannot join 0.5 matches. Keep the previous working installation.
 
-1. Extract the complete 0.3 ZIP into a NEW folder.
+1. Extract the complete 0.5 ZIP into a NEW folder.
 2. Copy your existing configured `OnlineServices.ini` into
    `Windows/DinosaurBattle/OnlineServices.ini` on each PC. Do not edit its values.
-   Configured credentials are deliberately absent from the 0.3 ZIP;
+   Configured credentials are deliberately absent from the 0.5 ZIP;
    `OnlineServices.example.ini` remains available as a reference.
 3. Run `Windows/Play Dino Royale.bat` (or `DinosaurBattle.exe`). Press **F4**,
    then sign in with different authorized Epic accounts on the two PCs.
@@ -41,12 +41,12 @@ stay empty. The 5v5 preset restores the balanced roster.
 
 Performance keeps the same terrain, water, rocks, edible plants and match
 rules while removing decorative trees and grass. The host's choice applies to
-everyone. Raptors remain packs; only the leader counts toward the kill goal.
-FFA ends at five kills and Team Battle at ten. Respawn takes ten seconds;
+everyone. Raptors and Pachys have one leader and two followers; only the leader awards a scoring kill. Eighteen edible trees remain in Performance mode for Brachiosaurus.
+FFA ends at five points (kill + two-assist bonuses); Team Battle at ten points (kill + bonuses for every three assists pooled across the team). P opens live FFA standings, and the leader appears at the top of the HUD. Respawn takes ten seconds;
 the old carcass remains food.
 
 During your next two-PC playtest, check mutual pivots, grounded remote dinosaurs,
 swimming and carcass placement on both screens. Try both maps and an uneven team
-match. The owner reports the prior release worked in real multiplayer; 0.3 local
+match. The owner confirms successful multiplayer across different networks on the prior release; 0.5 local
 loopback tests do not verify a fresh internet session. See BUILD_INFO.txt,
 MULTIPLAYER_QA_REPORT.md and KNOWN_ISSUES.md for evidence and limitations.

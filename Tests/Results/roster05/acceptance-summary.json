@@ -1,0 +1,247 @@
+{
+  "total": 845,
+  "passed": 845,
+  "complete": true,
+  "suites": [
+    {
+      "suite": "Original controls",
+      "path": "core-original-three/runtime_core/core-live.json",
+      "total": 90,
+      "expected": 90,
+      "passed": 90,
+      "allPassed": true
+    },
+    {
+      "suite": "Original match rules",
+      "path": "extended-regression/runtime_matches/match-rules.json",
+      "total": 24,
+      "expected": 24,
+      "passed": 24,
+      "allPassed": true
+    },
+    {
+      "suite": "Original swimming",
+      "path": "extended-regression/runtime_swimming/swimming.json",
+      "total": 40,
+      "expected": 40,
+      "passed": 40,
+      "allPassed": true
+    },
+    {
+      "suite": "Original ecology",
+      "path": "extended-regression/runtime_ecology/ecology-visibility.json",
+      "total": 42,
+      "expected": 42,
+      "passed": 42,
+      "allPassed": true
+    },
+    {
+      "suite": "Original settings",
+      "path": "extended-regression/runtime_settings/settings-water-blood.json",
+      "total": 28,
+      "expected": 28,
+      "passed": 28,
+      "allPassed": true
+    },
+    {
+      "suite": "Original combat",
+      "path": "candidate1-combat-regression/runtime_combat_polish/combat-polish.json",
+      "total": 69,
+      "expected": 69,
+      "passed": 69,
+      "allPassed": true
+    },
+    {
+      "suite": "Original integration",
+      "path": "candidate1-combat-regression/runtime_integration/integration-live.json",
+      "total": 41,
+      "expected": 41,
+      "passed": 41,
+      "allPassed": true
+    },
+    {
+      "suite": "Original safe respawn",
+      "path": "candidate1-combat-regression/runtime_safe_respawn/safe-respawn.json",
+      "total": 3,
+      "expected": 3,
+      "passed": 3,
+      "allPassed": true
+    },
+    {
+      "suite": "Full mixed matches",
+      "path": "candidate1-combat-regression/runtime_rounds/played-rounds.json",
+      "total": 2,
+      "expected": 2,
+      "passed": 2,
+      "allPassed": true
+    },
+    {
+      "suite": "Anky packaged controls",
+      "path": "candidate7-anky-controls/results.json",
+      "total": 15,
+      "expected": 15,
+      "passed": 15,
+      "allPassed": true
+    },
+    {
+      "suite": "Brachi packaged controls",
+      "path": "candidate6-smoke-ffa-5/results.json",
+      "total": 15,
+      "expected": 15,
+      "passed": 15,
+      "allPassed": true
+    },
+    {
+      "suite": "Pachy packaged controls",
+      "path": "candidate6-smoke-ffa-6/results.json",
+      "total": 15,
+      "expected": 15,
+      "passed": 15,
+      "allPassed": true
+    },
+    {
+      "suite": "New combos",
+      "path": "candidate7-combos/results.json",
+      "total": 20,
+      "expected": 20,
+      "passed": 20,
+      "allPassed": true
+    },
+    {
+      "suite": "New rules",
+      "path": "candidate7-rules/results.json",
+      "total": 52,
+      "expected": 52,
+      "passed": 52,
+      "allPassed": true
+    },
+    {
+      "suite": "New survival",
+      "path": "candidate7-survival/results.json",
+      "total": 48,
+      "expected": 48,
+      "passed": 48,
+      "allPassed": true
+    },
+    {
+      "suite": "Selection and HUD",
+      "path": "candidate3-ui/results.json",
+      "total": 13,
+      "expected": 13,
+      "passed": 13,
+      "allPassed": true
+    },
+    {
+      "suite": "Packaged audio",
+      "path": "candidate7-audio/results.json",
+      "total": 30,
+      "expected": 30,
+      "passed": 30,
+      "allPassed": true
+    },
+    {
+      "suite": "Tree regrowth",
+      "path": "candidate1-tree-regrowth/results.json",
+      "total": 4,
+      "expected": 4,
+      "passed": 4,
+      "allPassed": true
+    },
+    {
+      "suite": "New roster network",
+      "path": "candidate7-network/results.json",
+      "total": 32,
+      "expected": 32,
+      "passed": 32,
+      "allPassed": true
+    },
+    {
+      "suite": "Pachy packs with loss",
+      "path": "candidate3-pachy-packs/results.json",
+      "total": 21,
+      "expected": 21,
+      "passed": 21,
+      "allPassed": true
+    },
+    {
+      "suite": "Raptor packs with loss",
+      "path": "candidate3-raptor-packs-ready-sync/results.json",
+      "total": 22,
+      "expected": 22,
+      "passed": 22,
+      "allPassed": true
+    },
+    {
+      "suite": "Network fundamentals with loss",
+      "path": "candidate3-fundamentals/results.json",
+      "total": 24,
+      "expected": 24,
+      "passed": 24,
+      "allPassed": true
+    },
+    {
+      "suite": "Network combat",
+      "path": "candidate1-existing-network/combat/results.json",
+      "total": 39,
+      "expected": 39,
+      "passed": 39,
+      "allPassed": true
+    },
+    {
+      "suite": "Network lobby",
+      "path": "candidate1-existing-network/lobby/results.json",
+      "total": 20,
+      "expected": 20,
+      "passed": 20,
+      "allPassed": true
+    },
+    {
+      "suite": "Network bots",
+      "path": "candidate1-existing-network/bots/results.json",
+      "total": 17,
+      "expected": 17,
+      "passed": 17,
+      "allPassed": true
+    },
+    {
+      "suite": "Network assist match rules",
+      "path": "candidate2-existing-network/matches/results.json",
+      "total": 52,
+      "expected": 52,
+      "passed": 52,
+      "allPassed": true
+    },
+    {
+      "suite": "Network ecology",
+      "path": "candidate2-existing-network/ecology/results.json",
+      "total": 25,
+      "expected": 25,
+      "passed": 25,
+      "allPassed": true
+    },
+    {
+      "suite": "Network custom teams and late join",
+      "path": "candidate1-team-configs/results.json",
+      "total": 25,
+      "expected": 25,
+      "passed": 25,
+      "allPassed": true
+    },
+    {
+      "suite": "Network silent timeouts",
+      "path": "candidate3-failure-edges/results.json",
+      "total": 13,
+      "expected": 13,
+      "passed": 13,
+      "allPassed": true
+    },
+    {
+      "suite": "Mixed roster endurance",
+      "path": "candidate6-soak/results.json",
+      "total": 4,
+      "expected": 4,
+      "passed": 4,
+      "allPassed": true
+    }
+  ]
+}

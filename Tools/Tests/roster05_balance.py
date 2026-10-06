@@ -5,8 +5,9 @@ Time-outs are reported, not counted as wins. Health is never reset during a matc
 """
 import argparse,itertools,time,json,collections,math
 from net_harness import NetworkTest,Peer
-p=argparse.ArgumentParser();p.add_argument('--rounds',type=int,default=2);p.add_argument('--seconds',type=int,default=60);p.add_argument('--kind',choices=['solo','packs','all'],default='all');p.add_argument('--output',default='Tests/Results/roster05/balance-initial');p.add_argument('--executable');p.add_argument('--rendered',action='store_true');p.add_argument('--resume',action='store_true');p.add_argument('--focus',type=int);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--rounds',type=int,default=2);p.add_argument('--seconds',type=int,default=60);p.add_argument('--kind',choices=['solo','packs','all'],default='all');p.add_argument('--output',default='Tests/Results/roster05/balance-initial');p.add_argument('--executable');p.add_argument('--rendered',action='store_true');p.add_argument('--resume',action='store_true');p.add_argument('--focus',type=int);p.add_argument('--anky-armor',type=float);a=p.parse_args()
 t=NetworkTest(a.output,executable=a.executable,rendered=a.rendered);t.render_size=(1280,720)
+if a.anky_armor is not None:t.extra_args=[f'-ini:Game:[Dino.Anky]:ArmorMultiplier={a.anky_armor}']
 species=[0,1,2,4,5,6];jobs=[]
 for x,y in itertools.combinations(species,2):
  if a.focus is not None and a.focus not in [x,y]:continue

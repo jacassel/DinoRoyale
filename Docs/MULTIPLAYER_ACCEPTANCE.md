@@ -5,11 +5,10 @@ authentication, host lobby, public discovery, JoinSession and address resolution
 The raw `EOS:` prefix check then rejected UE 5.8's bracketed `[EOS:...]` URL.
 QA2 corrects this with Unreal's URL/address parsers. Two distinct Epic accounts
 completed real EOS discovery, join, ClientTravel, server PostLogin and entry into
-the same match on one PC. The owner's physical **2 of 2 players / Ready / Start
-Match** acceptance remains pending. Live pursuit stopped at the owner's request.
+the same match on one PC. This is historical QA2 evidence. The owner subsequently confirmed successful multiplayer across multiple different networks; that confirmation supersedes the old physical-acceptance pending status. Version 0.5 preserves the same online implementation and adds separate local regression evidence.
 See `MULTIPLAYER_QA_REPORT.md`
 and `Tests/Results/eos-qa-20260926` for current evidence.
-Do not advance to the college playtest until those and branding/access gates pass.
+See current TEST_LOG.md and VERSION05_RELEASE_NOTES.md for Version 0.5 status.
 
 Every status requires runtime evidence. Local loopback is not EOS or WAN evidence.
 
@@ -18,7 +17,7 @@ Every status requires runtime evidence. Local loopback is not EOS or WAN evidenc
 | Host can create an internet session. | PASS (QA1 physical; QA2 live host) | QA2 CreateSession success, resolved bracketed EOS URL and NetDriverEOS listen world |
 | Remote player can discover it. | PASS (QA1 physical) | September 26 screenshot and FindSessions success/one compatible result |
 | Remote player can join it. | PASS (EOS, same PC); physical pending | QA2 guest ClientTravel, host PostLogin local=0 players=2, guest NetMode=3 and shared match |
-| Players can be on different networks. | NOT VERIFIED | QA2 two-PC/hotspot test pending |
+| Players can be on different networks. | OWNER-CONFIRMED | Successful prior-release play across multiple networks; no fresh 0.5 WAN session performed by the agent |
 | No manual port forwarding required. | NOT VERIFIED end-to-end | EOS ForceRelays retained; physical gameplay proof pending |
 | Host also plays normally. | PASS (local) | stage-b-04; latency-30 / latency-76 / latency-150-loss2 |
 | Client movement works. | PASS (local) | stage-b-04; latency-30 / latency-76 / latency-150-loss2 |
@@ -62,7 +61,7 @@ Every status requires runtime evidence. Local loopback is not EOS or WAN evidenc
 | Repeated matches do not accumulate actors/state. | PASS (local) | stage-de-01 |
 | Packaged host works. | PASS (local) | scale-01: host plus nine real packaged processes; headless loopback |
 | Packaged client works. | PASS (local) | scale-01: host plus nine real packaged processes; headless loopback |
-| External network test completed if physically possible. | NOT VERIFIED | QA2 physical two-PC/hotspot gameplay retest pending |
+| External network gameplay. | OWNER-CONFIRMED prior release | Fresh 0.5 verification here uses separate local processes |
 
 PASS (local) means separate live game processes controlled by the test harness,
 not multiple people or a live EOS service test. Evidence paths are under

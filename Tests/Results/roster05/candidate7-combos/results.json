@@ -1,0 +1,99 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "4 combo 1 makes anatomical contact",
+      "status": "PASS",
+      "health": 1355
+    },
+    {
+      "test": "4 combo 2 makes anatomical contact",
+      "status": "PASS",
+      "health": 1355
+    },
+    {
+      "test": "4 combo 3 makes anatomical contact",
+      "status": "PASS",
+      "health": 1337.5999755859375
+    },
+    {
+      "test": "4 third-strike commitment cannot be bypassed",
+      "status": "PASS"
+    },
+    {
+      "test": "4 distant quick attack misses",
+      "status": "PASS"
+    },
+    {
+      "test": "4 distant heavy misses and leaves recovery",
+      "status": "PASS"
+    },
+    {
+      "test": "Anky tail attack does not hit a frontal enemy",
+      "status": "PASS"
+    },
+    {
+      "test": "5 combo 1 makes anatomical contact",
+      "status": "PASS",
+      "health": 1270
+    },
+    {
+      "test": "5 combo 2 makes anatomical contact",
+      "status": "PASS",
+      "health": 1270
+    },
+    {
+      "test": "5 combo 3 makes anatomical contact",
+      "status": "PASS",
+      "health": 1242.4000244140625
+    },
+    {
+      "test": "5 third-strike commitment cannot be bypassed",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi heavy after combo three contacts both forefeet sides",
+      "status": "PASS"
+    },
+    {
+      "test": "5 distant quick attack misses",
+      "status": "PASS"
+    },
+    {
+      "test": "5 distant heavy misses and leaves recovery",
+      "status": "PASS"
+    },
+    {
+      "test": "6 combo 1 makes anatomical contact",
+      "status": "PASS",
+      "health": 1384
+    },
+    {
+      "test": "6 combo 2 makes anatomical contact",
+      "status": "PASS",
+      "health": 1384
+    },
+    {
+      "test": "6 combo 3 makes anatomical contact",
+      "status": "PASS",
+      "health": 1370.0799560546875
+    },
+    {
+      "test": "6 third-strike commitment cannot be bypassed",
+      "status": "PASS"
+    },
+    {
+      "test": "6 distant quick attack misses",
+      "status": "PASS"
+    },
+    {
+      "test": "6 distant heavy misses and leaves recovery",
+      "status": "PASS"
+    }
+  ]
+}

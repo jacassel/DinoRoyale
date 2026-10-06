@@ -1,36 +1,35 @@
-# Dino Royale — Version 0.3 Alpha Test
+# Dino Royale — Version 0.5
 
-[Download the Windows Alpha Test](https://github.com/jacassel/DinoRoyale/releases/tag/v0.3.0-alpha-test)
+[Download the Windows Alpha Test](https://github.com/jacassel/DinoRoyale/releases/tag/v0.5.0)
 · [Public source repository](https://github.com/jacassel/DinoRoyale)
 
-A dinosaur combat prototype with offline play and an Epic Online Services multiplayer integration.
-The owner reports successful real multiplayer play with the prior release. Version 0.3
-adds close-combat pivoting, optimized foliage, a Performance map, custom AI teams,
-name tags, grounded replicated dinosaurs/carcasses, and more reliable swimming.
-Multiplayer retains the existing EOS architecture and service identity. Both players
-must update together: 0.3 uses compatibility ID **2026100303**.
-Local release verification and remaining acceptance steps are recorded in TEST_LOG.md.
-See [ALPHA03_RELEASE_NOTES.md](ALPHA03_RELEASE_NOTES.md) for the update and
-[PERFORMANCE_REPORT.md](PERFORMANCE_REPORT.md) for measured before/after results.
-See [EOS_SETUP.md](EOS_SETUP.md) for setup and [Docs/MULTIPLAYER_ACCEPTANCE.md](Docs/MULTIPLAYER_ACCEPTANCE.md) for the evidence boundary.
+A six-species dinosaur combat prototype with offline free-for-all, team battles,
+and working Epic Online Services multiplayer. The owner confirms multiplayer has
+already been played successfully across different networks. Version 0.5 adds
+Ankylosaurus, Brachiosaurus and Pachycephalosaurus, original rigged assets,
+81 distinct new sound clips, tree browsing, Pachy packs, a live FFA leaderboard,
+and assist-based scoring. The existing EOS provider and service identity are preserved.
+All peers must use compatibility **2026100505**.
+
+See [VERSION05_RELEASE_NOTES.md](VERSION05_RELEASE_NOTES.md), [TEST_LOG.md](TEST_LOG.md)
+and [KNOWN_ISSUES.md](KNOWN_ISSUES.md) for this update's tests and limitations.
+[EOS_SETUP.md](EOS_SETUP.md) explains online setup.
 
 ## Launch
 
 Open `C:\Users\joel1\Documents\DinosaurBattle Prototype` in File Explorer and double-click **LaunchGame.bat**.
-The launcher prefers the locally tested **0.3 Alpha Test** package at
-`Dist\Releases\DinoRoyale-0.3-Alpha-Test\Windows`.
-For another computer, extract `Dist\Releases\DinoRoyale-0.3-Alpha-Test.zip` into a fresh
+The launcher prefers the locally tested **Version 0.5** package at
+`Dist\Releases\DinoRoyale-0.5\Windows`.
+For another computer, extract `Dist\Releases\DinoRoyale-0.5.zip` into a fresh
 folder and run **Windows\Play Dino Royale.bat**. Keep the entire folder together.
 Copy each computer's existing configured `OnlineServices.ini` to its new
 `Windows\DinosaurBattle` subfolder before online play; credentials are excluded
-from the ZIP. Both players must use 0.3. The prior QA2 friends package, its independent
-recovery, QA1 and `Dist\Windows` remain preserved. Five close-combat matchups were
-checked with native mouse input and bridge-assisted held controls; see
-[NATIVE_PLAYTEST_REPORT.md](NATIVE_PLAYTEST_REPORT.md) for the method and limits.
-A fresh physical/WAN session remains unverified; automated local multiplayer passes.
-See `MULTIPLAYER_QA_REPORT.md` for the current verification and recovery status.
-See `RELEASE_READINESS.md` for the remaining college playtest and optional Steam launch work.
-Choose a dinosaur with **1 / 2 / 3**. **Escape** pauses; **F10** from the menu exits.
+from the ZIP. Both players must use 0.5. The prior QA2 friends package, its independent
+recovery, QA1 and `Dist\Windows` remain preserved. Version 0.5 verification is recorded in TEST_LOG.md. Local multi-process regression
+checks complement the owner's existing successful different-network play; they
+are not a new two-PC internet session.
+Choose a dinosaur with **1-6** or its portrait. **Escape** opens the menu;
+**F10** from the menu exits.
 Double-click `LaunchEditor.bat` to open the project for editing.
 The project file is `DinosaurBattle.uproject`; the startup level is `Content/Maps/LostValley.umap`.
 The Unreal module, executable, internal paths and EOS artifact remain
@@ -54,7 +53,8 @@ No services, subscriptions, assets or hosting were purchased.
 | LMB | Up to three quick strikes, then species-specific recovery |
 | Hold / release RMB | Charge / execute heavy attack |
 | Hold F near suitable food | Eat; release or move to stop |
-| 1 / 2 / 3 | Offline: select T-Rex / Velociraptor / Triceratops and start a new round |
+| 1 / 2 / 3 / 4 / 5 / 6 | Select Rex / Raptor / Triceratops / Ankylosaurus / Brachiosaurus / Pachy and start a round |
+| P | Toggle the live FFA leaderboard without pausing |
 | Escape | Open menu; pauses offline, continues the world online |
 | F4 in selection | Multiplayer: Epic sign-in, Host Game or Join Game |
 | F3 in selection | Switch solo free-for-all / 5v5 team fight |
@@ -64,19 +64,19 @@ No services, subscriptions, assets or hosting were purchased.
 | R with map open | Pin cursor location; R near a pin removes it (up to eight pins) |
 | F10 in the menu | Quit |
 
-The game opens on dinosaur selection. Choose a card or press 1, 2 or 3 to begin. In solo mode the first competitor to **5 kills** wins; in team mode the first team to **10 kills** wins. The human and nine AI fill the match. Major dinosaurs respawn after **10 seconds**.
+The game opens on dinosaur selection. Choose one of the six cards or press 1-6. FFA ends at **5 points**: each kill adds one, and every two assists add one. Team Battle ends at **10 team points**: each kill adds one, and every three assists pooled across teammates add one. Actual K/D/A remain separate. The current FFA leader appears in black text at the top; P shows the standings. The human and nine AI fill the match. Major dinosaurs respawn after **10 seconds**.
 
 Online: the host plays and chooses 2–10 main participant slots, FFA or Team Battle,
 bots ON/OFF and public/invite-only visibility. Guests select species/team in the
 lobby and mark Ready; the host starts. Team Battle allows up to five per team,
 including smaller and uneven matches. The host can enable/disable each AI slot
 and choose Team A/B in its roster row; disabled slots remain empty. The 5v5 preset
-restores the ordinary balanced roster. Bots yield to joining humans. Each human or bot raptor leader owns two extra followers; these do not
+restores the ordinary balanced roster. Bots yield to joining humans. Each human or bot Raptor or Pachy leader owns two extra followers; these do not
 consume participant slots. Only leaders award kills. The host leaving ends the
 match for everyone. Use the in-game lobby controls to rematch or return to lobby.
 Choose **Sungrass Plains — Standard** or **Performance** on the selection screen or
 in the host setup/lobby. Performance retains terrain, rocks, water, edible plants,
-and match rules while removing cosmetic trees, grass and ferns. The host's selection
+and match rules including **18 edible trees for Brachiosaurus**, while removing cosmetic trees, grass and ferns. The host's selection
 applies to every peer. Changing the offline map starts a fresh round.
 
 Name tags default ON and save locally. Open Escape, F2, then press N or click the
@@ -85,9 +85,9 @@ line of sight and remain within 60 meters. The toggle changes labels, not enemy 
 
 Send friends [FRIEND_QUICKSTART.md](FRIEND_QUICKSTART.md) with the complete Windows folder.
 
-At round end, the game pauses on results showing all ten competitors' kills, deaths and assists, including when an AI wins solo play. Press Enter to start again. Map pins appear as gold diamonds on both maps, survive respawns, and clear for a new round. Open M, point at a location, then press R; adding a ninth pin replaces the oldest. The world continues while you use the map; close it with M to resume movement and mouse look.
+At round end, the game pauses on results showing scoring competitors' points, kills, deaths and assists, including when an AI wins solo play. Press Enter to start again. Map pins appear as gold diamonds on both maps, survive respawns, and clear for a new round. Open M, point at a location, then press R; adding a ninth pin replaces the oldest. The world continues while you use the map; close it with M to resume movement and mouse look.
 
-Raptors cooperate in three-member packs: one scoring leader and two AI followers, in both modes. Only the pack leader awards a kill when defeated. Followers' kills currently credit their leader (`SharePackKills=True` in the match configuration). Prey and pack followers do not add points to the kill goal. Kills, deaths and assists appear at the bottom left.
+Raptors and Pachycephalosaurs cooperate in three-member packs: one scoring leader and two AI followers, in both modes. Each pack has exactly one leader and two followers. Only the pack leader awards a kill when defeated. Followers' kills currently credit their leader (`SharePackKills=True` in the match configuration). Prey and pack followers do not add points to the kill goal. Kills, deaths and assists appear at the bottom left.
 
 Blood is optional and off by default. Below 50% health movement and attacks slow; below 25% the slowdown increases and charged attacks are unavailable. Regeneration starts five seconds after damage; eating restores health faster. The creek slows walking, and Mirror Pond contains deeper swimming water.
 
@@ -96,8 +96,8 @@ Blood is optional and off by default. Below 50% health movement and attacks slow
 - Shared character, health, stamina, injury, combat and feeding components.
 - Four lightweight AI personalities: aggressive, defensive, skirmisher and balanced; all use the same stamina and cooldown rules.
 - Configurable species values in `Config/DefaultGame.ini`, including charge, regeneration, camera and movement tuning.
-- Original rigged dinosaur meshes and thirteen animation clips per playable species, including swimming.
-- Nine major AI dinosaurs plus eighteen smaller prey. Carnivores hunt; raptors share a leader; triceratops defend feeding areas; prey flee.
+- Original rigged dinosaur meshes and thirteen clips per original species and sixteen clips per new species, including swimming.
+- Nine major AI dinosaurs plus eighteen smaller prey. Carnivores hunt; Raptors and Pachys share a leader; herbivores defend feeding areas; prey flee.
 - Seeded terrain approximately 575 m across (half the previous travel scale), with plains, forest, ridge, creek, pond, hunting grounds and feeding groves.
 - Clearance-aware grid navigation and local obstacle avoidance.
 - Species-specific positional quick attacks, charge-up/heavy attacks, impacts, hurt reactions, sprint breaths, injured breaths and death sounds. Layered CC0 recordings have three variations per event, finite playback and overlap limits; see `Assets/Audio/CREDITS.md`.
@@ -131,6 +131,11 @@ All values are editable in `Config/DefaultGame.ini`. Normal walking never costs 
 | T-Rex | 1500 | 187 | 673.2 | 0.58s | 0.95s | 1449 cm/s / 15 per sec | 10 / 36 |
 | Raptor | 520 | 66.6 | 193.14 | 0.31s | 0.50s | 2400 cm/s / 9 per sec | 7 / 26 |
 | Triceratops | 1650 | 155 | 511.5 | 0.53s | 0.75s | 1317.5 cm/s / 13 per sec | 9 / 34 |
+| Ankylosaurus | 1800 | 145 | 551 | 0.72s | 0.90s | 877.5 cm/s / 16 per sec | 12 / 40 |
+| Brachiosaurus | 3100 | 230 | 713 | 0.95s | 0.90s | 783 cm/s / 24 per sec | 18 / 62 |
+| Pachycephalosaurus | 950 | 116 | 429.2 | 0.46s | 0.90s | 1687.5 cm/s / 11 per sec | 8 / 32 |
+
+Damage above is before armor and defense. Ankylosaurus takes 60% of incoming damage and Brachiosaurus 90%; frontal brace further reduces it to 10% / 17% respectively. Pachy brace is 25%. Brachiosaurus has a small traversal step instead of a giant jump. New attacks follow tail-club, foot/tail and skull bones with a single hit per attack; heavies have committed movement and punishable recovery.
 
 The third quick strike gains 12% damage. Heavy attacks commit forward movement, restrict turning, knock unbraced opponents back and interrupt charging when the attacker is large enough; raptor pounces cannot repeatedly cancel a larger dinosaur's charge. A miss adds 0.50 / 0.25 / 0.45 seconds recovery respectively. T-Rex lunges, raptor pounces, and Triceratops drives forward with its horns. Sprint turning is particularly restricted for Triceratops. Eating is interrupted by damage and cannot restart for 2.5 seconds.
 
@@ -147,7 +152,7 @@ Hunger starts full and declines gently: Rex 0.075, raptor 0.1125, Triceratops 0.
 | 20% or less | None | None |
 | 10% or less | Lose 0.25% maximum health/sec | None |
 
-Eating bypasses these passive restrictions: food restores 18 hunger/sec, 32 stamina/sec, and 12% maximum health/sec while available. A tiny prey carcass has 25 food units; raptor 120; Rex 360; Triceratops 480. Consumption is 30 / 18 / 24 units/sec for Rex / raptor / Triceratops. Carcasses persist **within the current session**, independently of respawn, until consumed. They are non-blocking and their animation freezes after collapse to reduce cost. Plants contain 120 units, disappear when depleted, and regrow after 120 seconds. Carnivores eat carcasses; Triceratops eats plants. Available edible plants have a subtle green-gold outline while playing Triceratops. The cue respects visible surfaces, disappears on depletion, and returns on regrowth.
+Eating bypasses these passive restrictions: food restores 18 hunger/sec, 32 stamina/sec, and 12% maximum health/sec while available. A tiny prey carcass has 25 food units; raptor 120; Rex 360; Triceratops 480. Consumption is 30 / 18 / 24 units/sec for Rex / raptor / Triceratops. Carcasses persist **within the current session**, independently of respawn, until consumed. They are non-blocking and their animation freezes after collapse to reduce cost. Plants contain 120 units, disappear when depleted, and regrow after 120 seconds. Carnivores eat carcasses. Triceratops, Ankylosaurus and Pachycephalosaurus eat the same shrubs. Brachiosaurus eats tree foliage only. Eighteen browse trees remain on both maps; each holds 480 food units and regrows after 120 seconds. Depletion removes foliage while retaining the visible trunk and collision. Available food has a subtle green-gold outline for the species that can eat it; Brachiosaurus players highlight trees, while the other herbivores highlight shrubs. The cue respects visible surfaces, disappears on depletion, and returns on regrowth.
 
 In team play, all living allies (including raptor followers) are always visible at their current positions on both the minimap and expanded map, including while you wait to respawn. Their markers return immediately when they respawn. Enemies, and other dinosaurs in solo play, appear only in line of sight or after they attack, charge or sprint. Noisy actions reveal a position for six seconds; ongoing sprint/charge keeps it updated. Once an animal goes quiet and out of sight, the marker holds its last revealed location until it expires. Health labels also respect line of sight. The player's black map circle stays visible; its arrow follows movement, or facing while stationary.
 

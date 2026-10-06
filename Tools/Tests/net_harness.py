@@ -41,6 +41,7 @@ class Peer:
         # Windows mutes an unfocused packaged game by default. Audio QA records the
         # real mixer with a process-local config override; normal game settings stay intact.
         if getattr(test,'audio',False):render_args+=['-ini:Engine:[Audio]:UnfocusedVolumeMultiplier=1.0']
+        render_args+=getattr(test,'extra_args',[])
         cmd += [url,*render_args,'-game',*([] if getattr(test,'audio',False) else ['-nosound']),'-unattended','-nosplash','-DinoDevBridge','-DinoBridge='+name,
                 '-port=7788','-multihome=127.0.0.1','-abslog='+str(test.out/(name+'.log')),
                 '-PktLag='+str(test.lag),'-PktLoss='+str(test.loss)]
