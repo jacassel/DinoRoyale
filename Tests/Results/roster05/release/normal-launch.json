@@ -1,0 +1,11 @@
+{
+  "release": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Releases\\DinoRoyale-0.5\\Windows",
+  "sourceCommit": "5fd878f7293deb4f455409ea098a421894011259",
+  "runtimeSHA256": "8d4e912c2b7d488cc348e151e85adaef6ab0dd57251774f8e3df836fa671f1ef",
+  "normalBootstrapLaunched": true,
+  "developmentBridge": false,
+  "observed": "Version 0.5 six-species selection menu; Windows Security permission prompt left for owner",
+  "nativeInputAcceptance": "limited by network-permission dialog",
+  "securitySettingsChanged": false,
+  "prior03ZipUnchanged": true
+}

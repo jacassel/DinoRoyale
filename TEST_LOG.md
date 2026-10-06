@@ -1,5 +1,13 @@
 # Test log
 
+## Version 0.5 publication checkpoint, October 6, 2026
+
+- Published prerelease: https://github.com/jacassel/DinoRoyale/releases/tag/v0.5.0; source tag `v0.5.0` points to `5fd878f7293deb4f455409ea098a421894011259`.
+- Uploaded ZIP: 361,508,762 bytes, SHA256 `b825fac7e00c26ea935a5c771e5b82bd34eab616b3f2ce285e402df8f5b6fce8`. GitHub digest/size and anonymous public access are verified. Source was fast-forwarded to main without force-pushing.
+- All 61 distribution files match the independent recovery and ZIP. A complete source bundle verifies successfully. Actual online configuration is installed locally after sealing and excluded from the public archive, together with Saved/authentication caches.
+- Normal final bootstrap launches the tested runtime and reaches the Version 0.5 selection screen. Windows Security still has its network-permission dialog open for the owner; no permission decision was automated. Evidence: `Tests/Results/roster05/release/normal-launch.json`.
+- The prior 0.3 ZIP and the owner's T-Rex Blender edit remain byte-identical to their recorded copies. Final allowance: 57% remaining; no Astra-specific window, purchases, resets or delegation.
+
 ## Version 0.5 final gameplay acceptance, October 6, 2026
 
 - Selected regression evidence: **845/845 checks across 30 suites**, with retries and wrappers excluded. The precise accepted paths are in `Tests/Results/roster05/acceptance-summary.json`. Two additional Unreal automation tests pass 32 compatibility/EOS-URL assertions.

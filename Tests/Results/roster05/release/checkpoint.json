@@ -1,0 +1,13 @@
+{
+  "candidate": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Releases\\DinoRoyale-0.5-Candidate7\\Windows",
+  "release": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Releases\\DinoRoyale-0.5\\Windows",
+  "recovery": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Checkpoints\\DinoRoyale-0.5\\Windows",
+  "sourceCommit": "5fd878f7293deb4f455409ea098a421894011259",
+  "filesVerified": 61,
+  "zip": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Releases\\DinoRoyale-0.5.zip",
+  "zipBytes": 361508762,
+  "zipSHA256": "b825fac7e00c26ea935a5c771e5b82bd34eab616b3f2ce285e402df8f5b6fce8",
+  "everyFileVerified": true,
+  "publicConfigurationIncluded": false,
+  "localConfigurationHashMatches": true
+}

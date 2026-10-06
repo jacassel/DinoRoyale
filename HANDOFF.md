@@ -1,27 +1,56 @@
-# Dino Royale Version 0.5 checkpoint - October 6, 2026
+# Dino Royale Version 0.5 - published checkpoint, October 6, 2026
 
-The six-species update is built and its release acceptance is passing. Source is
-on `codex/dino-royale-0.5`. Final candidate is `Dist/Releases/DinoRoyale-0.5-Candidate7/Windows`.
-The sealed release, independent playable recovery and GitHub publication records
-will be recorded in `Tests/Results/roster05/release` when publication completes.
+Version 0.5 is built, tested and published publicly:
+https://github.com/jacassel/DinoRoyale/releases/tag/v0.5.0
+Windows download: https://github.com/jacassel/DinoRoyale/releases/download/v0.5.0/DinoRoyale-0.5.zip
 
-Launch: `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
-The launcher prefers `Dist/Releases/DinoRoyale-0.5/Windows` once that verified
-folder exists, with the prior 0.3 and friends packages preserved as fallbacks.
-The actual owner-supplied OnlineServices.ini is installed locally, unchanged;
-public artifacts exclude its configured values and Saved authentication caches.
+GitHub main and `codex/dino-royale-0.5` contain the source. Release tag `v0.5.0`
+identifies tested source `5fd878f7293deb4f455409ea098a421894011259`. Later metadata-only commits
+record publication and recovery without changing the tested runtime or ZIP.
+Anonymous GitHub API access confirms the asset's exact size and SHA256.
 
-See VERSION05_RELEASE_NOTES.md, VERSION05_TEST_REPORT.md and
-VERSION05_BALANCE_REPORT.md for the final features, test method and limits.
-The Windows Security permission prompt was shown and left for the owner to
-handle. No security settings were changed. Native foreground review remains
-limited until that prompt is dismissed. Prior cross-network play is owner
-confirmed; current separate-process tests add local regression evidence.
+## Launch and recovery
 
-The owner's pre-existing Trex.blend edit is preserved and must remain unstaged.
-Source recovery from before this update is in
-`Dist/Checkpoints/Before-0.5-20261005/source.bundle`.
-No purchases, credits or subagents were used.
+Double-click `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
+It prefers `Dist/Releases/DinoRoyale-0.5/Windows`. The sealed build was launched
+normally without development bridge flags and reached the six-species menu.
+It is left open with Windows Security's network-permission dialog for the owner
+to handle. No security settings were changed and native foreground input review
+remains limited by that dialog.
+
+- Playable ZIP: `Dist/Releases/DinoRoyale-0.5.zip` (361,508,762 bytes).
+- ZIP SHA256: `b825fac7e00c26ea935a5c771e5b82bd34eab616b3f2ce285e402df8f5b6fce8`.
+- Runtime SHA256: `8d4e912c2b7d488cc348e151e85adaef6ab0dd57251774f8e3df836fa671f1ef`.
+- Independent playable recovery: `Dist/Checkpoints/DinoRoyale-0.5/Windows`.
+- Complete, verified source bundle: `Dist/Checkpoints/DinoRoyale-0.5/source.bundle`.
+- Manifest and verification records: `Tests/Results/roster05/release`.
+
+All 61 packaged files were hash-verified in the independent recovery and ZIP.
+The owner's supplied OnlineServices.ini is installed unchanged in the local
+project, release and recovery. Configured values and Saved authentication caches
+are excluded from the public ZIP; friends copy their existing file into the new
+Windows/DinosaurBattle folder. All players need compatibility **2026100505**.
+The owner confirms prior successful cross-network multiplayer; this update adds
+separate-process local regression and preserves that EOS implementation.
+
+## Verification and limits
+
+**845/845 selected checks across 30 suites**, two Unreal automation tests with
+32 assertions, **93 completed AI balance bouts**, and four three-minute rendered
+endurance scenarios. Final 1080p samples: Standard 128-143 FPS, Performance
+148-162 FPS on this RTX 3060 PC, with 18 edible trees in both modes.
+See VERSION05_TEST_REPORT.md and VERSION05_BALANCE_REPORT.md for exact evidence.
+
+Ankylosaurus still struggles in aggressive AI duels despite improved survival;
+human competitive balance is not established. Animation/body intersections and
+sound realism need human feedback. Sound events, levels and clipping were tested,
+but the agent could not directly listen. Tests used real mapped inputs and engine
+physics; this is not a continuous human playtest or a fresh two-PC WAN session.
+
+The pre-existing Trex.blend working edit is byte-identical to its prework backup
+and remains unstaged. The prior 0.3 ZIP is byte-identical; prior playable packages
+and recoveries remain preserved. No purchases, credits or subagents were used.
+Final account allowance: **57% remaining**, no Astra-specific allowance exposed.
 
 ---
 
