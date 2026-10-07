@@ -37,6 +37,8 @@ void ADinoGameMode::BeginPlay()
     if(GetNetMode()==NM_Standalone)GConfig->GetBool(TEXT("Dino.UserSettings"),TEXT("TeamMode"),bTeamMatch,GGameIni);
     GConfig->GetInt(TEXT("Dino.Match"),TEXT("SoloKillGoal"),SoloKillGoal,GGameIni);
     GConfig->GetInt(TEXT("Dino.Match"),TEXT("TeamKillGoal"),TeamKillGoal,GGameIni);
+    if(bOnlineMatch)TeamKillGoal=UGameplayStatics::GetIntOption(OptionsString,TEXT("TeamGoal"),10);
+    if(TeamKillGoal!=5&&TeamKillGoal!=10&&TeamKillGoal!=15)TeamKillGoal=10;
     GConfig->GetFloat(TEXT("Dino.Match"),TEXT("AssistWindow"),AssistWindow,GGameIni);
     GConfig->GetBool(TEXT("Dino.Match"),TEXT("SharePackKills"),bSharePackKills,GGameIni);
     ALostValleyWorld::EnsureLocalScene(GetWorld());
@@ -53,10 +55,6 @@ void ADinoGameMode::BeginPlay()
         auto* AI=GetWorld()->SpawnActor<ADinosaurAIController>();AI->Possess(D);
         return D;
     };
-    const FVector Spawns[]={FVector(12500,3000,0),FVector(28500,-6000,0),FVector(-23500,13500,0),
-        FVector(4500,4000,0),FVector(5000,4400,0),FVector(4400,4800,0),
-        FVector(-14000,-22000,0),FVector(8500,-6500,0),FVector(22000,18000,0)};
-    if(GetNetMode()==NM_Standalone)for(int32 I=0;I<9;++I)SpawnDino(I/3,Spawns[I]*.5f,I+1,true);
     FRandomStream Random(7512);
     for(int32 I=0;I<18;++I)
     {
@@ -75,11 +73,11 @@ void ADinoGameMode::BeginPlay()
         PC->SetControlRotation(FRotator(-13,0,0));PC->PlayerCameraManager->ViewPitchMin=-65;PC->PlayerCameraManager->ViewPitchMax=25;
         if(auto* D=Cast<ADinosaurCharacter>(PC->GetPawn())){D->SetActorLocation(Valley->GroundPoint(0,0,D->Stats().HalfHeight+25));D->HomePosition=D->GetActorLocation();}
     }
-    if(bOnlineMatch)UpdateLobby();else StartRound();
+    if(bOnlineMatch)UpdateLobby();else {bFillBots=true;StartRound();}
 }
 
 FDinoScore ADinoGameMode::GetScore(int32 ID) const{if(const auto* S=Scores.Find(ID))return *S;return FDinoScore();}
-FString ADinoGameMode::MatchName() const{return bTeamMatch?FString::Printf(TEXT("5 v 5 TEAM FIGHT  /  FIRST TO %d POINTS"),TeamKillGoal):FString::Printf(TEXT("SOLO FREE-FOR-ALL  /  FIRST TO %d POINTS"),SoloKillGoal);}
+FString ADinoGameMode::MatchName() const{return bTeamMatch?FString::Printf(TEXT("TEAM BATTLE  /  FIRST TO %d POINTS"),TeamKillGoal):FString::Printf(TEXT("SOLO FREE-FOR-ALL  /  FIRST TO %d POINTS"),SoloKillGoal);}
 ADinosaurCharacter* ADinoGameMode::FindCombatant(int32 ID) const
 {
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->bMajor&&It->CombatantID==ID)return *It;return nullptr;
@@ -88,70 +86,40 @@ bool ADinoGameMode::AreEnemies(const ADinosaurCharacter* A,const ADinosaurCharac
 {
     if(!A||!B||A==B)return false;
     if(A->Species==3||B->Species==3)return A->Species!=B->Species;
-    if(GetNetMode()!=NM_Standalone)
-    {
-        if(A->PackLeaderID>=0&&A->PackLeaderID==B->PackLeaderID)return false;
-        return bTeamMatch&&A->TeamID>=0&&B->TeamID>=0?A->TeamID!=B->TeamID:true;
-    }
-    if(bTeamMatch&&A->TeamID>=0&&B->TeamID>=0)return A->TeamID!=B->TeamID;
-    return !(FSpeciesData::IsPack(A->Species)&&B->Species==A->Species);
+    if(A->PackLeaderID>=0&&A->PackLeaderID==B->PackLeaderID)return false;
+    return bTeamMatch&&A->TeamID>=0&&B->TeamID>=0?A->TeamID!=B->TeamID:true;
 }
 ADinosaurCharacter* ADinoGameMode::GetPackLeader(const ADinosaurCharacter* Member) const
 {
-    if(GetNetMode()!=NM_Standalone)return Member?(Member->bPackFollower?FindCombatant(Member->PackLeaderID):const_cast<ADinosaurCharacter*>(Member)):nullptr;
-    if(!Member||!FSpeciesData::IsPack(Member->Species))return nullptr;ADinosaurCharacter* Leader=nullptr;
-    for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
-    {
-        auto* D=*It;if(!D->bMajor||D->Species!=Member->Species||(bTeamMatch&&D->TeamID!=Member->TeamID))continue;
-        // The role persists through the ten-second respawn; killing followers never becomes a score exploit.
-        if(D->IsPlayerControlled())return D;
-        if(!Leader||D->CombatantID<Leader->CombatantID)Leader=D;
-    }
-    return Leader;
+    return Member?(Member->bPackFollower?FindCombatant(Member->PackLeaderID):const_cast<ADinosaurCharacter*>(Member)):nullptr;
 }
 ADinosaurCharacter* ADinoGameMode::ScoringOwner(ADinosaurCharacter* D) const{return D&&FSpeciesData::IsPack(D->Species)&&bSharePackKills?GetPackLeader(D):D;}
 bool ADinoGameMode::IsScoringTarget(const ADinosaurCharacter* D) const{return D&&D->bMajor&&(!FSpeciesData::IsPack(D->Species)||GetPackLeader(D)==D);}
 void ADinoGameMode::SetTeamMode(bool Enabled)
 {
     if(GetNetMode()!=NM_Standalone)return;
-    bTeamMatch=Enabled;GConfig->SetBool(TEXT("Dino.UserSettings"),TEXT("TeamMode"),bTeamMatch,GGameIni);GConfig->Flush(false,GGameIni);StartRound();
+    bTeamMatch=Enabled;if(auto* PC=GetWorld()->GetFirstPlayerController())if(auto* PS=PC->GetPlayerState<ADinoPlayerState>())PS->TeamID=Enabled?0:-1;GConfig->SetBool(TEXT("Dino.UserSettings"),TEXT("TeamMode"),bTeamMatch,GGameIni);GConfig->Flush(false,GGameIni);StartRound();
 }
 void ADinoGameMode::StartRound()
 {
     if(bOnlineMatch){StartNetworkRound();return;}
+    if(bTeamMatch)if(auto* PC=GetWorld()->GetFirstPlayerController())if(auto* PS=PC->GetPlayerState<ADinoPlayerState>())if(PS->TeamID<0)PS->TeamID=0;
+    const FString Warning=ValidateSetup();
+    if(!Warning.IsEmpty()){if(auto* PC=Cast<ADinoPlayerController>(GetWorld()->GetFirstPlayerController())){PC->LobbyStatus=Warning;PC->bMatchSetupOpen=true;PC->SetMenuOpen(true);}return;}
+    bOfflineRulesDirty=false;
     if(auto* PC=Cast<ADinoPlayerController>(GetWorld()->GetFirstPlayerController()))PC->MapPins.Empty();
     bRoundOver=false;WinnerID=WinnerTeam=-1;TeamKills[0]=TeamKills[1]=0;TeamAssists[0]=TeamAssists[1]=0;Scores.Empty();++RoundNumber;RoundStartTime=GetWorld()->GetTimeSeconds();
-    const FVector SoloHomes[]={FVector(0,0,0),FVector(12500,3000,0),FVector(28500,-6000,0),FVector(-23500,13500,0),FVector(4500,4000,0),FVector(5000,4400,0),FVector(4400,4800,0),FVector(-14000,-22000,0),FVector(8500,-6500,0),FVector(22000,18000,0)};
-    const int32 TeamSpecies[]={0,1,1,1,4,5,6,6,6,2};
-    const int32 PachyTeamSpecies[]={6,6,6,0,4,5,1,1,1,2};
-    const int32 SoloSpecies[]={0,4,5,2,1,1,1,6,6,6};
-    const auto* FirstPC=GetWorld()->GetFirstPlayerController();
-    const auto* Player=FirstPC?Cast<ADinosaurCharacter>(FirstPC->GetPawn()):nullptr;
-    const bool PlayerPachy=Player&&Player->Species==6;
-    ALostValleyWorld* Valley=nullptr;for(TActorIterator<ALostValleyWorld> It(GetWorld());It;++It){Valley=*It;break;}
+    EnforceAllowedSpecies();
+    ReconcileBots();
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)
     {
-        auto* D=*It;if(!D->bMajor)continue;int32 ID=D->CombatantID;if(ID<0||ID>9)continue;
-        D->TeamID=bTeamMatch?(ID<=4?0:1):-1;
-        if(!D->IsPlayerControlled())
-        {
-            int32 Species=bTeamMatch?(PlayerPachy?PachyTeamSpecies[ID]:TeamSpecies[ID]):SoloSpecies[ID];
-            // The human replaces a species slot, not the only Rex in the roster.
-            // Keep all six choices represented while preserving each three-member pack.
-            const int32 PlayerSpecies=Player?Player->Species:0;
-            const int32 RexSlot=bTeamMatch?(PlayerSpecies==1?1:PlayerSpecies==4?4:PlayerSpecies==5?5:PlayerSpecies==2?9:-1):
-                PlayerSpecies==1?6:PlayerSpecies==6?9:PlayerSpecies==4?1:PlayerSpecies==5?2:PlayerSpecies==2?3:-1;
-            if(ID==RexSlot)Species=0;
-            D->ApplySpecies(Species);
-        }
-        FVector Home=SoloHomes[ID]*.5f;
-        if(bTeamMatch){int32 Slot=ID<=4?ID:ID-5;Home=FVector(ID<=4?-6000:6000,(Slot-2)*1300,0);}
-        if(Valley)Home=Valley->NearestWalkable(Home);
-        D->HomePosition=Home;D->bDead=true;D->ResetLife();D->GetCharacterMovement()->StopMovementImmediately();
-        D->SetActorRotation(FRotator(0,bTeamMatch&&D->TeamID==1?180:0,0));Scores.Add(ID,FDinoScore());
-        if(auto* AI=Cast<ADinosaurAIController>(D->GetController())){AI->ResetTactics();AI->ClearTravelGoal();AI->State=TEXT("Roaming");}
+        auto* D=*It;if(!D->bMajor||D->bPackFollower)continue;
+        if(D->IsPlayerControlled())if(auto* PS=D->GetPlayerState<ADinoPlayerState>())D->TeamID=bTeamMatch?PS->TeamID:-1;
+        D->HomePosition=ParticipantHome(D->CombatantID,D->TeamID);D->bDead=true;D->ResetLife();
+        D->GetCharacterMovement()->StopMovementImmediately();D->bScoringParticipant=true;Scores.Add(D->CombatantID,FDinoScore());
+        if(auto* AI=Cast<ADinosaurAIController>(D->GetController())){AI->ResetTactics();AI->ClearTravelGoal();}
     }
-    for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)It->bScoringParticipant=IsScoringTarget(*It);
+    RebuildPacks();
     if(auto* GS=GetGameState<ADinoGameState>())GS->SynchronizeRules();
 }
 void ADinoGameMode::RegisterDamage(ADinosaurCharacter* Victim,ADinosaurCharacter* Attacker,float Amount)
@@ -209,7 +177,7 @@ void ADinoGameMode::PostLogin(APlayerController* PC)
         for(auto It=GetWorld()->GetPlayerControllerIterator();It;++It)
             if(It->Get()!=PC)if(auto* Other=It->Get()->GetPlayerState<ADinoPlayerState>())Used.Add(Other->CombatantID);
         PS->CombatantID=0;while(Used.Contains(PS->CombatantID))++PS->CombatantID;
-        PS->bHost=PC->IsLocalController();PS->TeamID=bTeamMatch?ChooseTeam(PS->CombatantID):-1;
+        PS->SelectedSpecies=MatchRules.Resolve(PS->SelectedSpecies);PS->bHost=PC->IsLocalController();PS->TeamID=bTeamMatch?ChooseTeam(PS->CombatantID):-1;
         if(GetNetMode()!=NM_Standalone)if(auto* Bot=FindCombatant(PS->CombatantID))if(Bot->bFillerBot)RemoveParticipant(Bot);
     }
     // UE starts/possesses the pawn inside Super::PostLogin; assign its slot first.
@@ -265,6 +233,7 @@ void ADinoGameMode::PreLogin(const FString& Options,const FString& Address,const
     if(bOnlineMatch&&RemoteBuild!=UDinoOnlineSession::BuildVersion)Error=TEXT("Different game version.");
     if(Error.IsEmpty()&&GetNumPlayers()>=MaxParticipants)Error=TEXT("Lobby is full.");
     if(bRoundOver)Error=TEXT("Match is ending.");
+    if(bOnlineMatch&&!bLobby&&bTeamMatch&&MatchRules.bExplicitBotCounts&&GetNumPlayers()+1+MatchRules.TeamABots+MatchRules.TeamBBots>MaxParticipants)Error=TEXT("Selected bots and players exceed capacity. Host must return to lobby and adjust bot counts.");
     if(bOnlineMatch)UE_LOG(LogTemp,Display,TEXT("Dino prelogin local=%d remote=%d source=DinoBuild travel option decision=%s reason=%s"),UDinoOnlineSession::BuildVersion,RemoteBuild,Error.IsEmpty()?TEXT("ACCEPT"):TEXT("REJECT"),Error.IsEmpty()?TEXT("compatible"):*Error);
     FGameModeEvents::GameModePreLoginEvent.Broadcast(this,ID,Error);
 }

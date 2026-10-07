@@ -1,0 +1,416 @@
+[
+  {
+    "test": "Trex selection",
+    "passed": true
+  },
+  {
+    "test": "Trex W movement",
+    "passed": true,
+    "displacement": 641.6
+  },
+  {
+    "test": "Trex S movement",
+    "passed": true,
+    "displacement": -640.9
+  },
+  {
+    "test": "Trex D movement",
+    "passed": true,
+    "displacement": 679.2
+  },
+  {
+    "test": "Trex A movement",
+    "passed": true,
+    "displacement": -646.9
+  },
+  {
+    "test": "Trex camera yaw",
+    "passed": true,
+    "delta": 1.8664801120758057
+  },
+  {
+    "test": "Trex camera pitch",
+    "passed": true,
+    "delta": 0.7777000069618225
+  },
+  {
+    "test": "Trex jump",
+    "passed": true,
+    "rise": 101.1
+  },
+  {
+    "test": "Trex brace blocks movement",
+    "passed": true,
+    "distance": 0.0
+  },
+  {
+    "test": "Trex brace blocks attack",
+    "passed": true
+  },
+  {
+    "test": "Trex release restores movement",
+    "passed": true
+  },
+  {
+    "test": "Trex quick hit",
+    "passed": true,
+    "damage": 187
+  },
+  {
+    "test": "Trex no duplicate hits",
+    "passed": true
+  },
+  {
+    "test": "Trex charge feedback",
+    "passed": true
+  },
+  {
+    "test": "Trex charged hit stronger",
+    "passed": true,
+    "quick": 187,
+    "charged": 673.2001953125
+  },
+  {
+    "test": "Trex combat state recovers",
+    "passed": true
+  },
+  {
+    "test": "Trex damage lowers health",
+    "passed": true
+  },
+  {
+    "test": "Trex injured movement",
+    "passed": true,
+    "ratio": 0.85
+  },
+  {
+    "test": "Trex injured attack slowdown",
+    "passed": true,
+    "ratio": 1.111111179622199
+  },
+  {
+    "test": "Trex critical movement",
+    "passed": true,
+    "ratio": 0.7
+  },
+  {
+    "test": "Trex critical charge blocked",
+    "passed": true
+  },
+  {
+    "test": "Trex critical attack slowdown",
+    "passed": true,
+    "ratio": 1.3333333333333333
+  },
+  {
+    "test": "Trex regen waits",
+    "passed": true,
+    "delta": 0
+  },
+  {
+    "test": "Trex passive regen",
+    "passed": true,
+    "delta": 160.63674926757812
+  },
+  {
+    "test": "Trex recovered speed",
+    "passed": true
+  },
+  {
+    "test": "Trex recovered charge",
+    "passed": true
+  },
+  {
+    "test": "Trex death",
+    "passed": true
+  },
+  {
+    "test": "Trex dead movement blocked",
+    "passed": true
+  },
+  {
+    "test": "Trex respawn",
+    "passed": true,
+    "gameSeconds": 9.85650359839201
+  },
+  {
+    "test": "Trex respawn movement",
+    "passed": true
+  },
+  {
+    "test": "Raptor selection",
+    "passed": true
+  },
+  {
+    "test": "Raptor W movement",
+    "passed": true,
+    "displacement": 1209.1
+  },
+  {
+    "test": "Raptor S movement",
+    "passed": true,
+    "displacement": -1154.7
+  },
+  {
+    "test": "Raptor D movement",
+    "passed": true,
+    "displacement": 1181.2
+  },
+  {
+    "test": "Raptor A movement",
+    "passed": true,
+    "displacement": -1183.0
+  },
+  {
+    "test": "Raptor camera yaw",
+    "passed": true,
+    "delta": 1.8664801120758057
+  },
+  {
+    "test": "Raptor camera pitch",
+    "passed": true,
+    "delta": 0.7777000069618225
+  },
+  {
+    "test": "Raptor jump",
+    "passed": true,
+    "rise": 117.5
+  },
+  {
+    "test": "Raptor brace blocks movement",
+    "passed": true,
+    "distance": 0.0
+  },
+  {
+    "test": "Raptor brace blocks attack",
+    "passed": true
+  },
+  {
+    "test": "Raptor release restores movement",
+    "passed": true
+  },
+  {
+    "test": "Raptor quick hit",
+    "passed": true,
+    "damage": 66.599609375
+  },
+  {
+    "test": "Raptor no duplicate hits",
+    "passed": true
+  },
+  {
+    "test": "Raptor charge feedback",
+    "passed": true
+  },
+  {
+    "test": "Raptor charged hit stronger",
+    "passed": true,
+    "quick": 66.599609375,
+    "charged": 193.1396484375
+  },
+  {
+    "test": "Raptor combat state recovers",
+    "passed": true
+  },
+  {
+    "test": "Raptor damage lowers health",
+    "passed": true
+  },
+  {
+    "test": "Raptor injured movement",
+    "passed": true,
+    "ratio": 0.85
+  },
+  {
+    "test": "Raptor injured attack slowdown",
+    "passed": true,
+    "ratio": 1.1111111324747829
+  },
+  {
+    "test": "Raptor critical movement",
+    "passed": true,
+    "ratio": 0.7
+  },
+  {
+    "test": "Raptor critical charge blocked",
+    "passed": true
+  },
+  {
+    "test": "Raptor critical attack slowdown",
+    "passed": true,
+    "ratio": 1.3333333012878257
+  },
+  {
+    "test": "Raptor regen waits",
+    "passed": true,
+    "delta": 0.0
+  },
+  {
+    "test": "Raptor passive regen",
+    "passed": true,
+    "delta": 54.605674743652344
+  },
+  {
+    "test": "Raptor recovered speed",
+    "passed": true
+  },
+  {
+    "test": "Raptor recovered charge",
+    "passed": true
+  },
+  {
+    "test": "Raptor death",
+    "passed": true
+  },
+  {
+    "test": "Raptor dead movement blocked",
+    "passed": true
+  },
+  {
+    "test": "Raptor respawn",
+    "passed": true,
+    "gameSeconds": 9.8876414000988
+  },
+  {
+    "test": "Raptor respawn movement",
+    "passed": true
+  },
+  {
+    "test": "Trike selection",
+    "passed": true
+  },
+  {
+    "test": "Trike W movement",
+    "passed": true,
+    "displacement": 537.3
+  },
+  {
+    "test": "Trike S movement",
+    "passed": true,
+    "displacement": -536.1
+  },
+  {
+    "test": "Trike D movement",
+    "passed": true,
+    "displacement": 509.3
+  },
+  {
+    "test": "Trike A movement",
+    "passed": true,
+    "displacement": -551.6
+  },
+  {
+    "test": "Trike camera yaw",
+    "passed": true,
+    "delta": 1.8664801120758057
+  },
+  {
+    "test": "Trike camera pitch",
+    "passed": true,
+    "delta": 0.7777000069618225
+  },
+  {
+    "test": "Trike jump",
+    "passed": true,
+    "rise": 75.9
+  },
+  {
+    "test": "Trike brace blocks movement",
+    "passed": true,
+    "distance": 0.0
+  },
+  {
+    "test": "Trike brace blocks attack",
+    "passed": true
+  },
+  {
+    "test": "Trike release restores movement",
+    "passed": true
+  },
+  {
+    "test": "Trike quick hit",
+    "passed": true,
+    "damage": 155
+  },
+  {
+    "test": "Trike no duplicate hits",
+    "passed": true
+  },
+  {
+    "test": "Trike charge feedback",
+    "passed": true
+  },
+  {
+    "test": "Trike charged hit stronger",
+    "passed": true,
+    "quick": 155,
+    "charged": 511.5
+  },
+  {
+    "test": "Trike combat state recovers",
+    "passed": true
+  },
+  {
+    "test": "Trike damage lowers health",
+    "passed": true
+  },
+  {
+    "test": "Trike injured movement",
+    "passed": true,
+    "ratio": 0.85
+  },
+  {
+    "test": "Trike injured attack slowdown",
+    "passed": true,
+    "ratio": 1.1111111610940445
+  },
+  {
+    "test": "Trike critical movement",
+    "passed": true,
+    "ratio": 0.7
+  },
+  {
+    "test": "Trike critical charge blocked",
+    "passed": true
+  },
+  {
+    "test": "Trike critical attack slowdown",
+    "passed": true,
+    "ratio": 1.3333333708205333
+  },
+  {
+    "test": "Trike regen waits",
+    "passed": true,
+    "delta": 0
+  },
+  {
+    "test": "Trike passive regen",
+    "passed": true,
+    "delta": 174.07943725585938
+  },
+  {
+    "test": "Trike recovered speed",
+    "passed": true
+  },
+  {
+    "test": "Trike recovered charge",
+    "passed": true
+  },
+  {
+    "test": "Trike death",
+    "passed": true
+  },
+  {
+    "test": "Trike dead movement blocked",
+    "passed": true
+  },
+  {
+    "test": "Trike respawn",
+    "passed": true,
+    "gameSeconds": 9.983781799674034
+  },
+  {
+    "test": "Trike respawn movement",
+    "passed": false
+  }
+]

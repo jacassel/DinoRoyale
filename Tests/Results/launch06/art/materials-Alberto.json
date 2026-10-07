@@ -1,0 +1,32 @@
+[
+  {
+    "species": "Alberto",
+    "before": [],
+    "after": [
+      {
+        "slot": "Dino_Skin",
+        "material": "/Game/Materials/Launch06/M_Alberto_Launch06.M_Alberto_Launch06"
+      },
+      {
+        "slot": "Dino_Claw",
+        "material": "/Game/Materials/M_Claw.M_Claw"
+      },
+      {
+        "slot": "Dino_Eye",
+        "material": "/Game/Materials/M_Eye.M_Eye"
+      },
+      {
+        "slot": "Dino_Pupil",
+        "material": "/Game/Materials/M_Pupil.M_Pupil"
+      },
+      {
+        "slot": "Dino_Tooth",
+        "material": "/Game/Materials/M_Tooth.M_Tooth"
+      },
+      {
+        "slot": "Dino_Mouth",
+        "material": "/Game/Materials/M_Mouth.M_Mouth"
+      }
+    ]
+  }
+]

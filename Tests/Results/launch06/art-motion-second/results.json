@@ -1,0 +1,116 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "4 textured material loaded",
+      "status": "PASS",
+      "materials": [
+        "M_Anky_Launch06",
+        "M_Eye",
+        "M_Pupil",
+        "M_Claw",
+        "M_Anky_Launch06"
+      ]
+    },
+    {
+      "test": "quick club has broad lateral and forward sweep",
+      "status": "PASS",
+      "spanCm": 655.2263459609825,
+      "forwardX": -305.39658876145484
+    },
+    {
+      "test": "club stays out of torso",
+      "status": "PASS"
+    },
+    {
+      "test": "4 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "heavy club has broad lateral and forward sweep",
+      "status": "PASS",
+      "spanCm": 715.2945675477366,
+      "forwardX": -103.55018408098138
+    },
+    {
+      "test": "club stays out of torso",
+      "status": "PASS"
+    },
+    {
+      "test": "4 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "5 textured material loaded",
+      "status": "PASS",
+      "materials": [
+        "M_Brachi_Launch06",
+        "M_Eye",
+        "M_Pupil",
+        "M_Claw"
+      ]
+    },
+    {
+      "test": "quick neck visibly shifts",
+      "status": "PASS",
+      "headTravelCm": 214.95898537738643
+    },
+    {
+      "test": "5 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "heavy neck visibly shifts",
+      "status": "PASS",
+      "headTravelCm": 238.84446767991074
+    },
+    {
+      "test": "5 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "6 textured material loaded",
+      "status": "PASS",
+      "materials": [
+        "M_Pachy_Launch06",
+        "M_Eye",
+        "M_Pupil",
+        "M_Claw",
+        "M_Pachy_Launch06"
+      ]
+    },
+    {
+      "test": "6 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "6 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "7 textured material loaded",
+      "status": "PASS",
+      "materials": [
+        "M_Alberto_Launch06",
+        "M_Claw",
+        "M_Eye",
+        "M_Pupil",
+        "M_Tooth",
+        "M_Mouth"
+      ]
+    },
+    {
+      "test": "7 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "7 attack returns to idle",
+      "status": "PASS"
+    }
+  ]
+}

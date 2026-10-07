@@ -60,10 +60,10 @@ void UCombatComponent::DetectHits()
     // Timed sweep window; each target is damaged once across all samples/components.
     FVector End=Origin+D->GetActorForwardVector()*S.AttackRange*(bChargedAttack?S.HeavyReach:1.f);
     TArray<FHitResult> Hits;FCollisionQueryParams Params(SCENE_QUERY_STAT(DinoAttack),false,D);
-    if(D->Species>=4)
+    if(D->Species>=4&&D->Species<=6)
     {
         // Follow the animated striking anatomy; never sweep the full body capsule.
-        FName Socket=D->Species==4?(ComboCount==3&&!bChargedAttack?TEXT("spine"):TEXT("club_tip")):
+        FName Socket=D->Species==4?TEXT("club_tip"):
             D->Species==5?(!bChargedAttack&&ComboCount==2?TEXT("tail_04"):ComboCount==3?TEXT("stomp_r"):TEXT("stomp_l")):TEXT("head_impact");
         FVector Contact=D->GetMesh()->GetSocketLocation(Socket);
         const float Width=D->Species==4?(Socket==TEXT("spine")?155.f:80.f):D->Species==5?(Socket==TEXT("tail_04")?95.f:bChargedAttack?210.f:115.f):55.f;
@@ -77,7 +77,7 @@ void UCombatComponent::DetectHits()
     {
         auto* Target=Cast<ADinosaurCharacter>(H.GetActor());
         if(!Target||HitActors.Contains(Target)||!D->IsEnemy(Target))continue;
-        if(D->Species<4&&FVector::DotProduct(D->GetActorForwardVector(),(Target->GetActorLocation()-Origin).GetSafeNormal2D())<.15f)continue;
+        if((D->Species<4||D->Species==7)&&FVector::DotProduct(D->GetActorForwardVector(),(Target->GetActorLocation()-Origin).GetSafeNormal2D())<.15f)continue;
         FHitResult Wall; FCollisionQueryParams WallParams(SCENE_QUERY_STAT(DinoAttackWall),false,D); WallParams.AddIgnoredActor(Target);
         if(GetWorld()->LineTraceSingleByChannel(Wall,Origin,Target->GetActorLocation(),ECC_Visibility,WallParams))continue;
         HitActors.Add(Target);

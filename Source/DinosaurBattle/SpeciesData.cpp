@@ -6,8 +6,8 @@ const FSpeciesData& FSpeciesData::Get(int32 Species)
     static TArray<FSpeciesData> Data;
     if (Data.IsEmpty())
     {
-        const TCHAR* IDs[]={TEXT("Trex"),TEXT("Raptor"),TEXT("Trike"),TEXT("Prey"),TEXT("Anky"),TEXT("Brachi"),TEXT("Pachy")};
-        for (int32 I=0;I<7;++I)
+        const TCHAR* IDs[]={TEXT("Trex"),TEXT("Raptor"),TEXT("Trike"),TEXT("Prey"),TEXT("Anky"),TEXT("Brachi"),TEXT("Pachy"),TEXT("Alberto")};
+        for (int32 I=0;I<8;++I)
         {
             FSpeciesData D; D.AssetName=IDs[I]; D.Name=IDs[I];
             FString Section=FString(TEXT("Dino."))+IDs[I];
@@ -31,7 +31,7 @@ const FSpeciesData& FSpeciesData::Get(int32 Species)
             READ(FoodUnits); READ(EatUnitsPerSecond); READ(EatHungerRate); READ(SightRange); READ(NoiseRevealDuration);
             READ(PivotRate);
             READ(Braking);READ(GroundFriction);READ(ArmorMultiplier);READ(GaitSpeed);
-            D.bHerbivore=I==2||I>=4;
+            D.bHerbivore=I==2||(I>=4&&I<=6);
             #undef READ
             if(I==1) D.Color=FLinearColor(.15f,.32f,.34f);
             if(I==2) D.Color=FLinearColor(.40f,.22f,.13f);
@@ -39,5 +39,5 @@ const FSpeciesData& FSpeciesData::Get(int32 Species)
             Data.Add(D);
         }
     }
-    return Data[FMath::Clamp(Species,0,6)];
+    return Data[FMath::Clamp(Species,0,7)];
 }

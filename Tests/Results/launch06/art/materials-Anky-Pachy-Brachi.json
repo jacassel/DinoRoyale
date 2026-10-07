@@ -1,0 +1,135 @@
+[
+  {
+    "species": "Anky",
+    "before": [
+      {
+        "slot": "Dino_Skin",
+        "material": "/Game/Materials/Roster05/M_Anky_Roster05.M_Anky_Roster05"
+      },
+      {
+        "slot": "Dino_Eye",
+        "material": "/Game/Materials/M_Eye.M_Eye"
+      },
+      {
+        "slot": "Dino_Pupil",
+        "material": "/Game/Materials/M_Pupil.M_Pupil"
+      },
+      {
+        "slot": "Dino_Claw",
+        "material": "/Game/Materials/M_Claw.M_Claw"
+      },
+      {
+        "slot": "Dino_Horn",
+        "material": "/Game/Materials/M_Horn.M_Horn"
+      }
+    ],
+    "after": [
+      {
+        "slot": "Dino_Skin",
+        "material": "/Game/Materials/Launch06/M_Anky_Launch06.M_Anky_Launch06"
+      },
+      {
+        "slot": "Dino_Eye",
+        "material": "/Game/Materials/M_Eye.M_Eye"
+      },
+      {
+        "slot": "Dino_Pupil",
+        "material": "/Game/Materials/M_Pupil.M_Pupil"
+      },
+      {
+        "slot": "Dino_Claw",
+        "material": "/Game/Materials/M_Claw.M_Claw"
+      },
+      {
+        "slot": "Dino_Horn",
+        "material": "/Game/Materials/Launch06/M_Anky_Launch06.M_Anky_Launch06"
+      }
+    ]
+  },
+  {
+    "species": "Pachy",
+    "before": [
+      {
+        "slot": "Dino_Skin",
+        "material": "/Game/Materials/Roster05/M_Pachy_Roster05.M_Pachy_Roster05"
+      },
+      {
+        "slot": "Dino_Eye",
+        "material": "/Game/Materials/M_Eye.M_Eye"
+      },
+      {
+        "slot": "Dino_Pupil",
+        "material": "/Game/Materials/M_Pupil.M_Pupil"
+      },
+      {
+        "slot": "Dino_Claw",
+        "material": "/Game/Materials/M_Claw.M_Claw"
+      },
+      {
+        "slot": "Dino_Horn",
+        "material": "/Game/Materials/M_Horn.M_Horn"
+      }
+    ],
+    "after": [
+      {
+        "slot": "Dino_Skin",
+        "material": "/Game/Materials/Launch06/M_Pachy_Launch06.M_Pachy_Launch06"
+      },
+      {
+        "slot": "Dino_Eye",
+        "material": "/Game/Materials/M_Eye.M_Eye"
+      },
+      {
+        "slot": "Dino_Pupil",
+        "material": "/Game/Materials/M_Pupil.M_Pupil"
+      },
+      {
+        "slot": "Dino_Claw",
+        "material": "/Game/Materials/M_Claw.M_Claw"
+      },
+      {
+        "slot": "Dino_Horn",
+        "material": "/Game/Materials/Launch06/M_Pachy_Launch06.M_Pachy_Launch06"
+      }
+    ]
+  },
+  {
+    "species": "Brachi",
+    "before": [
+      {
+        "slot": "Dino_Skin",
+        "material": "/Game/Materials/Roster05/M_Brachi_Roster05.M_Brachi_Roster05"
+      },
+      {
+        "slot": "Dino_Eye",
+        "material": "/Game/Materials/M_Eye.M_Eye"
+      },
+      {
+        "slot": "Dino_Pupil",
+        "material": "/Game/Materials/M_Pupil.M_Pupil"
+      },
+      {
+        "slot": "Dino_Claw",
+        "material": "/Game/Materials/M_Claw.M_Claw"
+      }
+    ],
+    "after": [
+      {
+        "slot": "Dino_Skin",
+        "material": "/Game/Materials/Launch06/M_Brachi_Launch06.M_Brachi_Launch06"
+      },
+      {
+        "slot": "Dino_Eye",
+        "material": "/Game/Materials/M_Eye.M_Eye"
+      },
+      {
+        "slot": "Dino_Pupil",
+        "material": "/Game/Materials/M_Pupil.M_Pupil"
+      },
+      {
+        "slot": "Dino_Claw",
+        "material": "/Game/Materials/M_Claw.M_Claw"
+      }
+    ]
+  }
+]

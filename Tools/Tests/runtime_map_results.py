@@ -17,7 +17,7 @@ def check(name, passed):
 def press(key):
     t.key(key);t.key(key, 'up')
 def capture(name):
-    folder=t.BRIDGE.parent/'Screenshots/Windows'
+    folder=(t.BRIDGE.parent.parent if t.BRIDGE.parent.name=='Automation' else t.BRIDGE.parent)/'Screenshots/Windows'
     before=set(folder.glob('*.png'))
     t.command('screenshot')
     for _ in range(100):

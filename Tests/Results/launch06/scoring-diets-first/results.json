@@ -1,0 +1,113 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "P opens live FFA leaderboard",
+      "status": "PASS"
+    },
+    {
+      "test": "four kills below unchanged five-point FFA threshold",
+      "status": "PASS"
+    },
+    {
+      "test": "two assists add one point and can win FFA",
+      "status": "PASS"
+    },
+    {
+      "test": "combined-points leader sorted first",
+      "status": "PASS"
+    },
+    {
+      "test": "default team battle is five versus five leaders",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto cannot melee a teammate",
+      "status": "PASS"
+    },
+    {
+      "test": "two pooled assists preserve remainder below goal",
+      "status": "PASS"
+    },
+    {
+      "test": "third pooled assist wins at ten team points",
+      "status": "PASS"
+    },
+    {
+      "test": "environmental prey does not score",
+      "status": "PASS"
+    },
+    {
+      "test": "FFA leaderboard hidden in teams",
+      "status": "PASS"
+    },
+    {
+      "test": "18 edible trees remain performance=False",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi highlights trees only performance=False",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi browses world tree performance=False",
+      "status": "PASS",
+      "hunger": 67.24414825439453
+    },
+    {
+      "test": "18 edible trees remain performance=True",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi highlights trees only performance=True",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi browses world tree performance=True",
+      "status": "PASS",
+      "hunger": 67.92491912841797
+    },
+    {
+      "test": "2 highlights shrubs only",
+      "status": "PASS"
+    },
+    {
+      "test": "2 eats shared shrubs",
+      "status": "PASS"
+    },
+    {
+      "test": "4 highlights shrubs only",
+      "status": "PASS"
+    },
+    {
+      "test": "4 eats shared shrubs",
+      "status": "PASS"
+    },
+    {
+      "test": "6 highlights shrubs only",
+      "status": "PASS"
+    },
+    {
+      "test": "6 eats shared shrubs",
+      "status": "PASS"
+    },
+    {
+      "test": "Brachi rejects nearby shrub",
+      "status": "PASS"
+    },
+    {
+      "test": "consumed tree retains trunk but hides edible canopy",
+      "status": "PASS",
+      "food": 0
+    },
+    {
+      "test": "Pachy rejects trees",
+      "status": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,666 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 3,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "offline seven species in ten main slots",
+      "status": "PASS",
+      "actors": [
+        {
+          "id": 0,
+          "species": 0,
+          "health": 1500,
+          "stamina": 100,
+          "dead": false,
+          "x": 6500,
+          "y": 0,
+          "z": 594.8335475921631,
+          "yaw": 0,
+          "pivot": 0,
+          "halfHeight": 195,
+          "meshRelativeZ": -195,
+          "meshBaseZ": -195,
+          "meshWorldZ": 399.8335475921631,
+          "ground": 397.48614501953125,
+          "speed": 0,
+          "swimming": false,
+          "movementMode": 1,
+          "brace": false,
+          "animation": "Idle",
+          "mapVisible": true,
+          "markerX": 6500,
+          "markerY": 0,
+          "follower": false,
+          "pack": -1,
+          "scoring": true,
+          "enemy": false,
+          "bot": false,
+          "team": -1,
+          "attackSerial": 0,
+          "player": true
+        },
+        {
+          "id": 1,
+          "species": 0,
+          "health": 1500,
+          "stamina": 100,
+          "dead": false,
+          "x": 5171.385230633957,
+          "y": 3883.9767760057825,
+          "z": 215.8830454572604,
+          "yaw": 48.17946863174445,
+          "pivot": 0,
+          "halfHeight": 195,
+          "meshRelativeZ": -195,
+          "meshBaseZ": -195,
+          "meshWorldZ": 20.88304545726041,
+          "ground": 3.57708740234375,
+          "speed": 0,
+          "swimming": false,
+          "movementMode": 1,
+          "brace": false,
+          "animation": "Idle",
+          "mapVisible": false,
+          "markerX": 0,
+          "markerY": 0,
+          "follower": false,
+          "pack": -1,
+          "scoring": true,
+          "enemy": true,
+          "bot": true,
+          "team": -1,
+          "attackSerial": 0,
+          "player": false
+        },
+        {
+          "id": 2,
+          "species": 1,
+          "health": 520,
+          "stamina": 100,
+          "dead": false,
+          "x": 2228.7817317825757,
+          "y": 6021.903778215987,
+          "z": 145.4580597870744,
+          "yaw": -36.00000449413722,
+          "pivot": 0,
+          "halfHeight": 85,
+          "meshRelativeZ": -85,
+          "meshBaseZ": -85,
+          "meshWorldZ": 60.458059787074404,
+          "ground": -1.8358612060546875,
+          "speed": 0,
+          "swimming": true,
+          "movementMode": 6,
+          "brace": false,
+          "animation": "Swim",
+          "mapVisible": false,
+          "markerX": 0,
+          "markerY": 0,
+          "follower": false,
+          "pack": 2,
+          "scoring": true,
+          "enemy": true,
+          "bot": true,
+          "team": -1,
+          "attackSerial": 0,
+          "player": false
+        },
+        {
+          "id": 3,
+          "species": 2,
+          "health": 1650,
+          "stamina": 95.18205261230469,
+          "dead": false,
+          "x": -1895.6558654732755,
+          "y": 6164.045851123551,
+          "z": 413.59923593162426,
+          "yaw": -9.287174275864116,
+          "pivot": 0,
+          "halfHeight": 150,
+          "meshRelativeZ": -150,
+          "meshBaseZ": -150,
+          "meshWorldZ": 263.59923593162426,
+          "ground": 258.3634033203125,
+          "speed": 0,
+          "swimming": false,
+          "movementMode": 1,
+          "brace": false,
+          "animation": "Idle",
+          "mapVisible": true,
+          "markerX": -1895.6558654732755,
+          "markerY": 6164.045851123551,
+          "follower": false,
+          "pack": -1,
+          "scoring": true,
+          "enemy": true,
+          "bot": true,
+          "team": -1,
+          "attackSerial": 0,
+          "player": false
+        },
+        {
+          "id": 4,
+          "species": 4,
+          "health": 1800,
+          "stamina": 104.07022094726562,
+          "dead": false,
+          "x": -5183.352270156292,
+          "y": 3868.0269164656374,
+          "z": 202.47437650316186,
+          "yaw": 28.179229259491002,
+          "pivot": 0,
+          "halfHeight": 138,
+          "meshRelativeZ": -138,
+          "meshBaseZ": -138,
+          "meshWorldZ": 64.47437650316186,
+          "ground": 61.87104034423828,
+          "speed": 0,
+          "swimming": false,
+          "movementMode": 1,
+          "brace": false,
+          "animation": "Idle",
+          "mapVisible": true,
+          "markerX": -5183.352270156292,
+          "markerY": 3868.0269164656374,
+          "follower": false,
+          "pack": -1,
+          "scoring": true,
+          "enemy": true,
+          "bot": true,
+          "team": -1,
+          "attackSerial": 0,
+          "player": false
+        },
+        {
+          "id": 5,
+          "species": 5,
+          "health": 3100,
+          "stamina": 151.10533142089844,
+          "dead": false,
+          "x": -6493.6981610023495,
+          "y": -34.852078559858185,
+          "z": 132.90506354228907,
+          "yaw": -14.393235802650448,
+          "pivot": 0,
+          "halfHeight": 275,
+          "meshRelativeZ": -275,
+          "meshBaseZ": -275,
+          "meshWorldZ": -142.09493645771093,
+          "ground": -145.486083984375,
+          "speed": 0,
+          "swimming": false,
+          "movementMode": 1,
+          "brace": false,
+          "animation": "Idle",
+          "mapVisible": true,
+          "markerX": -6493.6981610023495,
+          "markerY": -34.852078559858185,
+          "follower": false,
+          "pack": -1,
+          "scoring": true,
+          "enemy": true,
+          "bot": true,
+          "team": -1,
+          "attackSerial": 0,
+          "player": false
+        },
+        {
+          "id": 6,
+          "species": 6,
+          "health": 950,
+          "stamina": 105.92327880859375,
+          "dead": false,
+          "x": -5095.906214747875,
+          "y": -3938.81634935848,
+          "z": 24.287115847363268,
+          "yaw": -35.9999755714211,
+          "pivot": 0,
+          "halfHeight": 130,
+          "meshRelativeZ": -130,
+          "meshBaseZ": -130,
+          "meshWorldZ": -105.71288415263673,
+          "ground": -107.34120178222656,
+          "speed": 0,
+          "swimming": false,
+          "movementMode": 1,
+          "brace": false,
+          "animation": "Idle",
+          "mapVisible": true,
+          "markerX": -5095.906214747875,
+          "markerY": -3938.81634935848,
+          "follower": false,
+          "pack": 6,
+          "scoring": true,
+          "enemy": true,
+          "bot": true,
+          "team": -1,
+          "attackSerial": 0,
+          "player": false
+        },
+        {
+          "id": 7,
+          "species": 7,
+          "health": 1380,
+          "stamina": 110,
+          "dead": false,
+          "x": -2135.652093962912,
+          "y": -6089.5649253904985,
+          "z": -94.88955012507017,
+          "yaw": 75.97531533241263,
+          "pivot": 0,
+          "halfHeight": 180,
+          "meshRelativeZ": -180,
+          "meshBaseZ": -180,
+          "meshWorldZ": -274.8895501250702,
+          "ground": -280.80072021484375,
+          "speed": 0,
+          "swimming": false,
+          "movementMode": 1,
+          "brace": false,
+          "animation": "Idle",
+          "mapVisible": false,
+          "markerX": 0,
+          "markerY": 0,
+          "follower": false,
+          "pack": -1,
+          "scoring": true,
+          "enemy": true,
+          "bot": true,
+          "team": -1,
+          "attackSerial": 0,
+          "player": false
+        },
+        {
+          "id": 8,
+          "species": 0,
+          "health": 1500,
+          "stamina": 94.44082641601562,
+          "dead": false,
+          "x": 2097.8087279226093,
+          "y": -6119.535425365681,
+          "z": 46.79532493608162,
+          "yaw": 34.94611714970282,
+          "pivot": 0,
+          "halfHeight": 195,
+          "meshRelativeZ": -195,
+          "meshBaseZ": -195,
+          "meshWorldZ": -148.2046750639184,
+          "ground": -151.88165283203125,
+          "speed": 0,
+          "swimming": false,
+          "movementMode": 1,
+          "brace": false,
+          "animation": "Idle",
+          "mapVisible": true,
+          "markerX": 2097.8087279226093,
+          "markerY": -6119.535425365681,
+          "follower": false,
+          "pack": -1,
+          "scoring": true,
+          "enemy": true,
+          "bot": true,
+          "team": -1,
+          "attackSerial": 0,
+          "player": false
+        },
+        {
+          "id": 9,
+          "species": 1,
+          "health": 520,
+          "stamina": 96.66448974609375,
+          "dead": false,
+          "x": 5579.555177033649,
+          "y": -3882.2960854484736,
+          "z": 58.40610544797315,
+          "yaw": -28.572419809951963,
+          "pivot": 0,
+          "halfHeight": 85,
+          "meshRelativeZ": -85,
+          "meshBaseZ": -85,
+          "meshWorldZ": -26.593894552026853,
+          "ground": -29.771400451660156,
+          "speed": 0,
+          "swimming": false,
+          "movementMode": 1,
+          "brace": false,
+          "animation": "Idle",
+          "mapVisible": true,
+          "markerX": 5579.555177033649,
+          "markerY": -3882.2960854484736,
+          "follower": false,
+          "pack": 9,
+          "scoring": true,
+          "enemy": true,
+          "bot": true,
+          "team": -1,
+          "attackSerial": 0,
+          "player": false
+        }
+      ]
+    },
+    {
+      "test": "offline species 0 selects",
+      "status": "PASS"
+    },
+    {
+      "test": "offline species 1 selects",
+      "status": "PASS"
+    },
+    {
+      "test": "offline species 2 selects",
+      "status": "PASS"
+    },
+    {
+      "test": "offline species 4 selects",
+      "status": "PASS"
+    },
+    {
+      "test": "offline species 5 selects",
+      "status": "PASS"
+    },
+    {
+      "test": "offline species 6 selects",
+      "status": "PASS"
+    },
+    {
+      "test": "offline species 7 selects",
+      "status": "PASS"
+    },
+    {
+      "test": "offline human cannot select banned Alberto",
+      "status": "PASS"
+    },
+    {
+      "test": "banned Alberto removed from AI roster",
+      "status": "PASS"
+    },
+    {
+      "test": "raptor ban removes leader and followers",
+      "status": "PASS"
+    },
+    {
+      "test": "only one species allowed",
+      "status": "PASS"
+    },
+    {
+      "test": "last allowed species cannot be banned",
+      "status": "PASS"
+    },
+    {
+      "test": "respawn respects only allowed species",
+      "status": "PASS"
+    },
+    {
+      "test": "offline 5 vs 5 validity",
+      "status": "PASS",
+      "warning": ""
+    },
+    {
+      "test": "offline requested bots 4/5",
+      "status": "PASS"
+    },
+    {
+      "test": "offline 1 vs 3 validity",
+      "status": "PASS",
+      "warning": ""
+    },
+    {
+      "test": "offline requested bots 0/3",
+      "status": "PASS"
+    },
+    {
+      "test": "offline 1 vs 5 validity",
+      "status": "PASS",
+      "warning": ""
+    },
+    {
+      "test": "offline requested bots 0/5",
+      "status": "PASS"
+    },
+    {
+      "test": "offline 2 vs 5 validity",
+      "status": "PASS",
+      "warning": ""
+    },
+    {
+      "test": "offline requested bots 1/5",
+      "status": "PASS"
+    },
+    {
+      "test": "offline 3 vs 0 validity",
+      "status": "PASS",
+      "warning": "Each team needs at least one human or bot."
+    },
+    {
+      "test": "offline 1 vs 0 validity",
+      "status": "PASS",
+      "warning": "Each team needs at least one human or bot."
+    },
+    {
+      "test": "offline 3 vs 6 validity",
+      "status": "PASS",
+      "warning": ""
+    },
+    {
+      "test": "offline requested bots 2/6",
+      "status": "PASS"
+    },
+    {
+      "test": "offline 10 vs 9 validity",
+      "status": "PASS",
+      "warning": "Players plus selected bots exceed capacity. Reduce bot counts or increase capacity (maximum 10)."
+    },
+    {
+      "test": "zero bots valid with one human on each team",
+      "status": "PASS"
+    },
+    {
+      "test": "host score 5 replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "guest cannot change score limit",
+      "status": "PASS"
+    },
+    {
+      "test": "match starts",
+      "status": "PASS"
+    },
+    {
+      "test": "5-point match not over at 1",
+      "status": "PASS"
+    },
+    {
+      "test": "5-point match not over at 2",
+      "status": "PASS"
+    },
+    {
+      "test": "5-point match not over at 3",
+      "status": "PASS"
+    },
+    {
+      "test": "5-point match not over at 4",
+      "status": "PASS"
+    },
+    {
+      "test": "match ends at exactly 5 for guest",
+      "status": "PASS"
+    },
+    {
+      "test": "rematch preserves target",
+      "status": "PASS"
+    },
+    {
+      "test": "host score 10 replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "guest cannot change score limit",
+      "status": "PASS"
+    },
+    {
+      "test": "match starts",
+      "status": "PASS"
+    },
+    {
+      "test": "10-point match not over at 1",
+      "status": "PASS"
+    },
+    {
+      "test": "10-point match not over at 2",
+      "status": "PASS"
+    },
+    {
+      "test": "10-point match not over at 3",
+      "status": "PASS"
+    },
+    {
+      "test": "10-point match not over at 4",
+      "status": "PASS"
+    },
+    {
+      "test": "10-point match not over at 5",
+      "status": "PASS"
+    },
+    {
+      "test": "10-point match not over at 6",
+      "status": "PASS"
+    },
+    {
+      "test": "10-point match not over at 7",
+      "status": "PASS"
+    },
+    {
+      "test": "10-point match not over at 8",
+      "status": "PASS"
+    },
+    {
+      "test": "10-point match not over at 9",
+      "status": "PASS"
+    },
+    {
+      "test": "match ends at exactly 10 for guest",
+      "status": "PASS"
+    },
+    {
+      "test": "rematch preserves target",
+      "status": "PASS"
+    },
+    {
+      "test": "host score 15 replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "guest cannot change score limit",
+      "status": "PASS"
+    },
+    {
+      "test": "match starts",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 1",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 2",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 3",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 4",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 5",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 6",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 7",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 8",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 9",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 10",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 11",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 12",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 13",
+      "status": "PASS"
+    },
+    {
+      "test": "15-point match not over at 14",
+      "status": "PASS"
+    },
+    {
+      "test": "match ends at exactly 15 for guest",
+      "status": "PASS"
+    },
+    {
+      "test": "rematch preserves target",
+      "status": "PASS"
+    },
+    {
+      "test": "guest cannot choose banned Alberto",
+      "status": "PASS"
+    },
+    {
+      "test": "guest cannot change bans or bots",
+      "status": "PASS"
+    },
+    {
+      "test": "two humans plus one bot vs five bots",
+      "status": "PASS"
+    },
+    {
+      "test": "online bots 0/3 replicate",
+      "status": "PASS"
+    },
+    {
+      "test": "online bots 3/0 replicate",
+      "status": "PASS"
+    },
+    {
+      "test": "online bots 2/5 replicate",
+      "status": "PASS"
+    },
+    {
+      "test": "online bots 0/0 replicate",
+      "status": "PASS"
+    },
+    {
+      "test": "over-capacity setup warns and blocks start without deleting humans",
+      "status": "PASS"
+    },
+    {
+      "test": "fixed capacity starts ten combatants",
+      "status": "PASS"
+    }
+  ]
+}

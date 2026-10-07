@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
+#include "DinoMatchRules.h"
 #include "DinoGameState.generated.h"
 class ADinosaurCharacter;
 
@@ -32,6 +33,8 @@ public:
     virtual void Tick(float Dt) override;
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
     UPROPERTY(Replicated) bool bTeamMatch=false;
+    UPROPERTY(Replicated) FDinoMatchRules MatchRules;
+    UPROPERTY(Replicated) FString SetupWarning;
     UPROPERTY(Replicated) bool bRoundOver=false;
     UPROPERTY(Replicated) bool bLobby=false;
     UPROPERTY(Replicated) bool bFillBots=false;

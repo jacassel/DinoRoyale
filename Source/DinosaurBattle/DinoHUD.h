@@ -11,6 +11,7 @@ class DINOSAURBATTLE_API ADinoHUD : public AHUD
 {
     GENERATED_BODY()
 public:
+    void DrawMatchSetup(class ADinoPlayerController* PC);
     virtual void DrawHUD() override;
 private:
     UPROPERTY() UTexture2D* WorldMap=nullptr;

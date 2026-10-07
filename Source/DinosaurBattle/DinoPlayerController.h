@@ -48,6 +48,10 @@ public:
     void SelectAnky();
     void SelectBrachi();
     void SelectPachy();
+    void SelectAlberto();
+    void ToggleMatchSetup();
+    void MatchSetupClick(float X,float Y);
+    bool bMatchSetupOpen=false;
     void MenuClick();
     void ResumeGame();
     void QuitGame();

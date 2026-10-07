@@ -22,6 +22,14 @@ def build(kind):
     g.PARTS=[];g.BONES={};g.SPECIES=kind
     scene=bpy.context.scene;scene.unit_settings.system='METRIC';scene.unit_settings.scale_length=.01;scene.render.fps=30
     skin=g.material('Dino_Skin',PALETTES[kind][0]);horn=g.material('Dino_Horn',(.31,.27,.17))
+    # Bone is warm and weathered, with restrained pores and growth variation.
+    hn=horn.node_tree;hp=hn.nodes.get('Principled BSDF');hp.inputs['Roughness'].default_value=.82
+    hc=hn.nodes.new('ShaderNodeTexCoord');noise=hn.nodes.new('ShaderNodeTexNoise');noise.inputs['Scale'].default_value=.24;noise.inputs['Detail'].default_value=3
+    hn.links.new(hc.outputs['Object'],noise.inputs['Vector']);hr=hn.nodes.new('ShaderNodeValToRGB')
+    hr.color_ramp.elements[0].color=(.10,.075,.045,1);hr.color_ramp.elements[1].color=(.37,.29,.17,1)
+    hn.links.new(noise.outputs['Fac'],hr.inputs['Fac']);hn.links.new(hr.outputs[0],hp.inputs['Base Color'])
+    hb=hn.nodes.new('ShaderNodeBump');hb.inputs['Strength'].default_value=.28;hb.inputs['Distance'].default_value=.65
+    hn.links.new(noise.outputs['Fac'],hb.inputs['Height']);hn.links.new(hb.outputs[0],hp.inputs['Normal'])
     # Bake original scale cells and fine creases so the game shares Blender's surface.
     nt=skin.node_tree;bsdf=nt.nodes.get('Principled BSDF');attr=nt.nodes.get('Skin_attribute')
     coord=nt.nodes.new('ShaderNodeTexCoord');cells=nt.nodes.new('ShaderNodeTexVoronoi');cells.feature='DISTANCE_TO_EDGE';cells.inputs['Scale'].default_value=.40;nt.links.new(coord.outputs['Object'],cells.inputs['Vector'])
@@ -107,6 +115,9 @@ def build(kind):
             g.skin_joint(n,a,b,9,6,skin,n+'_upper');g.skin_joint(n+'_fore',b,c,6,5,skin,n+'_lower')
             for j in range(3):g.sweep(n+'_finger',[c,(c[0]+11,c[1]+side*(j-1)*4,c[2]-8)],[3,.4],claw,n+'_lower',10)
         g.ellipsoid('Reinforced_dome',(134,0,268),(35,27,28),horn,'head',32,20)
+        for j in range(9):
+            a=2*pi*j/9
+            g.ellipsoid('Dome_basal_ridge',(134+32*cos(a),25*sin(a),259),(8,6,4),horn,'head',12,8)
         for j in range(11):
             a=pi*.3+pi*1.4*j/10;p=(128+32*cos(a),29*sin(a),257)
             g.ellipsoid('Skull_knob',p,(8,7,8),horn,'head',12,8)
@@ -121,7 +132,12 @@ def build(kind):
         for j in range(3):
             for sign in (-1,1):g.ellipsoid('Neck_plate',(155+j*24,sign*28,188-j*9),(19,17,9),horn,'neck' if j<2 else 'head',16,10)
         for sign in (-1,1):g.sweep('Cheek_horn',[(223,sign*43,146),(202,sign*65,167)],[12,.3],horn,'head',12)
-        g.ellipsoid('Tail_club',tail[-1],(58,71,38),horn,'tail_04',32,20)
+        # Paired major osteoderms give the club a readable waist and ridge, not a sphere.
+        for sign in (-1,1):g.ellipsoid('Club_osteoderm',(-531,sign*32,119),(55,43,34),horn,'tail_04',24,16)
+        for j in range(7):
+            x=-302-j*29;bn='tail_02' if x>-355 else 'tail_03' if x>-450 else 'tail_04'
+            z=137+(x+302)*.055
+            for sign in (-1,1):g.ellipsoid('Tail_scute',(x,sign*12,z+13),(11,12,5),horn,bn,12,8)
         g.bone('club_tip',tail[-1],(-550,0,119),'tail_04')
     else:
         g.ellipsoid('Nasal_arch',(389,0,1129),(32,27,29),skin,'head')
@@ -193,26 +209,38 @@ def actions(rig,kind):
                 pulse=max(0,1-abs(t-hit)/(.23 if heavy else .19));pulse=pulse*pulse*(3-2*pulse)
                 if kind=='Anky':
                     sign=-1 if name=='Quick2' else 1
-                    if name=='Quick3':rot('spine',roll=-7*pulse);rot('head',10*pulse)
-                    else:
-                        # One committed sweep, then a slow return; no oscillating recovery.
-                        keys=[(0,-.65),(.15,-1),(.40,1),(.70,.42),(1,0)]
-                        for (ta,va),(tb,vb) in zip(keys,keys[1:]):
-                            if ta<=t<=tb:
-                                u=(t-ta)/(tb-ta);u=u*u*(3-2*u);angle=(va+(vb-va)*u)*(48 if heavy else 31);break
-                        rot('tail_01',yaw=sign*angle);rot('tail_02',yaw=sign*angle*.25);rot('tail_03',yaw=sign*angle*.12);rot('spine',yaw=-sign*angle*.045)
+                    # One committed sweep, then a slow return; no oscillating recovery.
+                    keys=[(0,-.65),(.15,-1),(.40,1),(.70,.42),(1,0)]
+                    for (ta,va),(tb,vb) in zip(keys,keys[1:]):
+                        if ta<=t<=tb:
+                            u=(t-ta)/(tb-ta);u=u*u*(3-2*u);angle=(va+(vb-va)*u)*(66 if heavy else 48 if name=='Quick3' else 45);break
+                    rot('tail_01',yaw=sign*angle);rot('tail_02',yaw=sign*angle*.34);rot('tail_03',yaw=sign*angle*.20);rot('tail_04',yaw=sign*angle*.10)
+                    rot('spine',roll=-sign*3*pulse,yaw=sign*angle*.17);rot('neck',yaw=-sign*angle*.13)
+                    for side in ('l','r'):rot('leg_'+side+'_upper',-4*pulse);rot('arm_'+side+'_upper',3*pulse)
                 elif kind=='Pachy':
                     rot('neck',28*pulse);rot('head',-7*pulse);loc('spine',(20*pulse,0,-9*pulse));rot('neck',28*pulse,yaw=(12 if name=='Quick2' else -9 if name=='Quick3' else 0)*pulse)
                 else:
-                    if name=='Quick2':rot('tail_01',yaw=32*pulse);rot('tail_02',yaw=12*pulse)
+                    if name=='Quick2':
+                        rot('tail_01',yaw=40*pulse);rot('tail_02',yaw=16*pulse);rot('spine',yaw=-4*pulse)
+                        rot('neck',-5*pulse,yaw=6*pulse);rot('neck_2',4*pulse)
                     else:
-                        lift=sin(pi*min(1,t/hit)) if t<hit else 0
+                        # Raise through anticipation and visibly plant at the damage window.
+                        hit=.7/1.9 if heavy else .304/.95
+                        if t<hit*.58:lift=sin(pi*.5*t/(hit*.58))
+                        elif t<hit:lift=(1-(t-hit*.58)/(hit*.42))**.7
+                        else:lift=0
+                        settle=sin(pi*min(1,(t-hit)/.22)) if hit<t<hit+.22 else 0
                         for side in (['l','r'] if heavy else ['r' if name=='Quick3' else 'l']):
-                            rot('arm_'+side+'_upper',-17*lift);rot('arm_'+side+'_lower',24*lift)
-                        rot('neck',-2*lift);loc('root',(0,0,12*lift))
+                            rot('arm_'+side+'_upper',-(28 if heavy else 24)*lift);rot('arm_'+side+'_lower',32*lift)
+                        side=-1 if name=='Quick3' else 1
+                        sway=side*((13 if heavy else 9)*lift-5*settle)
+                        rot('neck',-9*lift+4*settle,yaw=sway);rot('neck_2',-5*lift+3*settle,yaw=sway*.4);rot('neck_3',4*lift);rot('head',5*lift,yaw=-sway*.3)
+                        rot('spine',-3*lift,roll=0 if heavy else (3 if name=='Quick3' else -3)*lift)
+                        rot('tail_01',5*lift);loc('root',(0,0,(25 if heavy else 10)*lift-5*settle))
             elif name in ('Charge','Brace'):
                 rot('neck',18 if kind=='Pachy' else 3);rot('head',-8 if kind=='Pachy' else 0)
-                if kind=='Anky' and name=='Charge':rot('tail_01',yaw=-30)
+                if kind=='Anky' and name=='Charge':rot('tail_01',yaw=-43);rot('tail_02',yaw=-15);rot('tail_03',yaw=-8);rot('spine',yaw=-7)
+                if kind=='Brachi' and name=='Charge':rot('neck',-7);rot('neck_2',-4);rot('head',6);rot('spine',-2)
             elif name=='Eat':
                 if kind=='Brachi':rot('neck',5+sin(phase));rot('neck_2',8);rot('neck_3',10);rot('head',-12)
                 else:rot('neck',24+2*sin(phase));rot('head',12)

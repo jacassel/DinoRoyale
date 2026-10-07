@@ -1,4 +1,5 @@
 #include "DinoOnlineSession.h"
+#include "DinoGameMode.h"
 #include "OnlineSubsystem.h"
 #include "Online/OnlineSessionNames.h"
 #include "Interfaces/OnlineExternalUIInterface.h"
@@ -166,6 +167,7 @@ void UDinoOnlineSession::Host(bool Teams,int32 Capacity,bool Bots,bool Public,bo
     S.Set(NameKey,Identity->GetPlayerNickname(0).Left(48)+TEXT("'s match"),EOnlineDataAdvertisementType::ViaOnlineService);
     PendingOptions=FString::Printf(TEXT("listen?OnlineLobby=1?Capacity=%d?Teams=%d?Bots=%d?DinoBuild=%d"),Capacity,Teams?1:0,Bots?1:0,BuildVersion);
     PendingOptions+=FString::Printf(TEXT("?PerformanceMap=%d"),PerformanceMap?1:0);
+    if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())PendingOptions+=FString::Printf(TEXT("?TeamGoal=%d?AllowedSpecies=%d?ExplicitBots=%d?TeamABots=%d?TeamBBots=%d"),GM->TeamKillGoal,GM->MatchRules.AllowedSpeciesMask,GM->MatchRules.bExplicitBotCounts?1:0,GM->MatchRules.TeamABots,GM->MatchRules.TeamBBots);
     BeginOperation(EOperation::Create,TEXT("Creating EOS lobby..."));
     UE_LOG(LogDinoOnline,Display,TEXT("[DINO_EOS] CreateSession request name=GameSession lan=%d presence=%d lobby=%d advertise=%d public=%d private=%d joinInProgress=%d invites=%d listenOption=1"),S.bIsLANMatch,S.bUsesPresence,S.bUseLobbiesIfAvailable,S.bShouldAdvertise,S.NumPublicConnections,S.NumPrivateConnections,S.bAllowJoinInProgress,S.bAllowInvites);
     DinoOnlineDiagnostics::Identity(Identity,TEXT("CreateSession-request"));

@@ -1,0 +1,70 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "One selects and starts",
+      "status": "PASS"
+    },
+    {
+      "test": "Two selects and starts",
+      "status": "PASS"
+    },
+    {
+      "test": "Three selects and starts",
+      "status": "PASS"
+    },
+    {
+      "test": "Four selects and starts",
+      "status": "PASS"
+    },
+    {
+      "test": "Five selects and starts",
+      "status": "PASS"
+    },
+    {
+      "test": "Six selects and starts",
+      "status": "PASS"
+    },
+    {
+      "test": "Seven selects and starts",
+      "status": "PASS"
+    },
+    {
+      "test": "banned hotkey stays in selection",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 0",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 1",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 2",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 4",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 5",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 6",
+      "status": "PASS"
+    },
+    {
+      "test": "card click 7",
+      "status": "PASS"
+    }
+  ]
+}

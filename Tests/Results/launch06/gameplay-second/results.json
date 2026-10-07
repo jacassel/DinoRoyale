@@ -1,0 +1,126 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "Alberto retains large predator health below Rex",
+      "status": "PASS",
+      "measurements": {
+        "0": {
+          "health": 1500,
+          "speed": 1050,
+          "earlySpeed": 616.7480014198081,
+          "sprint": 1449,
+          "pivot": 50.66920959949528,
+          "stamina": 100,
+          "sprintStamina": 81.74799346923828
+        },
+        "7": {
+          "health": 1380,
+          "speed": 1200,
+          "earlySpeed": 962.5151210399218,
+          "sprint": 1740,
+          "pivot": 72.50181269645702,
+          "stamina": 110,
+          "sprintStamina": 92.89964294433594
+        }
+      }
+    },
+    {
+      "test": "Alberto visibly faster running and sprinting",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto accelerates and pivots faster",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto has modestly better stamina economy",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto hunger 95 uses shared regen thresholds",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto hunger 75 uses shared regen thresholds",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto hunger 65 uses shared regen thresholds",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto hunger 35 uses shared regen thresholds",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto hunger 15 uses shared regen thresholds",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto hunger 9 uses shared regen thresholds",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto death creates sized edible carcass",
+      "status": "PASS"
+    },
+    {
+      "test": "starving exhausted Alberto eats meat and recovers",
+      "status": "PASS"
+    },
+    {
+      "test": "eating and environmental food kill award no points",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto rejects plants",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto sprint creates map noise",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto attack creates map noise",
+      "status": "PASS"
+    },
+    {
+      "test": "1 player owns exactly two non-scoring followers",
+      "status": "PASS"
+    },
+    {
+      "test": "1 follower kill credits human leader",
+      "status": "PASS"
+    },
+    {
+      "test": "1 follower death awards no kill",
+      "status": "PASS"
+    },
+    {
+      "test": "6 player owns exactly two non-scoring followers",
+      "status": "PASS"
+    },
+    {
+      "test": "6 follower kill credits human leader",
+      "status": "PASS"
+    },
+    {
+      "test": "6 follower death awards no kill",
+      "status": "PASS"
+    },
+    {
+      "test": "Escape cannot resume a team with no opponent",
+      "status": "PASS"
+    },
+    {
+      "test": "valid revised local setup starts fresh three-bot challenge",
+      "status": "PASS"
+    }
+  ]
+}

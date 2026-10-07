@@ -1,0 +1,39 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "4 textured material loaded",
+      "status": "PASS",
+      "materials": [
+        "M_Anky_Launch06",
+        "M_Eye",
+        "M_Pupil",
+        "M_Claw",
+        "M_Anky_Launch06"
+      ]
+    },
+    {
+      "test": "quick club has broad lateral sweep",
+      "status": "PASS",
+      "spanCm": 642.6596684945278
+    },
+    {
+      "test": "club stays out of torso",
+      "status": "PASS"
+    },
+    {
+      "test": "4 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "heavy club has broad lateral sweep",
+      "status": "FAIL",
+      "spanCm": 715.2800291213937
+    }
+  ]
+}

@@ -25,13 +25,13 @@ void ADinoGameMode::RemoveParticipant(ADinosaurCharacter* D)
 
 void ADinoGameMode::RebuildPacks()
 {
-    if(GetNetMode()==NM_Standalone)return;
+
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->bPackFollower)RemoveParticipant(*It);
     SynchronizePacks();
 }
 void ADinoGameMode::SynchronizePacks()
 {
-    if(GetNetMode()==NM_Standalone||bSynchronizingPacks||!HasActorBegunPlay())return;
+    if(bSynchronizingPacks||!HasActorBegunPlay())return;
     TGuardValue<bool> Guard(bSynchronizingPacks,true);
     TArray<ADinosaurCharacter*> Leaders;
     TMap<int32,ADinosaurCharacter*> Followers;
@@ -72,13 +72,23 @@ void ADinoGameMode::SynchronizePacks()
 }
 void ADinoGameMode::ReconcileBots()
 {
-    if(GetNetMode()==NM_Standalone||!HasActorBegunPlay())return;
+    if(!HasActorBegunPlay())return;
     TSet<int32> HumanIDs;int32 TeamCounts[2]={0,0};
     for(auto It=GetWorld()->GetPlayerControllerIterator();It;++It)if(auto* PS=It->Get()->GetPlayerState<ADinoPlayerState>())
     {
         HumanIDs.Add(PS->CombatantID);
         if(auto* D=Cast<ADinosaurCharacter>(It->Get()->GetPawn()))D->TeamID=bTeamMatch?PS->TeamID:-1;
         if(PS->TeamID>=0&&PS->TeamID<2)++TeamCounts[PS->TeamID];
+    }
+    if(bTeamMatch&&MatchRules.bExplicitBotCounts)
+    {
+        // Preserve requested counts when humans join: an invalid lobby must be fixed by its host.
+        if(HumanIDs.Num()+MatchRules.TeamABots+MatchRules.TeamBBots>MaxParticipants)return;
+        bCustomBotSlots=true;bFillBots=true;
+        for(int32& Team:BotSlotTeams)Team=-1;
+        int32 RemainingA=MatchRules.TeamABots,RemainingB=MatchRules.TeamBBots;
+        for(int32 ID=0;ID<MaxParticipants;++ID)if(!HumanIDs.Contains(ID))
+        {if(RemainingA>0){BotSlotTeams[ID]=0;--RemainingA;}else if(RemainingB>0){BotSlotTeams[ID]=1;--RemainingB;}}
     }
     TMap<int32,ADinosaurCharacter*> Bots;
     for(TActorIterator<ADinosaurCharacter> It(GetWorld());It;++It)if(It->bFillerBot)
@@ -97,7 +107,7 @@ void ADinoGameMode::ReconcileBots()
         auto* D=Bots.FindRef(ID);
         if(!D)
         {
-            const int32 Species=FSpeciesData::PlayableID(ID%6);FVector P=ParticipantHome(ID,Team);
+            const int32 Species=MatchRules.BotSpecies(ID-1);FVector P=ParticipantHome(ID,Team);
             P.Z=ALostValleyWorld::HeightAt(P.X,P.Y)+FSpeciesData::Get(Species).HalfHeight+30;
             const FTransform Spawn(FRotator::ZeroRotator,P);
             D=GetWorld()->SpawnActorDeferred<ADinosaurCharacter>(ADinosaurCharacter::StaticClass(),Spawn,nullptr,nullptr,ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn);
@@ -107,6 +117,7 @@ void ADinoGameMode::ReconcileBots()
             D->HomePosition=ParticipantHome(ID,Team);D->bDead=true;D->ResetLife();
             auto* AI=GetWorld()->SpawnActor<ADinosaurAIController>();AI->Possess(D);Scores.Add(ID,FDinoScore());
         }
+        if(!MatchRules.Allows(D->Species))D->ApplySpecies(MatchRules.BotSpecies(ID-1));
         D->TeamID=Team;D->ForceNetUpdate();
     }
 }

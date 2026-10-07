@@ -174,6 +174,14 @@ def build(kind):
         body_rad=[(2,3),(12,14),(27,30),(47,43),(88,88),(107,121),(100,125),(76,95),(52,63)]
         tail=[(-180,0,273),(-310,0,246),(-450,0,200),(-580,0,158),(-665,0,135)]
         leg_y=79;legs=[('leg_l',(-100,-leg_y,270),(-15,-leg_y-8,156),(-85,-leg_y-5,51),(-18,-leg_y-5,14)),('leg_r',(-100,leg_y,270),(-15,leg_y+8,156),(-85,leg_y+5,51),(-18,leg_y+5,14))]
+    elif kind=='Alberto':
+        # A lighter thorax, long tibiae/metatarsals and a lower narrow skull;
+        # anatomical proportions are authored independently of the Rex mesh.
+        hip=(-82,0,260);neck=(108,0,301);head=(215,0,356);jaw=(217,0,333)
+        body_pts=[(-610,0,153),(-523,0,176),(-401,0,214),(-274,0,251),(-152,0,271),(-82,0,275),(12,0,276),(89,0,288),(135,0,314)]
+        body_rad=[(2,3),(10,12),(22,25),(35,36),(61,65),(76,91),(71,90),(56,72),(40,46)]
+        tail=[(-152,0,271),(-274,0,251),(-401,0,214),(-523,0,176),(-610,0,153)]
+        legs=[('leg_l',(-85,-59,263),(-5,-65,159),(-64,-64,60),(-5,-64,12)),('leg_r',(-85,59,263),(-5,65,159),(-64,64,60),(-5,64,12))]
     elif small:
         hip=(-28,0,128);neck=(58,0,155);head=(122,0,205);jaw=(120,0,193)
         body_pts=[(-380,0,111),(-335,0,116),(-250,0,123),(-155,0,135),(-65,0,138),(-20,0,136),(30,0,139),(68,0,164)]
@@ -250,7 +258,7 @@ def build(kind):
     # Articulated legs, padded joints, foot pads and visible keratin claws.
     for name,a,b,c,d in legs:
         bone(name+'_upper',a,b,'spine');bone(name+'_lower',b,c,name+'_upper');bone(name+'_foot',c,d,name+'_lower')
-        r=(21 if small else 49) if not is_trike else 38
+        r=(21 if small else 38 if kind=='Alberto' else 49) if not is_trike else 38
         ellipsoid(name+'_haunch',a,(r*1.3,r*.86,r*1.53),skin,name+'_upper')
         skin_joint(name+'_thigh',a,b,r,r*.66,skin,name+'_upper')
         ellipsoid(name+'_knee',b,(r*.68,r*.62,r*.67),skin,name+'_lower')
@@ -269,6 +277,7 @@ def build(kind):
     if not is_trike:
         for sign,side in [(-1,'l'),(1,'r')]:
             if small:a=(43,sign*28,152);b=(56,sign*46,113);c=(102,sign*41,122);r=8
+            elif kind=='Alberto':a=(98,sign*51,290);b=(125,sign*67,251);c=(158,sign*63,265);r=10
             else:a=(107,sign*66,311);b=(135,sign*86,267);c=(169,sign*77,282);r=13
             bone('arm_'+side+'_upper',a,b,'spine');bone('arm_'+side+'_lower',b,c,'arm_'+side+'_upper')
             skin_joint('Upper_arm',a,b,r,r*.72,skin,'arm_'+side+'_upper');skin_joint('Forearm',b,c,r*.72,r*.43,skin,'arm_'+side+'_lower')
@@ -283,8 +292,20 @@ def build(kind):
     for j in range(12):
         x=(-155+j*28) if not small else (-70+j*12)
         z=(368-abs(x)*.06) if kind=='Trex' else (177-abs(x)*.08) if small else (301-abs(x)*.15)
+        if kind=='Alberto':continue
         if is_trike and x>100:continue
         ellipsoid('Dorsal_scute',(x,0,z),(9 if not small else 4,5 if not small else 3,6 if not small else 4),skin,'spine',12,8)
+    if kind=='Alberto':
+        for obj in PARTS:
+            if obj.vertex_groups.get('head') or obj.vertex_groups.get('jaw'):
+                # Preserve separate mobile jaws and align teeth/eyes to the slender skull.
+                for v in obj.data.vertices:
+                    p=obj.matrix_world@v.co
+                    q=Vector((215+(p.x-235)*.88,p.y*.76,356+(p.z-400)*.83))
+                    v.co=obj.matrix_world.inverted()@q
+                if obj.data.materials[0].name=='Dino_Skin':skin_color(obj,kind)
+        for side in (-1,1):
+            sweep('Low_lacrimal_ridge',[(236,side*43,398),(254,side*44,405),(278,side*41,398)],[5,7,2],skin,'head',12)
     if REFINE:body=refine_skin(body)
     # Consolidate, retain material slots and explicit skin groups, then rig.
     bpy.ops.object.select_all(action='DESELECT')

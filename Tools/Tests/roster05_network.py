@@ -8,13 +8,13 @@ p=argparse.ArgumentParser();p.add_argument('--executable');p.add_argument('--out
 t=NetworkTest(a.output,executable=a.executable,lag=a.lag,loss=a.loss)
 try:
  host=Peer(t,'RosterHost',host_url(6));client=Peer(t,'RosterGuest');third=Peer(t,'RosterThird')
- for species in [0,1,2,4,5,6]:
+ for species in [0,1,2,4,5,6,7]:
   client.lobby(0,species);t.check(f'lobby species {species} replicates to three peers',wait_for(lambda:host.actor(1)['species']==client.state()['species']==third.actor(1)['species']==species))
  host.lobby(0,5);client.lobby(0,6);third.lobby(0,4);client.lobby(2,1);third.lobby(2,1);host.lobby(6)
  t.check('all three new species start together',wait_for(lambda:not third.state()['lobby']) and {v['species'] for v in third.state()['networkActors'] if v['player']}=={4,5,6})
  host.command('ai',paused=True);host.command('sandbox',enabled=True)
  t.check('remote Pachy leader owns exactly two followers',wait_for(lambda:len([v for v in third.state()['networkActors'] if v['follower'] and v['pack']==1 and v['species']==6])==2))
- for species in [4,5,6]:
+ for species in [4,5,6,7]:
   host.command('testAI',id=1,species=species,x=0,y=0,yaw=0,health=1,enabled=False);client.command('face',yaw=0);time.sleep(.7)
   x,y=(-440,250) if species==4 else (320,120) if species==5 else (340,0)
   host.command('testAI',id=0,species=0,x=x,y=y,yaw=180,health=1,enabled=False);time.sleep(.5)

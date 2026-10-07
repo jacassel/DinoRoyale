@@ -17,11 +17,13 @@ void ADinoGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
     DOREPLIFETIME(ADinoGameState,TeamKills);DOREPLIFETIME(ADinoGameState,TeamAssists);DOREPLIFETIME(ADinoGameState,WinnerID);
     DOREPLIFETIME(ADinoGameState,WinnerTeam);DOREPLIFETIME(ADinoGameState,RoundNumber);
     DOREPLIFETIME(ADinoGameState,ScoreRows);
+    DOREPLIFETIME(ADinoGameState,MatchRules);DOREPLIFETIME(ADinoGameState,SetupWarning);
 }
 void ADinoGameState::SynchronizeRules()
 {
     if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())
     {
+        MatchRules=GM->MatchRules;SetupWarning=GM->ValidateSetup();
         bPerformanceMap=GM->bPerformanceMap;bCustomBotSlots=GM->bCustomBotSlots;BotSlotTeams=GM->BotSlotTeams;
         bLobby=GM->bLobby;MaxParticipants=GM->MaxParticipants;bFillBots=GM->bFillBots;bTeamMatch=GM->bTeamMatch;bRoundOver=GM->bRoundOver;SoloKillGoal=GM->SoloKillGoal;TeamKillGoal=GM->TeamKillGoal;
         TeamKills={GM->TeamKills[0],GM->TeamKills[1]};TeamAssists={GM->TeamAssists[0],GM->TeamAssists[1]};WinnerID=GM->WinnerID;WinnerTeam=GM->WinnerTeam;RoundNumber=GM->RoundNumber;

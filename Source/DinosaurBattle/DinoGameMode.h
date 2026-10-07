@@ -21,6 +21,10 @@ public:
     virtual APlayerController* Login(UPlayer* NewPlayer,ENetRole InRemoteRole,const FString& Portal,const FString& Options,const FUniqueNetIdRepl& ID,FString& Error) override;
     virtual void BeginPlay() override;
     bool bTeamMatch=false,bRoundOver=false,bIgnoreWinCondition=false,bSharePackKills=true;
+    FDinoMatchRules MatchRules;
+    bool bOfflineRulesDirty=false;
+    FString ValidateSetup() const;
+    void EnforceAllowedSpecies();
     bool bOnlineMatch=false,bLobby=false,bFillBots=false;
     int32 MaxParticipants=10;
     bool bPerformanceMap=false,bCustomBotSlots=false;

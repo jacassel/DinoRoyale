@@ -5,7 +5,7 @@ p=argparse.ArgumentParser();p.add_argument('--executable');p.add_argument('--out
 t=NetworkTest(a.output,executable=a.executable,rendered=True)
 try:
  h=Peer(t,'RosterCombos','/Game/Maps/LostValley');h.command('match',teams=False);h.command('ai',paused=True);h.command('sandbox',enabled=True)
- for species,positions in [(4,[(-440,250),(-440,-250),(0,250)]),(5,[(320,120),(-660,320),(320,-120)]),(6,[(290,0)]*3)]:
+ for species,positions in [(4,[(-440,250),(-440,-250),(-400,280)]),(5,[(320,120),(-660,320),(320,-120)]),(6,[(290,0)]*3),(7,[(360,0)]*3)]:
   h.command('species',value=species);h.command('teleport',x=0,y=0);h.command('face',yaw=0);time.sleep(.6)
   for combo,(x,y) in enumerate(positions,1):
    h.command('testAI',id=1,species=0,x=x,y=y,yaw=0,health=1,enabled=False);h.command('stamina',value=160);before=h.actor(1)['health'];h.tap('LeftMouseButton')

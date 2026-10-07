@@ -67,7 +67,8 @@ void ADinosaurCharacter::ApplySpecies(int32 ID)
 {
     Audio->ResetAudio();CancelPivot();
     const float OldHalf=GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-    Species=FMath::Clamp(ID,0,6); const auto& D=Stats();
+    if(HasAuthority()&&ID!=3)if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())ID=GM->MatchRules.Resolve(ID);
+    Species=FMath::Clamp(ID,0,7); const auto& D=Stats();
     GetCapsuleComponent()->SetCapsuleSize(D.Radius,D.HalfHeight);
     if(HasAuthority()&&HasActorBegunPlay()) AddActorWorldOffset(FVector(0,0,D.HalfHeight-OldHalf+3),false);
     GetCharacterMovement()->MaxWalkSpeed=D.Speed; GetCharacterMovement()->MaxAcceleration=D.Acceleration;
@@ -135,9 +136,8 @@ bool ADinosaurCharacter::IsEnemy(const ADinosaurCharacter* O) const
 {
     if(!O||O==this||O->bDead) return false;
     if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())return GM->AreEnemies(this,O);
-    if(GetNetMode()!=NM_Standalone){if(PackLeaderID>=0&&PackLeaderID==O->PackLeaderID)return false;auto* GS=GetWorld()->GetGameState<ADinoGameState>();return !(GS&&GS->bTeamMatch&&TeamID>=0&&TeamID==O->TeamID);}
-    if(FSpeciesData::IsPack(Species)&&O->Species==Species)return false;
-    return true;
+    if(PackLeaderID>=0&&PackLeaderID==O->PackLeaderID)return false;
+    auto* GS=GetWorld()->GetGameState<ADinoGameState>();return !(GS&&GS->bTeamMatch&&TeamID>=0&&TeamID==O->TeamID);
 }
 void ADinosaurCharacter::ReceiveHit(float Damage,ADinosaurCharacter* Attacker)
 {

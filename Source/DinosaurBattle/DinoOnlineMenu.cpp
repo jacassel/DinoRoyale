@@ -12,7 +12,8 @@ void ADinoPlayerController::ToggleMultiplayer()
 void ADinoPlayerController::ChooseSpecies(int32 Index)
 {
     if(GetNetMode()!=NM_Standalone){ServerLobbyAction(0,Index);return;}
-    if(OnlinePage>0)return;
+    if(OnlinePage>0||bMatchSetupOpen)return;
+    if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>()){if(!GM->MatchRules.Allows(Index)){LobbyStatus=TEXT("That species is banned for this match.");return;}const FString Warning=GM->ValidateSetup();if(!Warning.IsEmpty()){LobbyStatus=Warning;bMatchSetupOpen=true;SetMenuOpen(true);return;}}
     DinoSpecies(Index);if(auto* GM=GetWorld()->GetAuthGameMode<ADinoGameMode>())GM->StartRound();SetMenuOpen(false);
 }
 void ADinoPlayerController::ServerLobbyAction_Implementation(uint8 Action,int32 Value)
@@ -29,6 +30,7 @@ void ADinoPlayerController::OnlineClick(float X,float Y)
     auto* Online=GetGameInstance()->GetSubsystem<UDinoOnlineSession>();if(!Online)return;
     auto* GS=GetWorld()->GetGameState<ADinoGameState>();auto* PS=GetPlayerState<ADinoPlayerState>();
     auto At=[&](float A,float B,float C,float D){return X>=A&&X<=A+C&&Y>=B&&Y<=B+D;};
+    if(At(.70f,.03f,.25f,.065f)){ToggleMatchSetup();return;}
     if(GetNetMode()!=NM_Standalone)
     {
         if(At(.08f,.88f,.25f,.065f)){Online->Leave();return;}
@@ -37,7 +39,7 @@ void ADinoPlayerController::OnlineClick(float X,float Y)
         if(!GS||!PS)return;
         if(GS->bLobby)
         {
-            for(int32 I=0;I<6;++I)if(At(.08f+(I%3)*.28f,.17f+(I/3)*.045f,.25f,.04f)){ServerLobbyAction(0,FSpeciesData::PlayableID(I));return;}
+            for(int32 I=0;I<FSpeciesData::PlayableCount;++I)if(At(.08f+(I%4)*.21f,.17f+(I/4)*.045f,.195f,.04f)){ServerLobbyAction(0,FSpeciesData::PlayableID(I));return;}
             if(At(.08f,.26f,.25f,.065f)){ServerLobbyAction(1,-1);return;}
             if(At(.36f,.26f,.25f,.065f)){ServerLobbyAction(1,PS->TeamID==0?1:0);return;}
             if(At(.65f,.26f,.25f,.065f)){ServerLobbyAction(2,!PS->bReady);return;}
@@ -46,7 +48,7 @@ void ADinoPlayerController::OnlineClick(float X,float Y)
             if(At(.49f,.71f,.12f,.065f)){ServerLobbyAction(4,GS->MaxParticipants+1);return;}
             if(At(.65f,.71f,.25f,.065f)){ServerLobbyAction(5,!GS->bFillBots);return;}
             if(At(.08f,.79f,.25f,.065f)){ServerLobbyAction(9,!GS->bPerformanceMap);return;}
-            if(At(.36f,.79f,.25f,.065f)){ServerLobbyAction(12,0);return;}
+            if(At(.36f,.79f,.25f,.065f)){ToggleMatchSetup();return;}
             if(At(.65f,.79f,.25f,.065f)){ServerLobbyAction(6,0);return;}
             for(int32 ID=0;ID<GS->MaxParticipants;++ID)
             {
@@ -88,6 +90,7 @@ void ADinoPlayerController::OnlineClick(float X,float Y)
 
 void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
 {
+    if(PC->bMatchSetupOpen){DrawMatchSetup(PC);return;}
     const float W=Canvas->SizeX,H=Canvas->SizeY;
     const FLinearColor MenuGold(.93f,.72f,.38f),MenuTeal(.32f,.78f,.72f),MenuMuted(.64f,.72f,.69f);
     auto* Online=PC->GetGameInstance()->GetSubsystem<UDinoOnlineSession>();
@@ -101,14 +104,15 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
         Label(S,X+.012f,Y+Height*.25f,.87f,Enabled?MenuTeal:MenuMuted);
     };
     Label(TEXT("DINO ROYALE / MULTIPLAYER"),.08f,.065f,1.4f,MenuGold);
+    Label(TEXT("F5 / MATCH SETUP"),.70f,.05f,.80f,MenuTeal);
     if(GetNetMode()!=NM_Standalone)
     {
         if(!GS||!PS){Label(TEXT("Connecting to match..."),.08f,.2f,1.1f);return;}
         Label(FString::Printf(TEXT("%s  /  %d of %d players  /  bots %s"),*GS->MatchName(),GS->PlayerArray.Num(),GS->MaxParticipants,GS->bFillBots?TEXT("ON"):TEXT("OFF")),.08f,.12f,.86f,MenuMuted);
         if(GS->bLobby)
         {
-            const TCHAR* Kinds[]={TEXT("1 T-REX"),TEXT("2 VELOCIRAPTOR"),TEXT("3 TRICERATOPS"),TEXT("4 ANKYLOSAURUS"),TEXT("5 BRACHIOSAURUS"),TEXT("6 PACHYCEPHALOSAURUS")};
-            for(int32 I=0;I<6;++I)Button(FString(PS->SelectedSpecies==FSpeciesData::PlayableID(I)?TEXT("[X] "):TEXT(""))+Kinds[I],.08f+(I%3)*.28f,.17f+(I/3)*.045f,.25f,.04f);
+            const TCHAR* Kinds[]={TEXT("1 T-REX"),TEXT("2 VELOCIRAPTOR"),TEXT("3 TRICERATOPS"),TEXT("4 ANKYLOSAURUS"),TEXT("5 BRACHIOSAURUS"),TEXT("6 PACHY"),TEXT("7 ALBERTOSAURUS")};
+            for(int32 I=0;I<FSpeciesData::PlayableCount;++I)Button(FString(!GS->MatchRules.Allows(FSpeciesData::PlayableID(I))?TEXT("BANNED "):PS->SelectedSpecies==FSpeciesData::PlayableID(I)?TEXT("[X] "):TEXT(""))+Kinds[I],.08f+(I%4)*.21f,.17f+(I/4)*.045f,.195f,.04f,GS->MatchRules.Allows(FSpeciesData::PlayableID(I)));
             Button(TEXT("AUTO TEAM"),.08f,.26f,.25f,.065f,GS->bTeamMatch);
             Button(GS->bTeamMatch?FString::Printf(TEXT("TEAM %d / CHANGE"),PS->TeamID+1):TEXT("FREE-FOR-ALL"),.36f,.26f,.25f,.065f,GS->bTeamMatch);
             Button(PS->bReady?TEXT("READY / UNREADY"):TEXT("MARK READY"),.65f,.26f);
@@ -130,7 +134,7 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
                     const int32 Team=GS->BotSlotTeams.IsValidIndex(ID)?GS->BotSlotTeams[ID]:-1;
                     const bool Enabled=GS->bFillBots&&Team>=0;
                     Label((Enabled?FString::Printf(TEXT("AI SLOT %d"),ID+1):FString::Printf(TEXT("SLOT %d / EMPTY"),ID+1)),.08f,RowY,.75f,Enabled?MenuTeal:MenuMuted);
-                    Label(Enabled?FSpeciesData::Get(FSpeciesData::PlayableID(ID%6)).Name:TEXT("--"),.40f,RowY,.75f);
+                    Label(Enabled?FSpeciesData::Get(GS->MatchRules.BotSpecies(ID-1)).Name:TEXT("--"),.40f,RowY,.75f);
                     Label(GS->bTeamMatch?(Team==1?TEXT("[ B ]"):TEXT("[ A ]")):TEXT("--"),.69f,RowY,.75f,PS->bHost?MenuTeal:MenuMuted);
                     Label(Enabled?TEXT("[ ON ]"):TEXT("[ OFF ]"),.80f,RowY,.75f,PS->bHost?MenuTeal:MenuMuted);
                 }
@@ -139,7 +143,7 @@ void ADinoHUD::DrawOnline(ADinoPlayerController* PC)
             Button(TEXT("SLOTS -"),.36f,.71f,.12f,.065f,PS->bHost);Button(TEXT("SLOTS +"),.49f,.71f,.12f,.065f,PS->bHost);
             Button(GS->bFillBots?TEXT("BOTS ON / CHANGE"):TEXT("BOTS OFF / CHANGE"),.65f,.71f,.25f,.065f,PS->bHost);
             Button(GS->bPerformanceMap?TEXT("MAP: PERFORMANCE"):TEXT("MAP: STANDARD"),.08f,.79f,.25f,.065f,PS->bHost);
-            Button(TEXT("5v5 BOT PRESET"),.36f,.79f,.25f,.065f,PS->bHost);
+            Button(TEXT("F5 / MATCH SETUP"),.36f,.79f,.25f,.065f);
             Button(TEXT("START MATCH"),.65f,.79f,.25f,.065f,PS->bHost);
         }
         else

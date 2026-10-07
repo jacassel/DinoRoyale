@@ -22,7 +22,7 @@ FVector AnatomicalFacing(const ADinosaurCharacter* D,const FVector& ToEnemy)
     const int32 Combo=D->Combat->IsBusy()?D->Combat->ComboCount:NextQuickCombo(D->Combat);
     const bool Heavy=D->Combat->bCharging||(D->Combat->IsBusy()&&D->Combat->bChargedAttack);
     // Aim the club's impact arc at the rival, rather than pointing the tail's rest pose at it.
-    if(D->Species==4)return ToEnemy.RotateAngleAxis(!Heavy&&Combo==3?-135:!Heavy&&Combo==2?150:-150,FVector::UpVector);
+    if(D->Species==4)return ToEnemy.RotateAngleAxis(!Heavy&&Combo==2?125:-125,FVector::UpVector);
     if(D->Species==5)
     {
         if(Heavy)return ToEnemy;
@@ -244,9 +244,9 @@ void ADinosaurAIController::Think(float Dt)
         auto* Enemy=Target.Get();float Dist=FVector::Dist2D(Position,Enemy->GetActorLocation());
         State=TEXT("Pursuing");FVector ToEnemy=(Enemy->GetActorLocation()-Position).GetSafeNormal2D();
         const int32 NextCombo=NextQuickCombo(D->Combat);
-        const float AnatomicalRange=D->Species==4&&NextCombo==3?330.f:D->Species==5&&NextCombo==2?850.f:D->Stats().AttackRange;
+        const float AnatomicalRange=D->Species==5&&NextCombo==2?850.f:D->Stats().AttackRange;
         float AttackDistance=FMath::Max(AnatomicalRange+Enemy->Stats().Radius*.25f,(D->Stats().Radius+Enemy->Stats().Radius+25)/.83f);
-        if(D->Species==4&&NextCombo!=3&&Dist<390&&Now>=NextReposition&&!D->Combat->IsBusy()&&!D->Combat->bCharging)
+        if(D->Species==4&&Dist<390&&Now>=NextReposition&&!D->Combat->IsBusy()&&!D->Combat->bCharging)
         {
             // A rival that lunged inside the club arc is in a real blind spot.
             // Make room with ordinary movement rather than enlarging the hitbox.
@@ -261,12 +261,14 @@ void ADinosaurAIController::Think(float Dt)
             if(D->Combat->SetBrace(true))BraceTime=.25f;
             return;
         }
-        if(FSpeciesData::IsPack(D->Species)&&Enemy->Combat->bBracing&&Dist<AttackDistance*2.5f&&FVector::DotProduct(Enemy->GetActorForwardVector(),-ToEnemy)>.2f)
+        if((FSpeciesData::IsPack(D->Species)||D->Species==7)&&Enemy->Combat->bBracing&&Dist<AttackDistance*2.5f&&FVector::DotProduct(Enemy->GetActorForwardVector(),-ToEnemy)>.2f)
         {
             FVector Side=FVector::CrossProduct(Enemy->GetActorForwardVector(),FVector::UpVector)*(D->CombatantID%2?1:-1);
             GoTo(Enemy->GetActorLocation()+Side*AttackDistance*1.15f-Enemy->GetActorForwardVector()*AttackDistance*.35f);State=TEXT("Flanking");Decision=TEXT("Go around frontal guard");return;
         }
         if(D->Species==6&&Dist>AttackDistance&&Dist<1300&&!D->Combat->IsBusy()&&!D->Combat->bCharging&&FVector::DotProduct(D->GetActorForwardVector(),ToEnemy)>.93f&&D->Stamina->Fraction()>.55f&&D->Combat->StartCharge()){ChargeTarget=Random.FRandRange(.8f,1.f);State=TEXT("Charging");Decision=TEXT("Line up momentum headbutt");return;}
+        if(D->Species==7&&Dist>AttackDistance&&Dist<1050&&!D->Combat->IsBusy()&&!D->Combat->bCharging&&FVector::DotProduct(D->GetActorForwardVector(),ToEnemy)>.94f&&D->Stamina->Fraction()>.60f&&D->Combat->StartCharge())
+        {ChargeTarget=Random.FRandRange(.65f,.9f);State=TEXT("Charging");Decision=TEXT("Pursuing bite");return;}
         if(Dist<AttackDistance*.83f)
         {
             Path.Empty();State=TEXT("Attacking");

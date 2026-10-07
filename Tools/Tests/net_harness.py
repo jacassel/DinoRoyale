@@ -1,7 +1,7 @@
 """Opt-in loopback test harness. This transport does not verify EOS or WAN."""
 import json, math, pathlib, subprocess, time
 ROOT=pathlib.Path(__file__).resolve().parents[2]
-BUILD=2026100505
+BUILD=2026100706
 
 def wait_for(predicate,seconds=10):
     deadline=time.monotonic()+seconds

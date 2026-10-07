@@ -1,0 +1,26 @@
+[
+  {
+    "test": "R outside map no longer kills player",
+    "passed": true
+  },
+  {
+    "test": "R pins map cursor at world center",
+    "passed": true
+  },
+  {
+    "test": "Map cursor converts to world coordinates",
+    "passed": true
+  },
+  {
+    "test": "Outside-map R ignored",
+    "passed": true
+  },
+  {
+    "test": "R on existing pin removes it",
+    "passed": true
+  },
+  {
+    "test": "Pins capped at eight with oldest replaced",
+    "passed": true
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "0": {
+    "health": 1500,
+    "speed": 1050,
+    "earlySpeed": 616.7480014198081,
+    "sprint": 1449,
+    "pivot": 50.66920959949528,
+    "stamina": 100,
+    "sprintStamina": 81.74799346923828
+  },
+  "7": {
+    "health": 1380,
+    "speed": 1200,
+    "earlySpeed": 962.5151210399218,
+    "sprint": 1740,
+    "pivot": 72.50181269645702,
+    "stamina": 110,
+    "sprintStamina": 92.89964294433594
+  }
+}

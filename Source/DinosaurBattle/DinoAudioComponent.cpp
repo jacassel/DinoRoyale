@@ -53,7 +53,7 @@ void UDinoAudioComponent::PlayEvent(int32 Kind)
     const FVector Listener=Camera?Camera->GetCameraLocation():D->GetActorLocation();
     const bool Ambient=Kind==0||Kind>=7;
     if(FVector::DistSquared(Listener,D->GetActorLocation())>FMath::Square(Ambient?4200.f:7500.f))return;
-    const int32 Species=D->Species==3?1:D->Species>=4?D->Species-1:FMath::Clamp(D->Species,0,2);
+    const int32 Species=D->Species==7?0:D->Species==3?1:D->Species>=4?D->Species-1:FMath::Clamp(D->Species,0,2);
     int32 V=(LastVariants[Kind]+1+Variation.RandRange(0,1))%3;LastVariants[Kind]=V;
     const int32 Index=(Species*9+Kind)*3+V;
     if(!SoundBank.IsValidIndex(Index)||!SoundBank[Index])return;
@@ -81,7 +81,7 @@ void UDinoAudioComponent::PlayEvent(int32 Kind)
     const float Levels[]={.36f,.73f,.92f,.64f,.90f,.60f,.72f,.32f,.37f};
     float Volume=Levels[Kind];if(Kind==0)Volume*=D->bSprinting?1.35f:.80f;
     if(D->Species==3)Volume*=.55f;
-    const float Pitch=Variation.FRandRange(.965f,1.035f)*(D->Species==3?1.15f:1.f);
+    const float Pitch=Variation.FRandRange(.965f,1.035f)*(D->Species==3?1.15f:D->Species==7?1.12f:1.f);
     Voice->SetPitchMultiplier(Pitch);Voice->SetVolumeMultiplier(Volume);
     Voices.Add(Voice);Kinds.Add(Kind);Ends.Add(GetWorld()->GetTimeSeconds()+Wave->Duration/Pitch+.10f);Voice->Play();
     switch(Kind)

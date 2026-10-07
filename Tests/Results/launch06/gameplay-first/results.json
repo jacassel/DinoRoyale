@@ -1,0 +1,58 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "Alberto retains large predator health below Rex",
+      "status": "PASS",
+      "measurements": {
+        "0": {
+          "health": 1500,
+          "speed": 1050,
+          "earlySpeed": 688.5109917893826,
+          "sprint": 1449,
+          "pivot": 50.21030235290562,
+          "stamina": 100,
+          "sprintStamina": 81.83343505859375
+        },
+        "7": {
+          "health": 1380,
+          "speed": 1200,
+          "earlySpeed": 887.851513175422,
+          "sprint": 1740,
+          "pivot": 71.36170697212236,
+          "stamina": 110,
+          "sprintStamina": 93.3791275024414
+        }
+      }
+    },
+    {
+      "test": "Alberto visibly faster running and sprinting",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto accelerates and pivots faster",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto has modestly better stamina economy",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto hunger 95 uses shared regen thresholds",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto hunger 75 uses shared regen thresholds",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto hunger 65 uses shared regen thresholds",
+      "status": "FAIL"
+    }
+  ]
+}

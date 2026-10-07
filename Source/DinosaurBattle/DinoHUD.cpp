@@ -59,7 +59,7 @@ void ADinoHUD::DrawHUD()
     if(auto* GS=GetWorld()->GetGameState<ADinoGameState>())
         Text(GS->bTeamMatch?FString::Printf(TEXT("3 TEAM ASSISTS = 1 POINT  /  %d OF 3"),GS->TeamAssists[FMath::Clamp(D->TeamID,0,1)]%3):TEXT("2 ASSISTS = 1 POINT   /   P LEADERBOARD"),W*.5f-160*S,127*S,.65f,FLinearColor::Black);
     Panel(24*S,24*S,386*S,230*S);
-    Text(TEXT("DINO ROYALE / VERSION 0.5"),42*S,37*S,.95f,Gold);
+    Text(TEXT("DINO ROYALE / VERSION 0.6"),42*S,37*S,.95f,Gold);
     Text(D->Stats().Name,42*S,64*S,1.32f);
     FLinearColor HealthColor=D->Health->Fraction()<.25f?Red:D->Health->Fraction()<.5f?Gold:Teal;
     Bar(42*S,99*S,350*S,12*S,D->Health->Fraction(),HealthColor);
@@ -122,7 +122,7 @@ void ADinoHUD::DrawHUD()
         Panel(24*S,H-99*S,W-48*S,85*S,.82f);
         Text(TEXT("WASD Move   SHIFT Sprint   MOUSE Look   SPACE Jump   Q / E Pivot   CTRL Brace"),42*S,H-84*S,.94f);
         Text(TEXT("LMB  Quick attack     HOLD / RELEASE RMB  Heavy attack     HOLD F  Eat"),42*S,H-60*S,.88f,Muted);
-        Text(GetNetMode()==NM_Standalone?TEXT("1-6  Species     M  Map     P  Leaderboard     H  Help     ESC  Pause"):TEXT("M  Map     P  Leaderboard     H  Help     ESC  Multiplayer menu"),42*S,H-38*S,.78f,Gold);
+        Text(GetNetMode()==NM_Standalone?TEXT("1-7  Species     M  Map     P  Leaderboard     H  Help     ESC  Pause"):TEXT("M  Map     P  Leaderboard     H  Help     ESC  Multiplayer menu"),42*S,H-38*S,.78f,Gold);
     }
     else Text(GetNetMode()==NM_Standalone?TEXT("H  Help     P  Leaderboard     M  Map     ESC  Pause"):TEXT("H  Help     P  Leaderboard     M  Map     ESC  Menu"),30*S,H-32*S,.8f,Muted);
     DrawWorldMap(D,PC->bMapOpen);
@@ -143,9 +143,11 @@ void ADinoHUD::DrawHUD()
 }
 void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
 {
+    if(PC->bMatchSetupOpen){DrawMatchSetup(PC);return;}
     float W=Canvas->SizeX,H=Canvas->SizeY,S=Scale;Panel(0,0,W,H,.93f);
+    Text(TEXT("F5 / MATCH SETUP"),W*.71f,H*.04f,.9f,Teal);
     Text(TEXT("DINO ROYALE"),W*.105f,H*.11f,2.7f,Gold);
-    Text(GetNetMode()==NM_Standalone?TEXT("LOST VALLEY  /  OFFLINE PLAY  /  VERSION 0.5"):TEXT("MULTIPLAYER  /  LOCAL SETTINGS  /  VERSION 0.5"),W*.108f,H*.19f,.75f,Muted);
+    Text(GetNetMode()==NM_Standalone?TEXT("LOST VALLEY  /  OFFLINE PLAY  /  VERSION 0.6"):TEXT("MULTIPLAYER  /  LOCAL SETTINGS  /  VERSION 0.6"),W*.108f,H*.19f,.75f,Muted);
     auto* GM=GetWorld()->GetGameState<ADinoGameState>();
     if(GM&&GM->bRoundOver&&!PC->bSettingsOpen)
     {
@@ -162,7 +164,7 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
             if(FSpeciesData::IsPack(Who->Species)&&!GM->IsScoringTarget(Who))Name+=TEXT(" follower");
             Text(Name,W*.20f,Y,.76f,C);Text(GM->bTeamMatch?FString::FromInt(Score.Kills):FString::Printf(TEXT("%d / %d"),Score.SoloPoints(),Score.Kills),W*.59f,Y,.84f,C);Text(FString::FromInt(Score.Deaths),W*.67f,Y,.84f,C);Text(FString::FromInt(Score.Assists),W*.76f,Y,.84f,C);Y+=27*S;
         }
-        Text(TEXT("ENTER / ESC  Play again     1-6  Change dinosaur     F3  Change mode"),W*.20f,H*.85f,.78f,Gold);
+        Text(TEXT("ENTER / ESC  Play again     1-7  Change dinosaur     F3  Change mode"),W*.20f,H*.85f,.78f,Gold);
         return;
     }
     if(GetNetMode()==NM_Standalone)
@@ -187,30 +189,33 @@ void ADinoHUD::DrawMenu(ADinosaurCharacter* D,ADinoPlayerController* PC)
         Text((GetNetMode()==NM_Standalone?TEXT("ESC / F2  Back to dinosaur selection      ENTER  Resume"):TEXT("ESC / F2  Back to multiplayer")),W*.22f,H*.78f,.95f,Teal);
         return;
     }
-    const float Top=H*.28f,CardW=W*.26f,CardH=H*.225f,Gap=W*.025f,RowGap=H*.016f,Left=(W-3*CardW-2*Gap)*.5f;
-    if(Portraits.Num()!=6){Portraits.SetNumZeroed(6);for(int32 I=0;I<6;++I){const FString Kind=FSpeciesData::Get(FSpeciesData::PlayableID(I)).AssetName;Portraits[I]=LoadObject<UTexture2D>(nullptr,*FString::Printf(TEXT("/Game/UI/T_%sPortrait.T_%sPortrait"),*Kind,*Kind));}}
-    const TCHAR* Names[]={TEXT("T-REX"),TEXT("VELOCIRAPTOR"),TEXT("TRICERATOPS"),TEXT("ANKYLOSAURUS"),TEXT("BRACHIOSAURUS"),TEXT("PACHYCEPHALOSAURUS")};
-    const TCHAR* Roles[]={TEXT("APEX PREDATOR"),TEXT("PACK HUNTER"),TEXT("FRONTLINE DEFENDER"),TEXT("ARMORED TANK"),TEXT("COLOSSUS"),TEXT("PACK CHARGER")};
-    const TCHAR* Ability[]={TEXT("Bite / committed lunge"),TEXT("Fast slash / allied pack"),TEXT("Horn charge / frontal brace"),TEXT("Rear club / armored brace"),TEXT("Stomp / browses trees"),TEXT("Headbutt / three-member pack")};
+    const float Top=H*.28f,CardW=W*.205f,CardH=H*.225f,Gap=W*.018f,RowGap=H*.016f,Left=(W-4*CardW-3*Gap)*.5f;
+    if(Portraits.Num()!=FSpeciesData::PlayableCount){Portraits.SetNumZeroed(FSpeciesData::PlayableCount);for(int32 I=0;I<FSpeciesData::PlayableCount;++I){const FString Kind=FSpeciesData::Get(FSpeciesData::PlayableID(I)).AssetName;Portraits[I]=LoadObject<UTexture2D>(nullptr,*FString::Printf(TEXT("/Game/UI/T_%sPortrait.T_%sPortrait"),*Kind,*Kind));}}
+    const TCHAR* Names[]={TEXT("T-REX"),TEXT("VELOCIRAPTOR"),TEXT("TRICERATOPS"),TEXT("ANKYLOSAURUS"),TEXT("BRACHIOSAURUS"),TEXT("PACHYCEPHALOSAURUS"),TEXT("ALBERTOSAURUS")};
+    const TCHAR* Roles[]={TEXT("APEX PREDATOR"),TEXT("PACK HUNTER"),TEXT("FRONTLINE DEFENDER"),TEXT("ARMORED TANK"),TEXT("COLOSSUS"),TEXT("PACK CHARGER"),TEXT("AGILE LARGE PREDATOR")};
+    const TCHAR* Ability[]={TEXT("Bite / committed lunge"),TEXT("Fast slash / allied pack"),TEXT("Horn charge / frontal brace"),TEXT("Rear club / armored brace"),TEXT("Stomp / browses trees"),TEXT("Headbutt / three-member pack"),TEXT("Quick bites / pursuing lunge")};
     float MX=-1,MY=-1;PC->GetMousePosition(MX,MY);
-    for(int32 I=0;I<6;++I)
+    for(int32 I=0;I<FSpeciesData::PlayableCount;++I)
     {
         const int32 ID=FSpeciesData::PlayableID(I);const auto& Stats=FSpeciesData::Get(ID);
-        const float X=Left+(I%3)*(CardW+Gap),Y=Top+(I/3)*(CardH+RowGap);
+        const float X=Left+(I%4)*(CardW+Gap),Y=Top+(I/4)*(CardH+RowGap);
         const bool Selected=D->Species==ID,Hover=MX>X&&MX<X+CardW&&MY>Y&&MY<Y+CardH;
-        const FLinearColor Accent=Selected?Gold:Teal;
+        const bool Allowed=!GM||GM->MatchRules.Allows(ID);
+        const FLinearColor Accent=!Allowed?Muted:Selected?Gold:Teal;
         DrawRect(Selected?FLinearColor(.16f,.19f,.12f):Hover?FLinearColor(.10f,.17f,.17f):FLinearColor(.045f,.075f,.085f),X,Y,CardW,CardH);
         DrawRect(Accent,X,Y,CardW,(Selected?4:2)*S);
-        Text(Names[I],X+12*S,Y+9*S,I==5?.77f:.90f);Text(Roles[I],X+12*S,Y+31*S,.56f,Accent);
-        Text(FString::Printf(TEXT("%d%s"),I+1,Selected?TEXT("  SELECTED"):TEXT("")),X+CardW-95*S,Y+31*S,.53f,Accent);
+        Text(Names[I],X+12*S,Y+9*S,I==5?.61f:.78f);Text(Roles[I],X+12*S,Y+31*S,.56f,Accent);
+        Text(FString::Printf(TEXT("%d%s"),I+1,!Allowed?TEXT("  BANNED"):Selected?TEXT("  SELECTED"):TEXT("")),X+CardW-95*S,Y+31*S,.53f,Accent);
         const float ArtW=CardW*.55f,ArtH=CardH*.61f;
         if(Portraits[I]){const float Fit=FMath::Min(ArtW/Portraits[I]->GetSizeX(),ArtH/Portraits[I]->GetSizeY());const float PW=Portraits[I]->GetSizeX()*Fit,PH=Portraits[I]->GetSizeY()*Fit;DrawTexture(Portraits[I],X+5*S+(ArtW-PW)*.5f,Y+50*S+(ArtH-PH)*.5f,PW,PH,0,0,1,1,FLinearColor::White,BLEND_Translucent);}
         const TCHAR* Labels[]={TEXT("HEALTH"),TEXT("ATTACK"),TEXT("DEFENSE"),TEXT("SPEED"),TEXT("STAMINA")};
         const float Ratings[]={Stats.MaxHealth/3100,Stats.Damage/240,(1-Stats.BraceMultiplier)*(.65f+.35f*(1-Stats.ArmorMultiplier)),Stats.Speed/1600,Stats.MaxStamina/160};
         for(int32 J=0;J<5;++J){const float SY=Y+53*S+J*21*S;Text(Labels[J],X+CardW*.57f,SY,.49f,Muted);Bar(X+CardW*.78f,SY+3*S,CardW*.18f,5*S,FMath::Clamp(Ratings[J],0.f,1.f),Accent);}
-        Text(Ability[I],X+12*S,Y+CardH-23*S,.57f,Muted);
+        Text(Ability[I],X+12*S,Y+CardH-23*S,.50f,Muted);
+        if(!Allowed)DrawRect(FLinearColor(.02f,.025f,.025f,.60f),X,Y+48*S,CardW,CardH-78*S);
     }
-    Text(TEXT("Choose a card or press 1-6. Raptor and Pachy packs have one leader and two followers; only leaders score."),Left,H*.754f,.64f,Muted);
+    if(!PC->LobbyStatus.IsEmpty())Text(PC->LobbyStatus,Left,H*.92f,.65f,Gold);
+    Text(TEXT("Choose a card or press 1-7. Raptor and Pachy packs have one leader and two followers; only leaders score."),Left,H*.754f,.64f,Muted);
     Text(GM&&GM->bPerformanceMap?TEXT("MAP: SUNGRASS PLAINS - PERFORMANCE  /  CLICK TO CHANGE"):TEXT("MAP: SUNGRASS PLAINS - STANDARD  /  CLICK TO CHANGE"),Left,H*.775f,.88f,Gold);
     DrawRect(FLinearColor(.11f,.23f,.22f),W*.18f,H*.83f,W*.40f,H*.08f);
     Text(TEXT("ENTER / ESC   RESUME EXPLORATION"),W*.22f,H*.852f,.97f,Teal);

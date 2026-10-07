@@ -1,0 +1,41 @@
+[
+  {
+    "species": "Brachi",
+    "before": [
+      {
+        "slot": "Dino_Skin",
+        "material": "/Game/Materials/Launch06/M_Brachi_Launch06.M_Brachi_Launch06"
+      },
+      {
+        "slot": "Dino_Eye",
+        "material": "/Game/Materials/M_Eye.M_Eye"
+      },
+      {
+        "slot": "Dino_Pupil",
+        "material": "/Game/Materials/M_Pupil.M_Pupil"
+      },
+      {
+        "slot": "Dino_Claw",
+        "material": "/Game/Materials/M_Claw.M_Claw"
+      }
+    ],
+    "after": [
+      {
+        "slot": "Dino_Skin",
+        "material": "/Game/Materials/Launch06/M_Brachi_Launch06.M_Brachi_Launch06"
+      },
+      {
+        "slot": "Dino_Eye",
+        "material": "/Game/Materials/M_Eye.M_Eye"
+      },
+      {
+        "slot": "Dino_Pupil",
+        "material": "/Game/Materials/M_Pupil.M_Pupil"
+      },
+      {
+        "slot": "Dino_Claw",
+        "material": "/Game/Materials/M_Claw.M_Claw"
+      }
+    ]
+  }
+]
