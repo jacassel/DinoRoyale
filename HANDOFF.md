@@ -1,8 +1,13 @@
-# Version 0.6 tested source checkpoint - October 7, 2026
+# Version 0.6 published checkpoint - October 7, 2026
 
-The final gameplay build is `Dist/Candidates/DinoRoyale-0.6-Candidate2/Windows`.
-All gameplay/art changes are built and tested; release sealing and GitHub publication
-are the remaining checkpoint steps. Branch: `codex/launch-preparation-0.6`.
+The final gameplay build is `Dist/Releases/DinoRoyale-0.6/Windows`, sealed from
+Candidate 2 and tested source `752a73587a8dcdb90889ba35d1ded24191a2f03b`.
+All 61 files match the independent recovery and ZIP. GitHub `main` and
+`codex/launch-preparation-0.6` contain the update. Public prerelease:
+https://github.com/jacassel/DinoRoyale/releases/tag/v0.6.0
+The `v0.6.0` tag identifies tested source `752a735`; later publication-note commits
+do not change the runtime or sealed ZIP. GitHub's asset size/digest and anonymous
+public access are verified in `Tests/Results/launch06/release/publication.json`.
 The owner's T-Rex Blender edit was preserved in `719941e` and remains unchanged.
 
 Albertosaurus completes the seven-species roster with original rig/materials/16
@@ -18,7 +23,7 @@ and isolated 1080p performance samples passed. Standard measured 119-130 FPS;
 Performance 121-143 FPS with the normal 60 FPS cap temporarily disabled for sampling.
 See VERSION06_TEST_REPORT.md and VERSION06_BALANCE_REPORT.md for exact evidence.
 
-Normal Candidate 2 bootstrap reaches the 0.6 menu. Windows Security displays a
+LaunchGame.bat opens the sealed 0.6 release and reaches its menu. Windows Security displays a
 network-permission prompt; no decision was automated, and foreground native
 inspection is limited by it. Rendered mapped-input tests passed. Fresh two-PC WAN,
 human balance/animation feel and direct audio listening remain external validation.
@@ -27,9 +32,21 @@ Compatibility: **2026100706**; EOS identity and configured local values are pres
 Both prior 0.5 playable copies match all 61 published-manifest files, and their
 complete source bundle verifies. The owner's renamed public-distribution ZIP is
 preserved. New release/recovery/ZIP paths use 0.6 and never overwrite 0.5.
-LaunchGame.bat prefers the new release once it exists, retaining older fallbacks.
+LaunchGame.bat prefers the new release, retaining older fallbacks.
 
-Allowance: **88% account remaining**; no separate Astra window. No purchases,
+- Launcher: `C:\Users\joel1\Documents\DinosaurBattle Prototype\LaunchGame.bat`.
+- Playable recovery: `Dist/Checkpoints/DinoRoyale-0.6/Windows`.
+- Verified complete source bundle: `Dist/Checkpoints/DinoRoyale-0.6/source.bundle`
+  (1,715,552,282 bytes), containing tested source `752a735` and its full history.
+- A small `publication.bundle` beside it supplements the final publication notes;
+  restore the complete source bundle first when using that incremental bundle.
+- Public ZIP: `Dist/Releases/DinoRoyale-0.6.zip`, 373,030,862 bytes.
+- ZIP SHA256: `f78aa2453a4570460069a4b1f8102aae23d6dea842b87b461d74b20e47fe8c47`.
+- Runtime SHA256: `be4fb151f733eb25b2d070f5d7e79c39ecd7936cfe8ab7f4fc5e5238bad3032f`.
+- Exact manifest, package verification and normal launch: `Tests/Results/launch06/release`.
+- Configured OnlineServices.ini is installed unchanged locally, excluded from the ZIP.
+
+Final allowance: **87% account remaining**; no separate Astra window. No purchases,
 resets, system security changes or delegation.
 
 ---

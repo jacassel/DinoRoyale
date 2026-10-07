@@ -1,0 +1,307 @@
+[
+  {
+    "path": "AUDIO_CREDITS.md",
+    "bytes": 1817,
+    "sha256": "1399aa98705068342f3be496c47021020a1ba65eb9aa52fff771bd04fa8a6221"
+  },
+  {
+    "path": "BUILD_INFO.txt",
+    "bytes": 591,
+    "sha256": "ec09c536a81be8c426cb9f8208c8a3e1e9d6847348c0283db5e6a2a0bd8cb1c8"
+  },
+  {
+    "path": "Collect QA Logs.bat",
+    "bytes": 134,
+    "sha256": "8f1f4e9772b815036317a1d21df24d56aaeb7d24688bb22859af01c122dd0f22"
+  },
+  {
+    "path": "CollectQALogs.ps1",
+    "bytes": 886,
+    "sha256": "a77e90cf88c1d5a54e09bf89361712198f1edc3c52969f72ba0c15c8f027f8ac"
+  },
+  {
+    "path": "DinosaurBattle/Binaries/Win64/D3D12/x64/D3D12Core.dll",
+    "bytes": 4831768,
+    "sha256": "c41711499e13244fd07ca28a9b32ece29e4454ecc38fb50681f74254b333a9b3"
+  },
+  {
+    "path": "DinosaurBattle/Binaries/Win64/D3D12/x64/d3d12SDKLayers.dll",
+    "bytes": 4943344,
+    "sha256": "e36f1ee4371798892529762368907d19b997493ad6f30aa8acbfd0132881804f"
+  },
+  {
+    "path": "DinosaurBattle/Binaries/Win64/DinosaurBattle.exe",
+    "bytes": 333682688,
+    "sha256": "be4fb151f733eb25b2d070f5d7e79c39ecd7936cfe8ab7f4fc5e5238bad3032f"
+  },
+  {
+    "path": "DinosaurBattle/Binaries/Win64/DML/x64/DirectML.dll",
+    "bytes": 18538488,
+    "sha256": "f97b69379ecbdbab7e1dcd2b6170e7f285d367c86ee6718bc401c4d7cef1275c"
+  },
+  {
+    "path": "DinosaurBattle/Binaries/Win64/tbb12.dll",
+    "bytes": 342456,
+    "sha256": "de15a5f93bfd334d4fe32343a81d76f9de0824af8e31b2189637d12545af2673"
+  },
+  {
+    "path": "DinosaurBattle/Binaries/Win64/tbbmalloc.dll",
+    "bytes": 117176,
+    "sha256": "74edc04a8f5bc2593a5a555b675c1251d6d90e693ee6a67cfa11dd3b2d17a856"
+  },
+  {
+    "path": "DinosaurBattle/Content/Paks/DinosaurBattle-Windows.pak",
+    "bytes": 10667040,
+    "sha256": "7417ab2d6da40a8a69f3cab39569149fef9e1ba81252ed45ab1a972e422fa092"
+  },
+  {
+    "path": "DinosaurBattle/Content/Paks/DinosaurBattle-Windows.ucas",
+    "bytes": 195371808,
+    "sha256": "4f443b873adbb7dfdee9bb382ac0d3129a09df60cc71d996f5309283f23f7c49"
+  },
+  {
+    "path": "DinosaurBattle/Content/Paks/DinosaurBattle-Windows.utoc",
+    "bytes": 203749,
+    "sha256": "5f447ef847e3ca49f3c6fe5435bef0ad389748d0fd17d394c8d9e09deee577ff"
+  },
+  {
+    "path": "DinosaurBattle/Content/Paks/global.ucas",
+    "bytes": 3204432,
+    "sha256": "e860085d8a2294a42ece2791672d8223177b4e72320cb49d2d5e7205e1205d8d"
+  },
+  {
+    "path": "DinosaurBattle/Content/Paks/global.utoc",
+    "bytes": 782,
+    "sha256": "7ea626db6de93a073b43b150bd2d5687ef2775c321a11a65f0c5e96911dce99e"
+  },
+  {
+    "path": "DinosaurBattle/OnlineServices.example.ini",
+    "bytes": 494,
+    "sha256": "8bf9b4982ed94f6537ae04c89cb9ace7dc30c6dbe9660169da5564ff2f070135"
+  },
+  {
+    "path": "DinosaurBattle.exe",
+    "bytes": 171520,
+    "sha256": "e481b72db45858d133a343c3e6198ef4aa3b45f0f7dc7f98471aafff0680366f"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/DbgHelp/dbghelp.dll",
+    "bytes": 2232688,
+    "sha256": "36795e47d9724ee68349efbbe64aba94db108b9cad1e3dfe8bc510f359136f53"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/MsQuic/v220/win64/msquic.dll",
+    "bytes": 2547080,
+    "sha256": "5c6b07bf263dd8b85cb146b59468a22eb1fbd8635d4a6c56a8e41b67ce5eca2b"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/NVIDIA/NVaftermath/Win64/GFSDK_Aftermath_Lib.x64.dll",
+    "bytes": 5799016,
+    "sha256": "82d7a3e50710d660927db2f318cbed471049c962b7c05de12c2b2b3e40a35af9"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Ogg/Win64/VS2015/libogg_64.dll",
+    "bytes": 59832,
+    "sha256": "f23df1213c4bf23b5c666bafa7ec18743847a2e18192ae8e0d096a2fb7c28bf9"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vorbis/Win64/VS2015/libvorbis_64.dll",
+    "bytes": 1724856,
+    "sha256": "a56d43a98e197f5e73a1dadf5c1dc7a07ad40327b199faa4ff1247abd6eccd5b"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vorbis/Win64/VS2015/libvorbisfile_64.dll",
+    "bytes": 48568,
+    "sha256": "d64e67ca918716be8b6056a6f7a1f6256e910754425db8369d952943264b40eb"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_api_dump.dll",
+    "bytes": 8161680,
+    "sha256": "8c5af98e2d899d4aec744c63a8bc99b90124d8fc3bdc120d4c178e1df3a3e5e8"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_api_dump.json",
+    "bytes": 13848,
+    "sha256": "9e55221c225dce4b5448bac7dadb7e39fd216f51354dde02e58f950f4a0dd80b"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_crash_diagnostic.dll",
+    "bytes": 2890128,
+    "sha256": "7972fa60e084dc7da6c8a69ac1645b112f5e98a078fc27a7d3df469f2da4f811"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_crash_diagnostic.json",
+    "bytes": 23055,
+    "sha256": "578bde354874789671dee1a96468c965619c9f3ba16cfa65f850e81a80674087"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_gfxreconstruct.dll",
+    "bytes": 8166288,
+    "sha256": "dd72d28450db1b52bd6c5dc12228741b680940c5fb5eb6b6a0e26f0ee5c3fc3e"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_gfxreconstruct.json",
+    "bytes": 28099,
+    "sha256": "71d4e243a2af74874f4f61378bdfe3753cb01ce5eb9b98400d83612bf882a815"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_profiles.dll",
+    "bytes": 1485200,
+    "sha256": "93227f57ddca0084e1655a65d2cc915d65b5191f6c645a17c0b36cfa2f714b38"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_profiles.json",
+    "bytes": 66696,
+    "sha256": "6095c28691757e083a8c1bef3c69ca76a8b5017e21acaf55d1bc7e82221a0fbe"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_shader_object.dll",
+    "bytes": 415632,
+    "sha256": "eebd555aab6df20b21520564d0eb2341ad0e9cdde6148ee1c71ef76805c5e7df"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_shader_object.json",
+    "bytes": 4455,
+    "sha256": "18ecafc9a65e1b7af8cd0e36dc936026cdb3aed333c4ea5a7c17d6d9465cfaf4"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_synchronization2.dll",
+    "bytes": 397200,
+    "sha256": "341b6b5eedbf4b7aeb4439af85b23974b820b1413dfaf6356911476df44ed559"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_synchronization2.json",
+    "bytes": 1910,
+    "sha256": "a1e980a24be9a16a826b00c27d61b85ee0e2e17226dc9c4e8eec031879e5f26a"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_validation.dll",
+    "bytes": 19509136,
+    "sha256": "ea37bfda6749684d88a1944ae7103a87d9b38468579f397c3c82ede1ceaa40d6"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Vulkan/Win64/VkLayer_khronos_validation.json",
+    "bytes": 95917,
+    "sha256": "5c464b84457776d92a674de506f7b7a489294583a7d7609f78fcc52bc4406d09"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Windows/WinPixEventRuntime/x64/WinPixEventRuntime.dll",
+    "bytes": 69056,
+    "sha256": "ba40d206c6113ac1a35993a06390c93e55602713a902d7ba7b2f2f0ed13e3d3f"
+  },
+  {
+    "path": "Engine/Binaries/ThirdParty/Windows/XAudio2_9/x64/xaudio2_9redist.dll",
+    "bytes": 858152,
+    "sha256": "0ca010abcabe52493fdb744d79c4c8132ae6756046b68aa7c88bdc03ec1effcd"
+  },
+  {
+    "path": "Engine/Binaries/Win64/EOSSDK-Win64-Shipping.dll",
+    "bytes": 19542416,
+    "sha256": "90a1eced6e7004032c466ec9be30f059bafd3d9a2f282f61b8c405850839a78a"
+  },
+  {
+    "path": "Engine/Config/StagedBuild_DinosaurBattle.ini",
+    "bytes": 3,
+    "sha256": "f1945cd6c19e56b3c1c78943ef5ec18116907a4ca1efc40a57d48ab1db7adfc5"
+  },
+  {
+    "path": "Engine/Content/Renderer/TessellationTable.bin",
+    "bytes": 259568,
+    "sha256": "edc4f3b628a139c5e185bbaeca661c95c1f427368d3b92892c5cff36c56dd941"
+  },
+  {
+    "path": "Engine/Content/Slate/Cursor/invisible.cur",
+    "bytes": 326,
+    "sha256": "fef3980fa567e9c45d5d8dcaa432a2c1a3f3bb17fe67d7ab198164f56c142aa1"
+  },
+  {
+    "path": "Engine/Content/SlateDebug/Fonts/LastResort.tps",
+    "bytes": 930,
+    "sha256": "0f775fa99d05e21d43d2d06d55982b23dcdccdb512a9a5a07aff674f212c41b8"
+  },
+  {
+    "path": "Engine/Content/SlateDebug/Fonts/LastResort.ttf",
+    "bytes": 5395052,
+    "sha256": "fff0f8de0b868b964950fe97c9b60f893e9bc85a4f90b3629c5693db058b97b9"
+  },
+  {
+    "path": "Engine/Extras/GPUDumpViewer/GPUDumpViewer.html",
+    "bytes": 195428,
+    "sha256": "eb599b5171e99d7c2e35732abf9525baeb39b9c2ac86619522f307c57cc90384"
+  },
+  {
+    "path": "Engine/Extras/GPUDumpViewer/OpenGPUDumpViewer.bat",
+    "bytes": 879,
+    "sha256": "e8f7ef9c88697041bd87902b76e52558979ca866c7450b1da108a94a027f441b"
+  },
+  {
+    "path": "Engine/Extras/GPUDumpViewer/OpenGPUDumpViewer.sh",
+    "bytes": 2165,
+    "sha256": "1b222b5d5aad6dd9b5b9f0a1c72d38635149540f2c7a368600ec76c1d304390a"
+  },
+  {
+    "path": "Engine/Plugins/NNE/NNERuntimeORT/Binaries/ThirdParty/Onnxruntime/Win64/onnxruntime.dll",
+    "bytes": 17339384,
+    "sha256": "5df3d744b5cc4421181e9e2c97cadff4e9b1b2b25e80202160e80fc94ff948f2"
+  },
+  {
+    "path": "EOS_SETUP.md",
+    "bytes": 8485,
+    "sha256": "3db14825023fff788fba10e7a9aeca39a8035687674376a686d8d8bf22528e2f"
+  },
+  {
+    "path": "FRIEND_QUICKSTART.md",
+    "bytes": 3678,
+    "sha256": "8de8b86ac3f54787ba0609265dbea630b28ba3639f5ae11f6ff57c0509082ba0"
+  },
+  {
+    "path": "KNOWN_ISSUES.md",
+    "bytes": 5460,
+    "sha256": "86df9905028c49f700f5bff499ea33c6fbd3de9c1d4a40376f048354730332c8"
+  },
+  {
+    "path": "Manifest_DebugFiles_Win64.txt",
+    "bytes": 445,
+    "sha256": "507a1dfcd9e26bc50a6108af629ace5085c39c671f13904be7fc62f51c9f8768"
+  },
+  {
+    "path": "Manifest_NonUFSFiles_Win64.txt",
+    "bytes": 3012,
+    "sha256": "baad3e88753fa5ee74639c439e13dbe113a734d8d545064e60547351e725cef4"
+  },
+  {
+    "path": "Manifest_UFSFiles_Win64.txt",
+    "bytes": 238743,
+    "sha256": "fb3cf82210407a5004ff9ff294243fb85a264d12afab66484885bab02312ab24"
+  },
+  {
+    "path": "NOTICES.txt",
+    "bytes": 111,
+    "sha256": "ba49ae5586f817b36a2772269f71f899cb1f54b5f2720fad951319edd5e140b8"
+  },
+  {
+    "path": "Play Dino Royale.bat",
+    "bytes": 104,
+    "sha256": "de6be4bc68891e493295b5ecabb70b2dde62abb7554cfa2eb906c918e150b176"
+  },
+  {
+    "path": "README.md",
+    "bytes": 15048,
+    "sha256": "71d7f01f2759579268235fbb2eb943be5e5d017a37c9df32dc0edc6a120a00fe"
+  },
+  {
+    "path": "VERSION06_BALANCE_REPORT.md",
+    "bytes": 3910,
+    "sha256": "b1fe47f1a359a153736f0dfcabf487d3e40a79da55105f00da086d84cb007eaf"
+  },
+  {
+    "path": "VERSION06_RELEASE_NOTES.md",
+    "bytes": 2733,
+    "sha256": "de0de46a41c7054b519dd074f8ec2fcff671c29c49ddff02b69e0b0fd551b9d9"
+  },
+  {
+    "path": "VERSION06_TEST_REPORT.md",
+    "bytes": 7622,
+    "sha256": "ebf9b98427829015c7e6b018608cd7627d5188d1601b078d6549be3eb51c2283"
+  }
+]

@@ -1,5 +1,25 @@
 # Test log
 
+## Version 0.6 publication checkpoint, October 7, 2026
+
+- Published: https://github.com/jacassel/DinoRoyale/releases/tag/v0.6.0.
+  Main and the development branch contain tested source `752a735`; the release tag
+  points to that commit. Later metadata-only commits record publication and recovery.
+- Windows ZIP: 373,030,862 bytes; SHA256
+  `f78aa2453a4570460069a4b1f8102aae23d6dea842b87b461d74b20e47fe8c47`.
+  GitHub's uploaded digest/size and anonymous release access are verified.
+- All 61 packaged files match the independent recovery and ZIP. Complete source
+  bundle (1,715,552,282 bytes) verifies; the supplemental publication bundle records
+  final metadata. Prior packages, source recovery and the owner's Blender edit remain.
+- LaunchGame.bat now opens the sealed release normally, without bridge flags.
+  Its runtime matches the gameplay candidate: SHA256
+  `be4fb151f733eb25b2d070f5d7e79c39ecd7936cfe8ab7f4fc5e5238bad3032f`.
+  The 0.6 menu is visible behind Windows Security's permission prompt, which remains
+  for the owner. No security interaction was automated. Exact evidence is in
+  `Tests/Results/launch06/release/normal-launch.json` and its screenshot.
+- Final allowance: **87% remaining**, with no Astra-specific window exposed.
+  No purchases, resets, security changes or delegation.
+
 ## Version 0.6 final gameplay acceptance, October 7, 2026
 
 - **595/595 selected checks across 20 suites**; explicit accepted paths and counts

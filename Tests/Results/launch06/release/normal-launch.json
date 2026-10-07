@@ -1,0 +1,12 @@
+{
+  "launcher": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\LaunchGame.bat",
+  "runtime": "C:\\Users\\joel1\\Documents\\DinosaurBattle Prototype\\Dist\\Releases\\DinoRoyale-0.6\\Windows\\DinosaurBattle\\Binaries\\Win64\\DinosaurBattle.exe",
+  "normalBootstrap": true,
+  "developmentBridge": false,
+  "menuVersion": "0.6",
+  "runtimeSHA256": "be4fb151f733eb25b2d070f5d7e79c39ecd7936cfe8ab7f4fc5e5238bad3032f",
+  "matchesTestedCandidate": true,
+  "nativeInputBlockedByWindowsSecurity": true,
+  "permissionDecisionAutomated": false,
+  "observation": "Launcher opens sealed 0.6 runtime and reaches seven-card menu. Windows Security network prompt remains for owner; no security interaction performed."
+}
