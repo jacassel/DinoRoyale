@@ -1,34 +1,34 @@
-# Dino Royale — Version 0.5
+# Dino Royale — Version 0.6
 
-[Download the Windows Alpha Test](https://github.com/jacassel/DinoRoyale/releases/tag/v0.5.0)
+[Download the Windows Alpha Test](https://github.com/jacassel/DinoRoyale/releases/tag/v0.6.0)
 · [Public source repository](https://github.com/jacassel/DinoRoyale)
 
-A six-species dinosaur combat prototype with offline free-for-all, team battles,
+A seven-species dinosaur combat prototype with offline free-for-all, team battles,
 and working Epic Online Services multiplayer. The owner confirms multiplayer has
-already been played successfully across different networks. Version 0.5 adds
-Ankylosaurus, Brachiosaurus and Pachycephalosaurus, original rigged assets,
-81 distinct new sound clips, tree browsing, Pachy packs, a live FFA leaderboard,
-and assist-based scoring. The existing EOS provider and service identity are preserved.
-All peers must use compatibility **2026100505**.
+already been played successfully across different networks. Version 0.6 adds
+Albertosaurus, clearer Brachiosaurus attacks, wider Ankylosaurus tail strikes,
+defined Anky armor/Pachy dome materials, and shared match setup controls.
+The existing EOS provider and service identity are preserved.
+All peers must use compatibility **2026100706**.
 
-See [VERSION05_RELEASE_NOTES.md](VERSION05_RELEASE_NOTES.md), [TEST_LOG.md](TEST_LOG.md)
+See [VERSION06_RELEASE_NOTES.md](VERSION06_RELEASE_NOTES.md), [TEST_LOG.md](TEST_LOG.md)
 and [KNOWN_ISSUES.md](KNOWN_ISSUES.md) for this update's tests and limitations.
 [EOS_SETUP.md](EOS_SETUP.md) explains online setup.
 
 ## Launch
 
 Open `C:\Users\joel1\Documents\DinosaurBattle Prototype` in File Explorer and double-click **LaunchGame.bat**.
-The launcher prefers the locally tested **Version 0.5** package at
-`Dist\Releases\DinoRoyale-0.5\Windows`.
-For another computer, extract `Dist\Releases\DinoRoyale-0.5.zip` into a fresh
+The launcher prefers the locally tested **Version 0.6** package at
+`Dist\Releases\DinoRoyale-0.6\Windows`.
+For another computer, extract `Dist\Releases\DinoRoyale-0.6.zip` into a fresh
 folder and run **Windows\Play Dino Royale.bat**. Keep the entire folder together.
 Copy each computer's existing configured `OnlineServices.ini` to its new
 `Windows\DinosaurBattle` subfolder before online play; credentials are excluded
-from the ZIP. Both players must use 0.5. The prior QA2 friends package, its independent
-recovery, QA1 and `Dist\Windows` remain preserved. Version 0.5 verification is recorded in TEST_LOG.md. Local multi-process regression
+from the ZIP. Both players must use 0.6. The prior 0.5 package, its independent
+recovery, QA packages and `Dist\Windows` remain preserved. Version 0.6 verification is recorded in TEST_LOG.md. Local multi-process regression
 checks complement the owner's existing successful different-network play; they
 are not a new two-PC internet session.
-Choose a dinosaur with **1-6** or its portrait. **Escape** opens the menu;
+Choose a dinosaur with **1-7** or its portrait. **Escape** opens the menu;
 **F10** from the menu exits.
 Double-click `LaunchEditor.bat` to open the project for editing.
 The project file is `DinosaurBattle.uproject`; the startup level is `Content/Maps/LostValley.umap`.
@@ -53,25 +53,30 @@ No services, subscriptions, assets or hosting were purchased.
 | LMB | Up to three quick strikes, then species-specific recovery |
 | Hold / release RMB | Charge / execute heavy attack |
 | Hold F near suitable food | Eat; release or move to stop |
-| 1 / 2 / 3 / 4 / 5 / 6 | Select Rex / Raptor / Triceratops / Ankylosaurus / Brachiosaurus / Pachy and start a round |
+| 1 / 2 / 3 / 4 / 5 / 6 / 7 | Select Rex / Raptor / Triceratops / Ankylosaurus / Brachiosaurus / Pachy / Albertosaurus and start a round |
 | P | Toggle the live FFA leaderboard without pausing |
 | Escape | Open menu; pauses offline, continues the world online |
 | F4 in selection | Multiplayer: Epic sign-in, Host Game or Join Game |
-| F3 in selection | Switch solo free-for-all / 5v5 team fight |
+| F3 in selection | Switch free-for-all / team battle |
+| F5 in menu | Match setup: score limit, allowed species, capacity, independent A/B bot counts |
 | F2 in selection | Settings: B toggles blood; N toggles name tags; +/- changes mouse sensitivity |
 | Enter | Resume; start another round after results |
 | M / H | Map / control help |
 | R with map open | Pin cursor location; R near a pin removes it (up to eight pins) |
 | F10 in the menu | Quit |
 
-The game opens on dinosaur selection. Choose one of the six cards or press 1-6. FFA ends at **5 points**: each kill adds one, and every two assists add one. Team Battle ends at **10 team points**: each kill adds one, and every three assists pooled across teammates add one. Actual K/D/A remain separate. The current FFA leader appears in black text at the top; P shows the standings. The human and nine AI fill the match. Major dinosaurs respawn after **10 seconds**.
+The game opens on dinosaur selection. Choose one of seven cards or press 1-7. FFA stays at **5 points**: each kill adds one, and every two assists add one. Team Battle offers **5 Short / 10 Standard (default) / 15 Extended points**: each kill adds one, and every three pooled team assists add one. Actual K/D/A remain separate. The default local match has one human and nine AI leaders. Major participants respawn after **10 seconds**.
 
 Online: the host plays and chooses 2–10 main participant slots, FFA or Team Battle,
 bots ON/OFF and public/invite-only visibility. Guests select species/team in the
-lobby and mark Ready; the host starts. Team Battle allows up to five per team,
-including smaller and uneven matches. The host can enable/disable each AI slot
-and choose Team A/B in its roster row; disabled slots remain empty. The 5v5 preset
-restores the ordinary balanced roster. Bots yield to joining humans. Each human or bot Raptor or Pachy leader owns two extra followers; these do not
+lobby and mark Ready; the host starts. F5 independently controls additional bots
+on A and B. Intentionally unequal teams stay unequal, with no five-per-team cap;
+the overall limit remains ten. Zero bots are valid when both teams have humans.
+Invalid requests remain visible with a warning and block Start. F5 also controls
+all seven species bans: at least one remains allowed, banned selections are safely
+replaced, and bots/respawns obey the same rules. Host rules replicate to guests and
+persist through rematch. Local rule changes start a fresh round on resume.
+Each human or bot Raptor or Pachy leader owns two extra followers; these do not
 consume participant slots. Only leaders award kills. The host leaving ends the
 match for everyone. Use the in-game lobby controls to rematch or return to lobby.
 Choose **Sungrass Plains — Standard** or **Performance** on the selection screen or
@@ -97,7 +102,7 @@ Blood is optional and off by default. Below 50% health movement and attacks slow
 - Four lightweight AI personalities: aggressive, defensive, skirmisher and balanced; all use the same stamina and cooldown rules.
 - Configurable species values in `Config/DefaultGame.ini`, including charge, regeneration, camera and movement tuning.
 - Original rigged dinosaur meshes and thirteen clips per original species and sixteen clips per new species, including swimming.
-- Nine major AI dinosaurs plus eighteen smaller prey. Carnivores hunt; Raptors and Pachys share a leader; herbivores defend feeding areas; prey flee.
+- Up to nine AI leaders, their pack followers, and eighteen smaller prey. Carnivores hunt; each Raptor/Pachy pack follows its own leader; herbivores defend feeding areas; prey flee.
 - Seeded terrain approximately 575 m across (half the previous travel scale), with plains, forest, ridge, creek, pond, hunting grounds and feeding groves.
 - Clearance-aware grid navigation and local obstacle avoidance.
 - Species-specific positional quick attacks, charge-up/heavy attacks, impacts, hurt reactions, sprint breaths, injured breaths and death sounds. Layered CC0 recordings have three variations per event, finite playback and overlap limits; see `Assets/Audio/CREDITS.md`.

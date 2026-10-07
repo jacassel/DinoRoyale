@@ -1,3 +1,39 @@
+# Version 0.6 tested source checkpoint - October 7, 2026
+
+The final gameplay build is `Dist/Candidates/DinoRoyale-0.6-Candidate2/Windows`.
+All gameplay/art changes are built and tested; release sealing and GitHub publication
+are the remaining checkpoint steps. Branch: `codex/launch-preparation-0.6`.
+The owner's T-Rex Blender edit was preserved in `719941e` and remains unchanged.
+
+Albertosaurus completes the seven-species roster with original rig/materials/16
+clips. Final health/quick/heavy are 90%/87%/86% of Rex; run/sprint are 114%/120%.
+Brachi keeps its stats with clearer attacks. Anky uses three real club sweeps;
+Anky armor/Pachy dome use defined atlas/normal materials. F5 provides shared
+host-authoritative bans, 5/10/15 team goals and independent unequal bot counts.
+Offline leaders/followers share the existing multiplayer participant lifecycle.
+
+Editor build 8 and both Windows packages succeeded. **595/595 selected checks
+across 20 suites**, **77 AI bouts**, four two-minute rendered endurance scenarios,
+and isolated 1080p performance samples passed. Standard measured 119-130 FPS;
+Performance 121-143 FPS with the normal 60 FPS cap temporarily disabled for sampling.
+See VERSION06_TEST_REPORT.md and VERSION06_BALANCE_REPORT.md for exact evidence.
+
+Normal Candidate 2 bootstrap reaches the 0.6 menu. Windows Security displays a
+network-permission prompt; no decision was automated, and foreground native
+inspection is limited by it. Rendered mapped-input tests passed. Fresh two-PC WAN,
+human balance/animation feel and direct audio listening remain external validation.
+Compatibility: **2026100706**; EOS identity and configured local values are preserved.
+
+Both prior 0.5 playable copies match all 61 published-manifest files, and their
+complete source bundle verifies. The owner's renamed public-distribution ZIP is
+preserved. New release/recovery/ZIP paths use 0.6 and never overwrite 0.5.
+LaunchGame.bat prefers the new release once it exists, retaining older fallbacks.
+
+Allowance: **88% account remaining**; no separate Astra window. No purchases,
+resets, system security changes or delegation.
+
+---
+
 # Dino Royale Version 0.5 - published checkpoint, October 6, 2026
 
 Version 0.5 is built, tested and published publicly:

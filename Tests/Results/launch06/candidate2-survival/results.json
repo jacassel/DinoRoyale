@@ -1,0 +1,170 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "4 frontal armor and brace",
+      "status": "PASS"
+    },
+    {
+      "test": "4 rear bypasses directional brace but retains armor",
+      "status": "PASS"
+    },
+    {
+      "test": "4 exhausted sprint jump heavy blocked",
+      "status": "PASS"
+    },
+    {
+      "test": "4 exhausted quick remains weak",
+      "status": "PASS"
+    },
+    {
+      "test": "4 stamina recovers from exhaustion",
+      "status": "PASS"
+    },
+    {
+      "test": "4 injured movement slows",
+      "status": "PASS"
+    },
+    {
+      "test": "4 critical movement and heavy restriction",
+      "status": "PASS"
+    },
+    {
+      "test": "4 blood toggle False",
+      "status": "PASS"
+    },
+    {
+      "test": "4 blood toggle True",
+      "status": "PASS"
+    },
+    {
+      "test": "4 blood off clears particles",
+      "status": "PASS"
+    },
+    {
+      "test": "4 deep water swim animation",
+      "status": "PASS"
+    },
+    {
+      "test": "4 stable buoyancy",
+      "status": "PASS"
+    },
+    {
+      "test": "4 swimming advances",
+      "status": "PASS"
+    },
+    {
+      "test": "4 injured swimming slows",
+      "status": "PASS"
+    },
+    {
+      "test": "4 can swim out onto bank",
+      "status": "PASS"
+    },
+    {
+      "test": "4 returns to grounded land movement",
+      "status": "PASS"
+    },
+    {
+      "test": "5 frontal armor and brace",
+      "status": "PASS"
+    },
+    {
+      "test": "5 rear bypasses directional brace but retains armor",
+      "status": "PASS"
+    },
+    {
+      "test": "5 exhausted sprint jump heavy blocked",
+      "status": "PASS"
+    },
+    {
+      "test": "5 exhausted quick remains weak",
+      "status": "PASS"
+    },
+    {
+      "test": "5 stamina recovers from exhaustion",
+      "status": "PASS"
+    },
+    {
+      "test": "5 injured movement slows",
+      "status": "PASS"
+    },
+    {
+      "test": "5 critical movement and heavy restriction",
+      "status": "PASS"
+    },
+    {
+      "test": "5 blood toggle False",
+      "status": "PASS"
+    },
+    {
+      "test": "5 blood toggle True",
+      "status": "PASS"
+    },
+    {
+      "test": "5 blood off clears particles",
+      "status": "PASS"
+    },
+    {
+      "test": "5 deep water swim animation",
+      "status": "PASS"
+    },
+    {
+      "test": "5 stable buoyancy",
+      "status": "PASS"
+    },
+    {
+      "test": "5 swimming advances",
+      "status": "PASS"
+    },
+    {
+      "test": "5 injured swimming slows",
+      "status": "PASS"
+    },
+    {
+      "test": "5 can swim out onto bank",
+      "status": "PASS"
+    },
+    {
+      "test": "5 returns to grounded land movement",
+      "status": "PASS"
+    },
+    {
+      "test": "6 frontal armor and brace",
+      "status": "PASS"
+    },
+    {
+      "test": "6 rear bypasses directional brace but retains armor",
+      "status": "PASS"
+    },
+    {
+      "test": "6 exhausted sprint jump heavy blocked",
+      "status": "PASS"
+    },
+    {
+      "test": "6 exhausted quick remains weak",
+      "status": "PASS"
+    },
+    {
+      "test": "6 stamina recovers from exhaustion",
+      "status": "PASS"
+    },
+    {
+      "test": "6 injured movement slows",
+      "status": "PASS"
+    },
+    {
+      "test": "6 critical movement and heavy restriction",
+      "status": "PASS"
+    },
+    {
+      "test": "6 blood toggle False",
+      "status": "FAIL"
+    }
+  ]
+}

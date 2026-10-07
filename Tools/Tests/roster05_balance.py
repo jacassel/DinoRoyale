@@ -1,4 +1,4 @@
-"""Seeded six-species AI matches using actual movement, combat and resource systems.
+"""Seeded launch-roster AI matches using actual movement, combat and resource systems.
 
 One-on-one comparisons and natural three-member packs are separate experiments.
 Time-outs are reported, not counted as wins. Health is never reset during a match.

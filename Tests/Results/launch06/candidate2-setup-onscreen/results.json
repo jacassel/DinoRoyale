@@ -1,0 +1,26 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "persisted team mode puts offline human on a real team",
+      "status": "PASS"
+    },
+    {
+      "test": "first A plus starts from displayed zero bots",
+      "status": "PASS"
+    },
+    {
+      "test": "B plus creates independent one-bot opponent",
+      "status": "PASS"
+    },
+    {
+      "test": "revised setup resumes as two versus one",
+      "status": "PASS"
+    }
+  ]
+}

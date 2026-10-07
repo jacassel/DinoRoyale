@@ -1,0 +1,38 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "5 textured material loaded",
+      "status": "PASS",
+      "materials": [
+        "M_Brachi_Launch06",
+        "M_Eye",
+        "M_Pupil",
+        "M_Claw"
+      ]
+    },
+    {
+      "test": "quick neck visibly shifts",
+      "status": "PASS",
+      "headTravelCm": 208.030137574002
+    },
+    {
+      "test": "5 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "heavy neck visibly shifts",
+      "status": "PASS",
+      "headTravelCm": 242.044680097608
+    },
+    {
+      "test": "5 attack returns to idle",
+      "status": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "launch06_alberto_core.py exits successfully",
+      "status": "PASS"
+    }
+  ]
+}

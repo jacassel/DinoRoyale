@@ -1,0 +1,140 @@
+[
+  {
+    "test": "Albertosaurus selection",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus W movement",
+    "passed": true,
+    "displacement": 869.4
+  },
+  {
+    "test": "Albertosaurus S movement",
+    "passed": true,
+    "displacement": -932.5
+  },
+  {
+    "test": "Albertosaurus D movement",
+    "passed": true,
+    "displacement": 949.3
+  },
+  {
+    "test": "Albertosaurus A movement",
+    "passed": true,
+    "displacement": -1003.4
+  },
+  {
+    "test": "Albertosaurus camera yaw",
+    "passed": true,
+    "delta": 1.8664801120758057
+  },
+  {
+    "test": "Albertosaurus camera pitch",
+    "passed": true,
+    "delta": 0.7777000069618225
+  },
+  {
+    "test": "Albertosaurus jump",
+    "passed": true,
+    "rise": 102.8
+  },
+  {
+    "test": "Albertosaurus brace blocks movement",
+    "passed": true,
+    "distance": 0.0
+  },
+  {
+    "test": "Albertosaurus brace blocks attack",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus release restores movement",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus quick hit",
+    "passed": true,
+    "damage": 168
+  },
+  {
+    "test": "Albertosaurus no duplicate hits",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus charge feedback",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus charged hit stronger",
+    "passed": true,
+    "quick": 168,
+    "charged": 571.2001953125
+  },
+  {
+    "test": "Albertosaurus combat state recovers",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus damage lowers health",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus injured movement",
+    "passed": true,
+    "ratio": 0.85
+  },
+  {
+    "test": "Albertosaurus injured attack slowdown",
+    "passed": true,
+    "ratio": 1.1111111610940445
+  },
+  {
+    "test": "Albertosaurus critical movement",
+    "passed": true,
+    "ratio": 0.7
+  },
+  {
+    "test": "Albertosaurus critical charge blocked",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus critical attack slowdown",
+    "passed": true,
+    "ratio": 1.3333333708205333
+  },
+  {
+    "test": "Albertosaurus regen waits",
+    "passed": true,
+    "delta": 0.0
+  },
+  {
+    "test": "Albertosaurus passive regen",
+    "passed": true,
+    "delta": 156.66497802734375
+  },
+  {
+    "test": "Albertosaurus recovered speed",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus recovered charge",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus death",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus dead movement blocked",
+    "passed": true
+  },
+  {
+    "test": "Albertosaurus respawn",
+    "passed": true,
+    "gameSeconds": 9.773708000779152
+  },
+  {
+    "test": "Albertosaurus respawn movement",
+    "passed": true
+  }
+]

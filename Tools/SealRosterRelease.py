@@ -5,8 +5,8 @@ logs or debug symbols enter the distribution. Run after gameplay acceptance.
 """
 import argparse,pathlib,shutil,json,hashlib,zipfile,subprocess
 ROOT=pathlib.Path(__file__).resolve().parents[1]
-p=argparse.ArgumentParser();p.add_argument('--candidate',required=True);p.add_argument('--name',default='DinoRoyale-0.5');a=p.parse_args()
-dist=(ROOT/'Dist').resolve();source=(ROOT/a.candidate).resolve();release=dist/'Releases'/a.name/'Windows';recovery=dist/'Checkpoints'/a.name/'Windows';archive=dist/'Releases'/(a.name+'.zip');evidence=ROOT/'Tests/Results/roster05/release'
+p=argparse.ArgumentParser();p.add_argument('--candidate',required=True);p.add_argument('--name');p.add_argument('--version',default='0.5');p.add_argument('--compatibility',default='2026100505');p.add_argument('--evidence',default='Tests/Results/roster05/release');a=p.parse_args();a.name=a.name or 'DinoRoyale-'+a.version;prefix='VERSION'+a.version.replace('.','')
+dist=(ROOT/'Dist').resolve();source=(ROOT/a.candidate).resolve();release=dist/'Releases'/a.name/'Windows';recovery=dist/'Checkpoints'/a.name/'Windows';archive=dist/'Releases'/(a.name+'.zip');evidence=ROOT/a.evidence
 for path in [source,release,recovery,archive]:
  if not path.resolve().is_relative_to(dist) or path.resolve()==dist:raise RuntimeError('Path outside Dist')
 if any(x.exists() for x in [release,recovery,archive]):raise RuntimeError('Release/checkpoint already exists; preserve it')
@@ -18,7 +18,7 @@ for src in source.rglob('*'):
  relative=src.relative_to(source)
  if 'Saved' in relative.parts or src.name.lower()=='onlineservices.ini' or src.suffix.lower() in ['.pdb','.log']:continue
  dst=release/relative;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(src,dst)
-for name in ['README.md','FRIEND_QUICKSTART.md','EOS_SETUP.md','KNOWN_ISSUES.md','VERSION05_RELEASE_NOTES.md','VERSION05_TEST_REPORT.md','VERSION05_BALANCE_REPORT.md']:
+for name in ['README.md','FRIEND_QUICKSTART.md','EOS_SETUP.md','KNOWN_ISSUES.md',prefix+'_RELEASE_NOTES.md',prefix+'_TEST_REPORT.md',prefix+'_BALANCE_REPORT.md']:
  shutil.copy2(ROOT/name,release/name)
 shutil.copy2(ROOT/'Assets/Audio/CREDITS.md',release/'AUDIO_CREDITS.md')
 shutil.copy2(ROOT/'Tools/Tests/CollectQALogs.ps1',release/'CollectQALogs.ps1')
@@ -26,7 +26,7 @@ shutil.copy2(ROOT/'OnlineServices.example.ini',release/'DinosaurBattle/OnlineSer
 (release/'Play Dino Royale.bat').write_text('@echo off\ncd /d "%~dp0"\nstart "Dino Royale" "%~dp0DinosaurBattle.exe" -windowed -ResX=1600 -ResY=900\n')
 (release/'Collect QA Logs.bat').write_text('@echo off\npowershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0CollectQALogs.ps1" -PackageRoot "%~dp0."\nif errorlevel 1 pause\n')
 commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
-(release/'BUILD_INFO.txt').write_text(f'Dino Royale Version 0.5\nCompatibility: 2026100505\nSource commit: {commit}\nWindows Development / Unreal 5.8.2\nUse the entire fresh Windows folder on every PC.\nThe supplied configured OnlineServices.ini is installed locally; public ZIPs exclude credentials.\nCopy your existing configured file into Windows/DinosaurBattle before online play.\nThe owner confirms prior successful multiplayer across different networks.\nThis update has separate local multi-process regression evidence.\nSee VERSION05_TEST_REPORT.md for exact verification and limitations.\n')
+(release/'BUILD_INFO.txt').write_text(f'Dino Royale Version {a.version}\nCompatibility: {a.compatibility}\nSource commit: {commit}\nWindows Development / Unreal 5.8.2\nUse the entire fresh Windows folder on every PC.\nThe supplied configured OnlineServices.ini is installed locally; public ZIPs exclude credentials.\nCopy your existing configured file into Windows/DinosaurBattle before online play.\nThe owner confirms prior successful multiplayer across different networks.\nThis update has separate local multi-process regression evidence.\nSee {prefix}_TEST_REPORT.md for exact verification and limitations.\n')
 manifest=[dict(path=f.relative_to(release).as_posix(),bytes=f.stat().st_size,sha256=digest(f)) for f in sorted(release.rglob('*')) if f.is_file()]
 (release/'PACKAGE_SHA256.json').write_text(json.dumps(manifest,indent=2))
 shutil.copytree(release,recovery)

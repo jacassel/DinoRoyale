@@ -13,8 +13,11 @@ try:
    if files:time.sleep(.3);shutil.copyfile(max(files,key=lambda p:p.stat().st_mtime),t.out/(name+'.png'));return
    time.sleep(.1)
   raise RuntimeError('Screenshot not written')
- for performance,teams,species in ([] if a.performance_only else [(False,False,4),(True,False,5),(False,True,6),(True,True,0)]):
+ for performance,teams,species in ([] if a.performance_only else [(False,False,4),(True,False,5),(False,True,6),(True,True,7)]):
   h.command('menu',open=False);h.command('mapVariant',performance=performance);h.command('species',value=species);h.command('match',teams=teams);h.command('sandbox',enabled=True);h.command('invulnerable',value=False);h.command('ai',paused=False)
+  # Deliberately populate all launch species for the mixed-roster stress fixture.
+  for ident,sp in enumerate([x for x in [0,1,2,4,5,6,7] if x!=species],1):
+   d=h.actor(ident);h.command('testAI',id=ident,species=sp,x=d['x'],y=d['y'],yaw=0,health=1,enabled=True)
   start=h.state();last=start;stalls={};maxstalls={};samples=[];wall=time.monotonic();next_attack=0
   while last['time']-start['time']<a.seconds and time.monotonic()-wall<a.seconds*2:
    s=h.state();samples.append(s)
@@ -28,9 +31,9 @@ try:
    last=s;time.sleep(.8)
   row=dict(performance=performance,teams=teams,playerSpecies=species,seconds=last['time']-start['time'],samples=len(samples),species=sorted({d['species'] for s in samples for d in s['ai'] if d['major']}|{species}),hits=sum(d['hits'] for d in last['ai'] if d['major']),maxStallSamples=max(maxstalls.values()),playerDeaths=last['deaths'],corpses=len(last['corpses']),maxCorpses=max(len(s['corpses']) for s in samples),failedPaths=sum(d['failedPaths'] for d in last['ai'] if d['major']),belowTerrain=any(d['z']<d['ground']-150 for s in samples for d in s['ai'] if d['major'] and not d['dead']),trees=sum(d['tree'] for d in last['plants']))
   reports.append(row);(t.out/'soak.json').write_text(json.dumps(reports,indent=2));(t.out/f'soak-{int(performance)}-{int(teams)}.json').write_text(json.dumps(samples,separators=(',',':')))
-  t.check(f'mixed roster soak performance={performance} teams={teams}',row['seconds']>=a.seconds-.5 and row['species']==[0,1,2,4,5,6] and row['hits']>10 and not row['belowTerrain'] and row['failedPaths']==0 and row['maxStallSamples']<40 and row['trees']==18,**row);shot(f'soak-{int(performance)}-{int(teams)}')
+  t.check(f'mixed roster soak performance={performance} teams={teams}',row['seconds']>=a.seconds-.5 and row['species']==[0,1,2,4,5,6,7] and row['hits']>10 and not row['belowTerrain'] and row['failedPaths']==0 and row['maxStallSamples']<40 and row['trees']==18,**row);shot(f'soak-{int(performance)}-{int(teams)}')
  if a.soak_only:sys.exit(0)
- # Measure with the ordinary live six-species AI roster and no other game processes.
+ # Measure with the ordinary live launch roster and no other game processes.
  perf=[];h.command('console',value='t.MaxFPS 0');h.command('console',value='r.ScreenPercentage 100')
  for performance in [False,True]:
   h.command('mapVariant',performance=performance);h.command('species',value=5);h.command('match',teams=True);h.command('sandbox',enabled=True);h.command('invulnerable',value=True);h.command('ai',paused=False)

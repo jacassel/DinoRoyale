@@ -1,0 +1,52 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "Alberto six complete sound banks loaded",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto footsteps",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto sprint breath",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto unique quick and contact sounds play",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto charge and heavy play once",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto hurt and injured breathing",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto death voice fires once",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto death voice ends",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto mixer recording written",
+      "status": "PASS"
+    },
+    {
+      "test": "Alberto recorded mix audible and unclipped",
+      "status": "PASS",
+      "peak": 0.270477294921875,
+      "rms": 0.0259433841266764
+    }
+  ]
+}

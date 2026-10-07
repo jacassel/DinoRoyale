@@ -1,0 +1,58 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "5 textured material loaded",
+      "status": "PASS",
+      "materials": [
+        "M_Brachi_Launch06",
+        "M_Eye",
+        "M_Pupil",
+        "M_Claw"
+      ]
+    },
+    {
+      "test": "quick neck visibly shifts",
+      "status": "PASS",
+      "headTravelCm": 183.69155798612132
+    },
+    {
+      "test": "5 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "heavy neck visibly shifts",
+      "status": "PASS",
+      "headTravelCm": 215.63263282215493
+    },
+    {
+      "test": "5 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "7 textured material loaded",
+      "status": "PASS",
+      "materials": [
+        "M_Alberto_Launch06",
+        "M_Claw",
+        "M_Eye",
+        "M_Pupil",
+        "M_Tooth",
+        "M_Mouth"
+      ]
+    },
+    {
+      "test": "7 attack returns to idle",
+      "status": "PASS"
+    },
+    {
+      "test": "7 attack returns to idle",
+      "status": "PASS"
+    }
+  ]
+}

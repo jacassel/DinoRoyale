@@ -1,0 +1,20 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "5 textured material loaded",
+      "status": "PASS",
+      "materials": [
+        "M_Brachi_Launch06",
+        "M_Eye",
+        "M_Pupil",
+        "M_Claw"
+      ]
+    }
+  ]
+}

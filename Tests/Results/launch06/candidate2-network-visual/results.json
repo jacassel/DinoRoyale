@@ -1,0 +1,66 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 2,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "rendered guest receives score bans and unequal setup",
+      "status": "PASS"
+    },
+    {
+      "test": "guest setup click cannot change host ban mask",
+      "status": "PASS"
+    },
+    {
+      "test": "4 quick clip replicates to rendered guest",
+      "status": "PASS"
+    },
+    {
+      "test": "4 charge clip replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "4 heavy clip replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "4 replicated attack returns to locomotion",
+      "status": "PASS"
+    },
+    {
+      "test": "5 quick clip replicates to rendered guest",
+      "status": "PASS"
+    },
+    {
+      "test": "5 charge clip replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "5 heavy clip replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "5 replicated attack returns to locomotion",
+      "status": "PASS"
+    },
+    {
+      "test": "7 quick clip replicates to rendered guest",
+      "status": "PASS"
+    },
+    {
+      "test": "7 charge clip replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "7 heavy clip replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "7 replicated attack returns to locomotion",
+      "status": "PASS"
+    }
+  ]
+}

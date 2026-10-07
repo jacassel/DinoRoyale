@@ -129,7 +129,7 @@ void ADinoGameMode::RegisterDamage(ADinosaurCharacter* Victim,ADinosaurCharacter
 }
 void ADinoGameMode::RegisterDeath(ADinosaurCharacter* Victim)
 {
-    if(!HasAuthority()||!Victim||!Victim->bMajor||bRoundOver||(GetNetMode()!=NM_Standalone&&Victim->bPackFollower))return;Scores.FindOrAdd(Victim->CombatantID).Deaths++;
+    if(!HasAuthority()||!Victim||!Victim->bMajor||bRoundOver||Victim->bPackFollower)return;Scores.FindOrAdd(Victim->CombatantID).Deaths++;
     if(!IsScoringTarget(Victim))return;
     auto* ActualKiller=Victim->LastAttacker.Get();auto* Killer=ScoringOwner(ActualKiller);
     const float* LastHit=ActualKiller?Victim->DamageContributors.Find(ActualKiller->CombatantID):nullptr;

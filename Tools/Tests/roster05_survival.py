@@ -31,6 +31,10 @@ try:
   t.check(f'{species} critical movement and heavy restriction',abs(h.state()['maxSpeed']/speed-.7)<.02 and not h.state()['charging']);h.key('RightMouseButton','up');h.command('heal')
   for enabled in [False,True]:
    blood(enabled);h.command('species',value=species);h.command('face',yaw=0);time.sleep(.6)
+   # Isolate this material/effect check from new pack bodies that can occlude a hit.
+   h.command('ai',paused=True)
+   for follower in [v for v in h.state()['networkActors'] if v['follower'] and v['pack']==0]:
+    h.command('testAI',id=follower['id'],species=species,x=-12000,y=follower['id']%10*450,yaw=0,health=1,enabled=False)
    x,y={4:(-440,250),5:(320,120),6:(290,0),7:(370,0)}[species]
    h.command('testAI',id=1,species=0,x=x,y=y,yaw=180,health=1,enabled=False);b=h.state();health=h.actor(1)['health'];h.tap('LeftMouseButton');time.sleep(.65);s=h.state()
    t.check(f'{species} blood toggle {enabled}',h.actor(1)['health']<health and ((s['bloodEmitted']>b['bloodEmitted']) if enabled else s['bloodEmitted']==b['bloodEmitted']))

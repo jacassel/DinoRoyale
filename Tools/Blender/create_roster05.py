@@ -222,7 +222,7 @@ def actions(rig,kind):
                 else:
                     if name=='Quick2':
                         rot('tail_01',yaw=40*pulse);rot('tail_02',yaw=16*pulse);rot('spine',yaw=-4*pulse)
-                        rot('neck',-5*pulse,yaw=6*pulse);rot('neck_2',4*pulse)
+                        rot('neck',-5*pulse,roll=8*pulse,yaw=6*pulse);rot('neck_2',4*pulse,roll=3*pulse)
                     else:
                         # Raise through anticipation and visibly plant at the damage window.
                         hit=.7/1.9 if heavy else .304/.95
@@ -234,7 +234,8 @@ def actions(rig,kind):
                             rot('arm_'+side+'_upper',-(28 if heavy else 24)*lift);rot('arm_'+side+'_lower',32*lift)
                         side=-1 if name=='Quick3' else 1
                         sway=side*((13 if heavy else 9)*lift-5*settle)
-                        rot('neck',-9*lift+4*settle,yaw=sway);rot('neck_2',-5*lift+3*settle,yaw=sway*.4);rot('neck_3',4*lift);rot('head',5*lift,yaw=-sway*.3)
+                        lean=side*((15 if heavy else 10)*lift-4*settle)
+                        rot('neck',-9*lift+4*settle,roll=lean,yaw=sway);rot('neck_2',-5*lift+3*settle,roll=lean*.25,yaw=sway*.4);rot('neck_3',4*lift);rot('head',5*lift,yaw=-sway*.3)
                         rot('spine',-3*lift,roll=0 if heavy else (3 if name=='Quick3' else -3)*lift)
                         rot('tail_01',5*lift);loc('root',(0,0,(25 if heavy else 10)*lift-5*settle))
             elif name in ('Charge','Brace'):

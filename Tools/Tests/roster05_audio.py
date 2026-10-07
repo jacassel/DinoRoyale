@@ -1,11 +1,12 @@
 """Rendered audio mixer/event checks for all three unique 0.5 sound banks."""
 import argparse,time,wave,array,math,shutil
 from net_harness import NetworkTest,Peer,wait_for
-p=argparse.ArgumentParser();p.add_argument('--executable');p.add_argument('--output',default='Tests/Results/roster05/audio');a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--executable');p.add_argument('--output',default='Tests/Results/roster05/audio');p.add_argument('--species',nargs='+',type=int,default=[4,5,6]);a=p.parse_args()
 t=NetworkTest(a.output,executable=a.executable,rendered=True);t.audio=True;t.render_size=(1280,720)
 try:
  h=Peer(t,'RosterAudio','/Game/Maps/LostValley');h.command('match',teams=False);h.command('ai',paused=True);h.command('sandbox',enabled=True)
- for species,name in [(4,'Anky'),(5,'Brachi'),(6,'Pachy')]:
+ for species in a.species:
+  name={4:'Anky',5:'Brachi',6:'Pachy',7:'Alberto'}[species]
   h.command('species',value=species);h.command('face',yaw=0);time.sleep(.8);stamp=time.time();h.command('audioRecord',start=True)
   t.check(name+' six complete sound banks loaded',h.state()['audioLoadedClips']==162)
   b=h.state();h.hold('W',2.5);s=h.state();t.check(name+' footsteps',s['audioSteps']>b['audioSteps'])

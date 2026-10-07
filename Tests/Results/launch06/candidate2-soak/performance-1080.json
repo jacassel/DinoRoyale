@@ -1,0 +1,98 @@
+[
+  {
+    "performance": false,
+    "scene": "plains",
+    "width": 1920,
+    "height": 1080,
+    "fps": 119.38050486001589,
+    "p95FrameMs": 9.125199317932129,
+    "medianMs": {
+      "frameMs": 8.265800476074219,
+      "gameThreadMs": 0,
+      "renderThreadMs": 0,
+      "gpuMs": 0
+    },
+    "major": 14,
+    "trees": 18
+  },
+  {
+    "performance": false,
+    "scene": "forest",
+    "width": 1920,
+    "height": 1080,
+    "fps": 124.32453348654677,
+    "p95FrameMs": 8.934601783752441,
+    "medianMs": {
+      "frameMs": 7.6072998046875,
+      "gameThreadMs": 0.0,
+      "renderThreadMs": 0.0,
+      "gpuMs": 0.0
+    },
+    "major": 14,
+    "trees": 18
+  },
+  {
+    "performance": false,
+    "scene": "pond",
+    "width": 1920,
+    "height": 1080,
+    "fps": 130.36774464389052,
+    "p95FrameMs": 8.195001602172852,
+    "medianMs": {
+      "frameMs": 6.909500598907471,
+      "gameThreadMs": 0,
+      "renderThreadMs": 0,
+      "gpuMs": 0
+    },
+    "major": 14,
+    "trees": 18
+  },
+  {
+    "performance": true,
+    "scene": "plains",
+    "width": 1920,
+    "height": 1080,
+    "fps": 121.10185228928786,
+    "p95FrameMs": 8.621301651000977,
+    "medianMs": {
+      "frameMs": 7.227297782897949,
+      "gameThreadMs": 0,
+      "renderThreadMs": 0,
+      "gpuMs": 0
+    },
+    "major": 12,
+    "trees": 18
+  },
+  {
+    "performance": true,
+    "scene": "forest",
+    "width": 1920,
+    "height": 1080,
+    "fps": 130.9633921225141,
+    "p95FrameMs": 9.949103355407715,
+    "medianMs": {
+      "frameMs": 6.3029491901397705,
+      "gameThreadMs": 0.0,
+      "renderThreadMs": 0.0,
+      "gpuMs": 0.0
+    },
+    "major": 14,
+    "trees": 18
+  },
+  {
+    "performance": true,
+    "scene": "pond",
+    "width": 1920,
+    "height": 1080,
+    "fps": 142.7772413675756,
+    "p95FrameMs": 8.229799270629883,
+    "medianMs": {
+      "frameMs": 5.836199760437012,
+      "gameThreadMs": 0,
+      "renderThreadMs": 0,
+      "gpuMs": 0
+    },
+    "major": 14,
+    "trees": 18
+  }
+]

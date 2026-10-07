@@ -1,0 +1,719 @@
+[
+  {
+    "key": "0-4-False-False-0",
+    "seed": 5504,
+    "opponent": 0,
+    "challenger": 4,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 0,
+    "winner": "0",
+    "seconds": 16.79,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 920,
+        "hits": 12,
+        "attacks": 12,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 4,
+        "health": 0,
+        "hits": 4,
+        "attacks": 4,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Pursuing",
+      "Repositioning",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-1-False-False-0",
+    "seed": 5501,
+    "opponent": 0,
+    "challenger": 1,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 0,
+    "winner": "timeout",
+    "seconds": 45.45,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 1500,
+        "hits": 0,
+        "attacks": 0,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 1,
+        "health": 520,
+        "hits": 0,
+        "attacks": 0,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Dead",
+      "Pursuing",
+      "Retreating",
+      "Roaming",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-1-False-True-0",
+    "seed": 5501,
+    "opponent": 0,
+    "challenger": 1,
+    "opponentPack": false,
+    "challengerPack": true,
+    "trial": 0,
+    "winner": "timeout",
+    "seconds": 45.37,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 1100.4,
+        "hits": 9,
+        "attacks": 5,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 1,
+        "health": 89.9,
+        "hits": 3,
+        "attacks": 3,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 3,
+        "species": 1,
+        "health": 146,
+        "hits": 3,
+        "attacks": 3,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 4,
+        "species": 1,
+        "health": 520,
+        "hits": 0,
+        "attacks": 0,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Following pack",
+      "Pursuing",
+      "Regrouping",
+      "Repositioning",
+      "Retreating",
+      "Roaming"
+    ]
+  },
+  {
+    "key": "0-2-False-False-0",
+    "seed": 5502,
+    "opponent": 0,
+    "challenger": 2,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 0,
+    "winner": "timeout",
+    "seconds": 45.36,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 865.2,
+        "hits": 7,
+        "attacks": 7,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 2,
+        "health": 1650,
+        "hits": 10,
+        "attacks": 10,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Pursuing",
+      "Repositioning",
+      "Retreating"
+    ]
+  },
+  {
+    "key": "0-5-False-False-0",
+    "seed": 5505,
+    "opponent": 0,
+    "challenger": 5,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 0,
+    "winner": "timeout",
+    "seconds": 45.18,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 1500,
+        "hits": 4,
+        "attacks": 4,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 5,
+        "health": 3100,
+        "hits": 2,
+        "attacks": 2,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Pursuing",
+      "Repositioning",
+      "Retreating",
+      "Roaming",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-6-False-False-0",
+    "seed": 5506,
+    "opponent": 0,
+    "challenger": 6,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 0,
+    "winner": "timeout",
+    "seconds": 45.2,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 1500,
+        "hits": 2,
+        "attacks": 2,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 6,
+        "health": 950,
+        "hits": 2,
+        "attacks": 2,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Flanking",
+      "Pursuing",
+      "Retreating"
+    ]
+  },
+  {
+    "key": "0-6-False-True-0",
+    "seed": 5506,
+    "opponent": 0,
+    "challenger": 6,
+    "opponentPack": false,
+    "challengerPack": true,
+    "trial": 0,
+    "winner": "6",
+    "seconds": 5.88,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 0,
+        "hits": 2,
+        "attacks": 2,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 6,
+        "health": 716.2,
+        "hits": 3,
+        "attacks": 3,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 3,
+        "species": 6,
+        "health": 950,
+        "hits": 3,
+        "attacks": 3,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 4,
+        "species": 6,
+        "health": 950,
+        "hits": 1,
+        "attacks": 1,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Flanking",
+      "Pursuing",
+      "Repositioning",
+      "Retreating",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-7-False-False-0",
+    "seed": 5507,
+    "opponent": 0,
+    "challenger": 7,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 0,
+    "winner": "7",
+    "seconds": 20.32,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 0,
+        "hits": 7,
+        "attacks": 7,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 7,
+        "health": 439.5,
+        "hits": 6,
+        "attacks": 6,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Flanking",
+      "Pursuing",
+      "Repositioning",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-4-False-False-1",
+    "seed": 5605,
+    "opponent": 0,
+    "challenger": 4,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 1,
+    "winner": "0",
+    "seconds": 20.32,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 1266.0,
+        "hits": 8,
+        "attacks": 8,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 4,
+        "health": 0,
+        "hits": 3,
+        "attacks": 5,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Pursuing",
+      "Repositioning",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-1-False-False-1",
+    "seed": 5602,
+    "opponent": 0,
+    "challenger": 1,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 1,
+    "winner": "timeout",
+    "seconds": 45.25,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 1500,
+        "hits": 0,
+        "attacks": 0,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 1,
+        "health": 520,
+        "hits": 0,
+        "attacks": 0,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Dead",
+      "Pursuing",
+      "Retreating",
+      "Roaming",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-1-False-True-1",
+    "seed": 5602,
+    "opponent": 0,
+    "challenger": 1,
+    "opponentPack": false,
+    "challengerPack": true,
+    "trial": 1,
+    "winner": "0",
+    "seconds": 1.75,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 1366.8,
+        "hits": 1,
+        "attacks": 1,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 1,
+        "health": 0,
+        "hits": 0,
+        "attacks": 1,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Pursuing",
+      "Roaming",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-2-False-False-1",
+    "seed": 5603,
+    "opponent": 0,
+    "challenger": 2,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 1,
+    "winner": "2",
+    "seconds": 35.13,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 0,
+        "hits": 9,
+        "attacks": 9,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 2,
+        "health": 920.1,
+        "hits": 11,
+        "attacks": 11,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Pursuing",
+      "Repositioning",
+      "Retreating",
+      "Roaming",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-5-False-False-1",
+    "seed": 5606,
+    "opponent": 0,
+    "challenger": 5,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 1,
+    "winner": "timeout",
+    "seconds": 45.4,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 1500,
+        "hits": 3,
+        "attacks": 3,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 5,
+        "health": 3100,
+        "hits": 4,
+        "attacks": 4,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Pursuing",
+      "Repositioning",
+      "Retreating",
+      "Roaming",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-6-False-False-1",
+    "seed": 5607,
+    "opponent": 0,
+    "challenger": 6,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 1,
+    "winner": "timeout",
+    "seconds": 45.31,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 1500,
+        "hits": 5,
+        "attacks": 5,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 6,
+        "health": 947.6,
+        "hits": 3,
+        "attacks": 3,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Flanking",
+      "Pursuing",
+      "Repositioning",
+      "Retreating"
+    ]
+  },
+  {
+    "key": "0-6-False-True-1",
+    "seed": 5607,
+    "opponent": 0,
+    "challenger": 6,
+    "opponentPack": false,
+    "challengerPack": true,
+    "trial": 1,
+    "winner": "6",
+    "seconds": 5.62,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 0,
+        "hits": 4,
+        "attacks": 2,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 6,
+        "health": 576,
+        "hits": 3,
+        "attacks": 3,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 3,
+        "species": 6,
+        "health": 950,
+        "hits": 1,
+        "attacks": 1,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 4,
+        "species": 6,
+        "health": 576,
+        "hits": 3,
+        "attacks": 3,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Dead",
+      "Flanking",
+      "Pursuing",
+      "Repositioning",
+      "Roaming",
+      "Seeking food"
+    ]
+  },
+  {
+    "key": "0-7-False-False-1",
+    "seed": 5608,
+    "opponent": 0,
+    "challenger": 7,
+    "opponentPack": false,
+    "challengerPack": false,
+    "trial": 1,
+    "winner": "timeout",
+    "seconds": 45.41,
+    "valid": true,
+    "survivors": [
+      {
+        "id": 1,
+        "species": 0,
+        "health": 1500,
+        "hits": 9,
+        "attacks": 10,
+        "stuck": 0,
+        "failedPaths": 0
+      },
+      {
+        "id": 2,
+        "species": 7,
+        "health": 409.8,
+        "hits": 3,
+        "attacks": 4,
+        "stuck": 0,
+        "failedPaths": 0
+      }
+    ],
+    "states": [
+      "Attacking",
+      "Bracing",
+      "Charging",
+      "Flanking",
+      "Pursuing",
+      "Repositioning",
+      "Retreating",
+      "Seeking food"
+    ]
+  }
+]

@@ -1,11 +1,12 @@
-"""Publish the sealed 0.5 asset using existing Git Credential Manager authentication.
+"""Publish a sealed versioned asset using existing Git Credential Manager authentication.
 
 Credentials are captured in memory only. A draft becomes public only after GitHub
 reports the exact local ZIP size and SHA256. Existing assets are never replaced.
 """
-import pathlib,subprocess,json,hashlib,requests
-ROOT=pathlib.Path(__file__).resolve().parents[1];REPO='jacassel/DinoRoyale';TAG='v0.5.0'
-evidence=ROOT/'Tests/Results/roster05/release';record=json.loads((evidence/'checkpoint.json').read_text());archive=pathlib.Path(record['zip'])
+import argparse,pathlib,subprocess,json,hashlib,requests
+p=argparse.ArgumentParser();p.add_argument('--version',default='0.5');p.add_argument('--evidence',default='Tests/Results/roster05/release');a=p.parse_args()
+ROOT=pathlib.Path(__file__).resolve().parents[1];REPO='jacassel/DinoRoyale';TAG='v'+a.version+'.0';prefix='VERSION'+a.version.replace('.','')
+evidence=ROOT/a.evidence;record=json.loads((evidence/'checkpoint.json').read_text());archive=pathlib.Path(record['zip'])
 with archive.open('rb') as f:sha=hashlib.file_digest(f,'sha256').hexdigest()
 if sha!=record['zipSHA256']:raise RuntimeError('Sealed ZIP changed')
 credentials=subprocess.run(['git','credential','fill'],input='protocol=https\nhost=github.com\n\n',capture_output=True,text=True,check=True,cwd=ROOT)
@@ -18,9 +19,9 @@ def request(method,url,**kwargs):
  r=session.request(method,url,timeout=kwargs.pop('timeout',90),**kwargs);r.raise_for_status();return r.json()
 remote=request('GET',api+'/commits/'+record['sourceCommit'])
 if remote['sha']!=record['sourceCommit']:raise RuntimeError('Source commit not on GitHub')
-body=(ROOT/'VERSION05_RELEASE_NOTES.md').read_text(encoding='utf-8')+f'\n\nWindows ZIP SHA256: `{sha}`\n'
+body=(ROOT/(prefix+'_RELEASE_NOTES.md')).read_text(encoding='utf-8')+f'\n\nWindows ZIP SHA256: `{sha}`\n'
 releases=request('GET',api+'/releases',params={'per_page':100});existing=[r for r in releases if r['tag_name']==TAG]
-release=existing[0] if existing else request('POST',api+'/releases',json={'tag_name':TAG,'target_commitish':record['sourceCommit'],'name':'Dino Royale — Version 0.5','body':body,'draft':True,'prerelease':True})
+release=existing[0] if existing else request('POST',api+'/releases',json={'tag_name':TAG,'target_commitish':record['sourceCommit'],'name':'Dino Royale - Version '+a.version,'body':body,'draft':True,'prerelease':True})
 assets=request('GET',release['assets_url']);found=[r for r in assets if r['name']==archive.name]
 if found:asset=found[0]
 else:

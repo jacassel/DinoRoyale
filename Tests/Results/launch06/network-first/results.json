@@ -107,3 +107,60 @@
       "status": "PASS"
     },
     {
+      "test": "6 remote swim moves and converges",
+      "status": "PASS"
+    },
+    {
+      "test": "6 critical health rejects remote charge",
+      "status": "PASS"
+    },
+    {
+      "test": "7 client anatomical quick hits on server",
+      "status": "PASS"
+    },
+    {
+      "test": "7 damaged health replicates to observer",
+      "status": "PASS"
+    },
+    {
+      "test": "7 client heavy hits authoritatively",
+      "status": "PASS"
+    },
+    {
+      "test": "7 swimming replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "7 remote swim moves and converges",
+      "status": "PASS"
+    },
+    {
+      "test": "7 critical health rejects remote charge",
+      "status": "PASS"
+    },
+    {
+      "test": "performance mode keeps remote browse trees and species-specific outlines",
+      "status": "PASS"
+    },
+    {
+      "test": "remote Brachi restores hunger from tree",
+      "status": "PASS"
+    },
+    {
+      "test": "browse nutrition replicates to all peers",
+      "status": "PASS"
+    },
+    {
+      "test": "assist-triggered FFA winner replicates",
+      "status": "PASS"
+    },
+    {
+      "test": "remote leaderboard orders combined points",
+      "status": "PASS"
+    },
+    {
+      "test": "three pooled assists add team point on clients",
+      "status": "PASS"
+    }
+  ]
+}

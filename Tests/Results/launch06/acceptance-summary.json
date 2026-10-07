@@ -1,0 +1,167 @@
+{
+  "total": 595,
+  "passed": 595,
+  "complete": true,
+  "suites": [
+    {
+      "suite": "Original controls",
+      "path": "candidate1-core/runtime_core/core-live.json",
+      "total": 90,
+      "expected": 90,
+      "passed": 90,
+      "allPassed": true
+    },
+    {
+      "suite": "Map and results",
+      "path": "candidate1-core/runtime_map_results/map-results.json",
+      "total": 21,
+      "expected": 21,
+      "passed": 21,
+      "allPassed": true
+    },
+    {
+      "suite": "Safe respawn",
+      "path": "candidate1-core/runtime_safe_respawn/safe-respawn.json",
+      "total": 3,
+      "expected": 3,
+      "passed": 3,
+      "allPassed": true
+    },
+    {
+      "suite": "Settings",
+      "path": "candidate1-core/runtime_settings/settings-water-blood.json",
+      "total": 28,
+      "expected": 28,
+      "passed": 28,
+      "allPassed": true
+    },
+    {
+      "suite": "Original swimming",
+      "path": "core-second/runtime_swimming/swimming.json",
+      "total": 40,
+      "expected": 40,
+      "passed": 40,
+      "allPassed": true
+    },
+    {
+      "suite": "Original ecology",
+      "path": "core-second/runtime_ecology/ecology-visibility.json",
+      "total": 42,
+      "expected": 42,
+      "passed": 42,
+      "allPassed": true
+    },
+    {
+      "suite": "Scoring and diets",
+      "path": "scoring-diets-first/results.json",
+      "total": 25,
+      "expected": 25,
+      "passed": 25,
+      "allPassed": true
+    },
+    {
+      "suite": "Configuration and multiplayer rules",
+      "path": "candidate1-rules/results.json",
+      "total": 90,
+      "expected": 90,
+      "passed": 90,
+      "allPassed": true
+    },
+    {
+      "suite": "Seven-species selection",
+      "path": "candidate1-ui/results.json",
+      "total": 15,
+      "expected": 15,
+      "passed": 15,
+      "allPassed": true
+    },
+    {
+      "suite": "Albertosaurus final controls",
+      "path": "candidate2-alberto-core/launch06_alberto_core/core-live.json",
+      "total": 30,
+      "expected": 30,
+      "passed": 30,
+      "allPassed": true
+    },
+    {
+      "suite": "Final combos and club contacts",
+      "path": "candidate2-combos/results.json",
+      "total": 26,
+      "expected": 26,
+      "passed": 26,
+      "allPassed": true
+    },
+    {
+      "suite": "Final mobility, ecology and pack scoring",
+      "path": "candidate2-gameplay/results.json",
+      "total": 24,
+      "expected": 24,
+      "passed": 24,
+      "allPassed": true
+    },
+    {
+      "suite": "Final survival, blood and water",
+      "path": "candidate2-survival-isolated/results.json",
+      "total": 64,
+      "expected": 64,
+      "passed": 64,
+      "allPassed": true
+    },
+    {
+      "suite": "Three-process delayed/lossy gameplay",
+      "path": "candidate2-network-ready/results.json",
+      "total": 39,
+      "expected": 39,
+      "passed": 39,
+      "allPassed": true
+    },
+    {
+      "suite": "Rendered guest setup and attacks",
+      "path": "candidate2-network-visual/results.json",
+      "total": 14,
+      "expected": 14,
+      "passed": 14,
+      "allPassed": true
+    },
+    {
+      "suite": "Albertosaurus mixer and sound events",
+      "path": "candidate2-audio/results.json",
+      "total": 10,
+      "expected": 10,
+      "passed": 10,
+      "allPassed": true
+    },
+    {
+      "suite": "Art materials and trajectories",
+      "path": "art-motion-second/results.json",
+      "total": 18,
+      "expected": 18,
+      "passed": 18,
+      "allPassed": true
+    },
+    {
+      "suite": "Final Brachi and Alberto camera motion",
+      "path": "candidate2-motion-casefold/results.json",
+      "total": 8,
+      "expected": 8,
+      "passed": 8,
+      "allPassed": true
+    },
+    {
+      "suite": "Restart and independent bot-count UI",
+      "path": "candidate2-setup-onscreen/results.json",
+      "total": 4,
+      "expected": 4,
+      "passed": 4,
+      "allPassed": true
+    },
+    {
+      "suite": "Final mixed-roster endurance",
+      "path": "candidate2-soak/results.json",
+      "total": 4,
+      "expected": 4,
+      "passed": 4,
+      "allPassed": true
+    }
+  ]
+}

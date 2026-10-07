@@ -1,0 +1,15 @@
+{
+  "transport": "loopback development sockets",
+  "eos": "NOT VERIFIED",
+  "wan": "NOT VERIFIED",
+  "instances": 1,
+  "oneWayLagMs": 0,
+  "lossPercent": 0,
+  "tests": [
+    {
+      "test": "all seeded bouts maintain valid health resources and grounding",
+      "status": "PASS",
+      "matches": 18
+    }
+  ]
+}

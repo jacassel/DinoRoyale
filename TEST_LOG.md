@@ -1,5 +1,40 @@
 # Test log
 
+## Version 0.6 final gameplay acceptance, October 7, 2026
+
+- **595/595 selected checks across 20 suites**; explicit accepted paths and counts
+  are in `Tests/Results/launch06/acceptance-summary.json`. Wrappers/retries are excluded.
+  Final Candidate 2 repeats Alberto controls, affected-species combat/survival,
+  mobility/ecology/pack scoring, multiplayer, mixer, camera motion, restart UI and endurance.
+  Unchanged systems retain specifically identified Candidate 1/editor coverage.
+- Shared rules pass 90 checks, including every 5/10/15 threshold/rematch, bans in
+  both modes, never-zero roster, follower removal, restricted respawn, guest authority,
+  travel, late join warnings, capacity and deliberately unequal additional bot counts.
+- Three real processes pass 39 final gameplay checks under 60 ms one-way lag and
+  2% loss. Another 14 rendered checks cover guest rules and animation replication.
+  This is local development-socket evidence, not fresh physical EOS/WAN acceptance.
+- **77 AI bouts** informed two tuning revisions. Final Alberto: 1350 health,
+  163 quick, 578.65 full heavy, 1200 run/1740 sprint, 110 stamina, 38 heavy cost.
+  Brachi stats remain unchanged. Final non-mirror sample: six wins, two losses,
+  eight timeouts. Human competitive balance is not established.
+- Four two-minute rendered mixed-roster scenarios passed with all seven species,
+  18 edible trees, no failed paths or below-terrain living actors. Corpses reached
+  63; one 17-sample movement stall recovered. Long-session stability remains bounded.
+- Isolated uncapped 1080p/100% RTX 3060 samples: Standard plains/forest/pond
+  **119.4/124.3/130.4 FPS**; Performance **121.1/131.0/142.8 FPS**. Ordinary cap stays 60.
+  Thread/GPU timing was unavailable; this is not an identical-roster A/B benchmark.
+- Fixed actual club contacts, atlas material assignment, offline pack ownership and
+  follower death rows, bot count initialization, persisted local team assignment and
+  Escape/resume validation. Fixture failures and their isolated retests are explained
+  in VERSION06_TEST_REPORT.md. Editor build 8 and both packages succeeded.
+- Normal bootstrap without the development bridge reaches the 0.6 menu. Windows
+  Security's network-permission prompt limits foreground native input review and was
+  left untouched. Mixer timing/levels pass; the agent could not directly listen.
+- Prior 0.5 release/recovery match all 61 manifest files; complete source bundle verifies.
+  The user's Trex.blend is unchanged since its prework commit `719941e`.
+  Allowance before sealing: **88% account remaining**, no Astra-specific window.
+  No purchases, resets, security changes or delegation.
+
 ## Version 0.5 publication checkpoint, October 6, 2026
 
 - Published prerelease: https://github.com/jacassel/DinoRoyale/releases/tag/v0.5.0; source tag `v0.5.0` points to `5fd878f7293deb4f455409ea098a421894011259`.

@@ -1,0 +1,10 @@
+{
+  "candidate": "DinoRoyale-0.6-Candidate2",
+  "normalBootstrap": true,
+  "developmentBridge": false,
+  "menuVersion": "0.6",
+  "nativeInputBlockedByWindowsSecurity": true,
+  "permissionDecisionAutomated": false,
+  "runtimeSHA256": "be4fb151f733eb25b2d070f5d7e79c39ecd7936cfe8ab7f4fc5e5238bad3032f",
+  "observation": "Normal bootstrap reaches menu. Windows Security network-permission prompt covers it; no action taken on prompt. Rendered mapped-input acceptance is recorded separately."
+}
